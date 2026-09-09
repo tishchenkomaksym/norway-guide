@@ -1,0 +1,40 @@
+# Исходные и промежуточные данные пайплайна — гигабайты, не для git
+pipeline/data/
+*.osm.pbf
+*.pmtiles
+*.mbtiles
+content.sqlite
+*.sqlite-shm
+*.sqlite-wal
+region-packs/
+
+# Go
+/pipeline/bin/
+*.exe
+*.test
+*.out
+
+# Flutter / Dart
+app/.dart_tool/
+app/.flutter-plugins
+app/.flutter-plugins-dependencies
+app/build/
+app/ios/Pods/
+app/ios/.symlinks/
+app/android/.gradle/
+app/android/local.properties
+*.g.dart
+*.freezed.dart
+.packages
+pubspec.lock
+
+# Obsidian: настройки рабочего пространства персональны
+.obsidian/workspace.json
+.obsidian/workspace-mobile.json
+
+# ОС и редакторы
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.swp
