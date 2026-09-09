@@ -1,30 +1,27 @@
-// This is a basic Flutter widget test.
-//
-// To perform an interaction with a widget in your test, use the WidgetTester
-// utility in the flutter_test package. For example, you can send tap and scroll
-// gestures. You can also use WidgetTester to find child widgets in the widget
-// tree, read text, and verify that the values of widget properties are correct.
-
-import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-
-import 'package:nordguide/main.dart';
+import 'package:nordguide/data/database.dart';
 
 void main() {
-  testWidgets('Counter increments smoke test', (WidgetTester tester) async {
-    // Build our app and trigger a frame.
-    await tester.pumpWidget(const MyApp());
+  group('расстояние и направление', () {
+    test('расстояние Осло — Берген примерно 305 км', () {
+      final d = distanceMeters(59.9139, 10.7522, 60.3913, 5.3221);
+      expect(d / 1000, closeTo(305, 15));
+    });
 
-    // Verify that our counter starts at 0.
-    expect(find.text('0'), findsOneWidget);
-    expect(find.text('1'), findsNothing);
+    test('расстояние до самой себя равно нулю', () {
+      expect(distanceMeters(60.0, 5.0, 60.0, 5.0), closeTo(0, 0.001));
+    });
 
-    // Tap the '+' icon and trigger a frame.
-    await tester.tap(find.byIcon(Icons.add));
-    await tester.pump();
+    test('Берген строго западнее Осло', () {
+      final b = bearingDegrees(59.9139, 10.7522, 60.3913, 5.3221);
+      // Запад — это около 270°, с поправкой на то, что Берген чуть севернее.
+      expect(b, greaterThan(240));
+      expect(b, lessThan(300));
+    });
 
-    // Verify that our counter has incremented.
-    expect(find.text('0'), findsNothing);
-    expect(find.text('1'), findsOneWidget);
+    test('направление на север равно нулю градусов', () {
+      final b = bearingDegrees(60.0, 5.0, 61.0, 5.0);
+      expect(b, closeTo(0, 0.5));
+    });
   });
 }
