@@ -12,6 +12,7 @@ package main
 
 import (
 	"encoding/json"
+	"flag"
 	"fmt"
 	"io"
 	"net/http"
@@ -84,8 +85,10 @@ func fetchExtract(site, lang, title string) (int, error) {
 		if err != nil {
 			return 0, err
 		}
+		// Accept-Encoding вручную не ставим: Go добавляет его сам и прозрачно
+		// распаковывает ответ. Заданный руками заголовок эту распаковку отключает,
+		// и в парсер приходят сжатые байты.
 		req.Header.Set("User-Agent", userAgent)
-		req.Header.Set("Accept-Encoding", "gzip")
 
 		resp, err := client.Do(req)
 		if err != nil {
@@ -155,6 +158,14 @@ func probe(names []string) []result {
 			r.Wiki[lang] = n
 			time.Sleep(400 * time.Millisecond) // вежливость к API
 
+			// Норвежского раздела Wikivoyage не существует: no.wikivoyage.org
+			// отдаёт HTML-заглушку. Для §8.5 спеки это важнее, чем «слабое
+			// покрытие»: источника нет вообще, для `no` остаётся Wikipedia.
+			if lang == "no" {
+				r.Voy[lang] = -1
+				continue
+			}
+
 			n, err = fetchExtract("wikivoyage", lang, name)
 			if err != nil {
 				r.Fetch = err
@@ -178,11 +189,18 @@ func report(title string, rs []result) {
 	fmt.Println("| Объект | WP en | WP no | WP de | WV en | WV no | WV de |")
 	fmt.Println("|---|---:|---:|---:|---:|---:|---:|")
 
+	cell := func(n int) string {
+		if n < 0 {
+			return "—" // источника не существует
+		}
+		return strconv.Itoa(n)
+	}
+
 	sort.Slice(rs, func(i, j int) bool { return rs[i].Wiki["en"] > rs[j].Wiki["en"] })
 	for _, r := range rs {
-		fmt.Printf("| %s | %d | %d | %d | %d | %d | %d |\n", r.Name,
-			r.Wiki["en"], r.Wiki["no"], r.Wiki["de"],
-			r.Voy["en"], r.Voy["no"], r.Voy["de"])
+		fmt.Printf("| %s | %s | %s | %s | %s | %s | %s |\n", r.Name,
+			cell(r.Wiki["en"]), cell(r.Wiki["no"]), cell(r.Wiki["de"]),
+			cell(r.Voy["en"]), cell(r.Voy["no"]), cell(r.Voy["de"]))
 	}
 
 	fmt.Printf("\n**Итоги по %d объектам:**\n\n", len(rs))
@@ -204,9 +222,13 @@ func report(title string, rs []result) {
 	}
 
 	for _, s := range srcs {
-		have, good, total := 0, 0, 0
+		have, good, total, absent := 0, 0, 0, 0
 		for _, r := range rs {
 			n := s.get(r)
+			if n < 0 {
+				absent++
+				continue
+			}
 			if n > 0 {
 				have++
 				total += n
@@ -214,6 +236,10 @@ func report(title string, rs []result) {
 			if n >= goodEnough {
 				good++
 			}
+		}
+		if absent == len(rs) {
+			fmt.Printf("| %s | языкового раздела не существует | — | — |\n", s.name)
+			continue
 		}
 		avg := 0
 		if have > 0 {
@@ -225,10 +251,20 @@ func report(title string, rs []result) {
 }
 
 func main() {
+	// -quick прогоняет по два объекта из каждого списка: проверить, что запросы
+	// вообще работают, дешевле за 5 секунд, чем за полный восьмиминутный прогон.
+	quick := flag.Bool("quick", false, "быстрая проверка на двух объектах из каждого списка")
+	flag.Parse()
+
+	cityList, placeList := cities, places
+	if *quick {
+		cityList, placeList = cities[:2], places[:2]
+	}
+
 	fmt.Fprintln(os.Stderr, "Разведка покрытия: города...")
-	cityRes := probe(cities)
+	cityRes := probe(cityList)
 	fmt.Fprintln(os.Stderr, "Разведка покрытия: достопримечательности...")
-	placeRes := probe(places)
+	placeRes := probe(placeList)
 
 	fmt.Println("# Разведка покрытия контента")
 	fmt.Printf("\nДата: %s. Длина текста в символах, 0 — статьи нет.\n", time.Now().Format("2006-01-02"))
