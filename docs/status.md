@@ -65,3 +65,28 @@ Go 1.27.1, Flutter 3.47.2, Java 17 (Temurin), выгрузка `norway-latest.os
    с тегом `wikidata` (открытый риск, см. [[pipeline-plan#Риски]])
 2. Локализация интерфейса через `.arb`
 3. Экран поиска поверх FTS5
+
+## Как продолжить работу после перерыва
+
+Проверить, что всё на месте:
+
+```powershell
+cd E:\NorwayTourGuide\app
+flutter analyze     # ожидается: No issues found
+flutter test        # ожидается: 6 тестов, все зелёные
+flutter run -d chrome --web-port=8080
+```
+
+Если `flutter` или `go` не находятся, они лежат в `E:\dev\flutter\bin`
+и `C:\Program Files\Go\bin` — оба прописаны в системном PATH, но сессия
+терминала, запущенная до их установки, о них не знает.
+
+Файлы `app/web/sqlite3.wasm` и `app/web/drift_worker.js` лежат в репозитории
+и должны соответствовать версии drift из `pubspec.lock` (сейчас 2.34.4).
+При обновлении drift их надо перекачать с
+`https://github.com/simolus3/drift/releases/download/drift-<версия>/`.
+
+Выгрузка OSM (1.3 ГБ) уже в `pipeline/data/`, в git не входит. Если каталог
+пуст — команда скачивания в [[development#Данные]].
+
+Последний коммит Этапа 1: `72b8b1e`.
