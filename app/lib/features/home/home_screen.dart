@@ -3,7 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../core/attribution.dart';
 import '../cities/browse_screen.dart';
-import '../emergency/sos_button.dart';
+import '../emergency/emergency_button.dart';
 import '../nearby/nearby_screen.dart';
 import 'attribution_screen.dart';
 
@@ -76,7 +76,7 @@ class HomeScreen extends ConsumerWidget {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
-                      const SosButton(onDark: true),
+                      const EmergencyButton(onDark: true),
                       IconButton(
                         icon: const Icon(Icons.info_outline,
                             color: Colors.white70),

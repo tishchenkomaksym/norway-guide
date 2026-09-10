@@ -6,7 +6,7 @@ import '../../core/profile.dart';
 import '../../core/providers.dart';
 import '../../data/database.dart';
 import '../cities/category_chips.dart';
-import '../emergency/sos_button.dart';
+import '../emergency/emergency_button.dart';
 import '../place/place_screen.dart';
 import '../profile/profile_sheet.dart';
 import 'location_picker.dart';
@@ -64,7 +64,7 @@ class _NearbyScreenState extends ConsumerState<NearbyScreen> {
         title: Text(mock == null ? 'Рядом со мной' : 'Рядом: ${mock.name}'),
         actions: [
           // Здесь кнопка нужнее всего: этот экран открывают в пути.
-          const SosButton(),
+          const EmergencyButton(),
           IconButton(
             icon: const Icon(Icons.edit_location_alt),
             tooltip: 'Указать город',
