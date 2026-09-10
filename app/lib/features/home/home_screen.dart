@@ -18,9 +18,15 @@ import 'attribution_screen.dart';
 class HomeScreen extends ConsumerWidget {
   const HomeScreen({super.key});
 
-  // Гейрангер-фьорд: солнце на склонах, круизные лайнеры и деревня внизу.
-  // Снимок Прекестулена лежит рядом в assets и остаётся запасным вариантом.
-  static const heroPhoto = 'assets/images/geirangerfjord.jpg';
+  // Гейрангер со смотровой Эрнесвинген: солнце на склонах, бирюзовая вода,
+  // снег на вершинах, лайнер и серпантин слева.
+  //
+  // Кадр отобран из шести десятков свободно лицензированных снимков фьорда.
+  // Автоматический подбор по яркости дважды приводил к дымке и хуторам,
+  // поэтому финальный выбор делался глазами по контактному листу.
+  // Снимков с настоящими солнечными лучами над фьордом под свободной
+  // лицензией найти не удалось — это редкий кадр.
+  static const heroPhoto = 'assets/images/geiranger-ornesvingen.jpg';
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {

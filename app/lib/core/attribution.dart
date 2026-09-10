@@ -26,6 +26,14 @@ class ImageCredit {
 
 const imageCredits = <ImageCredit>[
   ImageCredit(
+    asset: 'assets/images/geiranger-ornesvingen.jpg',
+    title: 'Гейрангер-фьорд со смотровой Эрнесвинген',
+    author: 'Ximonic (Simo Räsänen)',
+    license: 'CC BY-SA 3.0',
+    sourceUrl:
+        'https://commons.wikimedia.org/wiki/File:Geirangerfjord_from_%C3%98rnesvingen,_2013_June.jpg',
+  ),
+  ImageCredit(
     asset: 'assets/images/preikestolen.jpg',
     title: 'Прекестулен над Люсе-фьордом',
     author: 'Maarten Heerlien',
