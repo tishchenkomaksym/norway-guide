@@ -35,7 +35,9 @@ updated: 2026-09-09
 |---|---|
 | `cmd/probe` | готова — разведка покрытия контента |
 | `cmd/extract` | готова — OSM → JSONL, категории, значимость |
-| `cmd/enrich` | следующая |
+| `cmd/enrich` | готова — Wikidata + тексты, 97% покрытия топ-40 |
+| `cmd/media` | следующая — фото с Commons |
+| `cmd/build` | сборка `content.sqlite` |
 
 ### Проверки рисков
 
