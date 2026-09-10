@@ -18,11 +18,11 @@ Future<void> showLocationPicker(BuildContext context, WidgetRef ref) async {
   );
 
   if (selected != null) {
-    ref.read(mockPositionProvider.notifier).state = (
+    ref.read(mockPositionProvider.notifier).set((
       name: selected.name,
       lat: selected.lat,
       lon: selected.lon,
-    );
+    ));
   }
 }
 

@@ -40,8 +40,7 @@ class LanguageSwitcher extends ConsumerWidget {
       ),
       tooltip: 'Язык (временно, для проверки переводов)',
       initialValue: current,
-      onSelected: (lang) =>
-          ref.read(languageProvider.notifier).state = lang,
+      onSelected: (lang) => ref.read(languageProvider.notifier).set(lang),
       itemBuilder: (context) => [
         for (final entry in _names.entries)
           PopupMenuItem<String>(

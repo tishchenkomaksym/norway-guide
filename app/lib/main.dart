@@ -1,13 +1,26 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'core/providers.dart';
 import 'features/home/home_screen.dart';
 import 'l10n/app_localizations.dart';
 
-void main() {
-  runApp(const ProviderScope(child: NordguideApp()));
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  // Настройки читаем ДО запуска приложения: иначе первый кадр отрисуется
+  // с языком по умолчанию, а следующий — с сохранённым, и человек увидит
+  // мигание интерфейса на старте.
+  final prefs = await SharedPreferences.getInstance();
+
+  runApp(
+    ProviderScope(
+      overrides: [prefsProvider.overrideWithValue(prefs)],
+      child: const NordguideApp(),
+    ),
+  );
 }
 
 class NordguideApp extends ConsumerWidget {

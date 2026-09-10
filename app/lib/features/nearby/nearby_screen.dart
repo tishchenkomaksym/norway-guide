@@ -93,7 +93,7 @@ class _NearbyScreenState extends ConsumerState<NearbyScreen> {
             icon: const Icon(Icons.my_location),
             tooltip: L.of(context).useGpsTooltip,
             onPressed: () {
-              ref.read(mockPositionProvider.notifier).state = null;
+              ref.read(mockPositionProvider.notifier).set(null);
               ref.invalidate(positionProvider);
               ref.invalidate(nearbyPlacesProvider);
             },

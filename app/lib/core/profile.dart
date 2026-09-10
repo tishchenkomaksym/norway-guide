@@ -1,5 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import 'settings.dart';
+
 /// Профиль пользователя: что ему интересно и когда он едет.
 ///
 /// Ключевое правило (CLAUDE.md, docs/onboarding-profiles.md): профиль
@@ -137,33 +139,6 @@ class UserProfile {
     return boost;
   }
 }
-
-class ProfileNotifier extends StateNotifier<UserProfile> {
-  ProfileNotifier() : super(const UserProfile());
-
-  void toggleInterest(String id) {
-    final next = Set<String>.from(state.interestIds);
-    next.contains(id) ? next.remove(id) : next.add(id);
-    state = state.copyWith(interestIds: next);
-  }
-
-  void setTravelTime(TravelTime time) {
-    state = state.copyWith(travelTime: time);
-  }
-
-  void markAnswered() {
-    state = state.copyWith(answered: true);
-  }
-
-  void reset() {
-    state = const UserProfile();
-  }
-}
-
-final profileProvider =
-    StateNotifierProvider<ProfileNotifier, UserProfile>((ref) {
-  return ProfileNotifier();
-});
 
 /// Счётчик открытых карточек — один из триггеров вопроса о профиле.
 final placeViewCountProvider = StateProvider<int>((ref) => 0);

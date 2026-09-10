@@ -1,29 +1,14 @@
-import 'dart:ui' as ui;
-
-import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:geolocator/geolocator.dart';
 
 import '../data/connection.dart';
 import '../data/database.dart';
 import '../data/seed_data.dart';
-import 'profile.dart';
+import 'settings.dart';
 
-/// Языки, на которых говорит приложение (§8.2 спеки).
-const supportedLanguages = ['en', 'no', 'de', 'es', 'ru', 'zh'];
-
-/// Приводит локаль системы к одному из поддерживаемых языков.
-///
-/// Сопоставление по коду без региона: `de-AT` → `de`, `zh-Hans-CN` → `zh`.
-/// Норвежские `nb` (букмол) и `nn` (нюнорск) оба ведут на `no` — иначе
-/// половина норвежских телефонов получит английский в приложении о Норвегии.
-/// Всё, чего нет в списке, получает английский.
-String resolveLanguage(ui.Locale locale) {
-  final code = locale.languageCode.toLowerCase();
-  if (code == 'nb' || code == 'nn' || code == 'no') return 'no';
-  if (supportedLanguages.contains(code)) return code;
-  return 'en';
-}
+export 'settings.dart'
+    show languageProvider, mockPositionProvider, profileProvider,
+        prefsProvider, NamedPoint, resolveLanguage, supportedLanguages;
 
 final databaseProvider = FutureProvider<AppDatabase>((ref) async {
   final db = await openAppDatabase();
@@ -33,16 +18,6 @@ final databaseProvider = FutureProvider<AppDatabase>((ref) async {
   await seedIfEmpty(db);
   ref.onDispose(db.close);
   return db;
-});
-
-/// Текущий язык контента и интерфейса.
-///
-/// Начальное значение — язык системы; выбор пользователя в настройках
-/// имеет приоритет и переопределяет его.
-final languageProvider = StateProvider<String>((ref) {
-  return resolveLanguage(
-    WidgetsBinding.instance.platformDispatcher.locale,
-  );
 });
 
 /// Позиция пользователя. Работает офлайн: GPS не требует сети.
@@ -75,17 +50,6 @@ final positionProvider = FutureProvider<Position?>((ref) async {
 
 /// Выбранные категории фильтра; пустое множество означает «все».
 final categoryFilterProvider = StateProvider<Set<String>>((ref) => {});
-
-/// Точка на карте с названием — для отладочной подмены положения.
-typedef NamedPoint = ({String name, double lat, double lon});
-
-/// Положение, указанное пользователем вручную. null — использовать GPS.
-///
-/// Нужно не только для отладки: GPS недоступен на десктопе, разрешение может
-/// быть не выдано, а в помещении определение бывает неточным. Указанный
-/// вручную город имеет приоритет над GPS, пока пользователь сам не вернёт
-/// автоопределение.
-final mockPositionProvider = StateProvider<NamedPoint?>((ref) => null);
 
 /// Точка, от которой ведётся поиск, и радиус вокруг неё.
 ///
