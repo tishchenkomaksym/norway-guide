@@ -19,8 +19,15 @@ Future<QueryExecutor> openConnection() async {
     // Вызывается только когда базы ещё нет: содержимое готовит Go-пайплайн,
     // приложение его не создаёт.
     initializeDatabase: () async {
-      final data = await rootBundle.load('assets/db/content.sqlite');
-      return data.buffer.asUint8List(data.offsetInBytes, data.lengthInBytes);
+      try {
+        final data = await rootBundle.load('assets/db/content.sqlite');
+        return data.buffer.asUint8List(data.offsetInBytes, data.lengthInBytes);
+      } catch (_) {
+        // Базы в assets нет — она не хранится в git и собирается пайплайном.
+        // Возвращаем null: drift создаст пустую, а seed подставит тестовые
+        // данные, чтобы приложение осталось запускаемым.
+        return null;
+      }
     },
   );
 

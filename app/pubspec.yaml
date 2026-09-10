@@ -47,7 +47,10 @@ flutter:
   generate: true
 
   assets:
-    # Готовая база от Go-пайплайна. Собирается командой:
-    #   cd pipeline && go run ./cmd/build --out data/content.sqlite
-    #   cp pipeline/data/content.sqlite app/assets/db/
-    - assets/db/content.sqlite
+    # Каталог, а не файл: content.sqlite генерируется пайплайном и в git
+    # не хранится (на всей Норвегии это десятки мегабайт). Объявление
+    # каталога позволяет собрать приложение и без него — тогда подставятся
+    # тестовые данные из seed_data.dart.
+    #
+    # Собрать базу: см. docs/development.md, «Сборка контента».
+    - assets/db/
