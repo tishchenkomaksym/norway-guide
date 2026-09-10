@@ -38,3 +38,7 @@ Thumbs.db
 .idea/
 .vscode/
 *.swp
+
+# Сборки Android
+app/android/.gradle/
+app/android/local.properties
