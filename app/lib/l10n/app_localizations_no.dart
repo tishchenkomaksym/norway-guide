@@ -586,4 +586,56 @@ class LNo extends L {
 
   @override
   String get locRetry => 'Prøv igjen';
+
+  @override
+  String get nothingNearby => 'Ingenting i nærheten';
+
+  @override
+  String get nothingNearbyHint =>
+      'Guiden dekker bare steder med beskrivelse eller bilde. Det finnes ingen rundt deg akkurat nå.';
+
+  @override
+  String get nothingInFiltersHint =>
+      'Prøv å fjerne en kategori — det kan finnes andre steder i nærheten.';
+
+  @override
+  String get resetFilters => 'Vis alle kategorier';
+
+  @override
+  String get mostVisitedTitle => 'Mest besøkt';
+
+  @override
+  String get mostVisitedSubtitle => 'De tjue stedene folk reiser til Norge for';
+
+  @override
+  String get mostVisitedEmpty =>
+      'Topplisten finnes ikke i denne innholdspakken';
+
+  @override
+  String get mostVisitedNote =>
+      'Rekkefølgen er satt sammen manuelt ut fra besøkstall, UNESCO-status og hvor kjent stedet er. Der et besøkstall vises, står år og kilde i stedets kort.';
+
+  @override
+  String get unescoShort => 'UNESCO';
+
+  @override
+  String photoCount(int n) {
+    String _temp0 = intl.Intl.pluralLogic(
+      n,
+      locale: localeName,
+      other: '$n bilder',
+      one: '1 bilde',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String visitorsPerYear(int n, String year) {
+    final intl.NumberFormat nNumberFormat = intl.NumberFormat.decimalPattern(
+      localeName,
+    );
+    final String nString = nNumberFormat.format(n);
+
+    return 'Omtrent $nString besøkende i året ($year)';
+  }
 }

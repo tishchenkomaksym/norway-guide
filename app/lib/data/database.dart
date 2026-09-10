@@ -134,7 +134,22 @@ const _placeJoins = '''
          ON t_en.entity_type   = 'place' AND t_en.entity_id   = p.id AND t_en.lang   = 'en'
   LEFT JOIN translations t_no
          ON t_no.entity_type   = 'place' AND t_no.entity_id   = p.id AND t_no.lang   = 'no'
-  LEFT JOIN photos ph ON ph.place_id = p.id
+  -- Ровно одна фотография на место, а не JOIN по всей таблице.
+  --
+  -- Обычный LEFT JOIN photos размножал бы строку места по числу снимков:
+  -- место с тремя фотографиями трижды появлялось бы в списке «рядом со
+  -- мной». Пока снимок был один, этого не было видно, и ошибка ждала
+  -- появления галереи.
+  --
+  -- Первым берём тот, что отмечен основным, затем — самый ранний по rowid:
+  -- media складывает снимки в порядке качества, и первый обычно лучший.
+  LEFT JOIN (
+    SELECT place_id, path_thumb, author, license,
+           MIN(rowid) AS _r
+      FROM photos
+     WHERE place_id IS NOT NULL
+     GROUP BY place_id
+  ) ph ON ph.place_id = p.id
 ''';
 
 @DriftDatabase(
@@ -155,8 +170,13 @@ const _placeJoins = '''
 class AppDatabase extends _$AppDatabase {
   AppDatabase(super.e);
 
+  /// Обязана совпадать с packer.SchemaVersion в пайплайне: иначе drift
+  /// примет готовую базу за пустую и попробует создать таблицы заново.
+  ///
+  /// Версия 2 (2026-09-10): топ самых посещаемых мест — topRank, visitors,
+  /// visitorsYear, topSource, unesco.
   @override
-  int get schemaVersion => 1;
+  int get schemaVersion => 2;
 
   /// Цепочка подстановки языков по §8.4 спеки: язык пользователя → en → no →
   /// имя из OSM как есть. Приложение никогда не показывает пустой экран.
@@ -443,8 +463,21 @@ class AppDatabase extends _$AppDatabase {
                 END) AS tourist_score
       FROM cities c
       JOIN city_stats s ON s.id = c.id
-      LEFT JOIN photos ph ON ph.city_id = c.id
-      WHERE s.notable_count >= ? OR c.population >= ?
+      -- Одно фото на город — по той же причине, что и у мест: иначе
+      -- город с двумя снимками появился бы в списке дважды.
+      LEFT JOIN (
+        SELECT city_id, path_thumb, author, license, MIN(rowid) AS _r
+          FROM photos
+         WHERE city_id IS NOT NULL
+         GROUP BY city_id
+      ) ph ON ph.city_id = c.id
+      -- place_count > 0 стоит отдельным условием, а не внутри OR:
+      -- иначе крупный город проходил бы по одному населению и открывался
+      -- пустым списком. После того как в базу попадают только места
+      -- с описанием или фотографией, это перестало быть редкостью —
+      -- у города на 30 тысяч жителей может не оказаться ни одного
+      -- объекта, о котором есть что рассказать.
+      WHERE s.place_count > 0 AND (s.notable_count >= ? OR c.population >= ?)
       ORDER BY tourist_score DESC, s.place_count DESC
       ''',
       variables: [
@@ -522,6 +555,46 @@ class AppDatabase extends _$AppDatabase {
     ).get();
 
     return rows.map(_mapPlace).toList();
+  }
+
+  /// Самые посещаемые места страны — курируемый топ-20.
+  ///
+  /// Не то же самое, что [topPlaces]. Тот сортирует по `importance`, то есть
+  /// по полноте разметки: сколько тегов в OSM, есть ли статья, отмечен ли
+  /// объект как наследие. Это отвечает на вопрос «насколько место известно»,
+  /// но не на «куда едут люди» — Тролльтунга размечена одной точкой и
+  /// проигрывает по этой шкале районной церкви.
+  ///
+  /// Порядок здесь задан руками в пайплайне (`internal/toplist`) и потому
+  /// стабилен: список не переставляется от того, что кто-то дополнил
+  /// разметку в OSM.
+  Future<List<PlaceWithText>> mostVisitedPlaces(String lang,
+      {int limit = 20}) async {
+    final rows = await customSelect(
+      '''
+      SELECT p.*,
+      $_placeColumns
+      FROM places p
+      $_placeJoins
+      WHERE p.top_rank > 0
+      ORDER BY p.top_rank
+      LIMIT ?
+      ''',
+      variables: [Variable<String>(lang), Variable<int>(limit)],
+      readsFrom: {places, translations, photos},
+    ).get();
+
+    return rows.map(_mapPlace).toList();
+  }
+
+  /// Все фотографии места, для галереи в карточке.
+  ///
+  /// Отдельным запросом, а не джойном к месту: снимков может быть
+  /// несколько, и джойн размножил бы саму карточку. Порядок — как сложил
+  /// пайплайн: первым идёт основной снимок из Wikidata, за ним остальные
+  /// из категории Commons.
+  Future<List<Photo>> photosForPlace(String placeId) {
+    return (select(photos)..where((t) => t.placeId.equals(placeId))).get();
   }
 
   /// Места одного города с текстом по цепочке §8.4, по убыванию значимости.

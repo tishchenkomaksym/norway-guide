@@ -269,5 +269,34 @@
   "locUnavailable": "Не удалось определить местоположение. В помещении сигнал слабый",
   "locOpenSettings": "Настройки",
   "locSetCity": "Указать город",
-  "locRetry": "Повторить"
+  "locRetry": "Повторить",
+  "nothingNearby": "Рядом ничего нет",
+  "nothingNearbyHint": "В путеводитель попадают только места с описанием или фотографией. Вокруг вас таких сейчас нет.",
+  "nothingInFiltersHint": "Попробуйте убрать категорию — рядом могут быть другие места.",
+  "resetFilters": "Показать все категории",
+  "mostVisitedTitle": "Самое посещаемое",
+  "mostVisitedSubtitle": "Двадцать мест, ради которых едут в Норвегию",
+  "mostVisitedEmpty": "Топ-списка нет в этом пакете контента",
+  "mostVisitedNote": "Порядок составлен вручную: по числу посетителей, статусу ЮНЕСКО и известности места. Там, где показано число посетителей, год и источник указаны в карточке места.",
+  "unescoShort": "ЮНЕСКО",
+  "photoCount": "{n, plural, one{{n} фотография} few{{n} фотографии} many{{n} фотографий} other{{n} фотографии}}",
+  "visitorsPerYear": "Около {n} посетителей в год ({year})",
+  "@photoCount": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "@visitorsPerYear": {
+    "placeholders": {
+      "n": {
+        "type": "int",
+        "format": "decimalPattern"
+      },
+      "year": {
+        "type": "String"
+      }
+    }
+  }
 }

@@ -269,5 +269,16 @@
   "locUnavailable": "无法确定您的位置。室内信号较弱",
   "locOpenSettings": "设置",
   "locSetCity": "选择城市",
-  "locRetry": "重试"
+  "locRetry": "重试",
+  "nothingNearby": "附近没有地点",
+  "nothingNearbyHint": "本指南只收录有介绍或照片的地点，您周围目前没有。",
+  "nothingInFiltersHint": "试着取消一个分类，附近可能还有其他地点。",
+  "resetFilters": "显示全部分类",
+  "mostVisitedTitle": "最多人去",
+  "mostVisitedSubtitle": "人们专程前往挪威的二十个地点",
+  "mostVisitedEmpty": "此内容包中没有榜单",
+  "mostVisitedNote": "排序由人工整理，依据参观人数、联合国教科文组织名录状态和知名度。若显示参观人数，年份与来源见地点详情页。",
+  "unescoShort": "联合国教科文",
+  "photoCount": "{n, plural, other{{n} 张照片}}",
+  "visitorsPerYear": "每年约 {n} 名访客（{year}）"
 }

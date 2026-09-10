@@ -8,6 +8,7 @@ import '../cities/browse_screen.dart';
 import '../emergency/emergency_button.dart';
 import '../favorites/favorites_screen.dart';
 import '../nearby/nearby_screen.dart';
+import '../top/most_visited_screen.dart';
 import 'attribution_screen.dart';
 import 'interest_prompt.dart';
 import 'language_switcher.dart';
@@ -53,7 +54,8 @@ class HomeScreen extends ConsumerWidget {
               if (wasSync || frame != null) return child;
               return Container(color: const Color(0xFF0B1B2B));
             },
-            errorBuilder: (_, _, _) => Container(color: const Color(0xFF0B1B2B)),
+            errorBuilder: (_, _, _) =>
+                Container(color: const Color(0xFF0B1B2B)),
           ),
 
           // Затемнение снизу: без него белый текст читается через раз,
@@ -74,87 +76,124 @@ class HomeScreen extends ConsumerWidget {
             child: SizedBox.expand(),
           ),
 
+          // Прокрутка включается только когда содержимое не помещается.
+          //
+          // С четвёртой плашкой экран перестал влезать в 360×640 — типичный
+          // недорогой телефон — и переполнялся на 132 пикселя. Простой
+          // SingleChildScrollView здесь не годится: Spacer внутри него теряет
+          // ограничение по высоте, и экран однажды уже перестал строиться
+          // вовсе, оставив одну фотографию. Связка ConstrainedBox с
+          // minHeight и IntrinsicHeight возвращает Spacer конечную высоту:
+          // на большом экране вёрстка та же, что была, на маленьком
+          // содержимое прокручивается.
           SafeArea(
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 20),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      // Временно, для проверки переводов — см. класс.
-                      const LanguageSwitcher(onDark: true),
-                      const EmergencyButton(onDark: true),
-                      IconButton(
-                        icon: const Icon(Icons.info_outline,
-                            color: Colors.white70),
-                        tooltip: l.sourcesTooltip,
-                        onPressed: () => Navigator.of(context).push(
-                          MaterialPageRoute(
-                            builder: (_) => const AttributionScreen(),
+            child: LayoutBuilder(
+              builder: (context, constraints) => SingleChildScrollView(
+                child: ConstrainedBox(
+                  constraints: BoxConstraints(minHeight: constraints.maxHeight),
+                  child: IntrinsicHeight(
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 24,
+                        vertical: 20,
+                      ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: [
+                              // Временно, для проверки переводов — см. класс.
+                              const LanguageSwitcher(onDark: true),
+                              const EmergencyButton(onDark: true),
+                              IconButton(
+                                icon: const Icon(
+                                  Icons.info_outline,
+                                  color: Colors.white70,
+                                ),
+                                tooltip: l.sourcesTooltip,
+                                onPressed: () => Navigator.of(context).push(
+                                  MaterialPageRoute(
+                                    builder: (_) => const AttributionScreen(),
+                                  ),
+                                ),
+                              ),
+                            ],
                           ),
-                        ),
+                          const Spacer(),
+                          Text(
+                            l.appTitle,
+                            style: const TextStyle(
+                              color: Colors.white,
+                              fontSize: 40,
+                              height: 1.05,
+                              fontWeight: FontWeight.w600,
+                              letterSpacing: -1,
+                            ),
+                          ),
+                          const SizedBox(height: 8),
+                          Text(
+                            l.appTagline,
+                            style: const TextStyle(
+                              color: Colors.white70,
+                              fontSize: 15,
+                              height: 1.35,
+                            ),
+                          ),
+                          const SizedBox(height: 24),
+                          _ChoiceCard(
+                            icon: Icons.near_me,
+                            title: l.nearbyTitle,
+                            subtitle: l.nearbySubtitle,
+                            onTap: () => _go(context, const NearbyScreen()),
+                          ),
+                          const SizedBox(height: 10),
+                          _ChoiceCard(
+                            icon: Icons.explore_outlined,
+                            title: l.browseTitle,
+                            subtitle: l.browseSubtitle,
+                            onTap: () => _go(context, const BrowseScreen()),
+                          ),
+                          const SizedBox(height: 10),
+                          // Топ-20 стоит отдельной плашкой, а не вкладкой внутри
+                          // «Куда поехать»: это ответ на первый вопрос человека,
+                          // который едет в страну впервые, и прятать его на второй
+                          // уровень — значит заставлять искать очевидное.
+                          _ChoiceCard(
+                            icon: Icons.star_outline,
+                            title: l.mostVisitedTitle,
+                            subtitle: l.mostVisitedSubtitle,
+                            onTap: () =>
+                                _go(context, const MostVisitedScreen()),
+                          ),
+                          // Третий путь появляется, только когда в нём есть смысл:
+                          // пустое «Моя поездка» на первом запуске — это обещание
+                          // без содержания.
+                          if (favoriteCount > 0) ...[
+                            const SizedBox(height: 10),
+                            _ChoiceCard(
+                              icon: Icons.favorite_border,
+                              title: l.favoritesTitle,
+                              subtitle: l.favoritesSaved(favoriteCount),
+                              onTap: () =>
+                                  _go(context, const FavoritesScreen()),
+                            ),
+                          ],
+                          const InterestPrompt(),
+                          const SizedBox(height: 14),
+                          if (credit != null)
+                            Text(
+                              l.photoBy(credit.short),
+                              style: const TextStyle(
+                                color: Colors.white38,
+                                fontSize: 11,
+                              ),
+                            ),
+                        ],
                       ),
-                    ],
-                  ),
-                  const Spacer(),
-                  Text(
-                    l.appTitle,
-                    style: const TextStyle(
-                      color: Colors.white,
-                      fontSize: 40,
-                      height: 1.05,
-                      fontWeight: FontWeight.w600,
-                      letterSpacing: -1,
                     ),
                   ),
-                  const SizedBox(height: 8),
-                  Text(
-                    l.appTagline,
-                    style: const TextStyle(
-                      color: Colors.white70,
-                      fontSize: 15,
-                      height: 1.35,
-                    ),
-                  ),
-                  const SizedBox(height: 24),
-                  _ChoiceCard(
-                    icon: Icons.near_me,
-                    title: l.nearbyTitle,
-                    subtitle: l.nearbySubtitle,
-                    onTap: () => _go(context, const NearbyScreen()),
-                  ),
-                  const SizedBox(height: 10),
-                  _ChoiceCard(
-                    icon: Icons.explore_outlined,
-                    title: l.browseTitle,
-                    subtitle: l.browseSubtitle,
-                    onTap: () => _go(context, const BrowseScreen()),
-                  ),
-                  // Третий путь появляется, только когда в нём есть смысл:
-                  // пустое «Моя поездка» на первом запуске — это обещание
-                  // без содержания.
-                  if (favoriteCount > 0) ...[
-                    const SizedBox(height: 10),
-                    _ChoiceCard(
-                      icon: Icons.favorite_border,
-                      title: l.favoritesTitle,
-                      subtitle: l.favoritesSaved(favoriteCount),
-                      onTap: () => _go(context, const FavoritesScreen()),
-                    ),
-                  ],
-                  const InterestPrompt(),
-                  const SizedBox(height: 14),
-                  if (credit != null)
-                    Text(
-                      l.photoBy(credit.short),
-                      style: const TextStyle(
-                        color: Colors.white38,
-                        fontSize: 11,
-                      ),
-                    ),
-                ],
+                ),
               ),
             ),
           ),

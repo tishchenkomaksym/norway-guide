@@ -200,6 +200,23 @@ final topPlacesProvider = FutureProvider<List<PlaceWithText>>((ref) async {
   return db.topPlaces(lang, categories: selected.toList());
 });
 
+/// Самые посещаемые места страны — курируемый топ-20.
+///
+/// Не зависит ни от фильтра категорий, ни от режима: это ответ на вопрос
+/// «что смотрят в Норвегии вообще», и урезать его настройками бессмысленно.
+final mostVisitedProvider = FutureProvider<List<PlaceWithText>>((ref) async {
+  final db = await ref.watch(databaseProvider.future);
+  final lang = ref.watch(languageProvider);
+  return db.mostVisitedPlaces(lang);
+});
+
+/// Все фотографии места — для галереи в карточке.
+final placePhotosProvider =
+    FutureProvider.family<List<Photo>, String>((ref, placeId) async {
+  final db = await ref.watch(databaseProvider.future);
+  return db.photosForPlace(placeId);
+});
+
 /// Места выбранного города, по убыванию значимости.
 final placesInCityProvider =
     FutureProvider.family<List<PlaceWithText>, String>((ref, cityId) async {

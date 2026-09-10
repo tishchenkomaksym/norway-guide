@@ -269,5 +269,16 @@
   "locUnavailable": "No se pudo determinar tu ubicación. En interiores la señal es débil",
   "locOpenSettings": "Ajustes",
   "locSetCity": "Elegir ciudad",
-  "locRetry": "Reintentar"
+  "locRetry": "Reintentar",
+  "nothingNearby": "No hay nada cerca",
+  "nothingNearbyHint": "La guía solo incluye lugares con descripción o fotografía. Ahora mismo no hay ninguno a tu alrededor.",
+  "nothingInFiltersHint": "Prueba a quitar una categoría: puede haber otros lugares cerca.",
+  "resetFilters": "Mostrar todas las categorías",
+  "mostVisitedTitle": "Lo más visitado",
+  "mostVisitedSubtitle": "Los veinte lugares por los que se viaja a Noruega",
+  "mostVisitedEmpty": "La lista destacada no está en este paquete de contenido",
+  "mostVisitedNote": "El orden está compuesto a mano según el número de visitantes, la declaración de la UNESCO y lo conocido que es el lugar. Cuando se muestra una cifra de visitantes, el año y la fuente aparecen en la ficha del lugar.",
+  "unescoShort": "UNESCO",
+  "photoCount": "{n, plural, =1{1 foto} other{{n} fotos}}",
+  "visitorsPerYear": "Unos {n} visitantes al año ({year})"
 }

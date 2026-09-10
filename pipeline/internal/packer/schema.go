@@ -6,7 +6,9 @@ package packer
 //
 // Если версии разойдутся, drift примет готовую базу за пустую и попытается
 // создать таблицы заново — приложение упадёт при первом открытии.
-const SchemaVersion = 1
+// Версия 2 (2026-09-10): добавлены top_rank, visitors, visitors_year,
+// top_source, unesco — топ самых посещаемых мест.
+const SchemaVersion = 2
 
 // Schema — DDL контентной базы.
 //
@@ -50,7 +52,22 @@ CREATE TABLE IF NOT EXISTS places (
     season        TEXT,
     difficulty    TEXT,
     duration_min  INTEGER,
-    importance    INTEGER NOT NULL DEFAULT 0
+    importance    INTEGER NOT NULL DEFAULT 0,
+    -- Позиция в топе самых посещаемых мест: 1 — первое место, 0 — не в топе.
+    -- Отдельно от importance намеренно: importance считается по полноте
+    -- разметки и отвечает на вопрос «насколько объект известен», а топ
+    -- собран по посещаемости и отвечает на «куда на самом деле едут».
+    -- Тролльтунга размечена одной точкой и по importance проигрывает
+    -- районной церкви. Список задан руками в internal/toplist.
+    top_rank      INTEGER NOT NULL DEFAULT 0,
+    -- Число посетителей и год, к которому оно относится. Ноль означает,
+    -- что надёжного числа нет — приложение тогда не показывает цифру.
+    -- Единой официальной статистики по достопримечательностям Норвегии
+    -- не существует, поэтому источник обязателен рядом с числом.
+    visitors      INTEGER NOT NULL DEFAULT 0,
+    visitors_year INTEGER NOT NULL DEFAULT 0,
+    top_source    TEXT,
+    unesco        INTEGER NOT NULL DEFAULT 0
 );
 
 CREATE TABLE IF NOT EXISTS place_tags (
@@ -149,6 +166,9 @@ CREATE INDEX IF NOT EXISTS idx_tr_lang    ON translations(lang, entity_type);
 CREATE INDEX IF NOT EXISTS idx_places_region ON places(region_id);
 CREATE INDEX IF NOT EXISTS idx_places_city   ON places(city_id);
 CREATE INDEX IF NOT EXISTS idx_places_cat    ON places(category, importance DESC);
+-- Частичный индекс: в топе двадцать строк из тысяч, и полный индекс по
+-- колонке, где почти везде ноль, только занимал бы место.
+CREATE INDEX IF NOT EXISTS idx_places_top    ON places(top_rank) WHERE top_rank > 0;
 CREATE INDEX IF NOT EXISTS idx_places_geo    ON places(lat, lon);
 CREATE INDEX IF NOT EXISTS idx_cities_region ON cities(region_id);
 `

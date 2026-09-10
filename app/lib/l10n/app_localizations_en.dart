@@ -586,4 +586,56 @@ class LEn extends L {
 
   @override
   String get locRetry => 'Retry';
+
+  @override
+  String get nothingNearby => 'Nothing within reach';
+
+  @override
+  String get nothingNearbyHint =>
+      'The guide only covers places with a description or a photo. There are none around you right now.';
+
+  @override
+  String get nothingInFiltersHint =>
+      'Try removing a category — there may be other places nearby.';
+
+  @override
+  String get resetFilters => 'Show all categories';
+
+  @override
+  String get mostVisitedTitle => 'Most visited';
+
+  @override
+  String get mostVisitedSubtitle =>
+      'The twenty places people come to Norway for';
+
+  @override
+  String get mostVisitedEmpty => 'The top list is not in this content package';
+
+  @override
+  String get mostVisitedNote =>
+      'The order is compiled by hand from visitor numbers, UNESCO status and how widely a place is known. Where a visitor count is shown, its year and source are given in the place\'s card.';
+
+  @override
+  String get unescoShort => 'UNESCO';
+
+  @override
+  String photoCount(int n) {
+    String _temp0 = intl.Intl.pluralLogic(
+      n,
+      locale: localeName,
+      other: '$n photos',
+      one: '1 photo',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String visitorsPerYear(int n, String year) {
+    final intl.NumberFormat nNumberFormat = intl.NumberFormat.decimalPattern(
+      localeName,
+    );
+    final String nString = nNumberFormat.format(n);
+
+    return 'About $nString visitors a year ($year)';
+  }
 }

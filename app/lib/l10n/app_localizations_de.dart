@@ -591,4 +591,57 @@ class LDe extends L {
 
   @override
   String get locRetry => 'Erneut versuchen';
+
+  @override
+  String get nothingNearby => 'Nichts in der Umgebung';
+
+  @override
+  String get nothingNearbyHint =>
+      'Der Reiseführer enthält nur Orte mit Beschreibung oder Foto. In Ihrer Umgebung gibt es derzeit keine.';
+
+  @override
+  String get nothingInFiltersHint =>
+      'Entfernen Sie eine Kategorie — in der Nähe könnten andere Orte liegen.';
+
+  @override
+  String get resetFilters => 'Alle Kategorien anzeigen';
+
+  @override
+  String get mostVisitedTitle => 'Meistbesucht';
+
+  @override
+  String get mostVisitedSubtitle =>
+      'Die zwanzig Orte, für die man nach Norwegen reist';
+
+  @override
+  String get mostVisitedEmpty =>
+      'Die Topliste ist in diesem Inhaltspaket nicht enthalten';
+
+  @override
+  String get mostVisitedNote =>
+      'Die Reihenfolge wurde von Hand zusammengestellt: nach Besucherzahlen, UNESCO-Status und Bekanntheit. Wo eine Besucherzahl steht, finden Sie Jahr und Quelle auf der Seite des Ortes.';
+
+  @override
+  String get unescoShort => 'UNESCO';
+
+  @override
+  String photoCount(int n) {
+    String _temp0 = intl.Intl.pluralLogic(
+      n,
+      locale: localeName,
+      other: '$n Fotos',
+      one: '1 Foto',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String visitorsPerYear(int n, String year) {
+    final intl.NumberFormat nNumberFormat = intl.NumberFormat.decimalPattern(
+      localeName,
+    );
+    final String nString = nNumberFormat.format(n);
+
+    return 'Etwa $nString Besucher pro Jahr ($year)';
+  }
 }

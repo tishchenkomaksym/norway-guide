@@ -3,6 +3,7 @@ package wiki
 import (
 	"fmt"
 	"net/url"
+	"path/filepath"
 	"strings"
 )
 
@@ -70,6 +71,90 @@ func (c *Client) FetchImageNames(ids []string) (map[string]string, error) {
 		}
 	}
 
+	return out, nil
+}
+
+// FetchCommonsCategories возвращает названия категорий Commons (P373).
+//
+// Нужны для галереи: P18 даёт ровно один снимок, а в карточке места хочется
+// показать несколько. Категория Commons — это папка со всеми фотографиями
+// объекта, из неё и берутся дополнительные кадры.
+func (c *Client) FetchCommonsCategories(ids []string) (map[string]string, error) {
+	out := make(map[string]string, len(ids))
+
+	const batchSize = 50
+	for start := 0; start < len(ids); start += batchSize {
+		end := start + batchSize
+		if end > len(ids) {
+			end = len(ids)
+		}
+
+		u := fmt.Sprintf(
+			"https://www.wikidata.org/w/api.php?action=wbgetentities"+
+				"&ids=%s&props=claims&format=json",
+			url.QueryEscape(strings.Join(ids[start:end], "|")),
+		)
+
+		var resp claimsResponse
+		if err := c.GetJSON(u, &resp); err != nil {
+			return out, fmt.Errorf("wikidata P373 %d..%d: %w", start, end, err)
+		}
+
+		for id, ent := range resp.Entities {
+			claims, ok := ent.Claims["P373"]
+			if !ok || len(claims) == 0 {
+				continue
+			}
+			if name, ok := claims[0].Mainsnak.DataValue.Value.(string); ok && name != "" {
+				out[id] = name
+			}
+		}
+	}
+
+	return out, nil
+}
+
+type categoryMembersResponse struct {
+	Query struct {
+		CategoryMembers []struct {
+			Title string `json:"title"`
+		} `json:"categorymembers"`
+	} `json:"query"`
+}
+
+// FetchCategoryFiles возвращает имена файлов из категории Commons.
+//
+// Берём только файлы (cmtype=file) и только растровые расширения: в
+// категориях объектов попадаются схемы в SVG, карты и звуковые файлы,
+// которым в фотогалерее места делать нечего.
+//
+// Порядок не сортируем: Commons отдаёт файлы по алфавиту, и это не хуже
+// любой доступной нам эвристики качества. Отбор по лицензии всё равно
+// произойдёт дальше, при запросе сведений о каждом файле.
+func (c *Client) FetchCategoryFiles(category string, limit int) ([]string, error) {
+	if limit <= 0 {
+		limit = 10
+	}
+	title := "Category:" + category
+	u := fmt.Sprintf(
+		"https://commons.wikimedia.org/w/api.php?action=query&list=categorymembers"+
+			"&cmtitle=%s&cmtype=file&cmlimit=%d&format=json",
+		url.QueryEscape(title), limit,
+	)
+
+	var resp categoryMembersResponse
+	if err := c.GetJSON(u, &resp); err != nil {
+		return nil, fmt.Errorf("категория %s: %w", category, err)
+	}
+
+	out := make([]string, 0, len(resp.Query.CategoryMembers))
+	for _, m := range resp.Query.CategoryMembers {
+		name := strings.TrimPrefix(m.Title, "File:")
+		switch strings.ToLower(filepath.Ext(name)) {
+		case ".jpg", ".jpeg", ".png", ".webp":
+			out = append(out, name)
+		}
+	}
 	return out, nil
 }
 

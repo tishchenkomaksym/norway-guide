@@ -269,5 +269,16 @@
   "locUnavailable": "Could not determine your location. Indoors the signal is weak",
   "locOpenSettings": "Settings",
   "locSetCity": "Choose a town",
-  "locRetry": "Retry"
+  "locRetry": "Retry",
+  "nothingNearby": "Nothing within reach",
+  "nothingNearbyHint": "The guide only covers places with a description or a photo. There are none around you right now.",
+  "nothingInFiltersHint": "Try removing a category — there may be other places nearby.",
+  "resetFilters": "Show all categories",
+  "mostVisitedTitle": "Most visited",
+  "mostVisitedSubtitle": "The twenty places people come to Norway for",
+  "mostVisitedEmpty": "The top list is not in this content package",
+  "mostVisitedNote": "The order is compiled by hand from visitor numbers, UNESCO status and how widely a place is known. Where a visitor count is shown, its year and source are given in the place's card.",
+  "unescoShort": "UNESCO",
+  "photoCount": "{n, plural, =1{1 photo} other{{n} photos}}",
+  "visitorsPerYear": "About {n} visitors a year ({year})"
 }

@@ -557,4 +557,52 @@ class LZh extends L {
 
   @override
   String get locRetry => '重试';
+
+  @override
+  String get nothingNearby => '附近没有地点';
+
+  @override
+  String get nothingNearbyHint => '本指南只收录有介绍或照片的地点，您周围目前没有。';
+
+  @override
+  String get nothingInFiltersHint => '试着取消一个分类，附近可能还有其他地点。';
+
+  @override
+  String get resetFilters => '显示全部分类';
+
+  @override
+  String get mostVisitedTitle => '最多人去';
+
+  @override
+  String get mostVisitedSubtitle => '人们专程前往挪威的二十个地点';
+
+  @override
+  String get mostVisitedEmpty => '此内容包中没有榜单';
+
+  @override
+  String get mostVisitedNote =>
+      '排序由人工整理，依据参观人数、联合国教科文组织名录状态和知名度。若显示参观人数，年份与来源见地点详情页。';
+
+  @override
+  String get unescoShort => '联合国教科文';
+
+  @override
+  String photoCount(int n) {
+    String _temp0 = intl.Intl.pluralLogic(
+      n,
+      locale: localeName,
+      other: '$n 张照片',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String visitorsPerYear(int n, String year) {
+    final intl.NumberFormat nNumberFormat = intl.NumberFormat.decimalPattern(
+      localeName,
+    );
+    final String nString = nNumberFormat.format(n);
+
+    return '每年约 $nString 名访客（$year）';
+  }
 }

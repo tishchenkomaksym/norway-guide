@@ -21,11 +21,13 @@ import (
 	"math"
 	"os"
 	"sort"
+	"strings"
 	"time"
 
 	_ "modernc.org/sqlite"
 
 	"github.com/grigorianez/nordguide/pipeline/internal/packer"
+	"github.com/grigorianez/nordguide/pipeline/internal/toplist"
 )
 
 type place struct {
@@ -94,10 +96,10 @@ type translation struct {
 
 func main() {
 	var (
-		placesPath = flag.String("places", "data/places.jsonl", "места от extract")
+		placesPath = flag.String("places", "data/places.jsonl", "места от extract, можно несколько через запятую")
 		citiesPath = flag.String("cities", "data/cities.jsonl", "города от extract")
-		transPath  = flag.String("translations", "data/translations.jsonl", "тексты от enrich")
-		photosPath = flag.String("photos", "data/photos.jsonl", "фотографии от media")
+		transPath  = flag.String("translations", "data/translations.jsonl", "тексты от enrich, можно несколько через запятую")
+		photosPath = flag.String("photos", "data/photos.jsonl", "фотографии от media, можно несколько через запятую")
 		rulesPath  = flag.String("rules", "data/rules.jsonl", "правила от rules")
 		natPath    = flag.String("national", "data/national-rules.jsonl", "национальные правила")
 		outPath    = flag.String("out", "data/content.sqlite", "куда собирать базу")
@@ -110,7 +112,7 @@ func main() {
 
 	start := time.Now()
 
-	places, err := readJSONL[place](*placesPath)
+	places, err := readJSONLMulti[place](*placesPath)
 	if err != nil {
 		fatal(err)
 	}
@@ -119,11 +121,11 @@ func main() {
 		// Города не обязательны: без них соберётся база только с местами.
 		fmt.Fprintf(os.Stderr, "предупреждение: города не прочитаны: %v\n", err)
 	}
-	translations, err := readJSONL[translation](*transPath)
+	translations, err := readJSONLMulti[translation](*transPath)
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "предупреждение: тексты не прочитаны: %v\n", err)
 	}
-	photos, err := readJSONL[photo](*photosPath)
+	photos, err := readJSONLMulti[photo](*photosPath)
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "предупреждение: фото не прочитаны: %v\n", err)
 	}
@@ -138,6 +140,47 @@ func main() {
 		fmt.Fprintf(os.Stderr, "предупреждение: нац. правила не прочитаны: %v\n", err)
 	}
 
+	// Место без описания и без фотографии — это строка с названием
+	// и координатами, и ничего больше. OSM даёт таких десятки тысяч:
+	// безымянные холмы, помеченные как смотровые, мосты в категории
+	// музеев, входы в шахты. Открыв такую карточку, человек видит пустой
+	// экран и перестаёт доверять остальным.
+	//
+	// Поэтому в базу попадает только то, о чём есть что сказать: либо
+	// текст из Wikipedia, либо снимок с Commons. Проверка идёт до записи,
+	// а не в запросах приложения, чтобы пустые места не занимали место
+	// на телефоне и не замедляли поиск.
+	hasContent := make(map[string]bool, len(translations))
+	for _, t := range translations {
+		if t.Summary != "" || t.Description != "" {
+			hasContent[t.EntityID] = true
+		}
+	}
+	for _, ph := range photos {
+		if ph.LocalPath != "" {
+			hasContent[ph.EntityID] = true
+		}
+	}
+
+	keptPlaces := make([]place, 0, len(hasContent))
+	for _, p := range places {
+		// Место из топ-20 остаётся всегда, даже если текст и фотография
+		// почему-то не добрались. Человек, открывший «Самое посещаемое»,
+		// ищет там Прекестулен и Тролльтунгу; список без них выглядит
+		// сломанным, а не коротким.
+		if p.WikidataID != "" {
+			if _, top := toplist.ByQID(p.WikidataID); top {
+				keptPlaces = append(keptPlaces, p)
+				continue
+			}
+		}
+		if hasContent[p.ID] {
+			keptPlaces = append(keptPlaces, p)
+		}
+	}
+	dropped := len(places) - len(keptPlaces)
+	places = keptPlaces
+
 	// Мелкие деревни только засоряют список городов: их сотни, а смотреть
 	// в них нечего. Порог по значимости отсекает их до записи в базу.
 	var keptCities []city
@@ -147,8 +190,9 @@ func main() {
 		}
 	}
 
-	fmt.Fprintf(os.Stderr, "Мест: %d, городов: %d (из %d), текстов: %d\n",
-		len(places), len(keptCities), len(cities), len(translations))
+	fmt.Fprintf(os.Stderr,
+		"Мест: %d (отброшено без описания и фото: %d), городов: %d (из %d), текстов: %d\n",
+		len(places), dropped, len(keptCities), len(cities), len(translations))
 
 	if err := os.Remove(*outPath); err != nil && !os.IsNotExist(err) {
 		fatal(err)
@@ -194,6 +238,7 @@ func main() {
 type buildStats struct {
 	regions, cities, places, tags, translations, ftsRows int
 	placesWithCity                                       int
+	topPlaces                                            int
 	placesWithText                                       int
 	photos, photosRejected                               int
 	rules, nationalRules, rulesRejected                  int
@@ -250,8 +295,9 @@ func fill(
 	placeStmt, err := tx.Prepare(
 		`INSERT INTO places (id, city_id, region_id, category, name_no, lat, lon,
 		                     opening_hours, website, wikidata_id, season,
-		                     difficulty, importance)
-		 VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`)
+		                     difficulty, importance,
+		                     top_rank, visitors, visitors_year, top_source, unesco)
+		 VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`)
 	if err != nil {
 		return nil, err
 	}
@@ -269,10 +315,29 @@ func fill(
 			st.placesWithCity++
 		}
 
+		// Топ ищется по идентификатору Wikidata, а не по названию: в OSM
+		// одно и то же место подписано по-разному, и «Vøringsfossen»
+		// против «Vøringfossen» разошлись бы в две записи.
+		var (
+			topRank, visitors, visitorsYear, unesco int
+			topSource                               string
+		)
+		if p.WikidataID != "" {
+			if a, ok := toplist.ByQID(p.WikidataID); ok {
+				topRank, visitors, visitorsYear = a.Rank, a.Visitors, a.VisitorsYear
+				topSource = a.Source
+				if a.UNESCO {
+					unesco = 1
+				}
+				st.topPlaces++
+			}
+		}
+
 		if _, err := placeStmt.Exec(
 			p.ID, cityVal, regionID, p.Category, p.NameNo, p.Lat, p.Lon,
 			nullable(p.OpeningHrs), nullable(p.Website), nullable(p.WikidataID),
 			nullable(p.Season), nullable(p.Difficulty), p.Importance,
+			topRank, visitors, visitorsYear, nullable(topSource), unesco,
 		); err != nil {
 			return nil, fmt.Errorf("место %s: %w", p.ID, err)
 		}
@@ -497,6 +562,34 @@ func boundingBox(places []place, cities []city) string {
 		return "0,0,0,0"
 	}
 	return fmt.Sprintf("%.4f,%.4f,%.4f,%.4f", minLon, minLat, maxLon, maxLat)
+}
+
+// readJSONLMulti читает несколько файлов, перечисленных через запятую.
+//
+// Нужно, чтобы курируемый топ-20 (data/places-curated.jsonl) собирался
+// вместе с извлечением из OSM, не смешиваясь с ним на диске: извлечение
+// перезаписывается при каждом прогоне extract, а курируемый список — нет.
+//
+// Отсутствующий файл пропускается с предупреждением, а не роняет сборку:
+// база без курируемого списка хуже, но собирается.
+func readJSONLMulti[T any](paths string) ([]T, error) {
+	var out []T
+	for _, p := range strings.Split(paths, ",") {
+		p = strings.TrimSpace(p)
+		if p == "" {
+			continue
+		}
+		items, err := readJSONL[T](p)
+		if err != nil {
+			if os.IsNotExist(err) {
+				fmt.Fprintf(os.Stderr, "предупреждение: %s не найден, пропускаю\n", p)
+				continue
+			}
+			return nil, err
+		}
+		out = append(out, items...)
+	}
+	return out, nil
 }
 
 func readJSONL[T any](path string) ([]T, error) {

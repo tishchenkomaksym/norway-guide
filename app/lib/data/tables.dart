@@ -65,6 +65,24 @@ class Places extends Table {
   /// 0..100 — сортировка выдачи и приоритет офлайн-загрузки.
   IntColumn get importance => integer().withDefault(const Constant(0))();
 
+  /// Позиция в топе самых посещаемых мест: 1 — первое, 0 — не в топе.
+  ///
+  /// Отдельно от [importance] намеренно. `importance` считается по полноте
+  /// разметки и отвечает на вопрос «насколько объект известен»; топ собран
+  /// по посещаемости и отвечает на «куда на самом деле едут». Тролльтунга
+  /// размечена одной точкой и по `importance` проигрывает районной церкви.
+  IntColumn get topRank => integer().withDefault(const Constant(0))();
+
+  /// Посетителей в год; 0 — надёжного числа нет, и цифра не показывается.
+  /// Единой официальной статистики по достопримечательностям Норвегии не
+  /// публикуется, поэтому рядом с числом всегда идут год и источник.
+  IntColumn get visitors => integer().withDefault(const Constant(0))();
+  IntColumn get visitorsYear => integer().withDefault(const Constant(0))();
+  TextColumn get topSource => text().nullable()();
+
+  /// Объект списка Всемирного наследия ЮНЕСКО.
+  IntColumn get unesco => integer().withDefault(const Constant(0))();
+
   @override
   Set<Column> get primaryKey => {id};
 }

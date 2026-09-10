@@ -6,6 +6,7 @@ import '../../core/categories.dart';
 import '../../core/profile.dart';
 import '../../core/providers.dart';
 import '../../data/database.dart';
+import '../cities/browse_screen.dart';
 import '../cities/category_chips.dart';
 import '../emergency/emergency_button.dart';
 import '../favorites/favorites_screen.dart';
@@ -125,9 +126,7 @@ class _NearbyScreenState extends ConsumerState<NearbyScreen> {
               ),
               data: (list) {
                 if (list.isEmpty) {
-                  return Center(
-                    child: Text(L.of(context).nothingInFilters),
-                  );
+                  return const _NothingNearby();
                 }
                 return ListView.separated(
                   itemCount: list.length,
@@ -138,6 +137,72 @@ class _NearbyScreenState extends ConsumerState<NearbyScreen> {
             ),
           ),
         ],
+      ),
+    );
+  }
+}
+
+/// Пустой список: рядом ничего нет.
+///
+/// В базу попадают только места с описанием или фотографией, поэтому
+/// каталог — несколько тысяч точек на всю страну, а не десятки тысяч.
+/// В глухих местах пустой экран — нормальный ответ, а не сбой, и он
+/// обязан отличать две разные причины.
+///
+/// Раньше здесь стояла строка «ничего не найдено по фильтрам». Когда
+/// фильтры не выбраны, она врёт: человек начинает их искать и снимать,
+/// хотя снимать нечего. Поэтому текст зависит от того, что выбрано,
+/// и всегда предлагает выход — сброс фильтров либо переход к городам.
+class _NothingNearby extends ConsumerWidget {
+  const _NothingNearby();
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final l = L.of(context);
+    final selected = ref.watch(categoryFilterProvider);
+    final filtered = selected.isNotEmpty;
+
+    return Center(
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 32),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Icon(
+              filtered ? Icons.filter_alt_off_outlined : Icons.explore_off_outlined,
+              size: 44,
+              color: Theme.of(context).colorScheme.outline,
+            ),
+            const SizedBox(height: 14),
+            Text(
+              filtered ? l.nothingInFilters : l.nothingNearby,
+              textAlign: TextAlign.center,
+              style: Theme.of(context).textTheme.titleSmall,
+            ),
+            const SizedBox(height: 6),
+            Text(
+              filtered ? l.nothingInFiltersHint : l.nothingNearbyHint,
+              textAlign: TextAlign.center,
+              style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                    color: Theme.of(context).colorScheme.outline,
+                  ),
+            ),
+            const SizedBox(height: 18),
+            if (filtered)
+              FilledButton.tonal(
+                onPressed: () =>
+                    ref.read(categoryFilterProvider.notifier).state = {},
+                child: Text(l.resetFilters),
+              )
+            else
+              FilledButton.tonal(
+                onPressed: () => Navigator.of(context).pushReplacement(
+                  MaterialPageRoute(builder: (_) => const BrowseScreen()),
+                ),
+                child: Text(l.browseTitle),
+              ),
+          ],
+        ),
       ),
     );
   }

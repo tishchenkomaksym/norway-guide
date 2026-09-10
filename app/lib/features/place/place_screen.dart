@@ -127,16 +127,10 @@ class _Header extends ConsumerWidget {
         background: Stack(
           fit: StackFit.expand,
           children: [
-            // Фото с Commons, если оно есть. У части мест снимка нет
+            // Фотографии с Commons. Если снимок один — просто картинка,
+            // если несколько — листаемая галерея. У части мест снимка нет
             // и не будет — тогда заливка цветом категории.
-            if (item.hasPhoto)
-              Image.asset(
-                item.photoPath!,
-                fit: BoxFit.cover,
-                errorBuilder: (_, _, _) => _CategoryFill(item: item),
-              )
-            else
-              _CategoryFill(item: item),
+            _Gallery(item: item),
             const DecoratedBox(
               decoration: BoxDecoration(
                 gradient: LinearGradient(
@@ -173,25 +167,11 @@ class _Header extends ConsumerWidget {
               ),
             ),
 
-            // Атрибуция прямо на снимке: требование CC BY-SA, и прятать её
-            // в отдельный экран для конкретного фото было бы неправильно.
-            if (item.hasPhoto)
-              Positioned(
-                right: 10,
-                bottom: 46,
-                child: Container(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 7, vertical: 3),
-                  decoration: BoxDecoration(
-                    color: Colors.black.withValues(alpha: 0.4),
-                    borderRadius: BorderRadius.circular(6),
-                  ),
-                  child: Text(
-                    '${item.photoAuthor} · ${item.photoLicense}',
-                    style: const TextStyle(color: Colors.white70, fontSize: 9.5),
-                  ),
-                ),
-              ),
+            // Атрибуция рисуется внутри галереи, вместе со снимком:
+            // у каждого фото свой автор и своя лицензия, и подпись обязана
+            // меняться при листании. Общая подпись поверх галереи приписала
+            // бы второму снимку автора первого — это нарушение CC BY-SA,
+            // а не мелочь оформления.
           ],
         ),
       ),
@@ -243,6 +223,158 @@ class _RulesBlock extends ConsumerWidget {
               ),
             ),
         ],
+      ),
+    );
+  }
+}
+
+/// Фотографии места в шапке карточки.
+///
+/// Один снимок показывается просто картинкой, несколько — листаемой
+/// галереей с точками-индикаторами. Пока список фотографий грузится,
+/// показывается уже известный по списку снимок: карточка открывается
+/// мгновенно и не мигает пустотой ради дополнительных кадров.
+///
+/// Атрибуция живёт здесь же и меняется вместе со снимком. Это требование
+/// лицензии, а не оформление: у каждого фото свой автор, и подпись от
+/// первого кадра под вторым — уже нарушение CC BY-SA.
+class _Gallery extends ConsumerStatefulWidget {
+  const _Gallery({required this.item});
+
+  final PlaceWithText item;
+
+  @override
+  ConsumerState<_Gallery> createState() => _GalleryState();
+}
+
+class _GalleryState extends ConsumerState<_Gallery> {
+  final _controller = PageController();
+  int _current = 0;
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final item = widget.item;
+    final photos =
+        ref.watch(placePhotosProvider(item.place.id)).valueOrNull ?? const [];
+
+    // Пока фотографии не прочитаны, показываем тот снимок, что уже пришёл
+    // вместе со списком мест.
+    if (photos.isEmpty) {
+      if (!item.hasPhoto) return _CategoryFill(item: item);
+      return _Single(
+        path: item.photoPath!,
+        credit: '${item.photoAuthor} · ${item.photoLicense}',
+        item: item,
+      );
+    }
+
+    if (photos.length == 1) {
+      final p = photos.first;
+      return _Single(
+        path: p.pathThumb,
+        credit: '${p.author} · ${p.license}',
+        item: item,
+      );
+    }
+
+    return Stack(
+      fit: StackFit.expand,
+      children: [
+        PageView.builder(
+          controller: _controller,
+          itemCount: photos.length,
+          onPageChanged: (i) => setState(() => _current = i),
+          itemBuilder: (_, i) => Image.asset(
+            photos[i].pathThumb,
+            fit: BoxFit.cover,
+            errorBuilder: (_, _, _) => _CategoryFill(item: item),
+          ),
+        ),
+        // Точки: без них неочевидно, что снимок можно листать.
+        Positioned(
+          left: 0,
+          right: 0,
+          bottom: 30,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              for (var i = 0; i < photos.length; i++)
+                Container(
+                  width: 6,
+                  height: 6,
+                  margin: const EdgeInsets.symmetric(horizontal: 3),
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: i == _current
+                        ? Colors.white
+                        : Colors.white.withValues(alpha: 0.4),
+                  ),
+                ),
+            ],
+          ),
+        ),
+        _Credit(
+          text: '${photos[_current].author} · ${photos[_current].license}',
+        ),
+      ],
+    );
+  }
+}
+
+class _Single extends StatelessWidget {
+  const _Single({
+    required this.path,
+    required this.credit,
+    required this.item,
+  });
+
+  final String path;
+  final String credit;
+  final PlaceWithText item;
+
+  @override
+  Widget build(BuildContext context) {
+    return Stack(
+      fit: StackFit.expand,
+      children: [
+        Image.asset(
+          path,
+          fit: BoxFit.cover,
+          errorBuilder: (_, _, _) => _CategoryFill(item: item),
+        ),
+        _Credit(text: credit),
+      ],
+    );
+  }
+}
+
+/// Подпись автора и лицензии поверх снимка — обязательна по CC BY-SA.
+class _Credit extends StatelessWidget {
+  const _Credit({required this.text});
+
+  final String text;
+
+  @override
+  Widget build(BuildContext context) {
+    return Positioned(
+      right: 10,
+      bottom: 46,
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 7, vertical: 3),
+        decoration: BoxDecoration(
+          color: Colors.black.withValues(alpha: 0.4),
+          borderRadius: BorderRadius.circular(6),
+        ),
+        child: Text(
+          text,
+          style: const TextStyle(color: Colors.white70, fontSize: 9.5),
+        ),
       ),
     );
   }

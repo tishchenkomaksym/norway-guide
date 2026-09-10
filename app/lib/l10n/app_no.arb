@@ -269,5 +269,16 @@
   "locUnavailable": "Fant ikke posisjonen din. Innendørs er signalet svakt",
   "locOpenSettings": "Innstillinger",
   "locSetCity": "Velg sted",
-  "locRetry": "Prøv igjen"
+  "locRetry": "Prøv igjen",
+  "nothingNearby": "Ingenting i nærheten",
+  "nothingNearbyHint": "Guiden dekker bare steder med beskrivelse eller bilde. Det finnes ingen rundt deg akkurat nå.",
+  "nothingInFiltersHint": "Prøv å fjerne en kategori — det kan finnes andre steder i nærheten.",
+  "resetFilters": "Vis alle kategorier",
+  "mostVisitedTitle": "Mest besøkt",
+  "mostVisitedSubtitle": "De tjue stedene folk reiser til Norge for",
+  "mostVisitedEmpty": "Topplisten finnes ikke i denne innholdspakken",
+  "mostVisitedNote": "Rekkefølgen er satt sammen manuelt ut fra besøkstall, UNESCO-status og hvor kjent stedet er. Der et besøkstall vises, står år og kilde i stedets kort.",
+  "unescoShort": "UNESCO",
+  "photoCount": "{n, plural, =1{1 bilde} other{{n} bilder}}",
+  "visitorsPerYear": "Omtrent {n} besøkende i året ({year})"
 }

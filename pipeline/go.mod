@@ -14,7 +14,8 @@ require (
 	github.com/paulmach/protoscan v0.2.1 // indirect
 	github.com/remyoudompheng/bigfft v0.0.0-20230129092748-24d4a6f8daec // indirect
 	go.mongodb.org/mongo-driver v1.17.4 // indirect
-	golang.org/x/sys v0.47.0 // indirect
+	golang.org/x/image v0.46.0 // indirect
+	golang.org/x/sys v0.48.0 // indirect
 	google.golang.org/protobuf v1.36.10 // indirect
 	modernc.org/libc v1.75.6 // indirect
 	modernc.org/mathutil v1.7.1 // indirect

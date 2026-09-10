@@ -588,4 +588,58 @@ class LRu extends L {
 
   @override
   String get locRetry => 'Повторить';
+
+  @override
+  String get nothingNearby => 'Рядом ничего нет';
+
+  @override
+  String get nothingNearbyHint =>
+      'В путеводитель попадают только места с описанием или фотографией. Вокруг вас таких сейчас нет.';
+
+  @override
+  String get nothingInFiltersHint =>
+      'Попробуйте убрать категорию — рядом могут быть другие места.';
+
+  @override
+  String get resetFilters => 'Показать все категории';
+
+  @override
+  String get mostVisitedTitle => 'Самое посещаемое';
+
+  @override
+  String get mostVisitedSubtitle =>
+      'Двадцать мест, ради которых едут в Норвегию';
+
+  @override
+  String get mostVisitedEmpty => 'Топ-списка нет в этом пакете контента';
+
+  @override
+  String get mostVisitedNote =>
+      'Порядок составлен вручную: по числу посетителей, статусу ЮНЕСКО и известности места. Там, где показано число посетителей, год и источник указаны в карточке места.';
+
+  @override
+  String get unescoShort => 'ЮНЕСКО';
+
+  @override
+  String photoCount(int n) {
+    String _temp0 = intl.Intl.pluralLogic(
+      n,
+      locale: localeName,
+      other: '$n фотографии',
+      many: '$n фотографий',
+      few: '$n фотографии',
+      one: '$n фотография',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String visitorsPerYear(int n, String year) {
+    final intl.NumberFormat nNumberFormat = intl.NumberFormat.decimalPattern(
+      localeName,
+    );
+    final String nString = nNumberFormat.format(n);
+
+    return 'Около $nString посетителей в год ($year)';
+  }
 }

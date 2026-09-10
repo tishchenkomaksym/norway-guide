@@ -1142,6 +1142,72 @@ abstract class L {
   /// In ru, this message translates to:
   /// **'Повторить'**
   String get locRetry;
+
+  /// No description provided for @nothingNearby.
+  ///
+  /// In ru, this message translates to:
+  /// **'Рядом ничего нет'**
+  String get nothingNearby;
+
+  /// No description provided for @nothingNearbyHint.
+  ///
+  /// In ru, this message translates to:
+  /// **'В путеводитель попадают только места с описанием или фотографией. Вокруг вас таких сейчас нет.'**
+  String get nothingNearbyHint;
+
+  /// No description provided for @nothingInFiltersHint.
+  ///
+  /// In ru, this message translates to:
+  /// **'Попробуйте убрать категорию — рядом могут быть другие места.'**
+  String get nothingInFiltersHint;
+
+  /// No description provided for @resetFilters.
+  ///
+  /// In ru, this message translates to:
+  /// **'Показать все категории'**
+  String get resetFilters;
+
+  /// No description provided for @mostVisitedTitle.
+  ///
+  /// In ru, this message translates to:
+  /// **'Самое посещаемое'**
+  String get mostVisitedTitle;
+
+  /// No description provided for @mostVisitedSubtitle.
+  ///
+  /// In ru, this message translates to:
+  /// **'Двадцать мест, ради которых едут в Норвегию'**
+  String get mostVisitedSubtitle;
+
+  /// No description provided for @mostVisitedEmpty.
+  ///
+  /// In ru, this message translates to:
+  /// **'Топ-списка нет в этом пакете контента'**
+  String get mostVisitedEmpty;
+
+  /// No description provided for @mostVisitedNote.
+  ///
+  /// In ru, this message translates to:
+  /// **'Порядок составлен вручную: по числу посетителей, статусу ЮНЕСКО и известности места. Там, где показано число посетителей, год и источник указаны в карточке места.'**
+  String get mostVisitedNote;
+
+  /// No description provided for @unescoShort.
+  ///
+  /// In ru, this message translates to:
+  /// **'ЮНЕСКО'**
+  String get unescoShort;
+
+  /// No description provided for @photoCount.
+  ///
+  /// In ru, this message translates to:
+  /// **'{n, plural, one{{n} фотография} few{{n} фотографии} many{{n} фотографий} other{{n} фотографии}}'**
+  String photoCount(int n);
+
+  /// No description provided for @visitorsPerYear.
+  ///
+  /// In ru, this message translates to:
+  /// **'Около {n} посетителей в год ({year})'**
+  String visitorsPerYear(int n, String year);
 }
 
 class _LDelegate extends LocalizationsDelegate<L> {
