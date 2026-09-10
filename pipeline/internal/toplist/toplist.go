@@ -34,11 +34,15 @@
 // и именно он здесь и зафиксирован.
 package toplist
 
-// Attraction — место из топа.
+// Attraction — место из курируемого списка.
 //
-// Rank — позиция в списке, 1 — самое посещаемое. Порядок задан руками
+// Rank — позиция в топе, 1 — самое посещаемое. Порядок задан руками
 // и осознанно: он смешивает посещаемость там, где она известна, со
 // статусом ЮНЕСКО и узнаваемостью.
+//
+// Rank == 0 значит «нужно в каталоге, но не в топе». Так помечаются
+// объекты, которых нет в извлечении из OSM и которые попадают в базу
+// только отсюда: убрать их из списка — значит удалить из приложения.
 type Attraction struct {
 	Rank         int     `json:"rank"`
 	QID          string  `json:"qid"`
@@ -55,7 +59,7 @@ type Attraction struct {
 	UNESCO bool `json:"unesco"`
 }
 
-// All — топ-20. Порядок значим: он и есть Rank.
+// All — топ-25. Порядок значим: он и есть Rank.
 var All = []Attraction{
 	{
 		Rank: 1, QID: "Q746223", Name: "Preikestolen",
@@ -108,61 +112,104 @@ var All = []Attraction{
 		Source: "https://en.wikipedia.org/wiki/Lofoten",
 	},
 	{
-		Rank: 10, QID: "Q215023", Name: "Nidarosdomen",
+		// Рейне стоит отдельной строкой, хотя Лофотены уже в списке выше.
+		// Архипелаг — это направление, а Рейне — конкретная точка, ради
+		// которой туда едут: самая фотографируемая деревня страны.
+		// Растворять её в регионе неправильно, человек ищет именно её.
+		Rank: 10, QID: "Q593597", Name: "Reine",
+		Lat: 67.9322, Lon: 13.0894, Category: "viewpoint",
+		Source: "https://no.wikipedia.org/wiki/Reine",
+	},
+	{
+		Rank: 11, QID: "Q215023", Name: "Nidarosdomen",
 		Lat: 63.4269, Lon: 10.3969, Category: "church",
 		Source: "https://en.wikipedia.org/wiki/Nidaros_Cathedral",
 	},
 	{
-		Rank: 11, QID: "Q33572", Name: "Holmenkollbakken",
+		Rank: 12, QID: "Q33572", Name: "Holmenkollbakken",
 		Lat: 59.9639, Lon: 10.6667, Category: "viewpoint",
 		Visitors: 686857, VisitorsYear: 2007,
 		Source: "https://en.wikipedia.org/wiki/Holmenkollbakken",
 	},
 	{
-		Rank: 12, QID: "Q940332", Name: "Trollstigen",
+		Rank: 13, QID: "Q940332", Name: "Trollstigen",
 		Lat: 62.4575, Lon: 7.6708, Category: "viewpoint",
 		Source: "https://en.wikipedia.org/wiki/Trollstigen",
 	},
 	{
-		Rank: 13, QID: "Q402957", Name: "Flåmsbana",
+		Rank: 14, QID: "Q402957", Name: "Flåmsbana",
 		Lat: 60.8636, Lon: 7.1136, Category: "viewpoint",
 		Source: "https://en.wikipedia.org/wiki/Fl%C3%A5m_Line",
 	},
 	{
-		Rank: 14, QID: "Q756561", Name: "Atlanterhavsveien",
+		Rank: 15, QID: "Q756561", Name: "Atlanterhavsveien",
 		Lat: 63.0125, Lon: 7.3506, Category: "viewpoint",
 		Source: "https://en.wikipedia.org/wiki/Atlantic_Ocean_Road",
 	},
 	{
-		Rank: 15, QID: "Q38588", Name: "Vøringsfossen",
+		Rank: 16, QID: "Q38588", Name: "Vøringsfossen",
 		Lat: 60.4267, Lon: 7.2506, Category: "waterfall",
 		Source: "https://en.wikipedia.org/wiki/V%C3%B8ringsfossen",
 	},
 	{
-		Rank: 16, QID: "Q1477173", Name: "Kjeragbolten",
+		Rank: 17, QID: "Q1477173", Name: "Kjeragbolten",
 		Lat: 59.0342, Lon: 6.5931, Category: "viewpoint",
 		Source: "https://en.wikipedia.org/wiki/Kjeragbolten",
 	},
 	{
-		Rank: 17, QID: "Q43280", Name: "Operahuset i Oslo",
+		Rank: 18, QID: "Q43280", Name: "Operahuset i Oslo",
 		Lat: 59.9075, Lon: 10.7528, Category: "museum",
 		Source: "https://en.wikipedia.org/wiki/Oslo_Opera_House",
 	},
 	{
-		Rank: 18, QID: "Q844926", Name: "Munchmuseet",
+		Rank: 19, QID: "Q844926", Name: "Munchmuseet",
 		Lat: 59.9061, Lon: 10.7556, Category: "museum",
 		Source: "https://en.wikipedia.org/wiki/Munch_Museum",
 	},
 	{
-		Rank: 19, QID: "Q210678", Name: "Urnes stavkyrkje",
+		Rank: 20, QID: "Q210678", Name: "Urnes stavkyrkje",
 		Lat: 61.2981, Lon: 7.3222, Category: "church",
 		UNESCO: true,
 		Source: "https://whc.unesco.org/en/list/58/",
 	},
 	{
-		Rank: 20, QID: "Q644464", Name: "Akershus festning",
+		Rank: 21, QID: "Q644464", Name: "Akershus festning",
 		Lat: 59.9078, Lon: 10.7364, Category: "museum",
 		Source: "https://en.wikipedia.org/wiki/Akershus_Fortress",
+	},
+	{
+		// Согне-фьорд — самый длинный и глубокий фьорд страны, 205 км.
+		// Нерёй-фьорд из списка ЮНЕСКО выше — его боковой рукав, но сам
+		// Согне-фьорд отдельное направление: Флом, Балестранд, Ундредал.
+		Rank: 22, QID: "Q208495", Name: "Sognefjorden",
+		Lat: 61.1000, Lon: 5.1667, Category: "fjord",
+		Source: "https://en.wikipedia.org/wiki/Sognefjord",
+	},
+	{
+		// Рёрус — горнозаводской город с деревянной застройкой XVII века,
+		// объект ЮНЕСКО. Единственный в топе объект вне побережья и
+		// единственный, куда едут зимой ради самого города.
+		Rank: 23, QID: "Q108999", Name: "Røros",
+		Lat: 62.5742, Lon: 11.3831, Category: "museum",
+		UNESCO: true,
+		Source: "https://whc.unesco.org/en/list/55/",
+	},
+	{
+		// Бессегген — самый ходимый маршрут Норвегии: гребень между двумя
+		// озёрами разного цвета в Йотунхеймене. В списке нет ни одного
+		// горного похода вне скальных площадок, а это отдельный повод
+		// приехать в страну.
+		Rank: 24, QID: "Q830100", Name: "Besseggen",
+		Lat: 61.5042, Lon: 8.7320, Category: "hike",
+		Source: "https://en.wikipedia.org/wiki/Besseggen",
+	},
+	{
+		// Хардангер-фьорд — «сад Норвегии», цветение яблонь в мае.
+		// Тролльтунга и Вёрингсфоссен из списка стоят на нём, но сам
+		// фьорд — самостоятельное направление с другим сезоном.
+		Rank: 25, QID: "Q841491", Name: "Hardangerfjorden",
+		Lat: 60.1667, Lon: 6.0000, Category: "fjord",
+		Source: "https://en.wikipedia.org/wiki/Hardangerfjord",
 	},
 }
 

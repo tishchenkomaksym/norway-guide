@@ -610,7 +610,7 @@ class LEs extends L {
 
   @override
   String get mostVisitedSubtitle =>
-      'Los veinte lugares por los que se viaja a Noruega';
+      'Los veinticinco lugares por los que se viaja a Noruega';
 
   @override
   String get mostVisitedEmpty =>

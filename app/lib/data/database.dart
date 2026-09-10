@@ -575,7 +575,7 @@ class AppDatabase extends _$AppDatabase {
   /// стабилен: список не переставляется от того, что кто-то дополнил
   /// разметку в OSM.
   Future<List<PlaceWithText>> mostVisitedPlaces(String lang,
-      {int limit = 20}) async {
+      {int limit = 25}) async {
     final rows = await customSelect(
       '''
       SELECT p.*,

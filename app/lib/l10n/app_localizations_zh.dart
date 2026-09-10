@@ -574,7 +574,7 @@ class LZh extends L {
   String get mostVisitedTitle => '最多人去';
 
   @override
-  String get mostVisitedSubtitle => '人们专程前往挪威的二十个地点';
+  String get mostVisitedSubtitle => '人们专程前往挪威的二十五个地点';
 
   @override
   String get mostVisitedEmpty => '此内容包中没有榜单';

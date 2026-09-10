@@ -605,7 +605,8 @@ class LNo extends L {
   String get mostVisitedTitle => 'Mest besøkt';
 
   @override
-  String get mostVisitedSubtitle => 'De tjue stedene folk reiser til Norge for';
+  String get mostVisitedSubtitle =>
+      'De tjuefem stedene folk reiser til Norge for';
 
   @override
   String get mostVisitedEmpty =>

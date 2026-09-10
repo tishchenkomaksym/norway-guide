@@ -611,7 +611,7 @@ class LDe extends L {
 
   @override
   String get mostVisitedSubtitle =>
-      'Die zwanzig Orte, für die man nach Norwegen reist';
+      'Die fünfundzwanzig Orte, für die man nach Norwegen reist';
 
   @override
   String get mostVisitedEmpty =>

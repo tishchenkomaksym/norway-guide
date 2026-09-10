@@ -608,7 +608,7 @@ class LRu extends L {
 
   @override
   String get mostVisitedSubtitle =>
-      'Двадцать мест, ради которых едут в Норвегию';
+      'Двадцать пять мест, ради которых едут в Норвегию';
 
   @override
   String get mostVisitedEmpty => 'Топ-списка нет в этом пакете контента';

@@ -1176,7 +1176,7 @@ abstract class L {
   /// No description provided for @mostVisitedSubtitle.
   ///
   /// In ru, this message translates to:
-  /// **'Двадцать мест, ради которых едут в Норвегию'**
+  /// **'Двадцать пять мест, ради которых едут в Норвегию'**
   String get mostVisitedSubtitle;
 
   /// No description provided for @mostVisitedEmpty.

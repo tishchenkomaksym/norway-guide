@@ -606,7 +606,7 @@ class LEn extends L {
 
   @override
   String get mostVisitedSubtitle =>
-      'The twenty places people come to Norway for';
+      'The twenty-five places people come to Norway for';
 
   @override
   String get mostVisitedEmpty => 'The top list is not in this content package';
