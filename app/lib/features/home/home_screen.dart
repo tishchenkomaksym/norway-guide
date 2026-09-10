@@ -9,6 +9,7 @@ import '../emergency/emergency_button.dart';
 import '../favorites/favorites_screen.dart';
 import '../nearby/nearby_screen.dart';
 import 'attribution_screen.dart';
+import 'language_switcher.dart';
 
 /// Стартовый экран.
 ///
@@ -81,6 +82,8 @@ class HomeScreen extends ConsumerWidget {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
+                      // Временно, для проверки переводов — см. класс.
+                      const LanguageSwitcher(onDark: true),
                       const EmergencyButton(onDark: true),
                       IconButton(
                         icon: const Icon(Icons.info_outline,
