@@ -27,6 +27,8 @@ updated: 2026-09-09
 | Города и места города | `app/lib/features/cities/` |
 | Карточка места, избранное, внешняя навигация | `app/lib/features/place/` |
 | Профили интересов и ранжирование | `app/lib/core/profile.dart` |
+| Экстренная помощь, кнопка SOS | `app/lib/features/emergency/` |
+| Фотографии из Commons с атрибуцией | `app/lib/core/attribution.dart` |
 | Схема БД и запросы с fallback | `app/lib/data/` |
 
 Подробнее: [[architecture]], [[data-model]].
