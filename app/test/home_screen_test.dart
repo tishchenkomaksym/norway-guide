@@ -38,7 +38,11 @@ void main() {
     );
 
     // Требование CC BY-SA: снимок нельзя показывать без указания автора.
-    expect(find.textContaining('Diego Delso'), findsOneWidget);
+    // Имя берём из справочника, а не вписываем в тест: при замене фото
+    // должен падать сам факт отсутствия подписи, а не смена автора.
+    final credit = creditFor('assets/images/geirangerfjord.jpg');
+    expect(credit, isNotNull, reason: 'у заглавного фото нет записи об авторе');
+    expect(find.textContaining(credit!.author), findsOneWidget);
   });
 
   test('каждое изображение имеет запись атрибуции', () {

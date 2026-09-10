@@ -232,16 +232,35 @@ class _Stars extends StatelessWidget {
   }
 }
 
-/// Устойчивый оттенок по строке: у категории или города карточка всегда
-/// одного цвета, в том числе между запусками.
-List<Color> gradientFor(String seed) {
+/// Градиент для шапки карточки места — от цвета категории.
+///
+/// Раньше оттенок выводился из хэша строки, и водопад мог оказаться
+/// розовым. Теперь цвет один и тот же и в плашке фильтра, и на карточке,
+/// и в шапке места: категория узнаётся по цвету, а не только по подписи.
+List<Color> gradientFor(String category) {
+  final base = colorForCategory(category);
+  final hsl = HSLColor.fromColor(base);
+  return [
+    hsl.withLightness((hsl.lightness - 0.08).clamp(0.0, 1.0)).toColor(),
+    hsl
+        .withHue((hsl.hue + 18) % 360)
+        .withLightness((hsl.lightness + 0.12).clamp(0.0, 1.0))
+        .toColor(),
+  ];
+}
+
+/// Градиент для карточки города: у городов категории нет, поэтому оттенок
+/// выводится из названия — зато он постоянный, и город узнаётся в списке.
+List<Color> gradientForName(String name) {
   var hash = 0;
-  for (final code in seed.codeUnits) {
+  for (final code in name.codeUnits) {
     hash = (hash * 31 + code) & 0x7fffffff;
   }
-  final hue = (hash % 360).toDouble();
+  // Сужаем диапазон до холодной части круга: приложение про фьорды,
+  // и салатовые с розовыми карточки в нём выглядят чужеродно.
+  final hue = 175 + (hash % 90).toDouble();
   return [
-    HSLColor.fromAHSL(1, hue, 0.42, 0.42).toColor(),
-    HSLColor.fromAHSL(1, (hue + 24) % 360, 0.38, 0.56).toColor(),
+    HSLColor.fromAHSL(1, hue, 0.34, 0.38).toColor(),
+    HSLColor.fromAHSL(1, (hue + 22) % 360, 0.32, 0.52).toColor(),
   ];
 }

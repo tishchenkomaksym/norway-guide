@@ -210,7 +210,7 @@ class _CityCardTile extends StatelessWidget {
                 gradient: LinearGradient(
                   begin: Alignment.topLeft,
                   end: Alignment.bottomRight,
-                  colors: gradientFor(city.nameNo),
+                  colors: gradientForName(city.nameNo),
                 ),
               ),
               alignment: Alignment.bottomLeft,

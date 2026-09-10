@@ -10,23 +10,32 @@ import 'package:flutter/material.dart';
 /// (pipeline/internal/osm/categories.go). Менять их нельзя без пересборки
 /// данных.
 class PlaceCategory {
-  const PlaceCategory(this.id, this.label, this.icon);
+  const PlaceCategory(this.id, this.label, this.icon, this.color);
 
   final String id;
   final String label;
   final IconData icon;
+
+  /// Цвет категории. Не случайный: взят от того, как объект выглядит
+  /// в природе — фьорд глубокий синий, ледник ледяной голубой, тропа
+  /// зелёная, церковь тёплая охра. Так плашка узнаётся боковым зрением,
+  /// без чтения подписи.
+  final Color color;
 }
 
 const placeCategories = <PlaceCategory>[
-  PlaceCategory('museum', 'Музеи', Icons.museum),
-  PlaceCategory('viewpoint', 'Смотровые', Icons.landscape),
-  PlaceCategory('fjord', 'Фьорды', Icons.water),
-  PlaceCategory('waterfall', 'Водопады', Icons.water_drop),
-  PlaceCategory('church', 'Церкви', Icons.church),
-  PlaceCategory('hike', 'Тропы', Icons.hiking),
-  PlaceCategory('glacier', 'Ледники', Icons.ac_unit),
-  PlaceCategory('beach', 'Пляжи', Icons.beach_access),
+  PlaceCategory('museum', 'Музеи', Icons.museum, Color(0xFF8E5BA6)),
+  PlaceCategory('viewpoint', 'Смотровые', Icons.landscape, Color(0xFFE08A3C)),
+  PlaceCategory('fjord', 'Фьорды', Icons.water, Color(0xFF1F6F8B)),
+  PlaceCategory('waterfall', 'Водопады', Icons.water_drop, Color(0xFF3EA6C4)),
+  PlaceCategory('church', 'Церкви', Icons.church, Color(0xFFA9743F)),
+  PlaceCategory('hike', 'Тропы', Icons.hiking, Color(0xFF4E8C4A)),
+  PlaceCategory('glacier', 'Ледники', Icons.ac_unit, Color(0xFF6FA8C7)),
+  PlaceCategory('beach', 'Пляжи', Icons.beach_access, Color(0xFFD9B25A)),
 ];
+
+/// Цвет категории; для неизвестной — нейтральный серо-синий.
+Color colorForCategory(String id) => _byId[id]?.color ?? const Color(0xFF6B7A85);
 
 final _byId = {for (final c in placeCategories) c.id: c};
 

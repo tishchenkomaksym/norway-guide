@@ -27,11 +27,10 @@ class ImageCredit {
 const imageCredits = <ImageCredit>[
   ImageCredit(
     asset: 'assets/images/geirangerfjord.jpg',
-    title: 'Гейрангер-фьорд с площадки Flydalsjuvet',
-    author: 'Diego Delso',
-    license: 'CC BY-SA 4.0',
-    sourceUrl:
-        'https://commons.wikimedia.org/wiki/File:Fiordo_de_Geiranger_desde_Flydalsjuvet,_Noruega,_2019-09-07,_DD_59.jpg',
+    title: 'Гейрангер-фьорд',
+    author: 'Andreas Trepte',
+    license: 'CC BY-SA 2.5',
+    sourceUrl: 'https://commons.wikimedia.org/wiki/File:Geirangerfjord_.jpg',
   ),
 ];
 
