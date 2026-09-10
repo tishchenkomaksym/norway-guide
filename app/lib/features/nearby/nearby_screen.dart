@@ -7,6 +7,7 @@ import '../../core/providers.dart';
 import '../../data/database.dart';
 import '../cities/category_chips.dart';
 import '../emergency/emergency_button.dart';
+import '../favorites/favorites_screen.dart';
 import '../place/place_screen.dart';
 import '../profile/profile_sheet.dart';
 import '../search/search_screen.dart';
@@ -69,6 +70,13 @@ class _NearbyScreenState extends ConsumerState<NearbyScreen> {
             tooltip: 'Поиск',
             onPressed: () => Navigator.of(context).push(
               MaterialPageRoute(builder: (_) => const SearchScreen()),
+            ),
+          ),
+          IconButton(
+            icon: const Icon(Icons.favorite_border),
+            tooltip: 'Моя поездка',
+            onPressed: () => Navigator.of(context).push(
+              MaterialPageRoute(builder: (_) => const FavoritesScreen()),
             ),
           ),
           // Здесь кнопка нужнее всего: этот экран открывают в пути.

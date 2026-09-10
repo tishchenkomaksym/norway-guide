@@ -259,3 +259,11 @@ final favoritesProvider = StreamProvider<List<Favorite>>((ref) async* {
   final db = await ref.watch(databaseProvider.future);
   yield* db.watchFavorites();
 });
+
+/// Избранное вместе с данными мест — для экрана «Моя поездка».
+final favoritePlacesProvider =
+    StreamProvider<List<FavoritePlace>>((ref) async* {
+  final db = await ref.watch(databaseProvider.future);
+  final lang = ref.watch(languageProvider);
+  yield* db.watchFavoritePlaces(lang);
+});

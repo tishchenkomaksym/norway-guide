@@ -2,15 +2,29 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:nordguide/core/attribution.dart';
+import 'package:nordguide/core/providers.dart';
+import 'package:nordguide/data/database.dart';
 import 'package:nordguide/features/home/home_screen.dart';
 
 /// Стартовый экран уже один раз «пропадал»: Spacer внутри
 /// SingleChildScrollView роняет построение, и остаётся только фон.
 /// Анализатор такое не видит — ловится только сборкой виджета.
+/// Стартовый экран показывает счётчик избранного, а значит тянет за собой
+/// базу. Для проверки вёрстки она не нужна: подменяем провайдер пустым
+/// списком, иначе тест открывает настоящий файл базы и виснет.
+Widget _app({List<Favorite> favorites = const []}) {
+  return ProviderScope(
+    overrides: [
+      favoritesProvider.overrideWith((ref) => Stream.value(favorites)),
+    ],
+    child: const MaterialApp(home: HomeScreen()),
+  );
+}
+
 void main() {
   testWidgets('стартовый экран строится и показывает оба пути', (tester) async {
     await tester.pumpWidget(
-      const ProviderScope(child: MaterialApp(home: HomeScreen())),
+      _app(),
     );
 
     expect(tester.takeException(), isNull);
@@ -25,7 +39,7 @@ void main() {
     addTearDown(tester.view.resetPhysicalSize);
 
     await tester.pumpWidget(
-      const ProviderScope(child: MaterialApp(home: HomeScreen())),
+      _app(),
     );
 
     expect(tester.takeException(), isNull);
@@ -34,7 +48,7 @@ void main() {
 
   testWidgets('на экране видна атрибуция фотографии', (tester) async {
     await tester.pumpWidget(
-      const ProviderScope(child: MaterialApp(home: HomeScreen())),
+      _app(),
     );
 
     // Требование CC BY-SA: снимок нельзя показывать без указания автора.
@@ -43,6 +57,35 @@ void main() {
     final credit = creditFor(HomeScreen.heroPhoto);
     expect(credit, isNotNull, reason: 'у заглавного фото нет записи об авторе');
     expect(find.textContaining(credit!.author), findsOneWidget);
+  });
+
+  testWidgets('без сохранённых мест раздела «Моя поездка» нет',
+      (tester) async {
+    await tester.pumpWidget(_app());
+    await tester.pump();
+    // Пустой раздел на первом запуске — обещание без содержания.
+    expect(find.text('Моя поездка'), findsNothing);
+  });
+
+  testWidgets('с сохранённым местом раздел появляется', (tester) async {
+    await tester.pumpWidget(_app(favorites: const [
+      Favorite(placeId: 'osm:node/1', addedAt: 0, visited: false),
+    ]));
+    await tester.pump();
+
+    expect(find.text('Моя поездка'), findsOneWidget);
+    expect(find.text('1 место сохранено'), findsOneWidget);
+  });
+
+  test('русские числительные для счётчика избранного', () {
+    // Проверка не косметическая: «5 места» бросается в глаза сразу.
+    expect(HomeScreen.favoritesSubtitle(1), '1 место сохранено');
+    expect(HomeScreen.favoritesSubtitle(2), '2 места сохранено');
+    expect(HomeScreen.favoritesSubtitle(5), '5 мест сохранено');
+    expect(HomeScreen.favoritesSubtitle(11), '11 мест сохранено');
+    expect(HomeScreen.favoritesSubtitle(21), '21 место сохранено');
+    expect(HomeScreen.favoritesSubtitle(22), '22 места сохранено');
+    expect(HomeScreen.favoritesSubtitle(114), '114 мест сохранено');
   });
 
   test('каждое изображение имеет запись атрибуции', () {

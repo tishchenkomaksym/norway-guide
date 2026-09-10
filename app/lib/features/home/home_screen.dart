@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../core/attribution.dart';
+import '../../core/providers.dart';
 import '../cities/browse_screen.dart';
 import '../emergency/emergency_button.dart';
+import '../favorites/favorites_screen.dart';
 import '../nearby/nearby_screen.dart';
 import 'attribution_screen.dart';
 
@@ -32,6 +34,7 @@ class HomeScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final credit = creditFor(heroPhoto);
+    final favoriteCount = ref.watch(favoritesProvider).valueOrNull?.length ?? 0;
 
     return Scaffold(
       body: Stack(
@@ -123,6 +126,18 @@ class HomeScreen extends ConsumerWidget {
                     subtitle: 'Города и достопримечательности страны',
                     onTap: () => _go(context, const BrowseScreen()),
                   ),
+                  // Третий путь появляется, только когда в нём есть смысл:
+                  // пустое «Моя поездка» на первом запуске — это обещание
+                  // без содержания.
+                  if (favoriteCount > 0) ...[
+                    const SizedBox(height: 10),
+                    _ChoiceCard(
+                      icon: Icons.favorite_border,
+                      title: 'Моя поездка',
+                      subtitle: favoritesSubtitle(favoriteCount),
+                      onTap: () => _go(context, const FavoritesScreen()),
+                    ),
+                  ],
                   const SizedBox(height: 14),
                   if (credit != null)
                     Text(
@@ -143,6 +158,17 @@ class HomeScreen extends ConsumerWidget {
 
   void _go(BuildContext context, Widget screen) {
     Navigator.of(context).push(MaterialPageRoute(builder: (_) => screen));
+  }
+
+  /// Русские числительные: «1 место», «2 места», «5 мест».
+  static String favoritesSubtitle(int n) {
+    final mod10 = n % 10;
+    final mod100 = n % 100;
+    if (mod10 == 1 && mod100 != 11) return '$n место сохранено';
+    if (mod10 >= 2 && mod10 <= 4 && (mod100 < 12 || mod100 > 14)) {
+      return '$n места сохранено';
+    }
+    return '$n мест сохранено';
   }
 }
 

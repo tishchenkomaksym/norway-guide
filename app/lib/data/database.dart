@@ -62,6 +62,26 @@ class PlaceWithText {
   }
 }
 
+/// Место в избранном: сам объект плюс то, что добавил пользователь.
+class FavoritePlace {
+  const FavoritePlace({
+    required this.place,
+    required this.addedAt,
+    required this.visited,
+    this.note,
+  });
+
+  final PlaceWithText place;
+  final DateTime addedAt;
+
+  /// Отметка «уже был здесь».
+  final bool visited;
+
+  /// Личная заметка. Единственные данные, которые человек создаёт сам,
+  /// поэтому терять их при обновлении контента нельзя.
+  final String? note;
+}
+
 /// Город для карточки обзора: сам город плюс сколько в нём интересного.
 class CityCard {
   const CityCard({
@@ -481,6 +501,61 @@ class AppDatabase extends _$AppDatabase {
   }
 
   Stream<List<Favorite>> watchFavorites() => select(favorites).watch();
+
+  /// Избранное вместе с данными мест.
+  ///
+  /// Это и есть довод в пользу одного подключения к двум файлам базы
+  /// (см. CLAUDE.md): избранное лежит в пользовательской БД, места —
+  /// в контентной, а джойн между ними обычный. Иначе пришлось бы тянуть
+  /// сотни идентификаторов в `WHERE id IN (...)`.
+  ///
+  /// Стрим, а не разовый запрос: список обязан обновляться сразу после
+  /// того, как человек снял сердечко на карточке места.
+  Stream<List<FavoritePlace>> watchFavoritePlaces(String lang) {
+    return customSelect(
+      '''
+      SELECT p.*,
+      $_placeColumns,
+             f.added_at  AS fav_added_at,
+             f.visited   AS fav_visited,
+             f.user_note AS fav_note
+      FROM favorites f
+      JOIN places p ON p.id = f.place_id
+      $_placeJoins
+      ORDER BY f.added_at DESC
+      ''',
+      variables: [Variable<String>(lang)],
+      readsFrom: {favorites, places, translations, photos},
+    ).watch().map(
+          (rows) => rows
+              .map(
+                (row) => FavoritePlace(
+                  place: _mapPlace(row),
+                  addedAt: DateTime.fromMillisecondsSinceEpoch(
+                      row.read<int>('fav_added_at')),
+                  visited: row.read<int>('fav_visited') == 1,
+                  note: row.readNullable<String>('fav_note'),
+                ),
+              )
+              .toList(),
+        );
+  }
+
+  Future<void> setVisited(String placeId, bool visited) {
+    return (update(favorites)..where((f) => f.placeId.equals(placeId)))
+        .write(FavoritesCompanion(visited: Value(visited)));
+  }
+
+  Future<void> setNote(String placeId, String? note) {
+    return (update(favorites)..where((f) => f.placeId.equals(placeId)))
+        .write(FavoritesCompanion(
+      userNote: Value(note == null || note.trim().isEmpty ? null : note.trim()),
+    ));
+  }
+
+  Future<void> removeFavorite(String placeId) {
+    return (delete(favorites)..where((f) => f.placeId.equals(placeId))).go();
+  }
 
   Future<void> toggleFavorite(String placeId) async {
     final existing = await (select(favorites)
