@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../cities/cities_screen.dart';
+import '../cities/browse_screen.dart';
 import '../nearby/nearby_screen.dart';
 import 'fjord_backdrop.dart';
 
@@ -57,7 +57,7 @@ class HomeScreen extends ConsumerWidget {
                   icon: Icons.location_city,
                   title: 'Города и достопримечательности',
                   subtitle: 'Смотреть по городам и регионам страны',
-                  onTap: () => _go(context, const CitiesScreen()),
+                  onTap: () => _go(context, const BrowseScreen()),
                 ),
                 const SizedBox(height: 8),
               ],

@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../core/categories.dart';
 import '../../core/profile.dart';
 import '../../core/providers.dart';
 import '../../data/database.dart';
+import '../cities/category_chips.dart';
 import '../place/place_screen.dart';
 import '../profile/profile_sheet.dart';
 import 'location_picker.dart';
@@ -144,52 +146,26 @@ class _NoLocationBanner extends ConsumerWidget {
   }
 }
 
-const _categoryLabels = {
-  'fjord': 'Фьорды',
-  'museum': 'Музеи',
-  'waterfall': 'Водопады',
-  'viewpoint': 'Виды',
-  'church': 'Церкви',
-  'hike': 'Тропы',
-  'glacier': 'Ледники',
-  'beach': 'Пляжи',
-};
-
 class _CategoryFilter extends ConsumerWidget {
   const _CategoryFilter();
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final selected = ref.watch(categoryFilterProvider);
-    final available = ref.watch(availableCategoriesProvider).valueOrNull;
+    final counts = ref.watch(nearbyCategoryCountsProvider).valueOrNull;
 
     // Пока категории не посчитаны, не мигаем полным набором кнопок.
-    if (available == null) return const SizedBox(height: 52);
+    if (counts == null) return const SizedBox(height: 52);
 
-    final visible = _categoryLabels.keys.where(available.contains).toList();
-    if (visible.isEmpty) return const SizedBox.shrink();
-
-    return SizedBox(
-      height: 52,
-      child: ListView(
-        scrollDirection: Axis.horizontal,
-        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-        children: [
-          for (final key in visible)
-            Padding(
-              padding: const EdgeInsets.only(right: 8),
-              child: FilterChip(
-                label: Text(_categoryLabels[key]!),
-                selected: selected.contains(key),
-                onSelected: (on) {
-                  final next = Set<String>.from(selected);
-                  on ? next.add(key) : next.remove(key);
-                  ref.read(categoryFilterProvider.notifier).state = next;
-                },
-              ),
-            ),
-        ],
-      ),
+    // minCount 1: рядом с человеком единственный водопад — это повод
+    // показать плашку, а не спрятать её. Порог в два объекта уместен
+    // в обзоре страны, но не здесь.
+    return CategoryChips(
+      counts: counts,
+      selected: selected,
+      minCount: 1,
+      onChanged: (next) =>
+          ref.read(categoryFilterProvider.notifier).state = next,
     );
   }
 }
@@ -205,7 +181,7 @@ class _PlaceTile extends ConsumerWidget {
 
     return ListTile(
       leading: CircleAvatar(
-        child: Icon(_iconFor(item.place.category), size: 20),
+        child: Icon(iconForCategory(item.place.category), size: 20),
       ),
       title: Text(item.name),
       subtitle: Column(
@@ -252,29 +228,6 @@ class _PlaceTile extends ConsumerWidget {
         );
       },
     );
-  }
-}
-
-IconData _iconFor(String category) {
-  switch (category) {
-    case 'fjord':
-      return Icons.water;
-    case 'museum':
-      return Icons.museum;
-    case 'waterfall':
-      return Icons.water_drop;
-    case 'viewpoint':
-      return Icons.landscape;
-    case 'church':
-      return Icons.church;
-    case 'hike':
-      return Icons.hiking;
-    case 'glacier':
-      return Icons.ac_unit;
-    case 'beach':
-      return Icons.beach_access;
-    default:
-      return Icons.place;
   }
 }
 

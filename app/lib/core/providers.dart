@@ -128,13 +128,24 @@ final placesAroundProvider = FutureProvider<List<PlaceWithText>>((ref) async {
   );
 });
 
-/// Категории, по которым рядом реально что-то есть.
+/// Категории, по которым рядом реально что-то есть, и сколько именно.
 ///
 /// Кнопки фильтра для пустых категорий не показываем: предлагать «Ледники»
 /// там, где ледников нет, — это обещание, которое экран не выполнит.
-final availableCategoriesProvider = FutureProvider<Set<String>>((ref) async {
+final nearbyCategoryCountsProvider =
+    FutureProvider<Map<String, int>>((ref) async {
   final places = await ref.watch(placesAroundProvider.future);
-  return places.map((p) => p.place.category).toSet();
+  final counts = <String, int>{};
+  for (final p in places) {
+    counts[p.place.category] = (counts[p.place.category] ?? 0) + 1;
+  }
+  return counts;
+});
+
+/// Просто набор доступных категорий — для отсечения устаревшего выбора.
+final availableCategoriesProvider = FutureProvider<Set<String>>((ref) async {
+  final counts = await ref.watch(nearbyCategoryCountsProvider.future);
+  return counts.keys.toSet();
 });
 
 final placeTagsProvider = FutureProvider<Map<String, Set<String>>>((ref) async {
@@ -142,10 +153,36 @@ final placeTagsProvider = FutureProvider<Map<String, Set<String>>>((ref) async {
   return db.allPlaceTags();
 });
 
-/// Города для второго пути входа — «смотреть по городам».
-final citiesProvider = FutureProvider<List<City>>((ref) async {
+/// Города для обзора, по убыванию туристической ценности.
+final cityCardsProvider = FutureProvider<List<CityCard>>((ref) async {
   final db = await ref.watch(databaseProvider.future);
-  return db.citiesByPopulation();
+  return db.cityCards();
+});
+
+/// Категории среди заметных мест: категория → сколько в ней объектов.
+///
+/// Плашка показывается, только если за ней стоит не меньше двух мест:
+/// одинокий пляж на всю страну — не категория, а случайность.
+final topCategoriesProvider = FutureProvider<Map<String, int>>((ref) async {
+  final db = await ref.watch(databaseProvider.future);
+  final counts = await db.topCategoryCounts();
+  return {
+    for (final e in counts.entries)
+      if (e.value >= 2) e.key: e.value,
+  };
+});
+
+/// Выбранные категории во вкладке «Достопримечательности».
+/// Отдельно от фильтра на экране «Рядом»: это разные экраны с разной задачей,
+/// и общий фильтр между ними сбивал бы с толку.
+final topCategoryFilterProvider = StateProvider<Set<String>>((ref) => {});
+
+/// Самые заметные места страны — вкладка «Достопримечательности».
+final topPlacesProvider = FutureProvider<List<PlaceWithText>>((ref) async {
+  final db = await ref.watch(databaseProvider.future);
+  final lang = ref.watch(languageProvider);
+  final selected = ref.watch(topCategoryFilterProvider);
+  return db.topPlaces(lang, categories: selected.toList());
 });
 
 /// Места выбранного города, по убыванию значимости.

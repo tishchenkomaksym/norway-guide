@@ -37,6 +37,27 @@ class PlaceWithText {
   final double? bearingDeg;
 }
 
+/// Город для карточки обзора: сам город плюс сколько в нём интересного.
+class CityCard {
+  const CityCard({
+    required this.city,
+    required this.placeCount,
+    required this.notableCount,
+    required this.touristScore,
+  });
+
+  final City city;
+
+  /// Всего мест, привязанных к городу.
+  final int placeCount;
+
+  /// Из них заметных — то, что стоит показать приезжему.
+  final int notableCount;
+
+  /// Оценка туристической ценности; по ней строится порядок в обзоре.
+  final int touristScore;
+}
+
 @DriftDatabase(
   tables: [
     Regions,
@@ -171,17 +192,140 @@ class AppDatabase extends _$AppDatabase {
 
   Future<List<Place>> allPlaces() => select(places).get();
 
-  /// Города по убыванию населения: крупные интереснее большинству, а внутри
-  /// приложения это ещё и стабильный порядок, не зависящий от языка.
-  Future<List<City>> citiesByPopulation() {
-    return (select(cities)
-          ..orderBy([
-            (c) => OrderingTerm(
-                  expression: c.population,
-                  mode: OrderingMode.desc,
-                ),
-          ]))
-        .get();
+  /// Города для обзора, отсортированные по туристической ценности.
+  ///
+  /// Порядок определяет НЕ население. Гейрангер — двести жителей и мировая
+  /// известность; пригород Kleppestø — двадцать пять тысяч жителей и смотреть
+  /// там нечего. Сортировка по населению поставила бы их наоборот.
+  ///
+  /// Оценка складывается из:
+  ///   * значимости лучшего места в городе — главный сигнал, именно ради
+  ///     него человек туда едет;
+  ///   * числа заметных мест — один водопад это повод заехать, десять музеев
+  ///     это повод остаться;
+  ///   * населения — небольшой бонус: в крупном городе есть жильё, транспорт
+  ///     и еда, и при прочих равных он удобнее.
+  Future<List<CityCard>> cityCards({
+    int notableImportance = 65,
+    int minNotable = 1,
+    int minPopulation = 20000,
+  }) async {
+    final rows = await customSelect(
+      '''
+      WITH city_stats AS (
+        SELECT c.id,
+               (SELECT COUNT(*) FROM places p WHERE p.city_id = c.id) AS place_count,
+               (SELECT COUNT(*) FROM places p
+                 WHERE p.city_id = c.id AND p.importance >= ?)        AS notable_count,
+               (SELECT COALESCE(MAX(p.importance), 0) FROM places p
+                 WHERE p.city_id = c.id)                              AS best_place
+        FROM cities c
+      )
+      SELECT c.*,
+             s.place_count,
+             s.notable_count,
+             s.best_place,
+             (s.best_place
+              + MIN(s.notable_count, 10) * 4
+              + CASE
+                  WHEN c.population >= 100000 THEN 20
+                  WHEN c.population >= 20000  THEN 12
+                  WHEN c.population >= 5000   THEN 6
+                  ELSE 0
+                END) AS tourist_score
+      FROM cities c
+      JOIN city_stats s ON s.id = c.id
+      WHERE s.notable_count >= ? OR c.population >= ?
+      ORDER BY tourist_score DESC, s.place_count DESC
+      ''',
+      variables: [
+        Variable<int>(notableImportance),
+        Variable<int>(minNotable),
+        Variable<int>(minPopulation),
+      ],
+      readsFrom: {cities, places},
+    ).get();
+
+    return rows
+        .map(
+          (row) => CityCard(
+            city: cities.map(row.data),
+            placeCount: row.read<int>('place_count'),
+            notableCount: row.read<int>('notable_count'),
+            touristScore: row.read<int>('tourist_score'),
+          ),
+        )
+        .toList();
+  }
+
+  /// Категории среди заметных мест и сколько их в каждой.
+  ///
+  /// Нужно, чтобы показывать плашку категории только когда за ней что-то
+  /// стоит: одинокий пляж на всю страну — не категория, а случайность.
+  Future<Map<String, int>> topCategoryCounts({int minImportance = 55}) async {
+    final rows = await customSelect(
+      '''
+      SELECT category, COUNT(*) AS n
+      FROM places
+      WHERE importance >= ?
+      GROUP BY category
+      ORDER BY n DESC
+      ''',
+      variables: [Variable<int>(minImportance)],
+      readsFrom: {places},
+    ).get();
+
+    return {
+      for (final row in rows) row.read<String>('category'): row.read<int>('n'),
+    };
+  }
+
+  /// Самые заметные места по всей базе — для вкладки «Достопримечательности».
+  Future<List<PlaceWithText>> topPlaces(
+    String lang, {
+    int limit = 120,
+    List<String>? categories,
+  }) async {
+    final categoryFilter = categories == null || categories.isEmpty
+        ? ''
+        : 'WHERE p.category IN (${categories.map((_) => '?').join(',')})';
+
+    final rows = await customSelect(
+      '''
+      SELECT p.*,
+             COALESCE(t_user.name, t_en.name, p.name_no)             AS res_name,
+             COALESCE(t_user.summary, t_en.summary, t_no.summary)    AS res_summary,
+             CASE WHEN t_user.summary IS NULL THEN 1 ELSE 0 END      AS is_fallback
+      FROM places p
+      LEFT JOIN translations t_user
+             ON t_user.entity_type = 'place' AND t_user.entity_id = p.id AND t_user.lang = ?
+      LEFT JOIN translations t_en
+             ON t_en.entity_type   = 'place' AND t_en.entity_id   = p.id AND t_en.lang   = 'en'
+      LEFT JOIN translations t_no
+             ON t_no.entity_type   = 'place' AND t_no.entity_id   = p.id AND t_no.lang   = 'no'
+      $categoryFilter
+      ORDER BY p.importance DESC
+      LIMIT ?
+      ''',
+      variables: [
+        Variable<String>(lang),
+        if (categories != null)
+          for (final c in categories) Variable<String>(c),
+        Variable<int>(limit),
+      ],
+      readsFrom: {places, translations},
+    ).get();
+
+    return rows
+        .map(
+          (row) => PlaceWithText(
+            place: places.map(row.data),
+            name: row.read<String>('res_name'),
+            summary: row.readNullable<String>('res_summary'),
+            isFallback: row.read<int>('is_fallback') == 1,
+          ),
+        )
+        .toList();
   }
 
   /// Места одного города с текстом по цепочке §8.4, по убыванию значимости.
