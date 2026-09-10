@@ -423,4 +423,90 @@ class LZh extends L {
   @override
   String get emgVerified =>
       '号码适用于挪威。已于 2026-09-10 依据 politiet.no、helsenorge.no、hovedredningssentralen.no 核对。';
+
+  @override
+  String get onboardingTitle => '您对挪威的什么感兴趣？';
+
+  @override
+  String get onboardingSubtitle => '选择所有符合的项目 — 我们会据此调整优先显示的内容。';
+
+  @override
+  String get onboardingNothingHidden => '不会隐藏任何内容：完整目录仍可通过搜索和筛选查看。';
+
+  @override
+  String get onboardingStart => '开始';
+
+  @override
+  String get intNature => '自然与风景';
+
+  @override
+  String get intHiking => '徒步与远足';
+
+  @override
+  String get intFishing => '钓鱼';
+
+  @override
+  String get intHunting => '狩猎';
+
+  @override
+  String get intCulture => '博物馆与文化';
+
+  @override
+  String get intPhoto => '摄影';
+
+  @override
+  String get intKids => '亲子出行';
+
+  @override
+  String get intRoadtrip => '自驾游';
+
+  @override
+  String get intWinter => '冬季运动';
+
+  @override
+  String get intCruise => '邮轮靠岸数小时';
+
+  @override
+  String get rulesTitle => '规定与许可';
+
+  @override
+  String get rulesWhereToCheck => '在哪里核实';
+
+  @override
+  String rulesKommune(String name) {
+    return '$name 市镇';
+  }
+
+  @override
+  String rulesCheckedAt(String date) {
+    return '数据获取于 $date';
+  }
+
+  @override
+  String get rulesCallKommune => '致电市镇';
+
+  @override
+  String get rulesOpenSite => '市镇网站';
+
+  @override
+  String get rulesDisclaimer =>
+      '本应用不发放任何许可，也无法判断此处是否允许垂钓或狩猎。这取决于市镇、土地所有者、季节和物种。出行前请向市镇或土地所有者核实。';
+
+  @override
+  String get rulesNational => '全国通用规定';
+
+  @override
+  String rulesSource(String authority) {
+    return '来源：$authority';
+  }
+
+  @override
+  String get rulesFishing => '钓鱼';
+
+  @override
+  String get rulesHunting => '狩猎';
+
+  @override
+  String get rulesNoKommune =>
+      '无法确定此处所属市镇。在斯瓦尔巴群岛，规定由总督（Sysselmesteren）制定，而非市镇。';
 }

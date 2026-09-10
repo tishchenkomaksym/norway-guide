@@ -206,5 +206,52 @@
   "emgNoteEnglishBody": "Die norwegischen Notrufzentralen sprechen Englisch. Bleiben Sie ruhig und kurz: was passiert ist, wo, wie viele Verletzte.",
   "emgNoteMountainTitle": "In den Bergen — 112",
   "emgNoteMountainBody": "Die Bergrettung leitet die Polizei, eine eigene Nummer gibt es nicht. Lassen Sie das Telefon eingeschaltet: darüber wird nach Ihnen gesucht.",
-  "emgVerified": "Die Nummern gelten für Norwegen. Geprüft am 10.09.2026 anhand von politiet.no, helsenorge.no, hovedredningssentralen.no."
+  "emgVerified": "Die Nummern gelten für Norwegen. Geprüft am 10.09.2026 anhand von politiet.no, helsenorge.no, hovedredningssentralen.no.",
+  "onboardingTitle": "Was interessiert Sie in Norwegen?",
+  "onboardingSubtitle": "Wählen Sie alles Passende — wir bestimmen, was zuerst erscheint.",
+  "onboardingNothingHidden": "Nichts wird versteckt: der ganze Katalog bleibt über Suche und Filter erreichbar.",
+  "onboardingStart": "Los",
+  "intNature": "Natur und Aussicht",
+  "intHiking": "Wandern und Trekking",
+  "intFishing": "Angeln",
+  "intHunting": "Jagd",
+  "intCulture": "Museen und Kultur",
+  "intPhoto": "Fotografie",
+  "intKids": "Mit Kindern",
+  "intRoadtrip": "Autoreise",
+  "intWinter": "Wintersport",
+  "intCruise": "Kreuzfahrt, wenige Stunden an Land",
+  "rulesTitle": "Regeln und Lizenzen",
+  "rulesWhereToCheck": "Wo Sie nachfragen",
+  "rulesKommune": "Kommune {name}",
+  "rulesCheckedAt": "Daten abgerufen am {date}",
+  "rulesCallKommune": "Kommune anrufen",
+  "rulesOpenSite": "Website der Kommune",
+  "rulesDisclaimer": "Die App erteilt keine Genehmigungen und kann nicht sagen, ob Angeln oder Jagen genau hier erlaubt ist. Das hängt von Kommune, Grundeigentümer, Saison und Art ab. Fragen Sie vor der Fahrt bei der Kommune oder beim Eigentümer nach.",
+  "rulesNational": "Landesweite Regeln",
+  "rulesSource": "Quelle: {authority}",
+  "rulesFishing": "Angeln",
+  "rulesHunting": "Jagd",
+  "@rulesKommune": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "@rulesCheckedAt": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "@rulesSource": {
+    "placeholders": {
+      "authority": {
+        "type": "String"
+      }
+    }
+  },
+  "rulesNoKommune": "Für diesen Punkt ließ sich keine Kommune bestimmen. Auf Spitzbergen legt der Gouverneur (Sysselmesteren) die Regeln fest, nicht eine Kommune."
 }

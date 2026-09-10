@@ -449,4 +449,92 @@ class LDe extends L {
   @override
   String get emgVerified =>
       'Die Nummern gelten für Norwegen. Geprüft am 10.09.2026 anhand von politiet.no, helsenorge.no, hovedredningssentralen.no.';
+
+  @override
+  String get onboardingTitle => 'Was interessiert Sie in Norwegen?';
+
+  @override
+  String get onboardingSubtitle =>
+      'Wählen Sie alles Passende — wir bestimmen, was zuerst erscheint.';
+
+  @override
+  String get onboardingNothingHidden =>
+      'Nichts wird versteckt: der ganze Katalog bleibt über Suche und Filter erreichbar.';
+
+  @override
+  String get onboardingStart => 'Los';
+
+  @override
+  String get intNature => 'Natur und Aussicht';
+
+  @override
+  String get intHiking => 'Wandern und Trekking';
+
+  @override
+  String get intFishing => 'Angeln';
+
+  @override
+  String get intHunting => 'Jagd';
+
+  @override
+  String get intCulture => 'Museen und Kultur';
+
+  @override
+  String get intPhoto => 'Fotografie';
+
+  @override
+  String get intKids => 'Mit Kindern';
+
+  @override
+  String get intRoadtrip => 'Autoreise';
+
+  @override
+  String get intWinter => 'Wintersport';
+
+  @override
+  String get intCruise => 'Kreuzfahrt, wenige Stunden an Land';
+
+  @override
+  String get rulesTitle => 'Regeln und Lizenzen';
+
+  @override
+  String get rulesWhereToCheck => 'Wo Sie nachfragen';
+
+  @override
+  String rulesKommune(String name) {
+    return 'Kommune $name';
+  }
+
+  @override
+  String rulesCheckedAt(String date) {
+    return 'Daten abgerufen am $date';
+  }
+
+  @override
+  String get rulesCallKommune => 'Kommune anrufen';
+
+  @override
+  String get rulesOpenSite => 'Website der Kommune';
+
+  @override
+  String get rulesDisclaimer =>
+      'Die App erteilt keine Genehmigungen und kann nicht sagen, ob Angeln oder Jagen genau hier erlaubt ist. Das hängt von Kommune, Grundeigentümer, Saison und Art ab. Fragen Sie vor der Fahrt bei der Kommune oder beim Eigentümer nach.';
+
+  @override
+  String get rulesNational => 'Landesweite Regeln';
+
+  @override
+  String rulesSource(String authority) {
+    return 'Quelle: $authority';
+  }
+
+  @override
+  String get rulesFishing => 'Angeln';
+
+  @override
+  String get rulesHunting => 'Jagd';
+
+  @override
+  String get rulesNoKommune =>
+      'Für diesen Punkt ließ sich keine Kommune bestimmen. Auf Spitzbergen legt der Gouverneur (Sysselmesteren) die Regeln fest, nicht eine Kommune.';
 }

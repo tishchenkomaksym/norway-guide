@@ -147,6 +147,8 @@ const _placeJoins = '''
     Routes,
     RouteStops,
     Translations,
+    PlaceRules,
+    NationalRules,
     Favorites,
   ],
 )
@@ -341,6 +343,59 @@ class AppDatabase extends _$AppDatabase {
   }
 
   Future<List<Place>> allPlaces() => select(places).get();
+
+  /// Где проверять правила для места: коммуна и её контакты.
+  Future<List<PlaceRule>> rulesForPlace(String placeId) {
+    return (select(placeRules)..where((r) => r.placeId.equals(placeId))).get();
+  }
+
+  /// Национальные правила по виду деятельности.
+  Future<List<NationalRule>> nationalRulesFor(String activity) {
+    return (select(nationalRules)
+          ..where((r) => r.activity.equals(activity)))
+        .get();
+  }
+
+  /// Коммуна, ближайшая к точке, — по местам, для которых правила уже
+  /// собраны.
+  ///
+  /// Нужна для охоты: она привязана не к достопримечательности, а к
+  /// территории, и человеку важно знать свою коммуну, а не коммуну
+  /// какого-то музея. Ближайшая известная точка — приближение, поэтому
+  /// экран обязан показать её название: человек сам поймёт, если оно
+  /// не то.
+  Future<PlaceRule?> nearestKommune(double lat, double lon) async {
+    // Грубый bbox сначала: перебирать все правила ради тригонометрии
+    // незачем.
+    const delta = 1.5; // примерно 160 км по широте
+    final rows = await customSelect(
+      '''
+      SELECT r.*, p.lat AS p_lat, p.lon AS p_lon
+      FROM place_rules r
+      JOIN places p ON p.id = r.place_id
+      WHERE p.lat BETWEEN ? AND ? AND p.lon BETWEEN ? AND ?
+      ''',
+      variables: [
+        Variable<double>(lat - delta),
+        Variable<double>(lat + delta),
+        Variable<double>(lon - delta * 2),
+        Variable<double>(lon + delta * 2),
+      ],
+      readsFrom: {placeRules, places},
+    ).get();
+
+    PlaceRule? best;
+    var bestDistance = double.infinity;
+    for (final row in rows) {
+      final d = distanceMeters(
+          lat, lon, row.read<double>('p_lat'), row.read<double>('p_lon'));
+      if (d < bestDistance) {
+        bestDistance = d;
+        best = placeRules.map(row.data);
+      }
+    }
+    return best;
+  }
 
   /// Города для обзора, отсортированные по туристической ценности.
   ///

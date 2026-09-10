@@ -206,5 +206,52 @@
   "emgNoteEnglishBody": "挪威紧急服务接线员会说英语。请保持冷静、简短说明：发生了什么、在哪里、有多少人受伤。",
   "emgNoteMountainTitle": "山区求助拨 112",
   "emgNoteMountainBody": "山区救援由警方负责，没有单独号码。请勿关机：救援人员会通过手机定位您。",
-  "emgVerified": "号码适用于挪威。已于 2026-09-10 依据 politiet.no、helsenorge.no、hovedredningssentralen.no 核对。"
+  "emgVerified": "号码适用于挪威。已于 2026-09-10 依据 politiet.no、helsenorge.no、hovedredningssentralen.no 核对。",
+  "onboardingTitle": "您对挪威的什么感兴趣？",
+  "onboardingSubtitle": "选择所有符合的项目 — 我们会据此调整优先显示的内容。",
+  "onboardingNothingHidden": "不会隐藏任何内容：完整目录仍可通过搜索和筛选查看。",
+  "onboardingStart": "开始",
+  "intNature": "自然与风景",
+  "intHiking": "徒步与远足",
+  "intFishing": "钓鱼",
+  "intHunting": "狩猎",
+  "intCulture": "博物馆与文化",
+  "intPhoto": "摄影",
+  "intKids": "亲子出行",
+  "intRoadtrip": "自驾游",
+  "intWinter": "冬季运动",
+  "intCruise": "邮轮靠岸数小时",
+  "rulesTitle": "规定与许可",
+  "rulesWhereToCheck": "在哪里核实",
+  "rulesKommune": "{name} 市镇",
+  "rulesCheckedAt": "数据获取于 {date}",
+  "rulesCallKommune": "致电市镇",
+  "rulesOpenSite": "市镇网站",
+  "rulesDisclaimer": "本应用不发放任何许可，也无法判断此处是否允许垂钓或狩猎。这取决于市镇、土地所有者、季节和物种。出行前请向市镇或土地所有者核实。",
+  "rulesNational": "全国通用规定",
+  "rulesSource": "来源：{authority}",
+  "rulesFishing": "钓鱼",
+  "rulesHunting": "狩猎",
+  "@rulesKommune": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "@rulesCheckedAt": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "@rulesSource": {
+    "placeholders": {
+      "authority": {
+        "type": "String"
+      }
+    }
+  },
+  "rulesNoKommune": "无法确定此处所属市镇。在斯瓦尔巴群岛，规定由总督（Sysselmesteren）制定，而非市镇。"
 }

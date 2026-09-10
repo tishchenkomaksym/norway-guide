@@ -890,6 +890,162 @@ abstract class L {
   /// In ru, this message translates to:
   /// **'Номера действительны для Норвегии. Проверены 10.09.2026 по источникам politiet.no, helsenorge.no, hovedredningssentralen.no.'**
   String get emgVerified;
+
+  /// No description provided for @onboardingTitle.
+  ///
+  /// In ru, this message translates to:
+  /// **'Что вас интересует в Норвегии?'**
+  String get onboardingTitle;
+
+  /// No description provided for @onboardingSubtitle.
+  ///
+  /// In ru, this message translates to:
+  /// **'Отметьте всё, что подходит — подберём, что показывать первым.'**
+  String get onboardingSubtitle;
+
+  /// No description provided for @onboardingNothingHidden.
+  ///
+  /// In ru, this message translates to:
+  /// **'Ничего не спрячем: полный каталог мест остаётся доступен через поиск и фильтры.'**
+  String get onboardingNothingHidden;
+
+  /// No description provided for @onboardingStart.
+  ///
+  /// In ru, this message translates to:
+  /// **'Начать'**
+  String get onboardingStart;
+
+  /// No description provided for @intNature.
+  ///
+  /// In ru, this message translates to:
+  /// **'Природа и виды'**
+  String get intNature;
+
+  /// No description provided for @intHiking.
+  ///
+  /// In ru, this message translates to:
+  /// **'Походы и треккинг'**
+  String get intHiking;
+
+  /// No description provided for @intFishing.
+  ///
+  /// In ru, this message translates to:
+  /// **'Рыбалка'**
+  String get intFishing;
+
+  /// No description provided for @intHunting.
+  ///
+  /// In ru, this message translates to:
+  /// **'Охота'**
+  String get intHunting;
+
+  /// No description provided for @intCulture.
+  ///
+  /// In ru, this message translates to:
+  /// **'Музеи и культура'**
+  String get intCulture;
+
+  /// No description provided for @intPhoto.
+  ///
+  /// In ru, this message translates to:
+  /// **'Фотография'**
+  String get intPhoto;
+
+  /// No description provided for @intKids.
+  ///
+  /// In ru, this message translates to:
+  /// **'С детьми'**
+  String get intKids;
+
+  /// No description provided for @intRoadtrip.
+  ///
+  /// In ru, this message translates to:
+  /// **'Автопутешествие'**
+  String get intRoadtrip;
+
+  /// No description provided for @intWinter.
+  ///
+  /// In ru, this message translates to:
+  /// **'Зимний спорт'**
+  String get intWinter;
+
+  /// No description provided for @intCruise.
+  ///
+  /// In ru, this message translates to:
+  /// **'Круиз, несколько часов'**
+  String get intCruise;
+
+  /// No description provided for @rulesTitle.
+  ///
+  /// In ru, this message translates to:
+  /// **'Правила и лицензии'**
+  String get rulesTitle;
+
+  /// No description provided for @rulesWhereToCheck.
+  ///
+  /// In ru, this message translates to:
+  /// **'Где проверить'**
+  String get rulesWhereToCheck;
+
+  /// No description provided for @rulesKommune.
+  ///
+  /// In ru, this message translates to:
+  /// **'Коммуна {name}'**
+  String rulesKommune(String name);
+
+  /// No description provided for @rulesCheckedAt.
+  ///
+  /// In ru, this message translates to:
+  /// **'Данные получены {date}'**
+  String rulesCheckedAt(String date);
+
+  /// No description provided for @rulesCallKommune.
+  ///
+  /// In ru, this message translates to:
+  /// **'Позвонить в коммуну'**
+  String get rulesCallKommune;
+
+  /// No description provided for @rulesOpenSite.
+  ///
+  /// In ru, this message translates to:
+  /// **'Сайт коммуны'**
+  String get rulesOpenSite;
+
+  /// No description provided for @rulesDisclaimer.
+  ///
+  /// In ru, this message translates to:
+  /// **'Приложение не выдаёт разрешений и не может сказать, разрешён ли лов или охота именно здесь. Это зависит от коммуны, владельца участка, сезона и вида. Перед выездом уточните в коммуне или у владельца.'**
+  String get rulesDisclaimer;
+
+  /// No description provided for @rulesNational.
+  ///
+  /// In ru, this message translates to:
+  /// **'Общие правила по стране'**
+  String get rulesNational;
+
+  /// No description provided for @rulesSource.
+  ///
+  /// In ru, this message translates to:
+  /// **'Источник: {authority}'**
+  String rulesSource(String authority);
+
+  /// No description provided for @rulesFishing.
+  ///
+  /// In ru, this message translates to:
+  /// **'Рыбалка'**
+  String get rulesFishing;
+
+  /// No description provided for @rulesHunting.
+  ///
+  /// In ru, this message translates to:
+  /// **'Охота'**
+  String get rulesHunting;
+
+  /// No description provided for @rulesNoKommune.
+  ///
+  /// In ru, this message translates to:
+  /// **'Коммуна для этой точки не определена. На Шпицбергене правила устанавливает губернатор (Sysselmesteren), а не коммуна.'**
+  String get rulesNoKommune;
 }
 
 class _LDelegate extends LocalizationsDelegate<L> {

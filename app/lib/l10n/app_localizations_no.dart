@@ -445,4 +445,92 @@ class LNo extends L {
   @override
   String get emgVerified =>
       'Numrene gjelder Norge. Kontrollert 10.09.2026 mot politiet.no, helsenorge.no, hovedredningssentralen.no.';
+
+  @override
+  String get onboardingTitle => 'Hva er du ute etter i Norge?';
+
+  @override
+  String get onboardingSubtitle =>
+      'Velg alt som passer — vi velger hva som vises først.';
+
+  @override
+  String get onboardingNothingHidden =>
+      'Ingenting skjules: hele katalogen er tilgjengelig via søk og filtre.';
+
+  @override
+  String get onboardingStart => 'Start';
+
+  @override
+  String get intNature => 'Natur og utsikt';
+
+  @override
+  String get intHiking => 'Fottur og trekking';
+
+  @override
+  String get intFishing => 'Fiske';
+
+  @override
+  String get intHunting => 'Jakt';
+
+  @override
+  String get intCulture => 'Museer og kultur';
+
+  @override
+  String get intPhoto => 'Fotografering';
+
+  @override
+  String get intKids => 'Med barn';
+
+  @override
+  String get intRoadtrip => 'Bilferie';
+
+  @override
+  String get intWinter => 'Vintersport';
+
+  @override
+  String get intCruise => 'Cruise, noen timer i land';
+
+  @override
+  String get rulesTitle => 'Regler og lisenser';
+
+  @override
+  String get rulesWhereToCheck => 'Hvor du sjekker';
+
+  @override
+  String rulesKommune(String name) {
+    return '$name kommune';
+  }
+
+  @override
+  String rulesCheckedAt(String date) {
+    return 'Data hentet $date';
+  }
+
+  @override
+  String get rulesCallKommune => 'Ring kommunen';
+
+  @override
+  String get rulesOpenSite => 'Kommunens nettsted';
+
+  @override
+  String get rulesDisclaimer =>
+      'Appen gir ingen tillatelser og kan ikke si om fiske eller jakt er tillatt akkurat her. Det avhenger av kommunen, grunneieren, sesongen og arten. Sjekk med kommunen eller grunneieren før du drar.';
+
+  @override
+  String get rulesNational => 'Nasjonale regler';
+
+  @override
+  String rulesSource(String authority) {
+    return 'Kilde: $authority';
+  }
+
+  @override
+  String get rulesFishing => 'Fiske';
+
+  @override
+  String get rulesHunting => 'Jakt';
+
+  @override
+  String get rulesNoKommune =>
+      'Fant ingen kommune for dette punktet. På Svalbard fastsettes reglene av Sysselmesteren, ikke av en kommune.';
 }

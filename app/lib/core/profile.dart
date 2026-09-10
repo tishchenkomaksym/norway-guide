@@ -1,5 +1,7 @@
+import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../l10n/app_localizations.dart';
 import 'settings.dart';
 
 /// Профиль пользователя: что ему интересно и когда он едет.
@@ -14,14 +16,12 @@ import 'settings.dart';
 class Interest {
   const Interest({
     required this.id,
-    required this.label,
     required this.emoji,
     required this.weights,
     this.tags = const {},
   });
 
   final String id;
-  final String label;
   final String emoji;
 
   /// Категория места → прибавка к весу.
@@ -34,59 +34,56 @@ class Interest {
 const interests = <Interest>[
   Interest(
     id: 'nature',
-    label: 'Природа и виды',
     emoji: '🏔',
     weights: {'fjord': 1.0, 'viewpoint': 0.8, 'waterfall': 0.8, 'glacier': 0.8},
   ),
   Interest(
     id: 'hiking',
-    label: 'Походы и треккинг',
     emoji: '🥾',
     weights: {'hike': 1.2, 'viewpoint': 0.5, 'glacier': 0.4},
   ),
   Interest(
     id: 'fishing',
-    label: 'Рыбалка',
     emoji: '🎣',
-    weights: {'beach': 0.6, 'fjord': 0.5},
-    tags: {'fishing': 1.2},
+    weights: {'beach': 0.6, 'fjord': 0.5, 'lake': 1.2, 'river': 1.0},
+    tags: {'fishing': 1.5},
+  ),
+  Interest(
+    id: 'hunting',
+    emoji: '🏹',
+    weights: {'hike': 0.3},
+    tags: {'hunting': 1.5},
   ),
   Interest(
     id: 'culture',
-    label: 'Музеи и культура',
     emoji: '🏛',
     weights: {'museum': 1.2, 'church': 0.9},
     tags: {'unesco': 0.6},
   ),
   Interest(
     id: 'photo',
-    label: 'Фотография',
     emoji: '📷',
     weights: {'viewpoint': 1.1, 'waterfall': 0.9, 'fjord': 0.7, 'glacier': 0.6},
   ),
   Interest(
     id: 'kids',
-    label: 'С детьми',
     emoji: '👨‍👩‍👧',
     weights: {'museum': 0.5, 'beach': 0.6},
     tags: {'kids_friendly': 1.3},
   ),
   Interest(
     id: 'roadtrip',
-    label: 'Автопутешествие',
     emoji: '🚐',
     weights: {'viewpoint': 0.8, 'waterfall': 0.6, 'fjord': 0.6},
   ),
   Interest(
     id: 'winter',
-    label: 'Зимний спорт',
     emoji: '⛷',
     weights: {'glacier': 0.5},
     tags: {'winter_open': 1.0},
   ),
   Interest(
     id: 'cruise',
-    label: 'Круиз, несколько часов',
     emoji: '🚢',
     weights: {},
     tags: {'near_port': 1.5},
@@ -137,6 +134,39 @@ class UserProfile {
       }
     }
     return boost;
+  }
+}
+
+/// Подпись интереса на языке пользователя.
+///
+/// Раньше подписи лежали прямо в описании интересов и были только
+/// по-русски: приложение на шести языках предлагало бы немцу выбрать
+/// «Рыбалка».
+String interestLabel(BuildContext context, String id) {
+  final l = L.of(context);
+  switch (id) {
+    case 'nature':
+      return l.intNature;
+    case 'hiking':
+      return l.intHiking;
+    case 'fishing':
+      return l.intFishing;
+    case 'hunting':
+      return l.intHunting;
+    case 'culture':
+      return l.intCulture;
+    case 'photo':
+      return l.intPhoto;
+    case 'kids':
+      return l.intKids;
+    case 'roadtrip':
+      return l.intRoadtrip;
+    case 'winter':
+      return l.intWinter;
+    case 'cruise':
+      return l.intCruise;
+    default:
+      return id;
   }
 }
 

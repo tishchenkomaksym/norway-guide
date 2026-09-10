@@ -206,5 +206,52 @@
   "emgNoteEnglishBody": "Norwegian emergency operators speak English. Stay calm and be brief: what happened, where, how many injured.",
   "emgNoteMountainTitle": "In the mountains — 112",
   "emgNoteMountainBody": "Mountain rescue is run by the police; there is no separate number. Keep your phone on: they will use it to find you.",
-  "emgVerified": "Numbers apply to Norway. Verified 10 Sep 2026 against politiet.no, helsenorge.no, hovedredningssentralen.no."
+  "emgVerified": "Numbers apply to Norway. Verified 10 Sep 2026 against politiet.no, helsenorge.no, hovedredningssentralen.no.",
+  "onboardingTitle": "What brings you to Norway?",
+  "onboardingSubtitle": "Pick everything that fits — we'll choose what to show first.",
+  "onboardingNothingHidden": "Nothing gets hidden: the full catalogue stays available through search and filters.",
+  "onboardingStart": "Start",
+  "intNature": "Nature and views",
+  "intHiking": "Hiking and trekking",
+  "intFishing": "Fishing",
+  "intHunting": "Hunting",
+  "intCulture": "Museums and culture",
+  "intPhoto": "Photography",
+  "intKids": "With children",
+  "intRoadtrip": "Road trip",
+  "intWinter": "Winter sports",
+  "intCruise": "Cruise, a few hours ashore",
+  "rulesTitle": "Rules and licences",
+  "rulesWhereToCheck": "Where to check",
+  "rulesKommune": "{name} municipality",
+  "rulesCheckedAt": "Data retrieved {date}",
+  "rulesCallKommune": "Call the municipality",
+  "rulesOpenSite": "Municipality website",
+  "rulesDisclaimer": "This app issues no permits and cannot tell you whether fishing or hunting is allowed at this exact spot. That depends on the municipality, the landowner, the season and the species. Check with the municipality or the owner before you go.",
+  "rulesNational": "Nationwide rules",
+  "rulesSource": "Source: {authority}",
+  "rulesFishing": "Fishing",
+  "rulesHunting": "Hunting",
+  "@rulesKommune": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "@rulesCheckedAt": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "@rulesSource": {
+    "placeholders": {
+      "authority": {
+        "type": "String"
+      }
+    }
+  },
+  "rulesNoKommune": "No municipality could be determined for this point. On Svalbard the rules are set by the Governor (Sysselmesteren), not a municipality."
 }

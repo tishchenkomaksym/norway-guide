@@ -7,6 +7,7 @@ import '../../core/providers.dart';
 import '../../data/database.dart';
 import '../../l10n/app_localizations.dart';
 import '../cities/place_grid.dart' show gradientFor;
+import '../rules/rules_screen.dart';
 
 /// Карточка места.
 ///
@@ -55,6 +56,7 @@ class PlaceScreen extends ConsumerWidget {
                       _NoText(category: item.place.category),
                     const SizedBox(height: 22),
                     _Facts(place: item.place),
+                    _RulesBlock(placeId: item.place.id),
                     const SizedBox(height: 22),
                     FilledButton.icon(
                       icon: const Icon(Icons.directions),
@@ -192,6 +194,55 @@ class _Header extends ConsumerWidget {
               ),
           ],
         ),
+      ),
+    );
+  }
+}
+
+/// Ссылка на правила рыбалки или охоты — если для места они собраны.
+///
+/// Кнопка ведёт на экран, где сказано, где проверять, а не «можно ли».
+/// Формулировка важна: обещать разрешение приложение не вправе.
+class _RulesBlock extends ConsumerWidget {
+  const _RulesBlock({required this.placeId});
+
+  final String placeId;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final activities = ref.watch(placeActivitiesProvider(placeId)).valueOrNull;
+    if (activities == null || activities.isEmpty) {
+      return const SizedBox.shrink();
+    }
+
+    final l = L.of(context);
+    return Padding(
+      padding: const EdgeInsets.only(top: 18),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          for (final activity in activities)
+            Padding(
+              padding: const EdgeInsets.only(bottom: 8),
+              child: OutlinedButton.icon(
+                icon: Icon(
+                  activity == 'hunting' ? Icons.forest : Icons.set_meal,
+                  size: 18,
+                ),
+                label: Text(
+                  activity == 'hunting' ? l.rulesHunting : l.rulesFishing,
+                ),
+                onPressed: () => Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (_) => RulesScreen(
+                      activity: activity,
+                      placeId: placeId,
+                    ),
+                  ),
+                ),
+              ),
+            ),
+        ],
       ),
     );
   }

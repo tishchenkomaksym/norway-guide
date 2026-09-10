@@ -155,6 +155,49 @@ class Translations extends Table {
   Set<Column> get primaryKey => {entityType, entityId, lang};
 }
 
+/// Где проверять правила рыбалки и охоты для конкретного места.
+///
+/// В таблице намеренно нет полей «можно» или «нельзя»: разрешение зависит
+/// от коммуны, владельца воды, сезона и вида, и автоматически определить его
+/// нельзя. Приложение, которое скажет «здесь можно», а человек получит
+/// штраф, хуже отсутствия функции.
+@DataClassName('PlaceRule')
+class PlaceRules extends Table {
+  TextColumn get placeId => text().references(Places, #id)();
+
+  /// fishing | hunting
+  TextColumn get activity => text()();
+  TextColumn get kommuneNumber => text()();
+  TextColumn get kommuneName => text()();
+  TextColumn get countyName => text().nullable()();
+  TextColumn get kommunePhone => text().nullable()();
+  TextColumn get kommuneWebsite => text().nullable()();
+
+  /// Дата получения контактов. Показывается пользователю: сведения
+  /// устаревают, и он должен видеть, насколько они свежие.
+  TextColumn get checkedAt => text()();
+
+  @override
+  Set<Column> get primaryKey => {placeId, activity};
+}
+
+/// Правила, действующие по всей стране.
+///
+/// Источник и ответственный орган обязательны: правило, которое нельзя
+/// перепроверить, показывать нечестно.
+@DataClassName('NationalRule')
+class NationalRules extends Table {
+  IntColumn get id => integer()();
+  TextColumn get activity => text()();
+  TextColumn get title => text()();
+  TextColumn get body => text()();
+  TextColumn get sourceUrl => text()();
+  TextColumn get authority => text()();
+
+  @override
+  Set<Column> get primaryKey => {id};
+}
+
 /// Пользовательская таблица. Живёт в ОТДЕЛЬНОМ файле БД и подключается через
 /// ATTACH: обновление контентного пакета не должно стирать данные пользователя.
 @DataClassName('Favorite')

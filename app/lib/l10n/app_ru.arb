@@ -206,5 +206,52 @@
   "emgNoteEnglishBody": "Операторы экстренных служб Норвегии говорят по-английски. Говорите спокойно и коротко: что случилось, где, сколько пострадавших.",
   "emgNoteMountainTitle": "В горах — 112",
   "emgNoteMountainBody": "Спасением в горах занимается полиция, отдельного номера нет. Не выключайте телефон: по нему вас будут искать.",
-  "emgVerified": "Номера действительны для Норвегии. Проверены 10.09.2026 по источникам politiet.no, helsenorge.no, hovedredningssentralen.no."
+  "emgVerified": "Номера действительны для Норвегии. Проверены 10.09.2026 по источникам politiet.no, helsenorge.no, hovedredningssentralen.no.",
+  "onboardingTitle": "Что вас интересует в Норвегии?",
+  "onboardingSubtitle": "Отметьте всё, что подходит — подберём, что показывать первым.",
+  "onboardingNothingHidden": "Ничего не спрячем: полный каталог мест остаётся доступен через поиск и фильтры.",
+  "onboardingStart": "Начать",
+  "intNature": "Природа и виды",
+  "intHiking": "Походы и треккинг",
+  "intFishing": "Рыбалка",
+  "intHunting": "Охота",
+  "intCulture": "Музеи и культура",
+  "intPhoto": "Фотография",
+  "intKids": "С детьми",
+  "intRoadtrip": "Автопутешествие",
+  "intWinter": "Зимний спорт",
+  "intCruise": "Круиз, несколько часов",
+  "rulesTitle": "Правила и лицензии",
+  "rulesWhereToCheck": "Где проверить",
+  "rulesKommune": "Коммуна {name}",
+  "rulesCheckedAt": "Данные получены {date}",
+  "rulesCallKommune": "Позвонить в коммуну",
+  "rulesOpenSite": "Сайт коммуны",
+  "rulesDisclaimer": "Приложение не выдаёт разрешений и не может сказать, разрешён ли лов или охота именно здесь. Это зависит от коммуны, владельца участка, сезона и вида. Перед выездом уточните в коммуне или у владельца.",
+  "rulesNational": "Общие правила по стране",
+  "rulesSource": "Источник: {authority}",
+  "rulesFishing": "Рыбалка",
+  "rulesHunting": "Охота",
+  "@rulesKommune": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "@rulesCheckedAt": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "@rulesSource": {
+    "placeholders": {
+      "authority": {
+        "type": "String"
+      }
+    }
+  },
+  "rulesNoKommune": "Коммуна для этой точки не определена. На Шпицбергене правила устанавливает губернатор (Sysselmesteren), а не коммуна."
 }

@@ -206,5 +206,52 @@
   "emgNoteEnglishBody": "Operatørene snakker engelsk. Vær rolig og kort: hva som har skjedd, hvor, hvor mange skadde.",
   "emgNoteMountainTitle": "I fjellet — 112",
   "emgNoteMountainBody": "Politiet leder redning i fjellet, det finnes ikke eget nummer. La telefonen stå på: den brukes til å finne deg.",
-  "emgVerified": "Numrene gjelder Norge. Kontrollert 10.09.2026 mot politiet.no, helsenorge.no, hovedredningssentralen.no."
+  "emgVerified": "Numrene gjelder Norge. Kontrollert 10.09.2026 mot politiet.no, helsenorge.no, hovedredningssentralen.no.",
+  "onboardingTitle": "Hva er du ute etter i Norge?",
+  "onboardingSubtitle": "Velg alt som passer — vi velger hva som vises først.",
+  "onboardingNothingHidden": "Ingenting skjules: hele katalogen er tilgjengelig via søk og filtre.",
+  "onboardingStart": "Start",
+  "intNature": "Natur og utsikt",
+  "intHiking": "Fottur og trekking",
+  "intFishing": "Fiske",
+  "intHunting": "Jakt",
+  "intCulture": "Museer og kultur",
+  "intPhoto": "Fotografering",
+  "intKids": "Med barn",
+  "intRoadtrip": "Bilferie",
+  "intWinter": "Vintersport",
+  "intCruise": "Cruise, noen timer i land",
+  "rulesTitle": "Regler og lisenser",
+  "rulesWhereToCheck": "Hvor du sjekker",
+  "rulesKommune": "{name} kommune",
+  "rulesCheckedAt": "Data hentet {date}",
+  "rulesCallKommune": "Ring kommunen",
+  "rulesOpenSite": "Kommunens nettsted",
+  "rulesDisclaimer": "Appen gir ingen tillatelser og kan ikke si om fiske eller jakt er tillatt akkurat her. Det avhenger av kommunen, grunneieren, sesongen og arten. Sjekk med kommunen eller grunneieren før du drar.",
+  "rulesNational": "Nasjonale regler",
+  "rulesSource": "Kilde: {authority}",
+  "rulesFishing": "Fiske",
+  "rulesHunting": "Jakt",
+  "@rulesKommune": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "@rulesCheckedAt": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "@rulesSource": {
+    "placeholders": {
+      "authority": {
+        "type": "String"
+      }
+    }
+  },
+  "rulesNoKommune": "Fant ingen kommune for dette punktet. På Svalbard fastsettes reglene av Sysselmesteren, ikke av en kommune."
 }

@@ -206,5 +206,52 @@
   "emgNoteEnglishBody": "Los operadores de emergencias de Noruega hablan inglés. Habla con calma y brevedad: qué ha pasado, dónde, cuántos heridos.",
   "emgNoteMountainTitle": "En la montaña — 112",
   "emgNoteMountainBody": "El rescate en montaña lo dirige la policía; no hay un número aparte. No apagues el teléfono: lo usarán para localizarte.",
-  "emgVerified": "Los números son de Noruega. Verificados el 10/09/2026 en politiet.no, helsenorge.no, hovedredningssentralen.no."
+  "emgVerified": "Los números son de Noruega. Verificados el 10/09/2026 en politiet.no, helsenorge.no, hovedredningssentralen.no.",
+  "onboardingTitle": "¿Qué te interesa de Noruega?",
+  "onboardingSubtitle": "Marca todo lo que encaje: elegiremos qué mostrar primero.",
+  "onboardingNothingHidden": "No ocultamos nada: el catálogo completo sigue disponible en la búsqueda y los filtros.",
+  "onboardingStart": "Empezar",
+  "intNature": "Naturaleza y paisajes",
+  "intHiking": "Senderismo y trekking",
+  "intFishing": "Pesca",
+  "intHunting": "Caza",
+  "intCulture": "Museos y cultura",
+  "intPhoto": "Fotografía",
+  "intKids": "Con niños",
+  "intRoadtrip": "Viaje por carretera",
+  "intWinter": "Deportes de invierno",
+  "intCruise": "Crucero, unas horas en tierra",
+  "rulesTitle": "Normas y licencias",
+  "rulesWhereToCheck": "Dónde comprobarlo",
+  "rulesKommune": "Municipio de {name}",
+  "rulesCheckedAt": "Datos obtenidos el {date}",
+  "rulesCallKommune": "Llamar al municipio",
+  "rulesOpenSite": "Web del municipio",
+  "rulesDisclaimer": "La aplicación no concede permisos y no puede decir si se permite pescar o cazar exactamente aquí. Depende del municipio, del propietario, de la temporada y de la especie. Consulta con el municipio o el propietario antes de ir.",
+  "rulesNational": "Normas de ámbito nacional",
+  "rulesSource": "Fuente: {authority}",
+  "rulesFishing": "Pesca",
+  "rulesHunting": "Caza",
+  "@rulesKommune": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "@rulesCheckedAt": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "@rulesSource": {
+    "placeholders": {
+      "authority": {
+        "type": "String"
+      }
+    }
+  },
+  "rulesNoKommune": "No se ha podido determinar el municipio de este punto. En Svalbard las normas las fija el Gobernador (Sysselmesteren), no un municipio."
 }

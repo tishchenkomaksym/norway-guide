@@ -219,6 +219,40 @@ final placeProvider =
   return db.placeById(id, lang);
 });
 
+/// Национальные правила по виду деятельности.
+final nationalRulesProvider =
+    FutureProvider.family<List<NationalRule>, String>((ref, activity) async {
+  final db = await ref.watch(databaseProvider.future);
+  return db.nationalRulesFor(activity);
+});
+
+/// Правила для конкретного места: коммуна и её контакты.
+final placeRuleProvider =
+    FutureProvider.family<PlaceRule?, String>((ref, placeId) async {
+  final db = await ref.watch(databaseProvider.future);
+  final rules = await db.rulesForPlace(placeId);
+  return rules.isEmpty ? null : rules.first;
+});
+
+/// Коммуна там, где человек находится сейчас.
+///
+/// Нужна для охоты: она привязана к территории, а не к достопримечательности.
+/// Берём ближайшую известную — точность до коммуны здесь достаточна, а экран
+/// показывает её название, чтобы человек сам увидел, если оно не то.
+final nearestKommuneRuleProvider = FutureProvider<PlaceRule?>((ref) async {
+  final db = await ref.watch(databaseProvider.future);
+  final origin = await ref.watch(searchOriginProvider.future);
+  return db.nearestKommune(origin.lat, origin.lon);
+});
+
+/// Виды деятельности, для которых у места есть сведения о правилах.
+final placeActivitiesProvider =
+    FutureProvider.family<List<String>, String>((ref, placeId) async {
+  final db = await ref.watch(databaseProvider.future);
+  final rules = await db.rulesForPlace(placeId);
+  return rules.map((r) => r.activity).toList();
+});
+
 final favoritesProvider = StreamProvider<List<Favorite>>((ref) async* {
   final db = await ref.watch(databaseProvider.future);
   yield* db.watchFavorites();

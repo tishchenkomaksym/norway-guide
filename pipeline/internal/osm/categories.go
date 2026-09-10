@@ -13,6 +13,11 @@ const (
 	CatHike      = "hike"
 	CatBeach     = "beach"
 	CatGlacier   = "glacier"
+
+	// Водоёмы нужны для рыбалки: без них профиль «рыбак» не находит ничего,
+	// потому что ловят не во фьорде вообще, а в конкретном озере или реке.
+	CatLake  = "lake"
+	CatRiver = "river"
 )
 
 // rule — одно правило классификации: тег со значением даёт категорию.
@@ -44,6 +49,12 @@ var rules = []rule{
 	{"natural", "bay", CatFjord, 20},
 	{"natural", "beach", CatBeach, 18},
 	{"place", "sea", CatFjord, 25},
+
+	// Озёра и реки. Именованные — в Норвегии их десятки тысяч, и безымянные
+	// отсеются проверкой имени в FromTags.
+	{"water", "lake", CatLake, 16},
+	{"natural", "water", CatLake, 14},
+	{"waterway", "river", CatRiver, 15},
 
 	// Смотровые площадки.
 	{"tourism", "viewpoint", CatViewpoint, 26},
@@ -156,11 +167,24 @@ func Tags(tags map[string]string, category string) []string {
 	if v, ok := tags["wheelchair"]; ok && (v == "yes" || v == "limited") {
 		out = append(out, "wheelchair")
 	}
+	// Рыбалка. Тег fishing в OSM ставят и на местах лова, и на запретах,
+	// поэтому значение проверяем: fishing=no означает обратное.
 	if v, ok := tags["fishing"]; ok && v != "no" {
 		out = append(out, "fishing")
 	}
-	if category == CatBeach || category == CatFjord {
+	if category == CatLake || category == CatRiver || category == CatBeach {
 		out = append(out, "fishing")
+	}
+
+	// Охота. Тегов охоты в OSM почти нет, и это честно: она регулируется
+	// не картой, а правилами коммуны и согласием землевладельца. Помечаем
+	// только явные указания — приложение всё равно отправит проверять
+	// правила, а не разрешит охотиться.
+	if v, ok := tags["hunting"]; ok && v != "no" {
+		out = append(out, "hunting")
+	}
+	if v, ok := tags["landuse"]; ok && v == "hunting" {
+		out = append(out, "hunting")
 	}
 	if v, ok := tags["tourism"]; ok && v == "aquarium" {
 		out = append(out, "kids_friendly")

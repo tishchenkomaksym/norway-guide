@@ -52,6 +52,25 @@ type city struct {
 	Rank       int     `json:"rank"`
 }
 
+type placeRule struct {
+	PlaceID        string   `json:"place_id"`
+	Activities     []string `json:"activities"`
+	KommuneNumber  string   `json:"kommune_number"`
+	KommuneName    string   `json:"kommune_name"`
+	CountyName     string   `json:"county_name"`
+	KommunePhone   string   `json:"kommune_phone"`
+	KommuneWebsite string   `json:"kommune_website"`
+	CheckedAt      string   `json:"checked_at"`
+}
+
+type nationalRule struct {
+	Activity  string `json:"activity"`
+	Title     string `json:"title"`
+	Body      string `json:"body"`
+	SourceURL string `json:"source_url"`
+	Authority string `json:"authority"`
+}
+
 type photo struct {
 	EntityID  string `json:"entity_id"`
 	LocalPath string `json:"local_path"`
@@ -79,6 +98,8 @@ func main() {
 		citiesPath = flag.String("cities", "data/cities.jsonl", "города от extract")
 		transPath  = flag.String("translations", "data/translations.jsonl", "тексты от enrich")
 		photosPath = flag.String("photos", "data/photos.jsonl", "фотографии от media")
+		rulesPath  = flag.String("rules", "data/rules.jsonl", "правила от rules")
+		natPath    = flag.String("national", "data/national-rules.jsonl", "национальные правила")
 		outPath    = flag.String("out", "data/content.sqlite", "куда собирать базу")
 		regionID   = flag.String("region", "norway", "идентификатор региона")
 		regionName = flag.String("region-name", "Norge", "название региона")
@@ -105,6 +126,16 @@ func main() {
 	photos, err := readJSONL[photo](*photosPath)
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "предупреждение: фото не прочитаны: %v\n", err)
+	}
+	// Правила необязательны: без них соберётся база, в которой рыбалка
+	// и охота просто не показываются. Это лучше, чем не собраться вовсе.
+	placeRules, err := readJSONL[placeRule](*rulesPath)
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "предупреждение: правила не прочитаны: %v\n", err)
+	}
+	natRules, err := readJSONL[nationalRule](*natPath)
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "предупреждение: нац. правила не прочитаны: %v\n", err)
 	}
 
 	// Мелкие деревни только засоряют список городов: их сотни, а смотреть
@@ -137,7 +168,7 @@ func main() {
 	}
 
 	stats, err := fill(db, *regionID, *regionName, places, keptCities,
-		translations, photos, *cityRadius)
+		translations, photos, placeRules, natRules, *cityRadius)
 	if err != nil {
 		fatal(err)
 	}
@@ -165,6 +196,7 @@ type buildStats struct {
 	placesWithCity                                       int
 	placesWithText                                       int
 	photos, photosRejected                               int
+	rules, nationalRules, rulesRejected                  int
 	byLang                                               map[string]int
 }
 
@@ -175,6 +207,8 @@ func fill(
 	cities []city,
 	translations []translation,
 	photos []photo,
+	placeRules []placeRule,
+	natRules []nationalRule,
 	cityRadiusKm float64,
 ) (*buildStats, error) {
 	st := &buildStats{byLang: map[string]int{}}
@@ -326,6 +360,46 @@ func fill(
 			return nil, fmt.Errorf("фото %s: %w", ph.EntityID, err)
 		}
 		st.photos++
+	}
+
+	// Правила: где проверять условия рыбалки и охоты.
+	ruleStmt, err := tx.Prepare(
+		`INSERT OR REPLACE INTO place_rules
+		   (place_id, activity, kommune_number, kommune_name, county_name,
+		    kommune_phone, kommune_website, checked_at)
+		 VALUES (?, ?, ?, ?, ?, ?, ?, ?)`)
+	if err != nil {
+		return nil, err
+	}
+	for _, r := range placeRules {
+		for _, activity := range r.Activities {
+			if _, err := ruleStmt.Exec(r.PlaceID, activity, r.KommuneNumber,
+				r.KommuneName, nullable(r.CountyName), nullable(r.KommunePhone),
+				nullable(r.KommuneWebsite), r.CheckedAt); err != nil {
+				return nil, fmt.Errorf("правило %s/%s: %w", r.PlaceID, activity, err)
+			}
+			st.rules++
+		}
+	}
+
+	natStmt, err := tx.Prepare(
+		`INSERT INTO national_rules (activity, title, body, source_url, authority)
+		 VALUES (?, ?, ?, ?, ?)`)
+	if err != nil {
+		return nil, err
+	}
+	for _, r := range natRules {
+		// Правило без источника показывать нельзя: человек не сможет его
+		// перепроверить, а мы не сможем сказать, откуда взяли формулировку.
+		if r.SourceURL == "" || r.Authority == "" {
+			st.rulesRejected++
+			continue
+		}
+		if _, err := natStmt.Exec(r.Activity, r.Title, r.Body,
+			r.SourceURL, r.Authority); err != nil {
+			return nil, fmt.Errorf("нац. правило %q: %w", r.Title, err)
+		}
+		st.nationalRules++
 	}
 
 	// Заглавное фото города — чтобы карточка в обзоре не лезла за ним
@@ -484,6 +558,11 @@ func report(st *buildStats, outPath string, elapsed time.Duration) {
 		st.placesWithText, percent(st.placesWithText, st.places))
 	fmt.Printf("  тегов:        %d\n", st.tags)
 	fmt.Printf("  фотографий:   %d\n", st.photos)
+	fmt.Printf("  правил мест:  %d\n", st.rules)
+	fmt.Printf("  нац. правил:  %d\n", st.nationalRules)
+	if st.rulesRejected > 0 {
+		fmt.Printf("  отброшено правил без источника: %d\n", st.rulesRejected)
+	}
 	if st.photosRejected > 0 {
 		fmt.Printf("  отброшено фото без атрибуции: %d\n", st.photosRejected)
 	}

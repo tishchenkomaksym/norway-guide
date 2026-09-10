@@ -99,6 +99,39 @@ CREATE TABLE IF NOT EXISTS translations (
     PRIMARY KEY (entity_type, entity_id, lang)
 );
 
+-- Где проверять правила рыбалки и охоты для конкретного места.
+--
+-- Таблица намеренно не содержит слов «можно» или «нельзя»: разрешение
+-- зависит от коммуны, владельца воды, сезона и вида, и автоматически
+-- определить его нельзя. Здесь только проверяемые факты — какая коммуна,
+-- куда звонить, когда данные получены.
+CREATE TABLE IF NOT EXISTS place_rules (
+    place_id        TEXT NOT NULL REFERENCES places(id),
+    activity        TEXT NOT NULL,        -- fishing | hunting
+    kommune_number  TEXT NOT NULL,
+    kommune_name    TEXT NOT NULL,
+    county_name     TEXT,
+    kommune_phone   TEXT,
+    kommune_website TEXT,
+    -- Дата получения контактов. Показывается пользователю: сведения
+    -- устаревают, и он должен видеть, насколько они свежие.
+    checked_at      TEXT NOT NULL,
+    PRIMARY KEY (place_id, activity)
+);
+
+CREATE INDEX IF NOT EXISTS idx_place_rules ON place_rules(place_id);
+
+-- Национальные правила: то, что верно по всей стране независимо от точки.
+-- Каждое обязано нести ссылку на источник и указание, кто за него отвечает.
+CREATE TABLE IF NOT EXISTS national_rules (
+    id         INTEGER PRIMARY KEY,
+    activity   TEXT NOT NULL,
+    title      TEXT NOT NULL,
+    body       TEXT NOT NULL,
+    source_url TEXT NOT NULL,
+    authority  TEXT NOT NULL
+);
+
 -- Пользовательская таблица.
 --
 -- На Этапе 2 переедет в отдельный файл и будет подключаться через ATTACH:

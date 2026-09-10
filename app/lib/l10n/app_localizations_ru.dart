@@ -447,4 +447,92 @@ class LRu extends L {
   @override
   String get emgVerified =>
       'Номера действительны для Норвегии. Проверены 10.09.2026 по источникам politiet.no, helsenorge.no, hovedredningssentralen.no.';
+
+  @override
+  String get onboardingTitle => 'Что вас интересует в Норвегии?';
+
+  @override
+  String get onboardingSubtitle =>
+      'Отметьте всё, что подходит — подберём, что показывать первым.';
+
+  @override
+  String get onboardingNothingHidden =>
+      'Ничего не спрячем: полный каталог мест остаётся доступен через поиск и фильтры.';
+
+  @override
+  String get onboardingStart => 'Начать';
+
+  @override
+  String get intNature => 'Природа и виды';
+
+  @override
+  String get intHiking => 'Походы и треккинг';
+
+  @override
+  String get intFishing => 'Рыбалка';
+
+  @override
+  String get intHunting => 'Охота';
+
+  @override
+  String get intCulture => 'Музеи и культура';
+
+  @override
+  String get intPhoto => 'Фотография';
+
+  @override
+  String get intKids => 'С детьми';
+
+  @override
+  String get intRoadtrip => 'Автопутешествие';
+
+  @override
+  String get intWinter => 'Зимний спорт';
+
+  @override
+  String get intCruise => 'Круиз, несколько часов';
+
+  @override
+  String get rulesTitle => 'Правила и лицензии';
+
+  @override
+  String get rulesWhereToCheck => 'Где проверить';
+
+  @override
+  String rulesKommune(String name) {
+    return 'Коммуна $name';
+  }
+
+  @override
+  String rulesCheckedAt(String date) {
+    return 'Данные получены $date';
+  }
+
+  @override
+  String get rulesCallKommune => 'Позвонить в коммуну';
+
+  @override
+  String get rulesOpenSite => 'Сайт коммуны';
+
+  @override
+  String get rulesDisclaimer =>
+      'Приложение не выдаёт разрешений и не может сказать, разрешён ли лов или охота именно здесь. Это зависит от коммуны, владельца участка, сезона и вида. Перед выездом уточните в коммуне или у владельца.';
+
+  @override
+  String get rulesNational => 'Общие правила по стране';
+
+  @override
+  String rulesSource(String authority) {
+    return 'Источник: $authority';
+  }
+
+  @override
+  String get rulesFishing => 'Рыбалка';
+
+  @override
+  String get rulesHunting => 'Охота';
+
+  @override
+  String get rulesNoKommune =>
+      'Коммуна для этой точки не определена. На Шпицбергене правила устанавливает губернатор (Sysselmesteren), а не коммуна.';
 }

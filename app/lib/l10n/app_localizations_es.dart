@@ -448,4 +448,92 @@ class LEs extends L {
   @override
   String get emgVerified =>
       'Los números son de Noruega. Verificados el 10/09/2026 en politiet.no, helsenorge.no, hovedredningssentralen.no.';
+
+  @override
+  String get onboardingTitle => '¿Qué te interesa de Noruega?';
+
+  @override
+  String get onboardingSubtitle =>
+      'Marca todo lo que encaje: elegiremos qué mostrar primero.';
+
+  @override
+  String get onboardingNothingHidden =>
+      'No ocultamos nada: el catálogo completo sigue disponible en la búsqueda y los filtros.';
+
+  @override
+  String get onboardingStart => 'Empezar';
+
+  @override
+  String get intNature => 'Naturaleza y paisajes';
+
+  @override
+  String get intHiking => 'Senderismo y trekking';
+
+  @override
+  String get intFishing => 'Pesca';
+
+  @override
+  String get intHunting => 'Caza';
+
+  @override
+  String get intCulture => 'Museos y cultura';
+
+  @override
+  String get intPhoto => 'Fotografía';
+
+  @override
+  String get intKids => 'Con niños';
+
+  @override
+  String get intRoadtrip => 'Viaje por carretera';
+
+  @override
+  String get intWinter => 'Deportes de invierno';
+
+  @override
+  String get intCruise => 'Crucero, unas horas en tierra';
+
+  @override
+  String get rulesTitle => 'Normas y licencias';
+
+  @override
+  String get rulesWhereToCheck => 'Dónde comprobarlo';
+
+  @override
+  String rulesKommune(String name) {
+    return 'Municipio de $name';
+  }
+
+  @override
+  String rulesCheckedAt(String date) {
+    return 'Datos obtenidos el $date';
+  }
+
+  @override
+  String get rulesCallKommune => 'Llamar al municipio';
+
+  @override
+  String get rulesOpenSite => 'Web del municipio';
+
+  @override
+  String get rulesDisclaimer =>
+      'La aplicación no concede permisos y no puede decir si se permite pescar o cazar exactamente aquí. Depende del municipio, del propietario, de la temporada y de la especie. Consulta con el municipio o el propietario antes de ir.';
+
+  @override
+  String get rulesNational => 'Normas de ámbito nacional';
+
+  @override
+  String rulesSource(String authority) {
+    return 'Fuente: $authority';
+  }
+
+  @override
+  String get rulesFishing => 'Pesca';
+
+  @override
+  String get rulesHunting => 'Caza';
+
+  @override
+  String get rulesNoKommune =>
+      'No se ha podido determinar el municipio de este punto. En Svalbard las normas las fija el Gobernador (Sysselmesteren), no un municipio.';
 }

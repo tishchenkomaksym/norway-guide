@@ -445,4 +445,92 @@ class LEn extends L {
   @override
   String get emgVerified =>
       'Numbers apply to Norway. Verified 10 Sep 2026 against politiet.no, helsenorge.no, hovedredningssentralen.no.';
+
+  @override
+  String get onboardingTitle => 'What brings you to Norway?';
+
+  @override
+  String get onboardingSubtitle =>
+      'Pick everything that fits — we\'ll choose what to show first.';
+
+  @override
+  String get onboardingNothingHidden =>
+      'Nothing gets hidden: the full catalogue stays available through search and filters.';
+
+  @override
+  String get onboardingStart => 'Start';
+
+  @override
+  String get intNature => 'Nature and views';
+
+  @override
+  String get intHiking => 'Hiking and trekking';
+
+  @override
+  String get intFishing => 'Fishing';
+
+  @override
+  String get intHunting => 'Hunting';
+
+  @override
+  String get intCulture => 'Museums and culture';
+
+  @override
+  String get intPhoto => 'Photography';
+
+  @override
+  String get intKids => 'With children';
+
+  @override
+  String get intRoadtrip => 'Road trip';
+
+  @override
+  String get intWinter => 'Winter sports';
+
+  @override
+  String get intCruise => 'Cruise, a few hours ashore';
+
+  @override
+  String get rulesTitle => 'Rules and licences';
+
+  @override
+  String get rulesWhereToCheck => 'Where to check';
+
+  @override
+  String rulesKommune(String name) {
+    return '$name municipality';
+  }
+
+  @override
+  String rulesCheckedAt(String date) {
+    return 'Data retrieved $date';
+  }
+
+  @override
+  String get rulesCallKommune => 'Call the municipality';
+
+  @override
+  String get rulesOpenSite => 'Municipality website';
+
+  @override
+  String get rulesDisclaimer =>
+      'This app issues no permits and cannot tell you whether fishing or hunting is allowed at this exact spot. That depends on the municipality, the landowner, the season and the species. Check with the municipality or the owner before you go.';
+
+  @override
+  String get rulesNational => 'Nationwide rules';
+
+  @override
+  String rulesSource(String authority) {
+    return 'Source: $authority';
+  }
+
+  @override
+  String get rulesFishing => 'Fishing';
+
+  @override
+  String get rulesHunting => 'Hunting';
+
+  @override
+  String get rulesNoKommune =>
+      'No municipality could be determined for this point. On Svalbard the rules are set by the Governor (Sysselmesteren), not a municipality.';
 }
