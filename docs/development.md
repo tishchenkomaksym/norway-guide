@@ -46,6 +46,42 @@ go run ./cmd/probe > ../docs/probe-result.md   # полный прогон, ~8 �
 Флаг `-quick` появился не случайно: два полных прогона были потрачены впустую
 на собственные ошибки. Всегда прогоняйте его первым.
 
+## Сборка контента и подключение к приложению
+
+Полная цепочка от выгрузки OSM до базы в приложении:
+
+```powershell
+cd pipeline
+go run ./cmd/extract --bbox 5.0,60.2,5.6,60.5 `
+    --out data/places-bergen.jsonl --cities data/cities-bergen.jsonl
+go run ./cmd/enrich --in data/places-bergen.jsonl `
+    --out data/translations-bergen.jsonl --limit 40
+go run ./cmd/build --places data/places-bergen.jsonl `
+    --cities data/cities-bergen.jsonl `
+    --translations data/translations-bergen.jsonl `
+    --out data/content.sqlite --region vestland --region-name Vestland
+copy data\content.sqlite ..\app\assets\db\content.sqlite
+```
+
+Проверить собранную базу теми же запросами, что делает приложение:
+
+```powershell
+go test ./cmd/build/ -v
+```
+
+**Ловушка при перезапуске.** База копируется из assets только когда её ещё
+нет. В браузере она живёт в OPFS или IndexedDB и переживает перезапуск
+приложения, поэтому новая сборка не подхватится сама. Варианты:
+
+- запустить на другом порту (`--web-port=8081`) — другой origin, чистое
+  хранилище;
+- очистить данные сайта в инструментах разработчика;
+- на устройстве — удалить приложение.
+
+**Версия схемы.** `PRAGMA user_version` в собранной базе обязана совпадать
+с `schemaVersion` в `app/lib/data/database.dart`. Расходятся — drift примет
+готовую базу за пустую и упадёт на «table already exists».
+
 ## Данные
 
 `pipeline/data/` — выгрузка OSM и промежуточные файлы, каталог под `.gitignore`.

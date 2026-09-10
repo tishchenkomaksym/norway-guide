@@ -45,3 +45,9 @@ dev_dependencies:
 flutter:
   uses-material-design: true
   generate: true
+
+  assets:
+    # Готовая база от Go-пайплайна. Собирается командой:
+    #   cd pipeline && go run ./cmd/build --out data/content.sqlite
+    #   cp pipeline/data/content.sqlite app/assets/db/
+    - assets/db/content.sqlite

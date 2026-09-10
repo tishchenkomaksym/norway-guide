@@ -27,6 +27,9 @@ String resolveLanguage(ui.Locale locale) {
 
 final databaseProvider = FutureProvider<AppDatabase>((ref) async {
   final db = await openAppDatabase();
+  // База приходит готовой из пайплайна. Тестовые данные подставляются
+  // только если она почему-то пуста — например, при разработке без
+  // собранного assets/db/content.sqlite.
   await seedIfEmpty(db);
   ref.onDispose(db.close);
   return db;

@@ -1,6 +1,13 @@
 // Package packer собирает контентную базу и пакеты регионов.
 package packer
 
+// SchemaVersion записывается в PRAGMA user_version и обязана совпадать
+// с schemaVersion класса AppDatabase в app/lib/data/database.dart.
+//
+// Если версии разойдутся, drift примет готовую базу за пустую и попытается
+// создать таблицы заново — приложение упадёт при первом открытии.
+const SchemaVersion = 1
+
 // Schema — DDL контентной базы.
 //
 // ОБЯЗАН совпадать со схемой drift в app/lib/data/tables.dart: приложение
@@ -90,6 +97,18 @@ CREATE TABLE IF NOT EXISTS translations (
     source_url   TEXT,
     rev_id       INTEGER,
     PRIMARY KEY (entity_type, entity_id, lang)
+);
+
+-- Пользовательская таблица.
+--
+-- На Этапе 2 переедет в отдельный файл и будет подключаться через ATTACH:
+-- обновление контентного пакета не должно стирать избранное. Пока живёт
+-- здесь, потому что drift ожидает её в том же подключении.
+CREATE TABLE IF NOT EXISTS favorites (
+    place_id     TEXT PRIMARY KEY,
+    added_at     INTEGER NOT NULL,
+    visited      INTEGER NOT NULL DEFAULT 0,
+    user_note    TEXT
 );
 
 CREATE INDEX IF NOT EXISTS idx_tr_lookup  ON translations(entity_type, entity_id, lang);

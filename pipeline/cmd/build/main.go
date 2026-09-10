@@ -129,6 +129,13 @@ func main() {
 		fatal(err)
 	}
 
+	// Версия схемы обязана совпадать с schemaVersion в drift. Иначе
+	// приложение примет готовую базу за пустую, попытается создать таблицы
+	// заново и упадёт на «table already exists».
+	if _, err := db.Exec(fmt.Sprintf("PRAGMA user_version = %d", packer.SchemaVersion)); err != nil {
+		fatal(fmt.Errorf("user_version: %w", err))
+	}
+
 	fmt.Fprintln(os.Stderr, "Сжатие базы...")
 	if _, err := db.Exec("VACUUM"); err != nil {
 		fatal(fmt.Errorf("VACUUM: %w", err))
