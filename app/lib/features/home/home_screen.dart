@@ -186,7 +186,13 @@ class HomeScreen extends ConsumerWidget {
                           ],
                           const InterestPrompt(),
                           const SizedBox(height: 14),
-                          if (credit != null)
+                          // Подпись под снимком существует ради лицензии:
+                          // CC BY-SA требует указывать автора везде, где
+                          // показана фотография. У нарисованной картинки
+                          // такого требования нет, и подпись на заставке
+                          // была бы шумом. Запись о ней остаётся в экране
+                          // источников — там она к месту.
+                          if (credit != null && !credit.generated)
                             Text(
                               l.photoBy(credit.short),
                               style: const TextStyle(

@@ -80,12 +80,28 @@ void main() {
   testWidgets('на экране видна атрибуция фотографии', (tester) async {
     await tester.pumpWidget(_app(prefs: await _prefs()));
 
-    // Требование CC BY-SA: снимок нельзя показывать без указания автора.
     // Имя берём из справочника, а не вписываем в тест: при замене фото
     // должен падать сам факт отсутствия подписи, а не смена автора.
     final credit = creditFor(HomeScreen.heroPhoto);
-    expect(credit, isNotNull, reason: 'у заглавного фото нет записи об авторе');
-    expect(find.textContaining(credit!.author), findsOneWidget);
+    expect(credit, isNotNull, reason: 'у заглавной картинки нет записи');
+
+    if (credit!.generated) {
+      // Подпись под снимком нужна ради лицензии. У нарисованной картинки
+      // лицензионного требования нет, и подпись на заставке была бы шумом —
+      // запись о ней живёт в экране источников.
+      expect(
+        find.textContaining(credit.author),
+        findsNothing,
+        reason: 'сгенерированную картинку не подписываем на заставке',
+      );
+    } else {
+      // Требование CC BY-SA: снимок нельзя показывать без указания автора.
+      expect(
+        find.textContaining(credit.author),
+        findsOneWidget,
+        reason: 'фотография показана без автора',
+      );
+    }
   });
 
   testWidgets('без сохранённых мест раздела «Моя поездка» нет', (tester) async {
