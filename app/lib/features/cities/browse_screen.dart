@@ -106,15 +106,29 @@ class _CitiesGrid extends ConsumerStatefulWidget {
 class _CitiesGridState extends ConsumerState<_CitiesGrid> {
   final _controller = ScrollController();
   int _visible = 6;
+  int _total = 0;
 
   @override
   void initState() {
     super.initState();
     _controller.addListener(() {
+      if (_visible >= _total) return;
       final p = _controller.position;
       if (p.pixels >= p.maxScrollExtent - p.viewportDimension / 2) {
         setState(() => _visible += 6);
       }
+    });
+  }
+
+  /// Шесть карточек на широком экране помещаются целиком, прокручивать
+  /// нечего — и подгрузка не начнётся. Досыпаем, пока не появится прокрутка.
+  void _fillViewport() {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!mounted || !_controller.hasClients) return;
+      if (_visible >= _total) return;
+      if (_controller.position.maxScrollExtent > 0) return;
+      setState(() => _visible += 6);
+      _fillViewport();
     });
   }
 
@@ -135,6 +149,8 @@ class _CitiesGridState extends ConsumerState<_CitiesGrid> {
         if (list.isEmpty) {
           return const _Empty(text: 'Городов в этой сборке данных нет');
         }
+        _total = list.length;
+        _fillViewport();
         final count = _visible.clamp(0, list.length);
         return Column(
           children: [
@@ -249,13 +265,23 @@ class _CityCardTile extends StatelessWidget {
     );
   }
 
+  /// Размер города словами, а не числом жителей.
+  ///
+  /// Точное население показывать нельзя: в OSM у норвежских городов стоит
+  /// население *tettsted* — сплошной городской застройки, которая переходит
+  /// границы коммун. У Осло там 1,1 млн, хотя в самой коммуне около 717 тыс.
+  /// Для гида это и не нужно: человеку важно, крупный это город или посёлок,
+  /// а не цифра из статистического бюллетеня.
   static String _subtitle(int? population, int notable) {
-    if (population != null && population > 0) {
-      return '${_thousands(population)} жителей';
-    }
-    // У туристических посёлков население в OSM часто не проставлено —
+    final pop = population ?? 0;
+    if (pop >= 100000) return 'Крупный город';
+    if (pop >= 20000) return 'Город';
+    if (pop >= 5000) return 'Небольшой город';
+    if (pop >= 1000) return 'Посёлок';
+    if (pop > 0) return 'Небольшой посёлок';
+    // У туристических мест население в OSM часто не проставлено вовсе —
     // писать «0 жителей» было бы неверно.
-    return notable > 0 ? 'Небольшой посёлок' : 'Населённый пункт';
+    return notable > 0 ? 'Туристическое место' : 'Населённый пункт';
   }
 }
 
@@ -275,12 +301,3 @@ class _Empty extends StatelessWidget {
   }
 }
 
-String _thousands(int n) {
-  final s = n.toString();
-  final buffer = StringBuffer();
-  for (var i = 0; i < s.length; i++) {
-    if (i > 0 && (s.length - i) % 3 == 0) buffer.write(' ');
-    buffer.write(s[i]);
-  }
-  return buffer.toString();
-}

@@ -2,12 +2,18 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import '../../core/categories.dart';
 import '../../core/providers.dart';
+import '../../data/database.dart';
+import '../cities/place_grid.dart' show gradientFor;
 
 /// Карточка места.
 ///
-/// Навигацию отдаём внешним картам (`geo:` на Android, `maps://` на iOS) —
-/// своей маршрутизации у приложения нет и не планируется.
+/// Текст показывается на том языке, который вообще нашёлся: цепочка
+/// подстановки §8.4 отдаёт язык пользователя, иначе английский, иначе
+/// норвежский. Переводы будут позже, а пока показать текст на чужом языке
+/// честнее, чем не показать ничего — человек хотя бы поймёт, что это
+/// за место, а имена собственные и цифры читаются на любом языке.
 class PlaceScreen extends ConsumerWidget {
   const PlaceScreen({super.key, required this.placeId});
 
@@ -17,9 +23,8 @@ class PlaceScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final place = ref.watch(placeProvider(placeId));
     final favorites = ref.watch(favoritesProvider);
-    final isFavorite = favorites.valueOrNull
-            ?.any((f) => f.placeId == placeId) ??
-        false;
+    final isFavorite =
+        favorites.valueOrNull?.any((f) => f.placeId == placeId) ?? false;
 
     return Scaffold(
       body: place.when(
@@ -31,46 +36,25 @@ class PlaceScreen extends ConsumerWidget {
           }
           return CustomScrollView(
             slivers: [
-              SliverAppBar(
-                expandedHeight: 180,
-                pinned: true,
-                flexibleSpace: FlexibleSpaceBar(
-                  title: Text(
-                    item.name,
-                    style: const TextStyle(fontSize: 16),
-                  ),
-                ),
-                actions: [
-                  IconButton(
-                    icon: Icon(
-                      isFavorite ? Icons.favorite : Icons.favorite_border,
-                    ),
-                    onPressed: () async {
-                      final db = await ref.read(databaseProvider.future);
-                      await db.toggleFavorite(placeId);
-                    },
-                  ),
-                ],
-              ),
+              _Header(item: item, isFavorite: isFavorite),
               SliverPadding(
-                padding: const EdgeInsets.all(16),
+                padding: const EdgeInsets.fromLTRB(20, 18, 20, 32),
                 sliver: SliverList.list(
                   children: [
-                    if (item.isFallback)
-                      Card(
-                        margin: const EdgeInsets.only(bottom: 12),
-                        child: Padding(
-                          padding: const EdgeInsets.all(12),
-                          child: Text(
-                            'Описание пока доступно только на другом языке',
-                            style: Theme.of(context).textTheme.bodySmall,
-                          ),
-                        ),
-                      ),
-                    if (item.summary != null) Text(item.summary!),
-                    const SizedBox(height: 16),
-                    _Facts(item: item),
-                    const SizedBox(height: 16),
+                    if (item.isFallback && item.summary != null)
+                      const _LanguageNote(),
+                    if (item.summary != null)
+                      SelectableText(
+                        item.summary!,
+                        style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                              height: 1.55,
+                            ),
+                      )
+                    else
+                      _NoText(category: item.place.category),
+                    const SizedBox(height: 22),
+                    _Facts(place: item.place),
+                    const SizedBox(height: 22),
                     FilledButton.icon(
                       icon: const Icon(Icons.directions),
                       label: const Text('Проложить маршрут'),
@@ -81,11 +65,17 @@ class PlaceScreen extends ConsumerWidget {
                         item.name,
                       ),
                     ),
-                    const SizedBox(height: 8),
-                    Text(
-                      '${item.place.lat.toStringAsFixed(5)}, '
-                      '${item.place.lon.toStringAsFixed(5)}',
-                      style: Theme.of(context).textTheme.bodySmall,
+                    const SizedBox(height: 10),
+                    Row(
+                      children: [
+                        const Icon(Icons.my_location, size: 14),
+                        const SizedBox(width: 6),
+                        SelectableText(
+                          '${item.place.lat.toStringAsFixed(5)}, '
+                          '${item.place.lon.toStringAsFixed(5)}',
+                          style: Theme.of(context).textTheme.bodySmall,
+                        ),
+                      ],
                     ),
                   ],
                 ),
@@ -98,46 +88,212 @@ class PlaceScreen extends ConsumerWidget {
   }
 }
 
-class _Facts extends StatelessWidget {
-  const _Facts({required this.item});
+class _Header extends ConsumerWidget {
+  const _Header({required this.item, required this.isFavorite});
 
-  final dynamic item;
+  final PlaceWithText item;
+  final bool isFavorite;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final stars = ratingStars(item.place.importance);
+
+    return SliverAppBar(
+      expandedHeight: 210,
+      pinned: true,
+      foregroundColor: Colors.white,
+      actions: [
+        IconButton(
+          icon: Icon(isFavorite ? Icons.favorite : Icons.favorite_border),
+          tooltip: isFavorite ? 'Убрать из избранного' : 'В избранное',
+          onPressed: () async {
+            final db = await ref.read(databaseProvider.future);
+            await db.toggleFavorite(item.place.id);
+          },
+        ),
+      ],
+      flexibleSpace: FlexibleSpaceBar(
+        titlePadding: const EdgeInsets.fromLTRB(52, 0, 52, 14),
+        title: Text(
+          item.name,
+          maxLines: 2,
+          overflow: TextOverflow.ellipsis,
+          textAlign: TextAlign.center,
+          style: const TextStyle(fontSize: 15, color: Colors.white),
+        ),
+        background: Stack(
+          fit: StackFit.expand,
+          children: [
+            // Фотографий мест пока нет — до cmd/media вместо них цветовая
+            // заливка по категории. Оттенок постоянный, поэтому место
+            // узнаётся при повторном заходе.
+            DecoratedBox(
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                  colors: gradientFor(item.place.category),
+                ),
+              ),
+            ),
+            Center(
+              child: Icon(
+                iconForCategory(item.place.category),
+                size: 64,
+                color: Colors.white.withValues(alpha: 0.22),
+              ),
+            ),
+            const DecoratedBox(
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  begin: Alignment.center,
+                  end: Alignment.bottomCenter,
+                  colors: [Colors.transparent, Color(0x99000000)],
+                ),
+              ),
+            ),
+            Positioned(
+              left: 16,
+              bottom: 44,
+              child: Row(
+                children: [
+                  Container(
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 10, vertical: 4),
+                    decoration: BoxDecoration(
+                      color: Colors.black.withValues(alpha: 0.35),
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                    child: Text(
+                      categorySingular(item.place.category),
+                      style: const TextStyle(
+                          color: Colors.white, fontSize: 12.5),
+                    ),
+                  ),
+                  if (stars != null) ...[
+                    const SizedBox(width: 8),
+                    for (var i = 0; i < stars; i++)
+                      const Icon(Icons.star, size: 14, color: Colors.white),
+                  ],
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+/// Пометка, что текст не на языке интерфейса.
+///
+/// Честная и негромкая: скрыть подмену языка было бы хуже — человек решил бы,
+/// что приложение сломалось.
+class _LanguageNote extends StatelessWidget {
+  const _LanguageNote();
 
   @override
   Widget build(BuildContext context) {
-    final place = item.place;
-    final rows = <(String, String?)>[
-      ('Категория', place.category as String?),
-      ('Сложность', place.difficulty as String?),
+    final scheme = Theme.of(context).colorScheme;
+    return Container(
+      margin: const EdgeInsets.only(bottom: 14),
+      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 9),
+      decoration: BoxDecoration(
+        color: scheme.surfaceContainerHighest,
+        borderRadius: BorderRadius.circular(10),
+      ),
+      child: Row(
+        children: [
+          Icon(Icons.translate, size: 16, color: scheme.onSurfaceVariant),
+          const SizedBox(width: 8),
+          Expanded(
+            child: Text(
+              'Перевода пока нет — текст на языке источника',
+              style: Theme.of(context).textTheme.bodySmall,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _NoText extends StatelessWidget {
+  const _NoText({required this.category});
+
+  final String category;
+
+  @override
+  Widget build(BuildContext context) {
+    final scheme = Theme.of(context).colorScheme;
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Icon(Icons.notes_outlined, size: 18, color: scheme.outline),
+        const SizedBox(width: 10),
+        Expanded(
+          child: Text(
+            'Описания для этого места пока нет. Координаты и маршрут '
+            'работают — можно доехать и посмотреть самому.',
+            style: Theme.of(context)
+                .textTheme
+                .bodyMedium
+                ?.copyWith(color: scheme.outline, height: 1.45),
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+class _Facts extends StatelessWidget {
+  const _Facts({required this.place});
+
+  final Place place;
+
+  @override
+  Widget build(BuildContext context) {
+    final rows = <(IconData, String, String?)>[
+      (Icons.schedule, 'Часы работы', place.openingHours),
+      (Icons.payments_outlined, 'Вход', place.entranceFee),
+      (Icons.trending_up, 'Сложность', place.difficulty),
       (
+        Icons.timer_outlined,
         'Время',
         place.durationMin == null ? null : '${place.durationMin} мин'
       ),
-      ('Сезон', place.season as String?),
-      ('Часы работы', place.openingHours as String?),
-      ('Вход', place.entranceFee as String?),
+      (Icons.calendar_month, 'Сезон', place.season),
+      (Icons.link, 'Сайт', place.website),
     ];
 
-    final visible = rows.where((r) => r.$2 != null).toList();
+    final visible = rows.where((r) => r.$3 != null && r.$3!.isNotEmpty).toList();
     if (visible.isEmpty) return const SizedBox.shrink();
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        for (final (label, value) in visible)
+        for (final (icon, label, value) in visible)
           Padding(
-            padding: const EdgeInsets.symmetric(vertical: 3),
+            padding: const EdgeInsets.only(bottom: 10),
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+                Icon(icon, size: 17,
+                    color: Theme.of(context).colorScheme.outline),
+                const SizedBox(width: 10),
                 SizedBox(
-                  width: 120,
+                  width: 92,
                   child: Text(
                     label,
                     style: Theme.of(context).textTheme.labelMedium,
                   ),
                 ),
-                Expanded(child: Text(value!)),
+                Expanded(
+                  child: Text(
+                    value!,
+                    style: Theme.of(context).textTheme.bodyMedium,
+                  ),
+                ),
               ],
             ),
           ),
@@ -149,7 +305,7 @@ class _Facts extends StatelessWidget {
 /// Открывает координаты во внешнем картографическом приложении.
 ///
 /// Требует интернета — честно говорим об этом, если открыть не удалось.
-/// Координаты при этом остаются на экране и их можно переписать вручную.
+/// Координаты при этом остаются на экране и их можно скопировать.
 Future<void> _openExternalMap(
   BuildContext context,
   double lat,
@@ -170,9 +326,7 @@ Future<void> _openExternalMap(
 
   if (context.mounted) {
     ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(
-        content: Text('Не удалось открыть карты. Нужен интернет.'),
-      ),
+      const SnackBar(content: Text('Не удалось открыть карты. Нужен интернет.')),
     );
   }
 }

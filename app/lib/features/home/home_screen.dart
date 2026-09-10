@@ -1,69 +1,129 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../core/attribution.dart';
 import '../cities/browse_screen.dart';
 import '../nearby/nearby_screen.dart';
-import 'fjord_backdrop.dart';
+import 'attribution_screen.dart';
 
-/// Стартовый экран: два способа начать.
+/// Стартовый экран.
 ///
-/// Никаких вопросов при входе — сперва человек видит, что это за приложение,
-/// и выбирает путь. Вопрос об интересах приходит позже, по сигналу
+/// Устроен как в туристических приложениях: фотография на весь экран,
+/// затемнение к низу, название и способы начать поверх снимка. Смысл приёма
+/// не в красоте — фотография места сразу отвечает на вопрос «о чём это
+/// приложение» быстрее любого текста.
+///
+/// Никаких вопросов при входе: профиль спрашивается позже, по сигналу
 /// заинтересованности (docs/onboarding-profiles.md).
 class HomeScreen extends ConsumerWidget {
   const HomeScreen({super.key});
 
+  static const _photo = 'assets/images/geirangerfjord.jpg';
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final dark = Theme.of(context).brightness == Brightness.dark;
-    final onBackdrop = dark ? Colors.white : const Color(0xFF08202E);
+    final credit = creditFor(_photo);
 
     return Scaffold(
-      // Без прокрутки: Spacer требует ограниченной высоты, а
-      // SingleChildScrollView даёт неограниченную — вместе они роняют
-      // построение, и на экране остаётся один фон.
-      body: FjordBackdrop(
-        child: SafeArea(
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 32),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const Spacer(flex: 2),
-                Text(
-                  'nordguide',
-                  style: Theme.of(context).textTheme.headlineMedium?.copyWith(
-                        color: onBackdrop,
-                        fontWeight: FontWeight.w600,
-                        letterSpacing: -0.5,
+      body: Stack(
+        fit: StackFit.expand,
+        children: [
+          Image.asset(
+            _photo,
+            fit: BoxFit.cover,
+            // Пока фото грузится, показываем ровный тёмный фон, а не белую
+            // вспышку: на старте приложения она особенно заметна.
+            frameBuilder: (context, child, frame, wasSync) {
+              if (wasSync || frame != null) return child;
+              return Container(color: const Color(0xFF0B1B2B));
+            },
+            errorBuilder: (_, _, _) => Container(color: const Color(0xFF0B1B2B)),
+          ),
+
+          // Затемнение снизу: без него белый текст читается через раз,
+          // в зависимости от того, что попало в кадр.
+          const DecoratedBox(
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
+                stops: [0.0, 0.35, 1.0],
+                colors: [
+                  Color(0x33000000),
+                  Color(0x66000000),
+                  Color(0xE6000B14),
+                ],
+              ),
+            ),
+            child: SizedBox.expand(),
+          ),
+
+          SafeArea(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 20),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Align(
+                    alignment: Alignment.topRight,
+                    child: IconButton(
+                      icon: const Icon(Icons.info_outline, color: Colors.white70),
+                      tooltip: 'Об источниках',
+                      onPressed: () => Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (_) => const AttributionScreen(),
+                        ),
                       ),
-                ),
-                const SizedBox(height: 6),
-                Text(
-                  'Норвегия без интернета',
-                  style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                        color: onBackdrop.withValues(alpha: 0.75),
+                    ),
+                  ),
+                  const Spacer(),
+                  const Text(
+                    'Норвегия',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 40,
+                      height: 1.05,
+                      fontWeight: FontWeight.w600,
+                      letterSpacing: -1,
+                    ),
+                  ),
+                  const SizedBox(height: 8),
+                  const Text(
+                    'Фьорды, водопады и города — без интернета',
+                    style: TextStyle(
+                      color: Colors.white70,
+                      fontSize: 15,
+                      height: 1.35,
+                    ),
+                  ),
+                  const SizedBox(height: 24),
+                  _ChoiceCard(
+                    icon: Icons.near_me,
+                    title: 'Что рядом со мной',
+                    subtitle: 'Ближайшие места с расстоянием и направлением',
+                    onTap: () => _go(context, const NearbyScreen()),
+                  ),
+                  const SizedBox(height: 10),
+                  _ChoiceCard(
+                    icon: Icons.explore_outlined,
+                    title: 'Куда поехать',
+                    subtitle: 'Города и достопримечательности страны',
+                    onTap: () => _go(context, const BrowseScreen()),
+                  ),
+                  const SizedBox(height: 14),
+                  if (credit != null)
+                    Text(
+                      'Фото: ${credit.short}',
+                      style: const TextStyle(
+                        color: Colors.white38,
+                        fontSize: 11,
                       ),
-                ),
-                const Spacer(flex: 3),
-                _ChoiceCard(
-                  icon: Icons.near_me,
-                  title: 'Что интересного рядом',
-                  subtitle: 'Ближайшие места с расстоянием и направлением',
-                  onTap: () => _go(context, const NearbyScreen()),
-                ),
-                const SizedBox(height: 12),
-                _ChoiceCard(
-                  icon: Icons.location_city,
-                  title: 'Города и достопримечательности',
-                  subtitle: 'Смотреть по городам и регионам страны',
-                  onTap: () => _go(context, const BrowseScreen()),
-                ),
-                const SizedBox(height: 8),
-              ],
+                    ),
+                ],
+              ),
             ),
           ),
-        ),
+        ],
       ),
     );
   }
@@ -73,6 +133,10 @@ class HomeScreen extends ConsumerWidget {
   }
 }
 
+/// Полупрозрачная карточка поверх фотографии.
+///
+/// Матовая, а не сплошная: сквозь неё виден снимок, и экран не распадается
+/// на «картинку сверху и панель снизу».
 class _ChoiceCard extends StatelessWidget {
   const _ChoiceCard({
     required this.icon,
@@ -88,37 +152,47 @@ class _ChoiceCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final scheme = Theme.of(context).colorScheme;
-
     return Material(
-      color: scheme.surface.withValues(alpha: 0.92),
-      borderRadius: BorderRadius.circular(16),
+      color: Colors.white.withValues(alpha: 0.12),
+      borderRadius: BorderRadius.circular(14),
       clipBehavior: Clip.antiAlias,
       child: InkWell(
         onTap: onTap,
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 18),
+        child: Container(
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(14),
+            border: Border.all(color: Colors.white.withValues(alpha: 0.22)),
+          ),
+          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 15),
           child: Row(
             children: [
-              Icon(icon, size: 28, color: scheme.primary),
-              const SizedBox(width: 16),
+              Icon(icon, size: 24, color: Colors.white),
+              const SizedBox(width: 14),
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
                       title,
-                      style: Theme.of(context).textTheme.titleMedium,
+                      style: const TextStyle(
+                        color: Colors.white,
+                        fontSize: 16,
+                        fontWeight: FontWeight.w600,
+                      ),
                     ),
                     const SizedBox(height: 2),
                     Text(
                       subtitle,
-                      style: Theme.of(context).textTheme.bodySmall,
+                      style: const TextStyle(
+                        color: Colors.white70,
+                        fontSize: 12.5,
+                        height: 1.3,
+                      ),
                     ),
                   ],
                 ),
               ),
-              const Icon(Icons.chevron_right),
+              const Icon(Icons.chevron_right, color: Colors.white54),
             ],
           ),
         ),

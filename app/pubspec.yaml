@@ -54,3 +54,6 @@ flutter:
     #
     # Собрать базу: см. docs/development.md, «Сборка контента».
     - assets/db/
+    # Фотографии под свободными лицензиями. Каждая обязана иметь запись
+    # в lib/core/attribution.dart — это требование CC BY-SA, а не формальность.
+    - assets/images/

@@ -35,6 +35,25 @@ class _PagedPlaceGridState extends State<PagedPlaceGrid> {
   void initState() {
     super.initState();
     _controller.addListener(_onScroll);
+    _fillViewport();
+  }
+
+  /// Если первая порция помещается на экран целиком, прокручивать нечего —
+  /// и подгрузка не запустится никогда. На широком мониторе шесть карточек
+  /// как раз умещаются в один экран, и список выглядит обрезанным.
+  ///
+  /// Поэтому после кадра добавляем ещё, пока не появится что прокручивать.
+  void _fillViewport() {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!mounted || !_controller.hasClients) return;
+      if (_visible >= widget.items.length) return;
+      if (_controller.position.maxScrollExtent > 0) return;
+
+      setState(() {
+        _visible = (_visible + widget.pageSize).clamp(0, widget.items.length);
+      });
+      _fillViewport();
+    });
   }
 
   @override
@@ -45,6 +64,7 @@ class _PagedPlaceGridState extends State<PagedPlaceGrid> {
     if (!identical(oldWidget.items, widget.items)) {
       _visible = widget.pageSize;
       if (_controller.hasClients) _controller.jumpTo(0);
+      _fillViewport();
     }
   }
 
