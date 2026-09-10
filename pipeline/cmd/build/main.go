@@ -52,6 +52,14 @@ type city struct {
 	Rank       int     `json:"rank"`
 }
 
+type photo struct {
+	EntityID  string `json:"entity_id"`
+	LocalPath string `json:"local_path"`
+	Author    string `json:"author"`
+	License   string `json:"license"`
+	SourceURL string `json:"source_url"`
+}
+
 type translation struct {
 	EntityType  string `json:"entity_type"`
 	EntityID    string `json:"entity_id"`
@@ -70,6 +78,7 @@ func main() {
 		placesPath = flag.String("places", "data/places.jsonl", "места от extract")
 		citiesPath = flag.String("cities", "data/cities.jsonl", "города от extract")
 		transPath  = flag.String("translations", "data/translations.jsonl", "тексты от enrich")
+		photosPath = flag.String("photos", "data/photos.jsonl", "фотографии от media")
 		outPath    = flag.String("out", "data/content.sqlite", "куда собирать базу")
 		regionID   = flag.String("region", "norway", "идентификатор региона")
 		regionName = flag.String("region-name", "Norge", "название региона")
@@ -92,6 +101,10 @@ func main() {
 	translations, err := readJSONL[translation](*transPath)
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "предупреждение: тексты не прочитаны: %v\n", err)
+	}
+	photos, err := readJSONL[photo](*photosPath)
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "предупреждение: фото не прочитаны: %v\n", err)
 	}
 
 	// Мелкие деревни только засоряют список городов: их сотни, а смотреть
@@ -124,7 +137,7 @@ func main() {
 	}
 
 	stats, err := fill(db, *regionID, *regionName, places, keptCities,
-		translations, *cityRadius)
+		translations, photos, *cityRadius)
 	if err != nil {
 		fatal(err)
 	}
@@ -151,6 +164,7 @@ type buildStats struct {
 	regions, cities, places, tags, translations, ftsRows int
 	placesWithCity                                       int
 	placesWithText                                       int
+	photos, photosRejected                               int
 	byLang                                               map[string]int
 }
 
@@ -160,6 +174,7 @@ func fill(
 	places []place,
 	cities []city,
 	translations []translation,
+	photos []photo,
 	cityRadiusKm float64,
 ) (*buildStats, error) {
 	st := &buildStats{byLang: map[string]int{}}
@@ -275,6 +290,54 @@ func fill(
 		st.ftsRows++
 	}
 	st.placesWithText = len(withText)
+
+	// Фотографии. Автор и лицензия объявлены NOT NULL: снимок без них
+	// не имеет права попасть в базу, это требование §7 спецификации.
+	photoStmt, err := tx.Prepare(
+		`INSERT INTO photos (place_id, city_id, path_thumb, path_full,
+		                     author, license, source_url)
+		 VALUES (?, ?, ?, ?, ?, ?, ?)`)
+	if err != nil {
+		return nil, err
+	}
+
+	cityIDs := make(map[string]bool, len(cities))
+	for _, c := range cities {
+		cityIDs[c.ID] = true
+	}
+
+	for _, ph := range photos {
+		if ph.Author == "" || ph.License == "" || ph.SourceURL == "" {
+			st.photosRejected++
+			continue
+		}
+
+		var placeID, cityID any
+		if cityIDs[ph.EntityID] {
+			cityID = ph.EntityID
+		} else {
+			placeID = ph.EntityID
+		}
+
+		// Уменьшенная копия у нас одна: отдельный thumb появится, когда
+		// понадобятся полноразмерные снимки в галерее.
+		if _, err := photoStmt.Exec(placeID, cityID, ph.LocalPath,
+			ph.LocalPath, ph.Author, ph.License, ph.SourceURL); err != nil {
+			return nil, fmt.Errorf("фото %s: %w", ph.EntityID, err)
+		}
+		st.photos++
+	}
+
+	// Заглавное фото города — чтобы карточка в обзоре не лезла за ним
+	// отдельным запросом на каждую плитку.
+	if _, err := tx.Exec(`
+		UPDATE cities SET hero_photo = (
+			SELECT path_thumb FROM photos WHERE photos.city_id = cities.id LIMIT 1
+		) WHERE EXISTS (
+			SELECT 1 FROM photos WHERE photos.city_id = cities.id
+		)`); err != nil {
+		return nil, fmt.Errorf("hero_photo: %w", err)
+	}
 
 	return st, tx.Commit()
 }
@@ -420,6 +483,10 @@ func report(st *buildStats, outPath string, elapsed time.Duration) {
 	fmt.Printf("  из них с текстом: %d (%d%%)\n",
 		st.placesWithText, percent(st.placesWithText, st.places))
 	fmt.Printf("  тегов:        %d\n", st.tags)
+	fmt.Printf("  фотографий:   %d\n", st.photos)
+	if st.photosRejected > 0 {
+		fmt.Printf("  отброшено фото без атрибуции: %d\n", st.photosRejected)
+	}
 	fmt.Printf("  переводов:    %d\n", st.translations)
 	fmt.Printf("  строк поиска: %d\n", st.ftsRows)
 

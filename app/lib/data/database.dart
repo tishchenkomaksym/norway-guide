@@ -18,6 +18,9 @@ class PlaceWithText {
     required this.isFallback,
     this.distanceMeters,
     this.bearingDeg,
+    this.photoPath,
+    this.photoAuthor,
+    this.photoLicense,
   });
 
   final Place place;
@@ -35,6 +38,28 @@ class PlaceWithText {
 
   /// Направление на объект от пользователя, градусы от севера по часовой.
   final double? bearingDeg;
+
+  /// Путь к фотографии в assets и её атрибуция. Показывать снимок без
+  /// автора и лицензии нельзя (§7 спеки), поэтому они ходят вместе.
+  final String? photoPath;
+  final String? photoAuthor;
+  final String? photoLicense;
+
+  bool get hasPhoto => photoPath != null && photoAuthor != null;
+
+  PlaceWithText copyWith({double? distanceMeters, double? bearingDeg}) {
+    return PlaceWithText(
+      place: place,
+      name: name,
+      summary: summary,
+      isFallback: isFallback,
+      distanceMeters: distanceMeters ?? this.distanceMeters,
+      bearingDeg: bearingDeg ?? this.bearingDeg,
+      photoPath: photoPath,
+      photoAuthor: photoAuthor,
+      photoLicense: photoLicense,
+    );
+  }
 }
 
 /// Город для карточки обзора: сам город плюс сколько в нём интересного.
@@ -57,6 +82,29 @@ class CityCard {
   /// Оценка туристической ценности; по ней строится порядок в обзоре.
   final int touristScore;
 }
+
+/// Общая часть запросов о местах: цепочка подстановки языков §8.4 и фото.
+///
+/// Вынесена, потому что нужна в четырёх запросах — «рядом», «в городе»,
+/// «топ страны» и карточка. Четыре копии разошлись бы при первой правке.
+const _placeColumns = '''
+       COALESCE(t_user.name, t_en.name, p.name_no)             AS res_name,
+       COALESCE(t_user.summary, t_en.summary, t_no.summary)    AS res_summary,
+       CASE WHEN t_user.summary IS NULL THEN 1 ELSE 0 END      AS is_fallback,
+       ph.path_thumb                                           AS photo_path,
+       ph.author                                               AS photo_author,
+       ph.license                                              AS photo_license
+''';
+
+const _placeJoins = '''
+  LEFT JOIN translations t_user
+         ON t_user.entity_type = 'place' AND t_user.entity_id = p.id AND t_user.lang = ?
+  LEFT JOIN translations t_en
+         ON t_en.entity_type   = 'place' AND t_en.entity_id   = p.id AND t_en.lang   = 'en'
+  LEFT JOIN translations t_no
+         ON t_no.entity_type   = 'place' AND t_no.entity_id   = p.id AND t_no.lang   = 'no'
+  LEFT JOIN photos ph ON ph.place_id = p.id
+''';
 
 @DriftDatabase(
   tables: [
@@ -112,16 +160,9 @@ class AppDatabase extends _$AppDatabase {
     final rows = await customSelect(
       '''
       SELECT p.*,
-             COALESCE(t_user.name, t_en.name, p.name_no)             AS res_name,
-             COALESCE(t_user.summary, t_en.summary, t_no.summary)    AS res_summary,
-             CASE WHEN t_user.summary IS NULL THEN 1 ELSE 0 END      AS is_fallback
+      $_placeColumns
       FROM places p
-      LEFT JOIN translations t_user
-             ON t_user.entity_type = 'place' AND t_user.entity_id = p.id AND t_user.lang = ?
-      LEFT JOIN translations t_en
-             ON t_en.entity_type   = 'place' AND t_en.entity_id   = p.id AND t_en.lang   = 'en'
-      LEFT JOIN translations t_no
-             ON t_no.entity_type   = 'place' AND t_no.entity_id   = p.id AND t_no.lang   = 'no'
+      $_placeJoins
       WHERE p.lat BETWEEN ? AND ?
         AND p.lon BETWEEN ? AND ?
         $categoryFilter
@@ -135,7 +176,7 @@ class AppDatabase extends _$AppDatabase {
         if (categories != null)
           for (final c in categories) Variable<String>(c),
       ],
-      readsFrom: {places, translations},
+      readsFrom: {places, translations, photos},
     ).get();
 
     final result = <PlaceWithText>[];
@@ -144,11 +185,7 @@ class AppDatabase extends _$AppDatabase {
       final d = distanceMeters(lat, lon, place.lat, place.lon);
       if (d > radiusKm * 1000) continue; // bbox — квадрат, радиус — круг
       result.add(
-        PlaceWithText(
-          place: place,
-          name: row.read<String>('res_name'),
-          summary: row.readNullable<String>('res_summary'),
-          isFallback: row.read<int>('is_fallback') == 1,
+        _mapPlace(row).copyWith(
           distanceMeters: d,
           bearingDeg: bearingDegrees(lat, lon, place.lat, place.lon),
         ),
@@ -160,33 +197,40 @@ class AppDatabase extends _$AppDatabase {
 
   /// Одно место с полным текстом для карточки.
   Future<PlaceWithText?> placeById(String id, String lang) async {
+    // Здесь берём полный текст, а не summary: это карточка, где человек
+    // хочет прочитать про место, а не пробежать список.
     final rows = await customSelect(
       '''
       SELECT p.*,
              COALESCE(t_user.name, t_en.name, p.name_no)                 AS res_name,
              COALESCE(t_user.description, t_en.description,
-                      t_no.description, t_user.summary, t_en.summary)    AS res_text,
-             CASE WHEN t_user.description IS NULL THEN 1 ELSE 0 END      AS is_fallback
+                      t_no.description, t_user.summary, t_en.summary)    AS res_summary,
+             CASE WHEN t_user.description IS NULL THEN 1 ELSE 0 END      AS is_fallback,
+             ph.path_full                                                AS photo_path,
+             ph.author                                                   AS photo_author,
+             ph.license                                                  AS photo_license
       FROM places p
-      LEFT JOIN translations t_user
-             ON t_user.entity_type = 'place' AND t_user.entity_id = p.id AND t_user.lang = ?
-      LEFT JOIN translations t_en
-             ON t_en.entity_type   = 'place' AND t_en.entity_id   = p.id AND t_en.lang   = 'en'
-      LEFT JOIN translations t_no
-             ON t_no.entity_type   = 'place' AND t_no.entity_id   = p.id AND t_no.lang   = 'no'
+      $_placeJoins
       WHERE p.id = ?
       ''',
       variables: [Variable<String>(lang), Variable<String>(id)],
-      readsFrom: {places, translations},
+      readsFrom: {places, translations, photos},
     ).get();
 
     if (rows.isEmpty) return null;
-    final row = rows.first;
+    return _mapPlace(rows.first);
+  }
+
+  /// Разбирает строку общего запроса о месте.
+  PlaceWithText _mapPlace(QueryRow row) {
     return PlaceWithText(
       place: places.map(row.data),
       name: row.read<String>('res_name'),
-      summary: row.readNullable<String>('res_text'),
+      summary: row.readNullable<String>('res_summary'),
       isFallback: row.read<int>('is_fallback') == 1,
+      photoPath: row.readNullable<String>('photo_path'),
+      photoAuthor: row.readNullable<String>('photo_author'),
+      photoLicense: row.readNullable<String>('photo_license'),
     );
   }
 
@@ -293,16 +337,9 @@ class AppDatabase extends _$AppDatabase {
     final rows = await customSelect(
       '''
       SELECT p.*,
-             COALESCE(t_user.name, t_en.name, p.name_no)             AS res_name,
-             COALESCE(t_user.summary, t_en.summary, t_no.summary)    AS res_summary,
-             CASE WHEN t_user.summary IS NULL THEN 1 ELSE 0 END      AS is_fallback
+      $_placeColumns
       FROM places p
-      LEFT JOIN translations t_user
-             ON t_user.entity_type = 'place' AND t_user.entity_id = p.id AND t_user.lang = ?
-      LEFT JOIN translations t_en
-             ON t_en.entity_type   = 'place' AND t_en.entity_id   = p.id AND t_en.lang   = 'en'
-      LEFT JOIN translations t_no
-             ON t_no.entity_type   = 'place' AND t_no.entity_id   = p.id AND t_no.lang   = 'no'
+      $_placeJoins
       $categoryFilter
       ORDER BY p.importance DESC
       LIMIT ?
@@ -313,19 +350,10 @@ class AppDatabase extends _$AppDatabase {
           for (final c in categories) Variable<String>(c),
         Variable<int>(limit),
       ],
-      readsFrom: {places, translations},
+      readsFrom: {places, translations, photos},
     ).get();
 
-    return rows
-        .map(
-          (row) => PlaceWithText(
-            place: places.map(row.data),
-            name: row.read<String>('res_name'),
-            summary: row.readNullable<String>('res_summary'),
-            isFallback: row.read<int>('is_fallback') == 1,
-          ),
-        )
-        .toList();
+    return rows.map(_mapPlace).toList();
   }
 
   /// Места одного города с текстом по цепочке §8.4, по убыванию значимости.
@@ -333,33 +361,17 @@ class AppDatabase extends _$AppDatabase {
     final rows = await customSelect(
       '''
       SELECT p.*,
-             COALESCE(t_user.name, t_en.name, p.name_no)             AS res_name,
-             COALESCE(t_user.summary, t_en.summary, t_no.summary)    AS res_summary,
-             CASE WHEN t_user.summary IS NULL THEN 1 ELSE 0 END      AS is_fallback
+      $_placeColumns
       FROM places p
-      LEFT JOIN translations t_user
-             ON t_user.entity_type = 'place' AND t_user.entity_id = p.id AND t_user.lang = ?
-      LEFT JOIN translations t_en
-             ON t_en.entity_type   = 'place' AND t_en.entity_id   = p.id AND t_en.lang   = 'en'
-      LEFT JOIN translations t_no
-             ON t_no.entity_type   = 'place' AND t_no.entity_id   = p.id AND t_no.lang   = 'no'
+      $_placeJoins
       WHERE p.city_id = ?
       ORDER BY p.importance DESC
       ''',
       variables: [Variable<String>(lang), Variable<String>(cityId)],
-      readsFrom: {places, translations},
+      readsFrom: {places, translations, photos},
     ).get();
 
-    return rows
-        .map(
-          (row) => PlaceWithText(
-            place: places.map(row.data),
-            name: row.read<String>('res_name'),
-            summary: row.readNullable<String>('res_summary'),
-            isFallback: row.read<int>('is_fallback') == 1,
-          ),
-        )
-        .toList();
+    return rows.map(_mapPlace).toList();
   }
 
   /// Все мультитеги одной выборкой: `placeId → {tag}`.

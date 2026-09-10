@@ -99,7 +99,7 @@ class _PagedPlaceGridState extends State<PagedPlaceGrid> {
             padding: widget.padding,
             gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
               maxCrossAxisExtent: 320,
-              mainAxisExtent: 208,
+              mainAxisExtent: 248,
               crossAxisSpacing: 12,
               mainAxisSpacing: 12,
             ),
@@ -146,32 +146,60 @@ class PlaceCard extends ConsumerWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Container(
-              height: 56,
+            // Фотография, если она есть; иначе — заливка цветом категории.
+            // Часть мест снимков не имеет и не будет иметь: в Commons нет
+            // фото каждого безымянного водопада, и пустая серая плитка
+            // выглядела бы поломкой.
+            SizedBox(
+              height: 96,
               width: double.infinity,
-              decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  begin: Alignment.topLeft,
-                  end: Alignment.bottomRight,
-                  colors: gradientFor(item.place.category),
-                ),
-              ),
-              padding: const EdgeInsets.symmetric(horizontal: 12),
-              child: Row(
+              child: Stack(
+                fit: StackFit.expand,
                 children: [
-                  Icon(iconForCategory(item.place.category),
-                      color: Colors.white, size: 20),
-                  const SizedBox(width: 8),
-                  Expanded(
-                    child: Text(
-                      categorySingular(item.place.category),
-                      style: const TextStyle(
-                        color: Colors.white,
-                        fontWeight: FontWeight.w500,
+                  if (item.hasPhoto)
+                    Image.asset(
+                      item.photoPath!,
+                      fit: BoxFit.cover,
+                      errorBuilder: (_, _, _) =>
+                          _CategoryFill(category: item.place.category),
+                    )
+                  else
+                    _CategoryFill(category: item.place.category),
+
+                  // Затемнение снизу, чтобы подпись читалась на любом снимке.
+                  const DecoratedBox(
+                    decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                        begin: Alignment.center,
+                        end: Alignment.bottomCenter,
+                        colors: [Colors.transparent, Color(0xB3000000)],
                       ),
                     ),
                   ),
-                  if (stars != null) _Stars(count: stars),
+
+                  Positioned(
+                    left: 10,
+                    right: 10,
+                    bottom: 8,
+                    child: Row(
+                      children: [
+                        Icon(iconForCategory(item.place.category),
+                            color: Colors.white, size: 16),
+                        const SizedBox(width: 6),
+                        Expanded(
+                          child: Text(
+                            categorySingular(item.place.category),
+                            style: const TextStyle(
+                              color: Colors.white,
+                              fontSize: 12.5,
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
+                        ),
+                        if (stars != null) _Stars(count: stars),
+                      ],
+                    ),
+                  ),
                 ],
               ),
             ),
@@ -209,6 +237,33 @@ class PlaceCard extends ConsumerWidget {
               ),
             ),
           ],
+        ),
+      ),
+    );
+  }
+}
+
+/// Заливка цветом категории — когда фотографии нет.
+class _CategoryFill extends StatelessWidget {
+  const _CategoryFill({required this.category});
+
+  final String category;
+
+  @override
+  Widget build(BuildContext context) {
+    return DecoratedBox(
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+          colors: gradientFor(category),
+        ),
+      ),
+      child: Center(
+        child: Icon(
+          iconForCategory(category),
+          size: 34,
+          color: Colors.white.withValues(alpha: 0.28),
         ),
       ),
     );

@@ -124,25 +124,16 @@ class _Header extends ConsumerWidget {
         background: Stack(
           fit: StackFit.expand,
           children: [
-            // Фотографий мест пока нет — до cmd/media вместо них цветовая
-            // заливка по категории. Оттенок постоянный, поэтому место
-            // узнаётся при повторном заходе.
-            DecoratedBox(
-              decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  begin: Alignment.topLeft,
-                  end: Alignment.bottomRight,
-                  colors: gradientFor(item.place.category),
-                ),
-              ),
-            ),
-            Center(
-              child: Icon(
-                iconForCategory(item.place.category),
-                size: 64,
-                color: Colors.white.withValues(alpha: 0.22),
-              ),
-            ),
+            // Фото с Commons, если оно есть. У части мест снимка нет
+            // и не будет — тогда заливка цветом категории.
+            if (item.hasPhoto)
+              Image.asset(
+                item.photoPath!,
+                fit: BoxFit.cover,
+                errorBuilder: (_, _, _) => _CategoryFill(item: item),
+              )
+            else
+              _CategoryFill(item: item),
             const DecoratedBox(
               decoration: BoxDecoration(
                 gradient: LinearGradient(
@@ -178,9 +169,60 @@ class _Header extends ConsumerWidget {
                 ],
               ),
             ),
+
+            // Атрибуция прямо на снимке: требование CC BY-SA, и прятать её
+            // в отдельный экран для конкретного фото было бы неправильно.
+            if (item.hasPhoto)
+              Positioned(
+                right: 10,
+                bottom: 46,
+                child: Container(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 7, vertical: 3),
+                  decoration: BoxDecoration(
+                    color: Colors.black.withValues(alpha: 0.4),
+                    borderRadius: BorderRadius.circular(6),
+                  ),
+                  child: Text(
+                    '${item.photoAuthor} · ${item.photoLicense}',
+                    style: const TextStyle(color: Colors.white70, fontSize: 9.5),
+                  ),
+                ),
+              ),
           ],
         ),
       ),
+    );
+  }
+}
+
+class _CategoryFill extends StatelessWidget {
+  const _CategoryFill({required this.item});
+
+  final PlaceWithText item;
+
+  @override
+  Widget build(BuildContext context) {
+    return Stack(
+      fit: StackFit.expand,
+      children: [
+        DecoratedBox(
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+              colors: gradientFor(item.place.category),
+            ),
+          ),
+        ),
+        Center(
+          child: Icon(
+            iconForCategory(item.place.category),
+            size: 64,
+            color: Colors.white.withValues(alpha: 0.22),
+          ),
+        ),
+      ],
     );
   }
 }

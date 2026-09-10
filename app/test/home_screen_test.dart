@@ -40,7 +40,7 @@ void main() {
     // Требование CC BY-SA: снимок нельзя показывать без указания автора.
     // Имя берём из справочника, а не вписываем в тест: при замене фото
     // должен падать сам факт отсутствия подписи, а не смена автора.
-    final credit = creditFor('assets/images/geirangerfjord.jpg');
+    final credit = creditFor(HomeScreen.heroPhoto);
     expect(credit, isNotNull, reason: 'у заглавного фото нет записи об авторе');
     expect(find.textContaining(credit!.author), findsOneWidget);
   });

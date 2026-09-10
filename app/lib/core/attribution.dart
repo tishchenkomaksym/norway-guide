@@ -26,6 +26,14 @@ class ImageCredit {
 
 const imageCredits = <ImageCredit>[
   ImageCredit(
+    asset: 'assets/images/preikestolen.jpg',
+    title: 'Прекестулен над Люсе-фьордом',
+    author: 'Maarten Heerlien',
+    license: 'CC BY 2.0',
+    sourceUrl:
+        'https://commons.wikimedia.org/wiki/File:Preikestolen_1_(52606536704).jpg',
+  ),
+  ImageCredit(
     asset: 'assets/images/geirangerfjord.jpg',
     title: 'Гейрангер-фьорд',
     author: 'Andreas Trepte',
