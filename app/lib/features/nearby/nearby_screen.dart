@@ -9,6 +9,7 @@ import '../cities/category_chips.dart';
 import '../emergency/emergency_button.dart';
 import '../place/place_screen.dart';
 import '../profile/profile_sheet.dart';
+import '../search/search_screen.dart';
 import 'location_picker.dart';
 
 /// Главный экран: что интересного рядом.
@@ -63,6 +64,13 @@ class _NearbyScreenState extends ConsumerState<NearbyScreen> {
       appBar: AppBar(
         title: Text(mock == null ? 'Рядом со мной' : 'Рядом: ${mock.name}'),
         actions: [
+          IconButton(
+            icon: const Icon(Icons.search),
+            tooltip: 'Поиск',
+            onPressed: () => Navigator.of(context).push(
+              MaterialPageRoute(builder: (_) => const SearchScreen()),
+            ),
+          ),
           // Здесь кнопка нужнее всего: этот экран открывают в пути.
           const EmergencyButton(),
           IconButton(

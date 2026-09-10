@@ -232,6 +232,81 @@ class AppDatabase extends _$AppDatabase {
     return _mapPlace(rows.first);
   }
 
+  /// Полнотекстовый поиск по местам.
+  ///
+  /// Ищем по языку пользователя И по норвежскому И по английскому
+  /// одновременно. Это не избыточность: немец видит на указателе
+  /// «Trolltunga», а не немецкое название, и ограничение выдачи локалью
+  /// сломало бы самый частый сценарий — набрать то, что написано на
+  /// дорожном знаке.
+  ///
+  /// Ранжирование: сначала совпадение по имени (bm25 с большим весом),
+  /// затем значимость места. Иначе безымянный ручей с описанием, где
+  /// упомянут Берген, обгонял бы сам Берген.
+  Future<List<PlaceWithText>> searchPlaces(String query, String lang,
+      {int limit = 40}) async {
+    final match = _toFtsQuery(query);
+    if (match == null) return [];
+
+    // Запрос плоский, без вложенных выборок: bm25 работает только когда
+    // FTS-таблица является прямым источником запроса. И в подзапросе,
+    // и внутри агрегата SQLite отвечает «unable to use function bm25».
+    //
+    // Один объект может совпасть сразу на нескольких языках, поэтому
+    // берём с запасом и схлопываем дубликаты в Dart.
+    final rows = await customSelect(
+      '''
+      SELECT p.*,
+      $_placeColumns,
+             bm25(search_fts, 10.0, 1.0) AS rank
+      FROM search_fts
+      JOIN places p ON p.id = search_fts.entity_id
+      $_placeJoins
+      WHERE search_fts MATCH ?
+        AND search_fts.entity_type = 'place'
+        AND search_fts.lang IN (?, 'en', 'no')
+      ORDER BY rank, p.importance DESC
+      LIMIT ?
+      ''',
+      variables: [
+        Variable<String>(lang),
+        Variable<String>(match),
+        Variable<String>(lang),
+        Variable<int>(limit * 3),
+      ],
+      readsFrom: {places, translations, photos},
+    ).get();
+
+    final seen = <String>{};
+    final result = <PlaceWithText>[];
+    for (final row in rows) {
+      final place = _mapPlace(row);
+      if (!seen.add(place.place.id)) continue;
+      result.add(place);
+      if (result.length >= limit) break;
+    }
+    return result;
+  }
+
+  /// Превращает пользовательский ввод в запрос FTS5.
+  ///
+  /// Экранирование обязательно: в синтаксисе FTS5 значимы кавычки,
+  /// звёздочка, двоеточие, скобки и слова AND/OR/NOT. Набранное человеком
+  /// «AND» или случайная кавычка иначе роняют запрос с ошибкой синтаксиса
+  /// прямо во время набора.
+  ///
+  /// Каждое слово берётся в кавычки и получает `*` — префиксный поиск:
+  /// «прек» находит «Прекестулен», пока человек ещё печатает.
+  static String? _toFtsQuery(String input) {
+    final words = input
+        .split(RegExp(r'[^\p{L}\p{N}]+', unicode: true))
+        .where((w) => w.isNotEmpty)
+        .toList();
+    if (words.isEmpty) return null;
+
+    return words.map((w) => '"${w.replaceAll('"', '')}"*').join(' ');
+  }
+
   /// Разбирает строку общего запроса о месте.
   PlaceWithText _mapPlace(QueryRow row) {
     return PlaceWithText(

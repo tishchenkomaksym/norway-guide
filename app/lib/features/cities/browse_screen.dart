@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../core/providers.dart';
 import '../../data/database.dart';
+import '../search/search_screen.dart';
 import 'category_chips.dart';
 import 'city_screen.dart';
 import 'place_grid.dart';
@@ -29,7 +30,18 @@ class _BrowseScreenState extends ConsumerState<BrowseScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Куда поехать')),
+      appBar: AppBar(
+        title: const Text('Куда поехать'),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.search),
+            tooltip: 'Поиск',
+            onPressed: () => Navigator.of(context).push(
+              MaterialPageRoute(builder: (_) => const SearchScreen()),
+            ),
+          ),
+        ],
+      ),
       body: Column(
         children: [
           Padding(

@@ -232,6 +232,22 @@ final nearbyPlacesProvider = FutureProvider<List<PlaceWithText>>((ref) async {
   return ranked;
 });
 
+/// Текст в строке поиска. Обновляется с задержкой — см. экран поиска.
+final searchQueryProvider = StateProvider<String>((ref) => '');
+
+/// Результаты поиска.
+///
+/// Меньше двух символов не ищем: по одной букве находится половина базы,
+/// и выдача бесполезна, а запрос при этом самый тяжёлый.
+final searchResultsProvider = FutureProvider<List<PlaceWithText>>((ref) async {
+  final query = ref.watch(searchQueryProvider).trim();
+  if (query.length < 2) return [];
+
+  final db = await ref.watch(databaseProvider.future);
+  final lang = ref.watch(languageProvider);
+  return db.searchPlaces(query, lang);
+});
+
 final placeProvider =
     FutureProvider.family<PlaceWithText?, String>((ref, id) async {
   final db = await ref.watch(databaseProvider.future);
