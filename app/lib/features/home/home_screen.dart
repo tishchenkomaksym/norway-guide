@@ -9,6 +9,7 @@ import '../emergency/emergency_button.dart';
 import '../favorites/favorites_screen.dart';
 import '../nearby/nearby_screen.dart';
 import 'attribution_screen.dart';
+import 'interest_prompt.dart';
 import 'language_switcher.dart';
 
 /// Стартовый экран.
@@ -143,6 +144,7 @@ class HomeScreen extends ConsumerWidget {
                       onTap: () => _go(context, const FavoritesScreen()),
                     ),
                   ],
+                  const InterestPrompt(),
                   const SizedBox(height: 14),
                   if (credit != null)
                     Text(

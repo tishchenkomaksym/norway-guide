@@ -253,5 +253,21 @@
       }
     }
   },
-  "rulesNoKommune": "无法确定此处所属市镇。在斯瓦尔巴群岛，规定由总督（Sysselmesteren）制定，而非市镇。"
+  "rulesNoKommune": "无法确定此处所属市镇。在斯瓦尔巴群岛，规定由总督（Sysselmesteren）制定，而非市镇。",
+  "promptTitle": "您对什么感兴趣？",
+  "promptSubtitle": "钓鱼、徒步、博物馆 — 我们据此调整显示内容",
+  "modeTourist": "全部",
+  "modeFishing": "钓鱼",
+  "modeHunting": "狩猎",
+  "modeSwitch": "模式",
+  "modeFishingHint": "正在显示钓鱼点。城镇和景点已隐藏 — 可通过模式按钮恢复。",
+  "modeHuntingHint": "正在显示自然区域。狩猎场未在地图上标注 — 此处关键在于规定和市镇。",
+  "modeRulesButton": "规定与许可",
+  "locServiceOff": "手机设置中已关闭定位",
+  "locDenied": "无法访问位置信息",
+  "locDeniedForever": "位置权限已被拒绝，可在应用设置中开启",
+  "locUnavailable": "无法确定您的位置。室内信号较弱",
+  "locOpenSettings": "设置",
+  "locSetCity": "选择城市",
+  "locRetry": "重试"
 }

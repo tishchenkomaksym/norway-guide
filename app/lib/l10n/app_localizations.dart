@@ -1046,6 +1046,102 @@ abstract class L {
   /// In ru, this message translates to:
   /// **'Коммуна для этой точки не определена. На Шпицбергене правила устанавливает губернатор (Sysselmesteren), а не коммуна.'**
   String get rulesNoKommune;
+
+  /// No description provided for @promptTitle.
+  ///
+  /// In ru, this message translates to:
+  /// **'Что вас интересует?'**
+  String get promptTitle;
+
+  /// No description provided for @promptSubtitle.
+  ///
+  /// In ru, this message translates to:
+  /// **'Рыбалка, походы, музеи — подберём, что показывать'**
+  String get promptSubtitle;
+
+  /// No description provided for @modeTourist.
+  ///
+  /// In ru, this message translates to:
+  /// **'Всё подряд'**
+  String get modeTourist;
+
+  /// No description provided for @modeFishing.
+  ///
+  /// In ru, this message translates to:
+  /// **'Рыбалка'**
+  String get modeFishing;
+
+  /// No description provided for @modeHunting.
+  ///
+  /// In ru, this message translates to:
+  /// **'Охота'**
+  String get modeHunting;
+
+  /// No description provided for @modeSwitch.
+  ///
+  /// In ru, this message translates to:
+  /// **'Режим'**
+  String get modeSwitch;
+
+  /// No description provided for @modeFishingHint.
+  ///
+  /// In ru, this message translates to:
+  /// **'Показаны места для рыбалки. Города и достопримечательности скрыты — вернуть их можно кнопкой режима.'**
+  String get modeFishingHint;
+
+  /// No description provided for @modeHuntingHint.
+  ///
+  /// In ru, this message translates to:
+  /// **'Показаны природные места. Охотничьи угодья на карте не размечены — главное здесь правила и коммуна.'**
+  String get modeHuntingHint;
+
+  /// No description provided for @modeRulesButton.
+  ///
+  /// In ru, this message translates to:
+  /// **'Правила и лицензии'**
+  String get modeRulesButton;
+
+  /// No description provided for @locServiceOff.
+  ///
+  /// In ru, this message translates to:
+  /// **'Геолокация выключена в настройках телефона'**
+  String get locServiceOff;
+
+  /// No description provided for @locDenied.
+  ///
+  /// In ru, this message translates to:
+  /// **'Нет доступа к местоположению'**
+  String get locDenied;
+
+  /// No description provided for @locDeniedForever.
+  ///
+  /// In ru, this message translates to:
+  /// **'Доступ к местоположению запрещён. Разрешить можно в настройках приложения'**
+  String get locDeniedForever;
+
+  /// No description provided for @locUnavailable.
+  ///
+  /// In ru, this message translates to:
+  /// **'Не удалось определить местоположение. В помещении сигнал слабый'**
+  String get locUnavailable;
+
+  /// No description provided for @locOpenSettings.
+  ///
+  /// In ru, this message translates to:
+  /// **'Настройки'**
+  String get locOpenSettings;
+
+  /// No description provided for @locSetCity.
+  ///
+  /// In ru, this message translates to:
+  /// **'Указать город'**
+  String get locSetCity;
+
+  /// No description provided for @locRetry.
+  ///
+  /// In ru, this message translates to:
+  /// **'Повторить'**
+  String get locRetry;
 }
 
 class _LDelegate extends LocalizationsDelegate<L> {

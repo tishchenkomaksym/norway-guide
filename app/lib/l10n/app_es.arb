@@ -253,5 +253,21 @@
       }
     }
   },
-  "rulesNoKommune": "No se ha podido determinar el municipio de este punto. En Svalbard las normas las fija el Gobernador (Sysselmesteren), no un municipio."
+  "rulesNoKommune": "No se ha podido determinar el municipio de este punto. En Svalbard las normas las fija el Gobernador (Sysselmesteren), no un municipio.",
+  "promptTitle": "¿Qué te interesa?",
+  "promptSubtitle": "Pesca, senderismo, museos: adaptamos lo que ves",
+  "modeTourist": "Todo",
+  "modeFishing": "Pesca",
+  "modeHunting": "Caza",
+  "modeSwitch": "Modo",
+  "modeFishingHint": "Mostrando zonas de pesca. Las ciudades y los lugares de interés están ocultos: recupéralos con el botón de modo.",
+  "modeHuntingHint": "Mostrando zonas naturales. Los cotos de caza no están cartografiados: aquí lo que importa son las normas y el municipio.",
+  "modeRulesButton": "Normas y licencias",
+  "locServiceOff": "La ubicación está desactivada en los ajustes del teléfono",
+  "locDenied": "Sin acceso a la ubicación",
+  "locDeniedForever": "El acceso a la ubicación está bloqueado. Puedes permitirlo en los ajustes de la app",
+  "locUnavailable": "No se pudo determinar tu ubicación. En interiores la señal es débil",
+  "locOpenSettings": "Ajustes",
+  "locSetCity": "Elegir ciudad",
+  "locRetry": "Reintentar"
 }

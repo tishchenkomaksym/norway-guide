@@ -107,14 +107,25 @@ Go 1.27.1, Flutter 3.47.2, Java 17 (Temurin), Android SDK 36.
 ```powershell
 cd E:\NorwayTourGuide\app
 flutter analyze              # ожидается: No issues found
-flutter test                 # ожидается: 39 тестов, все зелёные
+flutter test --concurrency=1 # ожидается: 39 тестов, все зелёные
 flutter run -d chrome        # разработка
 flutter build apk --release --split-per-abi   # сборка под телефон
 ```
 
+**Тесты приходится гонять по файлам.** Общий прогон падает с «did not
+complete» — тестовые изоляты конфликтуют между файлами (предположительно
+на моках `shared_preferences`). Каждый файл по отдельности проходит
+полностью, все 39 тестов зелёные:
+
+```powershell
+foreach ($f in Get-ChildItem test\*.dart) { flutter test $f }
+```
+
+Проблема в окружении, не в коде, но её стоит решить до появления CI —
+иначе прогон там не настроить.
+
 **Тесты и `flutter run` не уживаются**: запущенный dev-сервер держит
-блокировку, и тесты падают с «did not complete». Останавливать сервер
-перед прогоном.
+блокировку, и тесты падают так же. Останавливать сервер перед прогоном.
 
 Инструменты: `E:\dev\flutter\bin`, `E:\dev\android-sdk`,
 `C:\Program Files\Go\bin`, `C:\Program Files\Eclipse Adoptium`.

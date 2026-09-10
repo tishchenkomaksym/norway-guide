@@ -253,5 +253,21 @@
       }
     }
   },
-  "rulesNoKommune": "No municipality could be determined for this point. On Svalbard the rules are set by the Governor (Sysselmesteren), not a municipality."
+  "rulesNoKommune": "No municipality could be determined for this point. On Svalbard the rules are set by the Governor (Sysselmesteren), not a municipality.",
+  "promptTitle": "What are you interested in?",
+  "promptSubtitle": "Fishing, hiking, museums — we'll tailor what you see",
+  "modeTourist": "Everything",
+  "modeFishing": "Fishing",
+  "modeHunting": "Hunting",
+  "modeSwitch": "Mode",
+  "modeFishingHint": "Showing fishing spots. Towns and sights are hidden — bring them back with the mode button.",
+  "modeHuntingHint": "Showing natural areas. Hunting grounds are not mapped — what matters here are the rules and the municipality.",
+  "modeRulesButton": "Rules and licences",
+  "locServiceOff": "Location is turned off in phone settings",
+  "locDenied": "No access to location",
+  "locDeniedForever": "Location access is blocked. You can allow it in app settings",
+  "locUnavailable": "Could not determine your location. Indoors the signal is weak",
+  "locOpenSettings": "Settings",
+  "locSetCity": "Choose a town",
+  "locRetry": "Retry"
 }

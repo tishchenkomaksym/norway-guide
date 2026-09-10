@@ -4,8 +4,10 @@ import 'package:geolocator/geolocator.dart';
 import '../data/connection.dart';
 import '../data/database.dart';
 import '../data/seed_data.dart';
+import 'mode.dart';
 import 'settings.dart';
 
+export 'mode.dart' show AppMode, modeProvider, availableModesProvider;
 export 'settings.dart'
     show languageProvider, mockPositionProvider, profileProvider,
         prefsProvider, NamedPoint, resolveLanguage, supportedLanguages;
@@ -20,31 +22,71 @@ final databaseProvider = FutureProvider<AppDatabase>((ref) async {
   return db;
 });
 
+/// Почему местоположение не определилось.
+///
+/// Раньше все случаи сводились к null, и человек видел одно и то же
+/// «положение неизвестно» — независимо от того, выключен ли GPS, отклонено
+/// ли разрешение или просто нет сигнала. Починить он при этом ничего
+/// не мог, потому что не знал, что чинить.
+enum LocationProblem {
+  /// Геолокация выключена в настройках телефона.
+  serviceOff,
+
+  /// Разрешение не выдано, но спросить ещё можно.
+  denied,
+
+  /// Разрешение отклонено навсегда — только через настройки приложения.
+  deniedForever,
+
+  /// Разрешение есть, но координаты получить не удалось: нет сигнала,
+  /// вышло время ожидания, сбой датчика.
+  unavailable,
+}
+
+class PositionResult {
+  const PositionResult({this.position, this.problem});
+
+  final Position? position;
+  final LocationProblem? problem;
+
+  bool get isOk => position != null;
+}
+
 /// Позиция пользователя. Работает офлайн: GPS не требует сети.
 ///
-/// Если разрешение не выдано или геолокация выключена, возвращает null —
-/// экран в этом случае показывает список по важности, а не пустоту.
-final positionProvider = FutureProvider<Position?>((ref) async {
+/// Никогда не бросает исключение: экран обязан остаться рабочим и без
+/// координат, показав список по важности вместо ближайших мест.
+final positionProvider = FutureProvider<PositionResult>((ref) async {
   try {
-    if (!await Geolocator.isLocationServiceEnabled()) return null;
+    if (!await Geolocator.isLocationServiceEnabled()) {
+      return const PositionResult(problem: LocationProblem.serviceOff);
+    }
 
     var permission = await Geolocator.checkPermission();
     if (permission == LocationPermission.denied) {
       permission = await Geolocator.requestPermission();
     }
-    if (permission == LocationPermission.denied ||
-        permission == LocationPermission.deniedForever) {
-      return null;
+    if (permission == LocationPermission.deniedForever) {
+      return const PositionResult(problem: LocationProblem.deniedForever);
+    }
+    if (permission == LocationPermission.denied) {
+      return const PositionResult(problem: LocationProblem.denied);
     }
 
-    return await Geolocator.getCurrentPosition(
+    // Ограничение по времени обязательно: в помещении GPS может искать
+    // спутники минутами, и экран всё это время висел бы в загрузке.
+    final position = await Geolocator.getCurrentPosition(
       locationSettings: const LocationSettings(
         accuracy: LocationAccuracy.medium,
+        timeLimit: Duration(seconds: 12),
       ),
     );
+    return PositionResult(position: position);
   } catch (_) {
-    // Геолокация — не критичный путь. Ошибка не должна ломать экран.
-    return null;
+    // Сюда попадает и таймаут, и отсутствие сигнала, и сбой датчика.
+    // Для пользователя разница невелика: координат нет, но приложение
+    // работает.
+    return const PositionResult(problem: LocationProblem.unavailable);
   }
 });
 
@@ -62,7 +104,8 @@ final searchOriginProvider =
     return (lat: manual.lat, lon: manual.lon, radiusKm: 200.0);
   }
 
-  final position = await ref.watch(positionProvider.future);
+  final result = await ref.watch(positionProvider.future);
+  final position = result.position;
   if (position != null) {
     return (
       lat: position.latitude,
@@ -99,8 +142,16 @@ final placesAroundProvider = FutureProvider<List<PlaceWithText>>((ref) async {
 final nearbyCategoryCountsProvider =
     FutureProvider<Map<String, int>>((ref) async {
   final places = await ref.watch(placesAroundProvider.future);
+  final modeCategories = ref.watch(modeProvider).categories;
+
   final counts = <String, int>{};
   for (final p in places) {
+    // Плашки считаем по тому, что видно в текущем режиме: предлагать
+    // рыбаку фильтр «Музеи», когда музеи скрыты, было бы издевательством.
+    if (modeCategories.isNotEmpty &&
+        !modeCategories.contains(p.place.category)) {
+      continue;
+    }
     counts[p.place.category] = (counts[p.place.category] ?? 0) + 1;
   }
   return counts;
@@ -175,10 +226,20 @@ final nearbyPlacesProvider = FutureProvider<List<PlaceWithText>>((ref) async {
   final profile = ref.watch(profileProvider);
   final tags = await ref.watch(placeTagsProvider.future);
 
+  // Режим сужает выдачу до того, ради чего человек открыл приложение:
+  // рыбаку не нужны музеи вперемешку с озёрами. Переключиться обратно
+  // можно кнопкой в шапке — тот, кто отметил и рыбалку, и музеи, ничего
+  // не теряет.
+  final mode = ref.watch(modeProvider);
+  final modeCategories = mode.categories;
+  final inMode = modeCategories.isEmpty
+      ? all
+      : all.where((p) => modeCategories.contains(p.place.category)).toList();
+
   final effective = selected.intersection(available);
   final filtered = effective.isEmpty
-      ? all
-      : all.where((p) => effective.contains(p.place.category)).toList();
+      ? inMode
+      : inMode.where((p) => effective.contains(p.place.category)).toList();
 
   if (profile.isEmpty) return filtered;
 

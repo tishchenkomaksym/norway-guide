@@ -535,4 +535,57 @@ class LRu extends L {
   @override
   String get rulesNoKommune =>
       'Коммуна для этой точки не определена. На Шпицбергене правила устанавливает губернатор (Sysselmesteren), а не коммуна.';
+
+  @override
+  String get promptTitle => 'Что вас интересует?';
+
+  @override
+  String get promptSubtitle =>
+      'Рыбалка, походы, музеи — подберём, что показывать';
+
+  @override
+  String get modeTourist => 'Всё подряд';
+
+  @override
+  String get modeFishing => 'Рыбалка';
+
+  @override
+  String get modeHunting => 'Охота';
+
+  @override
+  String get modeSwitch => 'Режим';
+
+  @override
+  String get modeFishingHint =>
+      'Показаны места для рыбалки. Города и достопримечательности скрыты — вернуть их можно кнопкой режима.';
+
+  @override
+  String get modeHuntingHint =>
+      'Показаны природные места. Охотничьи угодья на карте не размечены — главное здесь правила и коммуна.';
+
+  @override
+  String get modeRulesButton => 'Правила и лицензии';
+
+  @override
+  String get locServiceOff => 'Геолокация выключена в настройках телефона';
+
+  @override
+  String get locDenied => 'Нет доступа к местоположению';
+
+  @override
+  String get locDeniedForever =>
+      'Доступ к местоположению запрещён. Разрешить можно в настройках приложения';
+
+  @override
+  String get locUnavailable =>
+      'Не удалось определить местоположение. В помещении сигнал слабый';
+
+  @override
+  String get locOpenSettings => 'Настройки';
+
+  @override
+  String get locSetCity => 'Указать город';
+
+  @override
+  String get locRetry => 'Повторить';
 }

@@ -533,4 +533,57 @@ class LEn extends L {
   @override
   String get rulesNoKommune =>
       'No municipality could be determined for this point. On Svalbard the rules are set by the Governor (Sysselmesteren), not a municipality.';
+
+  @override
+  String get promptTitle => 'What are you interested in?';
+
+  @override
+  String get promptSubtitle =>
+      'Fishing, hiking, museums — we\'ll tailor what you see';
+
+  @override
+  String get modeTourist => 'Everything';
+
+  @override
+  String get modeFishing => 'Fishing';
+
+  @override
+  String get modeHunting => 'Hunting';
+
+  @override
+  String get modeSwitch => 'Mode';
+
+  @override
+  String get modeFishingHint =>
+      'Showing fishing spots. Towns and sights are hidden — bring them back with the mode button.';
+
+  @override
+  String get modeHuntingHint =>
+      'Showing natural areas. Hunting grounds are not mapped — what matters here are the rules and the municipality.';
+
+  @override
+  String get modeRulesButton => 'Rules and licences';
+
+  @override
+  String get locServiceOff => 'Location is turned off in phone settings';
+
+  @override
+  String get locDenied => 'No access to location';
+
+  @override
+  String get locDeniedForever =>
+      'Location access is blocked. You can allow it in app settings';
+
+  @override
+  String get locUnavailable =>
+      'Could not determine your location. Indoors the signal is weak';
+
+  @override
+  String get locOpenSettings => 'Settings';
+
+  @override
+  String get locSetCity => 'Choose a town';
+
+  @override
+  String get locRetry => 'Retry';
 }

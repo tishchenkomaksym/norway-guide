@@ -537,4 +537,58 @@ class LDe extends L {
   @override
   String get rulesNoKommune =>
       'Für diesen Punkt ließ sich keine Kommune bestimmen. Auf Spitzbergen legt der Gouverneur (Sysselmesteren) die Regeln fest, nicht eine Kommune.';
+
+  @override
+  String get promptTitle => 'Was interessiert Sie?';
+
+  @override
+  String get promptSubtitle =>
+      'Angeln, Wandern, Museen — wir passen die Auswahl an';
+
+  @override
+  String get modeTourist => 'Alles';
+
+  @override
+  String get modeFishing => 'Angeln';
+
+  @override
+  String get modeHunting => 'Jagd';
+
+  @override
+  String get modeSwitch => 'Modus';
+
+  @override
+  String get modeFishingHint =>
+      'Angelplätze werden gezeigt. Städte und Sehenswürdigkeiten sind ausgeblendet — mit der Modus-Schaltfläche zurückholen.';
+
+  @override
+  String get modeHuntingHint =>
+      'Naturgebiete werden gezeigt. Jagdreviere sind nicht kartiert — entscheidend sind hier Regeln und Kommune.';
+
+  @override
+  String get modeRulesButton => 'Regeln und Lizenzen';
+
+  @override
+  String get locServiceOff =>
+      'Standort ist in den Telefoneinstellungen ausgeschaltet';
+
+  @override
+  String get locDenied => 'Kein Zugriff auf den Standort';
+
+  @override
+  String get locDeniedForever =>
+      'Standortzugriff ist blockiert. In den App-Einstellungen erlauben';
+
+  @override
+  String get locUnavailable =>
+      'Standort konnte nicht bestimmt werden. In Gebäuden ist das Signal schwach';
+
+  @override
+  String get locOpenSettings => 'Einstellungen';
+
+  @override
+  String get locSetCity => 'Ort wählen';
+
+  @override
+  String get locRetry => 'Erneut versuchen';
 }

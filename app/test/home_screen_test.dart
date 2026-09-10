@@ -42,18 +42,21 @@ Widget _app({
   );
 }
 
+/// Хранилище получаем внутри каждого теста, а не в setUp.
+///
+/// Асинхронный setUp с late-переменной здесь роняет тестовый изолят молча:
+/// все тесты файла отваливаются с «did not complete», причём по отдельности
+/// каждый проходит. Локальное получение надёжнее и читается не хуже.
+Future<SharedPreferences> _prefs() async {
+  SharedPreferences.setMockInitialValues({});
+  return SharedPreferences.getInstance();
+}
+
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
 
-  late SharedPreferences prefs;
-
-  setUp(() async {
-    SharedPreferences.setMockInitialValues({});
-    prefs = await SharedPreferences.getInstance();
-  });
-
   testWidgets('стартовый экран строится и показывает оба пути', (tester) async {
-    await tester.pumpWidget(_app(prefs: prefs));
+    await tester.pumpWidget(_app(prefs: await _prefs()));
 
     expect(tester.takeException(), isNull);
     expect(find.text('Норвегия'), findsOneWidget);
@@ -66,14 +69,14 @@ void main() {
     tester.view.devicePixelRatio = 1.0;
     addTearDown(tester.view.resetPhysicalSize);
 
-    await tester.pumpWidget(_app(prefs: prefs));
+    await tester.pumpWidget(_app(prefs: await _prefs()));
 
     expect(tester.takeException(), isNull);
     expect(find.text('Что рядом со мной'), findsOneWidget);
   });
 
   testWidgets('на экране видна атрибуция фотографии', (tester) async {
-    await tester.pumpWidget(_app(prefs: prefs));
+    await tester.pumpWidget(_app(prefs: await _prefs()));
 
     // Требование CC BY-SA: снимок нельзя показывать без указания автора.
     // Имя берём из справочника, а не вписываем в тест: при замене фото
@@ -84,7 +87,7 @@ void main() {
   });
 
   testWidgets('без сохранённых мест раздела «Моя поездка» нет', (tester) async {
-    await tester.pumpWidget(_app(prefs: prefs));
+    await tester.pumpWidget(_app(prefs: await _prefs()));
     await tester.pump();
     // Пустой раздел на первом запуске — обещание без содержания.
     expect(find.text('Моя поездка'), findsNothing);
@@ -93,7 +96,7 @@ void main() {
   testWidgets('с сохранённым местом раздел появляется', (tester) async {
     await tester.pumpWidget(
       _app(
-        prefs: prefs,
+        prefs: await _prefs(),
         favorites: const [
           Favorite(placeId: 'osm:node/1', addedAt: 0, visited: false),
         ],

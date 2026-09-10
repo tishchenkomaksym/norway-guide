@@ -536,4 +536,58 @@ class LEs extends L {
   @override
   String get rulesNoKommune =>
       'No se ha podido determinar el municipio de este punto. En Svalbard las normas las fija el Gobernador (Sysselmesteren), no un municipio.';
+
+  @override
+  String get promptTitle => '¿Qué te interesa?';
+
+  @override
+  String get promptSubtitle =>
+      'Pesca, senderismo, museos: adaptamos lo que ves';
+
+  @override
+  String get modeTourist => 'Todo';
+
+  @override
+  String get modeFishing => 'Pesca';
+
+  @override
+  String get modeHunting => 'Caza';
+
+  @override
+  String get modeSwitch => 'Modo';
+
+  @override
+  String get modeFishingHint =>
+      'Mostrando zonas de pesca. Las ciudades y los lugares de interés están ocultos: recupéralos con el botón de modo.';
+
+  @override
+  String get modeHuntingHint =>
+      'Mostrando zonas naturales. Los cotos de caza no están cartografiados: aquí lo que importa son las normas y el municipio.';
+
+  @override
+  String get modeRulesButton => 'Normas y licencias';
+
+  @override
+  String get locServiceOff =>
+      'La ubicación está desactivada en los ajustes del teléfono';
+
+  @override
+  String get locDenied => 'Sin acceso a la ubicación';
+
+  @override
+  String get locDeniedForever =>
+      'El acceso a la ubicación está bloqueado. Puedes permitirlo en los ajustes de la app';
+
+  @override
+  String get locUnavailable =>
+      'No se pudo determinar tu ubicación. En interiores la señal es débil';
+
+  @override
+  String get locOpenSettings => 'Ajustes';
+
+  @override
+  String get locSetCity => 'Elegir ciudad';
+
+  @override
+  String get locRetry => 'Reintentar';
 }

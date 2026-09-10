@@ -1,4 +1,23 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Геолокация для экрана «Рядом со мной».
+         Без этих строк система не показывает запрос разрешения вовсе,
+         и определение молча не работает: приложение выглядит сломанным,
+         хотя код верен.
+
+         COARSE объявлен рядом с FINE намеренно: начиная с Android 12
+         человек может выдать только приблизительное местоположение,
+         и приложение обязано с этим работать. Для списка мест в радиусе
+         километров точности до квартала более чем достаточно.
+
+         Фоновое местоположение (ACCESS_BACKGROUND_LOCATION) НЕ просим:
+         приложение работает, только когда открыто, а лишнее разрешение
+         пугает людей и требует отдельного обоснования в Google Play. -->
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+
+    <!-- Скачивание пакетов контента и открытие внешних карт. -->
+    <uses-permission android:name="android.permission.INTERNET"/>
+
     <application
         android:label="nordguide"
         android:name="${applicationName}"

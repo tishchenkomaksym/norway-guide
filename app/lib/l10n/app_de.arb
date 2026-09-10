@@ -253,5 +253,21 @@
       }
     }
   },
-  "rulesNoKommune": "Für diesen Punkt ließ sich keine Kommune bestimmen. Auf Spitzbergen legt der Gouverneur (Sysselmesteren) die Regeln fest, nicht eine Kommune."
+  "rulesNoKommune": "Für diesen Punkt ließ sich keine Kommune bestimmen. Auf Spitzbergen legt der Gouverneur (Sysselmesteren) die Regeln fest, nicht eine Kommune.",
+  "promptTitle": "Was interessiert Sie?",
+  "promptSubtitle": "Angeln, Wandern, Museen — wir passen die Auswahl an",
+  "modeTourist": "Alles",
+  "modeFishing": "Angeln",
+  "modeHunting": "Jagd",
+  "modeSwitch": "Modus",
+  "modeFishingHint": "Angelplätze werden gezeigt. Städte und Sehenswürdigkeiten sind ausgeblendet — mit der Modus-Schaltfläche zurückholen.",
+  "modeHuntingHint": "Naturgebiete werden gezeigt. Jagdreviere sind nicht kartiert — entscheidend sind hier Regeln und Kommune.",
+  "modeRulesButton": "Regeln und Lizenzen",
+  "locServiceOff": "Standort ist in den Telefoneinstellungen ausgeschaltet",
+  "locDenied": "Kein Zugriff auf den Standort",
+  "locDeniedForever": "Standortzugriff ist blockiert. In den App-Einstellungen erlauben",
+  "locUnavailable": "Standort konnte nicht bestimmt werden. In Gebäuden ist das Signal schwach",
+  "locOpenSettings": "Einstellungen",
+  "locSetCity": "Ort wählen",
+  "locRetry": "Erneut versuchen"
 }

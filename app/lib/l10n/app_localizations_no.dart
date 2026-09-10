@@ -533,4 +533,57 @@ class LNo extends L {
   @override
   String get rulesNoKommune =>
       'Fant ingen kommune for dette punktet. På Svalbard fastsettes reglene av Sysselmesteren, ikke av en kommune.';
+
+  @override
+  String get promptTitle => 'Hva er du interessert i?';
+
+  @override
+  String get promptSubtitle =>
+      'Fiske, fottur, museer — vi tilpasser det du ser';
+
+  @override
+  String get modeTourist => 'Alt';
+
+  @override
+  String get modeFishing => 'Fiske';
+
+  @override
+  String get modeHunting => 'Jakt';
+
+  @override
+  String get modeSwitch => 'Modus';
+
+  @override
+  String get modeFishingHint =>
+      'Viser fiskeplasser. Byer og severdigheter er skjult — hent dem tilbake med modusknappen.';
+
+  @override
+  String get modeHuntingHint =>
+      'Viser naturområder. Jaktterreng er ikke kartfestet — her er det reglene og kommunen som teller.';
+
+  @override
+  String get modeRulesButton => 'Regler og lisenser';
+
+  @override
+  String get locServiceOff => 'Posisjon er slått av i telefoninnstillingene';
+
+  @override
+  String get locDenied => 'Ingen tilgang til posisjon';
+
+  @override
+  String get locDeniedForever =>
+      'Tilgang til posisjon er blokkert. Du kan tillate det i appinnstillingene';
+
+  @override
+  String get locUnavailable =>
+      'Fant ikke posisjonen din. Innendørs er signalet svakt';
+
+  @override
+  String get locOpenSettings => 'Innstillinger';
+
+  @override
+  String get locSetCity => 'Velg sted';
+
+  @override
+  String get locRetry => 'Prøv igjen';
 }
