@@ -18,11 +18,9 @@ import 'attribution_screen.dart';
 class HomeScreen extends ConsumerWidget {
   const HomeScreen({super.key});
 
-  // Прекестулен: из свободно лицензированных снимков Норвегии этот
-  // оказался единственным с настоящим солнцем и чистым небом — доля
-  // голубого в верхней трети кадра 0.99 против 0.5–0.7 у остальных.
-  // Плюс вертикальная композиция, что для экрана телефона удобнее.
-  static const heroPhoto = 'assets/images/preikestolen.jpg';
+  // Гейрангер-фьорд: солнце на склонах, круизные лайнеры и деревня внизу.
+  // Снимок Прекестулена лежит рядом в assets и остаётся запасным вариантом.
+  static const heroPhoto = 'assets/images/geirangerfjord.jpg';
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
