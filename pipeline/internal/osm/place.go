@@ -23,6 +23,93 @@ type Place struct {
 	RawTags    map[string]string `json:"raw_tags"`
 }
 
+// City — населённый пункт. Отдельная сущность, а не место: у города свой
+// экран, свой список достопримечательностей и своя статья в Wikivoyage.
+type City struct {
+	ID         string            `json:"id"`
+	NameNo     string            `json:"name_no"`
+	Lat        float64           `json:"lat"`
+	Lon        float64           `json:"lon"`
+	Population int               `json:"population,omitempty"`
+	WikidataID string            `json:"wikidata_id,omitempty"`
+	Rank       int               `json:"rank"` // 0..100, по типу и населению
+	RawTags    map[string]string `json:"raw_tags"`
+}
+
+// CityFromTags распознаёт населённый пункт.
+//
+// Берём city, town и village: Норвегия страна малонаселённая, и Гейрангер
+// с его двумя сотнями жителей для гида важнее иного города. Хутора
+// (hamlet, isolated_dwelling) отбрасываем — их тысячи и смотреть там нечего.
+func CityFromTags(id string, tags map[string]string, lat, lon float64) (City, bool) {
+	place, ok := tags["place"]
+	if !ok {
+		return City{}, false
+	}
+
+	rank := 0
+	switch place {
+	case "city":
+		rank = 60
+	case "town":
+		rank = 45
+	case "village":
+		rank = 30
+	default:
+		return City{}, false
+	}
+
+	name := Name(tags)
+	if name == "" {
+		return City{}, false
+	}
+
+	population := 0
+	if v, ok := tags["population"]; ok {
+		population = parseInt(v)
+	}
+	switch {
+	case population > 100000:
+		rank += 40
+	case population > 20000:
+		rank += 30
+	case population > 5000:
+		rank += 20
+	case population > 1000:
+		rank += 10
+	}
+	if _, ok := tags["wikidata"]; ok {
+		rank += 10
+	}
+	if rank > 100 {
+		rank = 100
+	}
+
+	return City{
+		ID:         id,
+		NameNo:     name,
+		Lat:        lat,
+		Lon:        lon,
+		Population: population,
+		WikidataID: tags["wikidata"],
+		Rank:       rank,
+		RawTags:    tags,
+	}, true
+}
+
+func parseInt(s string) int {
+	n := 0
+	for _, ch := range s {
+		if ch < '0' || ch > '9' {
+			// Население иногда пишут как "5 000" или "≈1200" — берём
+			// то, что успели разобрать, вместо отказа.
+			break
+		}
+		n = n*10 + int(ch-'0')
+	}
+	return n
+}
+
 // Stats — сводка прогона. Отчитываться числами обязательно: «готово»
 // без цифр результатом не считается.
 type Stats struct {

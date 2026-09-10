@@ -66,9 +66,10 @@ func parseBbox(s string) (*bbox, error) {
 
 func main() {
 	var (
-		inPath  = flag.String("in", "data/norway-latest.osm.pbf", "выгрузка OSM")
-		outPath = flag.String("out", "data/places.jsonl", "куда писать результат")
-		bboxStr = flag.String("bbox", "", "ограничить область: minLon,minLat,maxLon,maxLat")
+		inPath   = flag.String("in", "data/norway-latest.osm.pbf", "выгрузка OSM")
+		outPath  = flag.String("out", "data/places.jsonl", "куда писать места")
+		citiesTo = flag.String("cities", "data/cities.jsonl", "куда писать города")
+		bboxStr  = flag.String("bbox", "", "ограничить область: minLon,minLat,maxLon,maxLat")
 	)
 	flag.Parse()
 
@@ -111,6 +112,10 @@ func main() {
 	if err := writeJSONL(*outPath, pass1.places); err != nil {
 		fatal(err)
 	}
+	if err := writeJSONL(*citiesTo, pass1.cities); err != nil {
+		fatal(err)
+	}
+	fmt.Fprintf(os.Stderr, "Городов: %d → %s\n", len(pass1.cities), *citiesTo)
 
 	stats := ng.NewStats()
 	stats.TotalScanned = pass1.scanned
@@ -133,6 +138,7 @@ type wayRef struct {
 
 type pass1Result struct {
 	places      []ng.Place
+	cities      []ng.City
 	ways        []wayRef
 	neededNodes map[osm.NodeID]*coord
 	scanned     int64
@@ -163,6 +169,12 @@ func scanTagged(path string, box *bbox) (*pass1Result, error) {
 			}
 			tags := tagMap(o.Tags)
 			id := fmt.Sprintf("osm:node/%d", o.ID)
+			// Населённые пункты — отдельная сущность со своим экраном,
+			// поэтому проверяются раньше и не попадают в places.
+			if c, ok := ng.CityFromTags("city:"+id, tags, o.Lat, o.Lon); ok {
+				res.cities = append(res.cities, c)
+				continue
+			}
 			if p, ok := ng.FromTags(id, tags, o.Lat, o.Lon); ok {
 				res.places = append(res.places, p)
 			}
@@ -259,7 +271,7 @@ func tagMap(tags osm.Tags) map[string]string {
 	return m
 }
 
-func writeJSONL(path string, places []ng.Place) error {
+func writeJSONL[T any](path string, items []T) error {
 	f, err := os.Create(path)
 	if err != nil {
 		return err
@@ -270,8 +282,8 @@ func writeJSONL(path string, places []ng.Place) error {
 	defer w.Flush()
 
 	enc := json.NewEncoder(w)
-	for _, p := range places {
-		if err := enc.Encode(p); err != nil {
+	for _, it := range items {
+		if err := enc.Encode(it); err != nil {
 			return err
 		}
 	}

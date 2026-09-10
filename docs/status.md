@@ -36,8 +36,13 @@ updated: 2026-09-09
 | `cmd/probe` | готова — разведка покрытия контента |
 | `cmd/extract` | готова — OSM → JSONL, категории, значимость |
 | `cmd/enrich` | готова — Wikidata + тексты, 97% покрытия топ-40 |
+| `cmd/build` | готова — `content.sqlite` 0,9 МБ по Бергену |
 | `cmd/media` | следующая — фото с Commons |
-| `cmd/build` | сборка `content.sqlite` |
+| `cmd/preview` | превью карты для карточек |
+
+Цепочка `extract → enrich → build` работает целиком. Схема собранной базы
+совпадает со схемой drift, запросы приложения проверены тестами
+(`pipeline/cmd/build/verify_test.go`).
 
 ### Проверки рисков
 
