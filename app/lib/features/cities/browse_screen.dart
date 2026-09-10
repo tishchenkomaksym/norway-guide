@@ -160,7 +160,7 @@ class _CitiesGridState extends ConsumerState<_CitiesGrid> {
                 padding: const EdgeInsets.fromLTRB(16, 0, 16, 24),
                 gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
                   maxCrossAxisExtent: 320,
-                  mainAxisExtent: 168,
+                  mainAxisExtent: 180,
                   crossAxisSpacing: 12,
                   mainAxisSpacing: 12,
                 ),
@@ -203,34 +203,55 @@ class _CityCardTile extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Container(
-              height: 64,
+            // Фотография города, если она есть. Заливка — запасной вариант:
+            // у большинства мелких посёлков снимка в Commons нет.
+            SizedBox(
+              height: 96,
               width: double.infinity,
-              decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  begin: Alignment.topLeft,
-                  end: Alignment.bottomRight,
-                  colors: gradientForName(city.nameNo),
-                ),
+              child: Stack(
+                fit: StackFit.expand,
+                children: [
+                  if (item.hasPhoto)
+                    Image.asset(
+                      item.photoPath!,
+                      fit: BoxFit.cover,
+                      errorBuilder: (_, _, _) => _CityFill(name: city.nameNo),
+                    )
+                  else
+                    _CityFill(name: city.nameNo),
+                  const DecoratedBox(
+                    decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                        begin: Alignment.center,
+                        end: Alignment.bottomCenter,
+                        colors: [Colors.transparent, Color(0x8C000000)],
+                      ),
+                    ),
+                  ),
+                  Positioned(
+                    left: 12,
+                    bottom: 8,
+                    child: Text(
+                      city.nameNo,
+                      style: const TextStyle(
+                        color: Colors.white,
+                        fontSize: 16,
+                        fontWeight: FontWeight.w600,
+                        shadows: [
+                          Shadow(blurRadius: 4, color: Color(0xB3000000)),
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
               ),
-              alignment: Alignment.bottomLeft,
-              padding: const EdgeInsets.all(12),
-              child: Icon(Icons.location_city,
-                  color: Colors.white.withValues(alpha: 0.9), size: 22),
             ),
             Expanded(
               child: Padding(
-                padding: const EdgeInsets.fromLTRB(12, 10, 12, 10),
+                padding: const EdgeInsets.fromLTRB(12, 8, 12, 10),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
-                      city.nameNo,
-                      style: Theme.of(context).textTheme.titleMedium,
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                    const SizedBox(height: 4),
                     Text(
                       _subtitle(city.population, item.notableCount),
                       style: Theme.of(context).textTheme.bodySmall,
@@ -282,6 +303,33 @@ class _CityCardTile extends StatelessWidget {
     // У туристических мест население в OSM часто не проставлено вовсе —
     // писать «0 жителей» было бы неверно.
     return notable > 0 ? 'Туристическое место' : 'Населённый пункт';
+  }
+}
+
+/// Заливка вместо фотографии города.
+class _CityFill extends StatelessWidget {
+  const _CityFill({required this.name});
+
+  final String name;
+
+  @override
+  Widget build(BuildContext context) {
+    return DecoratedBox(
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+          colors: gradientForName(name),
+        ),
+      ),
+      child: Center(
+        child: Icon(
+          Icons.location_city,
+          size: 30,
+          color: Colors.white.withValues(alpha: 0.3),
+        ),
+      ),
+    );
   }
 }
 

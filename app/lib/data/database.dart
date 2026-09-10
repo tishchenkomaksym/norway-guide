@@ -69,7 +69,18 @@ class CityCard {
     required this.placeCount,
     required this.notableCount,
     required this.touristScore,
+    this.photoPath,
+    this.photoAuthor,
+    this.photoLicense,
   });
+
+  /// Заглавное фото города и его атрибуция — ходят вместе, потому что
+  /// показывать снимок без автора и лицензии нельзя (§7 спеки).
+  final String? photoPath;
+  final String? photoAuthor;
+  final String? photoLicense;
+
+  bool get hasPhoto => photoPath != null && photoAuthor != null;
 
   final City city;
 
@@ -269,6 +280,9 @@ class AppDatabase extends _$AppDatabase {
              s.place_count,
              s.notable_count,
              s.best_place,
+             ph.path_thumb AS photo_path,
+             ph.author     AS photo_author,
+             ph.license    AS photo_license,
              (s.best_place
               + MIN(s.notable_count, 10) * 4
               + CASE
@@ -279,6 +293,7 @@ class AppDatabase extends _$AppDatabase {
                 END) AS tourist_score
       FROM cities c
       JOIN city_stats s ON s.id = c.id
+      LEFT JOIN photos ph ON ph.city_id = c.id
       WHERE s.notable_count >= ? OR c.population >= ?
       ORDER BY tourist_score DESC, s.place_count DESC
       ''',
@@ -287,7 +302,7 @@ class AppDatabase extends _$AppDatabase {
         Variable<int>(minNotable),
         Variable<int>(minPopulation),
       ],
-      readsFrom: {cities, places},
+      readsFrom: {cities, places, photos},
     ).get();
 
     return rows
@@ -297,6 +312,9 @@ class AppDatabase extends _$AppDatabase {
             placeCount: row.read<int>('place_count'),
             notableCount: row.read<int>('notable_count'),
             touristScore: row.read<int>('tourist_score'),
+            photoPath: row.readNullable<String>('photo_path'),
+            photoAuthor: row.readNullable<String>('photo_author'),
+            photoLicense: row.readNullable<String>('photo_license'),
           ),
         )
         .toList();
