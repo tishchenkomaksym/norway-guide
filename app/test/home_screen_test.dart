@@ -139,11 +139,23 @@ void main() {
         isNotEmpty,
         reason: 'нет лицензии: ${credit.asset}',
       );
-      expect(
-        credit.sourceUrl,
-        startsWith('https://'),
-        reason: 'нет ссылки на источник: ${credit.asset}',
-      );
+      // У снятой фотографии обязана быть страница источника. Исключение
+      // одно — изображение, нарисованное нейросетью: страницы у него нет,
+      // и оно помечено явным признаком, а не отсутствием ссылки.
+      if (credit.generated) {
+        expect(
+          credit.license,
+          isNot(startsWith('CC')),
+          reason: 'сгенерированную картинку нельзя выдавать за CC-снимок: '
+              '${credit.asset}',
+        );
+      } else {
+        expect(
+          credit.sourceUrl,
+          startsWith('https://'),
+          reason: 'нет ссылки на источник: ${credit.asset}',
+        );
+      }
     }
   });
 }

@@ -12,6 +12,7 @@ class ImageCredit {
     required this.author,
     required this.license,
     required this.sourceUrl,
+    this.generated = false,
   });
 
   final String asset;
@@ -20,11 +21,37 @@ class ImageCredit {
   final String license;
   final String sourceUrl;
 
+  /// Изображение нарисовано нейросетью, а не снято.
+  ///
+  /// Отдельный признак, а не догадка по тексту автора: у сгенерированной
+  /// картинки нет страницы источника, и проверка «ссылка обязана начинаться
+  /// с https» иначе либо падает, либо её приходится ослаблять для всех.
+  /// Ослаблять нельзя — она ловит главный способ нарушить лицензию:
+  /// положить чужой снимок в assets и забыть про автора.
+  final bool generated;
+
   /// Короткая подпись под фото.
   String get short => '$author · $license';
 }
 
 const imageCredits = <ImageCredit>[
+  ImageCredit(
+    asset: 'assets/images/first-screen.jpg',
+    // Заставка главного экрана и эмблема приложения нарисованы
+    // нейросетью: в файле стоит метка C2PA
+    // digitalsourcetype/trainedAlgorithmicMedia. Это не фотография
+    // конкретного места, и подписывать её как снимок Рейне нельзя —
+    // мотивы узнаваемы (рорбу, сияние, Олстинден), но кадр вымышлен.
+    //
+    // Отсюда и формулировка: «иллюстрация, сгенерирована ИИ». Всё
+    // остальное в приложении — настоящие снимки с Commons, и человек
+    // должен понимать, где что.
+    title: 'Заставка: рорбу под северным сиянием (иллюстрация)',
+    author: 'Иллюстрация, сгенерирована ИИ',
+    license: 'Не фотография',
+    sourceUrl: '',
+    generated: true,
+  ),
   ImageCredit(
     asset: 'assets/images/geiranger-ornesvingen.jpg',
     title: 'Гейрангер-фьорд со смотровой Эрнесвинген',
