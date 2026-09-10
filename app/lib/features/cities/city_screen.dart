@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../core/providers.dart';
 import '../../data/database.dart';
+import '../../l10n/app_localizations.dart';
 import 'category_chips.dart';
 import 'place_grid.dart';
 
@@ -34,11 +35,11 @@ class _CityScreenState extends ConsumerState<CityScreen> {
         error: (e, _) => Center(child: Text('Ошибка: $e')),
         data: (all) {
           if (all.isEmpty) {
-            return const Center(
+            return Center(
               child: Padding(
-                padding: EdgeInsets.all(24),
+                padding: const EdgeInsets.all(24),
                 child: Text(
-                  'Для этого города мест пока нет',
+                  L.of(context).noPlacesInCity,
                   textAlign: TextAlign.center,
                 ),
               ),

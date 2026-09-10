@@ -1,0 +1,210 @@
+{
+  "@@locale": "zh",
+  "appTitle": "挪威",
+  "appTagline": "峡湾、瀑布与城镇 — 无需联网",
+  "nearbyTitle": "附近有什么",
+  "nearbySubtitle": "附近地点，含距离和方向",
+  "browseTitle": "去哪里",
+  "browseSubtitle": "全国的城镇与景点",
+  "favoritesTitle": "我的行程",
+  "favoritesSaved": "已保存 {count} 个地点",
+  "@favoritesSaved": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "sourcesTitle": "来源与许可",
+  "sourcesTooltip": "关于来源",
+  "photoBy": "图片：{credit}",
+  "@photoBy": {
+    "placeholders": {
+      "credit": {
+        "type": "String"
+      }
+    }
+  },
+  "nearbyScreenTitle": "我的附近",
+  "nearbyScreenTitleAt": "{city}附近",
+  "@nearbyScreenTitleAt": {
+    "placeholders": {
+      "city": {
+        "type": "String"
+      }
+    }
+  },
+  "searchTooltip": "搜索",
+  "setCityTooltip": "选择城市",
+  "useGpsTooltip": "使用 GPS",
+  "interestsTooltip": "我的兴趣",
+  "locationUnknown": "位置未知，点击选择城市",
+  "nothingInFilters": "没有符合所选筛选条件的结果",
+  "loadError": "无法加载地点",
+  "otherLanguageShort": "其他语言",
+  "descriptionOtherLanguage": "暂无翻译 — 显示原文",
+  "tabCities": "城镇",
+  "tabPlaces": "景点",
+  "noCities": "此数据版本中没有城镇",
+  "nothingInCategories": "所选分类中没有找到内容",
+  "shownOf": "已显示 {shown} / {total}",
+  "@shownOf": {
+    "placeholders": {
+      "shown": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "resetFilter": "重置",
+  "placesCount": "{count} 个地点",
+  "@placesCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "cityLarge": "大城市",
+  "cityMedium": "城市",
+  "citySmall": "小城",
+  "cityVillage": "村镇",
+  "cityHamlet": "小村",
+  "cityTourist": "旅游地",
+  "cityGeneric": "聚居地",
+  "noPlacesInCity": "该城镇暂无地点",
+  "placeNotFound": "未找到该地点",
+  "noDescription": "暂无介绍。坐标和导航可用 — 可以自己前往查看。",
+  "noDescriptionShort": "介绍尚未加载",
+  "routeButton": "导航前往",
+  "mapsFailed": "无法打开地图，需要联网。",
+  "addToFavorites": "加入行程",
+  "removeFromFavorites": "移出行程",
+  "factOpeningHours": "开放时间",
+  "factFee": "门票",
+  "factDifficulty": "难度",
+  "factDuration": "所需时间",
+  "factMinutes": "{count} 分钟",
+  "@factMinutes": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "factSeason": "季节",
+  "factWebsite": "网站",
+  "searchHint": "地点、城镇、瀑布…",
+  "searchPrompt": "请至少输入两个字符",
+  "searchPromptDetail": "同时搜索您的语言、挪威语和英语 — 可以按路牌上的写法输入。",
+  "searchNothing": "没有找到「{query}」",
+  "@searchNothing": {
+    "placeholders": {
+      "query": {
+        "type": "String"
+      }
+    }
+  },
+  "searchNothingDetail": "并非所有地点都有介绍。可尝试挪威语写法或词的一部分。",
+  "searchError": "搜索出错",
+  "favoritesWant": "想去",
+  "favoritesVisited": "已去过",
+  "favoritesEmpty": "这里还是空的",
+  "favoritesEmptyDetail": "点击地点卡片上的心形即可加入这里。可以标记去过的地方并添加备注。",
+  "noteTooltip": "备注",
+  "noteHint": "几点开门、在哪停车、需要带什么…",
+  "markVisited": "已去过",
+  "markNotVisited": "还没去",
+  "removedFromTrip": "已将{place}移出行程",
+  "@removedFromTrip": {
+    "placeholders": {
+      "place": {
+        "type": "String"
+      }
+    }
+  },
+  "undo": "撤销",
+  "cancel": "取消",
+  "save": "保存",
+  "emergencyTitle": "紧急求助",
+  "emergencyTooltip": "紧急求助",
+  "emergencyOther": "其他服务",
+  "emergencyKnow": "重要提示",
+  "emergencyCoordinates": "您的坐标",
+  "emergencyCopy": "复制",
+  "emergencyCopied": "坐标已复制",
+  "emergencyManualPosition": "位置为手动设置，非 GPS 定位",
+  "emergencyDial": "{service}：拨打 {number}",
+  "@emergencyDial": {
+    "placeholders": {
+      "service": {
+        "type": "String"
+      },
+      "number": {
+        "type": "String"
+      }
+    }
+  },
+  "whereAreYou": "您在哪里？",
+  "cityHint": "城市：Bergen、Oslo、Tromsø…",
+  "nothingFound": "没有找到",
+  "profileQuestion": "您最感兴趣的是什么？",
+  "profileQuestionDetail": "我们会调整优先显示的内容。不会隐藏任何内容 — 完整目录仍可通过搜索查看。",
+  "profileWhen": "您计划何时出行？",
+  "profileWhenDetail": "山路和部分步道冬季关闭 — 不会推荐现在无法抵达的地方。",
+  "profileNow": "我现在就在挪威",
+  "profileSoon": "未来几个月",
+  "profileBrowsing": "只是看看",
+  "profileSkip": "跳过",
+  "profileNext": "下一步",
+  "profileDone": "完成 — 已按 {count} 项兴趣调整排序",
+  "@profileDone": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "catMuseums": "博物馆",
+  "catViewpoints": "观景点",
+  "catFjords": "峡湾",
+  "catWaterfalls": "瀑布",
+  "catChurches": "教堂",
+  "catHikes": "步道",
+  "catGlaciers": "冰川",
+  "catBeaches": "海滩",
+  "catMuseum": "博物馆",
+  "catViewpoint": "观景点",
+  "catFjord": "峡湾",
+  "catWaterfall": "瀑布",
+  "catChurch": "教堂",
+  "catHike": "步道",
+  "catGlacier": "冰川",
+  "catBeach": "海滩",
+  "catOther": "地点",
+  "emgAmbulance": "急救",
+  "emgAmbulanceSub": "Ambulanse · 危及生命、重伤",
+  "emgPolice": "警察",
+  "emgPoliceSub": "Politi · 犯罪、事故、人员失踪",
+  "emgFire": "消防",
+  "emgFireSub": "Brann · 火灾、浓烟、燃气泄漏",
+  "emgDoctor": "值班医生",
+  "emgDoctorSub": "Legevakt · 紧急但无生命危险",
+  "emgSea": "海上救援",
+  "emgSeaSub": "Hovedredningssentralen · 海上事故",
+  "emgPoison": "中毒",
+  "emgPoisonSub": "Giftinformasjonen · 24 小时",
+  "emgRoad": "道路服务",
+  "emgRoadSub": "Vegtrafikksentralen · 道路封闭、雪崩",
+  "emgNoteSimTitle": "无网络、无 SIM 卡也能拨通",
+  "emgNoteSimBody": "拨打 112 和 113 会经由任何可用信号塔接通，即使您的运营商没有信号、手机里没有 SIM 卡。",
+  "emgNoteCoordsTitle": "报出坐标",
+  "emgNoteCoordsBody": "山区和峡湾没有门牌地址。请读出纬度和经度 — 就在本页下方，可以复制。",
+  "emgNoteEnglishTitle": "可以说英语",
+  "emgNoteEnglishBody": "挪威紧急服务接线员会说英语。请保持冷静、简短说明：发生了什么、在哪里、有多少人受伤。",
+  "emgNoteMountainTitle": "山区求助拨 112",
+  "emgNoteMountainBody": "山区救援由警方负责，没有单独号码。请勿关机：救援人员会通过手机定位您。",
+  "emgVerified": "号码适用于挪威。已于 2026-09-10 依据 politiet.no、helsenorge.no、hovedredningssentralen.no 核对。"
+}

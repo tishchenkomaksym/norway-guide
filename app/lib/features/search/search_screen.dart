@@ -7,6 +7,7 @@ import '../../core/categories.dart';
 import '../../core/profile.dart';
 import '../../core/providers.dart';
 import '../../data/database.dart';
+import '../../l10n/app_localizations.dart';
 import '../place/place_screen.dart';
 
 /// Поиск по местам.
@@ -55,6 +56,8 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
     final results = ref.watch(searchResultsProvider);
     final query = ref.watch(searchQueryProvider).trim();
 
+    final l = L.of(context);
+
     return Scaffold(
       appBar: AppBar(
         title: TextField(
@@ -62,7 +65,7 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
           autofocus: true,
           textInputAction: TextInputAction.search,
           decoration: InputDecoration(
-            hintText: 'Место, город, водопад…',
+            hintText: l.searchHint,
             border: InputBorder.none,
             suffixIcon: _controller.text.isEmpty
                 ? null
@@ -87,7 +90,7 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
         error: (e, _) => Center(
           child: Padding(
             padding: const EdgeInsets.all(24),
-            child: Text('Ошибка поиска:\n$e', textAlign: TextAlign.center),
+            child: Text('${l.searchError}:\n$e', textAlign: TextAlign.center),
           ),
         ),
         data: (list) {
@@ -137,7 +140,7 @@ class _ResultTile extends ConsumerWidget {
           Row(
             children: [
               Text(
-                categorySingular(item.place.category),
+                categorySingular(context, item.place.category),
                 style: Theme.of(context).textTheme.labelSmall?.copyWith(
                       color: color,
                       fontWeight: FontWeight.w600,
@@ -201,13 +204,12 @@ class _Hint extends StatelessWidget {
             Icon(Icons.search, size: 44, color: scheme.outlineVariant),
             const SizedBox(height: 14),
             Text(
-              'Введите хотя бы две буквы',
+              L.of(context).searchPrompt,
               style: Theme.of(context).textTheme.bodyMedium,
             ),
             const SizedBox(height: 6),
             Text(
-              'Ищем на русском, норвежском и английском одновременно — '
-              'можно набирать так, как написано на указателе.',
+              L.of(context).searchPromptDetail,
               textAlign: TextAlign.center,
               style: Theme.of(context)
                   .textTheme
@@ -235,14 +237,13 @@ class _Nothing extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           children: [
             Text(
-              'По запросу «$query» ничего не нашлось',
+              L.of(context).searchNothing(query),
               textAlign: TextAlign.center,
               style: Theme.of(context).textTheme.bodyMedium,
             ),
             const SizedBox(height: 8),
             Text(
-              'Описания есть не у всех мест. Попробуйте норвежское '
-              'написание или часть слова.',
+              L.of(context).searchNothingDetail,
               textAlign: TextAlign.center,
               style: Theme.of(context).textTheme.bodySmall?.copyWith(
                     color: Theme.of(context).colorScheme.outline,

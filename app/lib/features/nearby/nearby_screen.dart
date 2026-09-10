@@ -10,6 +10,7 @@ import '../emergency/emergency_button.dart';
 import '../favorites/favorites_screen.dart';
 import '../place/place_screen.dart';
 import '../profile/profile_sheet.dart';
+import '../../l10n/app_localizations.dart';
 import '../search/search_screen.dart';
 import 'location_picker.dart';
 
@@ -63,18 +64,20 @@ class _NearbyScreenState extends ConsumerState<NearbyScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(mock == null ? 'Рядом со мной' : 'Рядом: ${mock.name}'),
+        title: Text(mock == null
+            ? L.of(context).nearbyScreenTitle
+            : L.of(context).nearbyScreenTitleAt(mock.name)),
         actions: [
           IconButton(
             icon: const Icon(Icons.search),
-            tooltip: 'Поиск',
+            tooltip: L.of(context).searchTooltip,
             onPressed: () => Navigator.of(context).push(
               MaterialPageRoute(builder: (_) => const SearchScreen()),
             ),
           ),
           IconButton(
             icon: const Icon(Icons.favorite_border),
-            tooltip: 'Моя поездка',
+            tooltip: L.of(context).favoritesTitle,
             onPressed: () => Navigator.of(context).push(
               MaterialPageRoute(builder: (_) => const FavoritesScreen()),
             ),
@@ -83,12 +86,12 @@ class _NearbyScreenState extends ConsumerState<NearbyScreen> {
           const EmergencyButton(),
           IconButton(
             icon: const Icon(Icons.edit_location_alt),
-            tooltip: 'Указать город',
+            tooltip: L.of(context).setCityTooltip,
             onPressed: () => showLocationPicker(context, ref),
           ),
           IconButton(
             icon: const Icon(Icons.my_location),
-            tooltip: 'Определить по GPS',
+            tooltip: L.of(context).useGpsTooltip,
             onPressed: () {
               ref.read(mockPositionProvider.notifier).state = null;
               ref.invalidate(positionProvider);
@@ -97,7 +100,7 @@ class _NearbyScreenState extends ConsumerState<NearbyScreen> {
           ),
           IconButton(
             icon: const Icon(Icons.tune),
-            tooltip: 'Мои интересы',
+            tooltip: L.of(context).interestsTooltip,
             onPressed: () => showProfileSheet(context, ref),
           ),
         ],
@@ -112,14 +115,14 @@ class _NearbyScreenState extends ConsumerState<NearbyScreen> {
               error: (e, _) => Center(
                 child: Padding(
                   padding: const EdgeInsets.all(24),
-                  child: Text('Не удалось загрузить места:\n$e',
+                  child: Text('${L.of(context).loadError}:\n$e',
                       textAlign: TextAlign.center),
                 ),
               ),
               data: (list) {
                 if (list.isEmpty) {
-                  return const Center(
-                    child: Text('Ничего не найдено по выбранным фильтрам'),
+                  return Center(
+                    child: Text(L.of(context).nothingInFilters),
                   );
                 }
                 return ListView.separated(
@@ -153,7 +156,7 @@ class _NoLocationBanner extends ConsumerWidget {
               const SizedBox(width: 8),
               Expanded(
                 child: Text(
-                  'Положение неизвестно. Нажмите, чтобы указать город',
+                  L.of(context).locationUnknown,
                   style: Theme.of(context).textTheme.bodySmall,
                 ),
               ),
@@ -216,7 +219,7 @@ class _PlaceTile extends ConsumerWidget {
             Padding(
               padding: const EdgeInsets.only(top: 2),
               child: Text(
-                'Описание доступно только на другом языке',
+                L.of(context).otherLanguageShort,
                 style: Theme.of(context).textTheme.labelSmall,
               ),
             ),

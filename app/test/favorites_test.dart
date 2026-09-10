@@ -13,17 +13,29 @@ void main() {
 
   setUp(() async {
     db = AppDatabase(NativeDatabase.memory());
-    await db.into(db.regions).insert(RegionsCompanion.insert(
-        id: 'r', nameNo: 'Region', bbox: '0,0,1,1', packVersion: 1));
-    await db.into(db.places).insert(PlacesCompanion.insert(
-          id: 'osm:node/1',
-          regionId: 'r',
-          category: 'waterfall',
-          nameNo: 'Vøringsfossen',
-          lat: 60.42,
-          lon: 7.24,
-          importance: const Value(85),
-        ));
+    await db
+        .into(db.regions)
+        .insert(
+          RegionsCompanion.insert(
+            id: 'r',
+            nameNo: 'Region',
+            bbox: '0,0,1,1',
+            packVersion: 1,
+          ),
+        );
+    await db
+        .into(db.places)
+        .insert(
+          PlacesCompanion.insert(
+            id: 'osm:node/1',
+            regionId: 'r',
+            category: 'waterfall',
+            nameNo: 'Vøringsfossen',
+            lat: 60.42,
+            lon: 7.24,
+            importance: const Value(85),
+          ),
+        );
   });
 
   tearDown(() async => db.close());

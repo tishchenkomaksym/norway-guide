@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:nordguide/core/attribution.dart';
 import 'package:nordguide/core/providers.dart';
 import 'package:nordguide/data/database.dart';
 import 'package:nordguide/features/home/home_screen.dart';
+import 'package:nordguide/l10n/app_localizations.dart';
+import 'package:nordguide/l10n/app_localizations_en.dart';
+import 'package:nordguide/l10n/app_localizations_ru.dart';
 
 /// Стартовый экран уже один раз «пропадал»: Spacer внутри
 /// SingleChildScrollView роняет построение, и остаётся только фон.
@@ -17,15 +21,23 @@ Widget _app({List<Favorite> favorites = const []}) {
     overrides: [
       favoritesProvider.overrideWith((ref) => Stream.value(favorites)),
     ],
-    child: const MaterialApp(home: HomeScreen()),
+    child: const MaterialApp(
+      locale: Locale('ru'),
+      localizationsDelegates: [
+        L.delegate,
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+      ],
+      supportedLocales: L.supportedLocales,
+      home: HomeScreen(),
+    ),
   );
 }
 
 void main() {
   testWidgets('стартовый экран строится и показывает оба пути', (tester) async {
-    await tester.pumpWidget(
-      _app(),
-    );
+    await tester.pumpWidget(_app());
 
     expect(tester.takeException(), isNull);
     expect(find.text('Норвегия'), findsOneWidget);
@@ -38,18 +50,14 @@ void main() {
     tester.view.devicePixelRatio = 1.0;
     addTearDown(tester.view.resetPhysicalSize);
 
-    await tester.pumpWidget(
-      _app(),
-    );
+    await tester.pumpWidget(_app());
 
     expect(tester.takeException(), isNull);
     expect(find.text('Что рядом со мной'), findsOneWidget);
   });
 
   testWidgets('на экране видна атрибуция фотографии', (tester) async {
-    await tester.pumpWidget(
-      _app(),
-    );
+    await tester.pumpWidget(_app());
 
     // Требование CC BY-SA: снимок нельзя показывать без указания автора.
     // Имя берём из справочника, а не вписываем в тест: при замене фото
@@ -59,8 +67,7 @@ void main() {
     expect(find.textContaining(credit!.author), findsOneWidget);
   });
 
-  testWidgets('без сохранённых мест раздела «Моя поездка» нет',
-      (tester) async {
+  testWidgets('без сохранённых мест раздела «Моя поездка» нет', (tester) async {
     await tester.pumpWidget(_app());
     await tester.pump();
     // Пустой раздел на первом запуске — обещание без содержания.
@@ -68,24 +75,37 @@ void main() {
   });
 
   testWidgets('с сохранённым местом раздел появляется', (tester) async {
-    await tester.pumpWidget(_app(favorites: const [
-      Favorite(placeId: 'osm:node/1', addedAt: 0, visited: false),
-    ]));
+    await tester.pumpWidget(
+      _app(
+        favorites: const [
+          Favorite(placeId: 'osm:node/1', addedAt: 0, visited: false),
+        ],
+      ),
+    );
     await tester.pump();
 
     expect(find.text('Моя поездка'), findsOneWidget);
     expect(find.text('1 место сохранено'), findsOneWidget);
   });
 
-  test('русские числительные для счётчика избранного', () {
+  test('русские числительные берутся из правил ICU', () {
     // Проверка не косметическая: «5 места» бросается в глаза сразу.
-    expect(HomeScreen.favoritesSubtitle(1), '1 место сохранено');
-    expect(HomeScreen.favoritesSubtitle(2), '2 места сохранено');
-    expect(HomeScreen.favoritesSubtitle(5), '5 мест сохранено');
-    expect(HomeScreen.favoritesSubtitle(11), '11 мест сохранено');
-    expect(HomeScreen.favoritesSubtitle(21), '21 место сохранено');
-    expect(HomeScreen.favoritesSubtitle(22), '22 места сохранено');
-    expect(HomeScreen.favoritesSubtitle(114), '114 мест сохранено');
+    // Формы теперь задаёт ARB, а не код — проверяем сам результат.
+    final ru = LRu();
+    expect(ru.favoritesSaved(1), '1 место сохранено');
+    expect(ru.favoritesSaved(2), '2 места сохранено');
+    expect(ru.favoritesSaved(5), '5 мест сохранено');
+    expect(ru.favoritesSaved(11), '11 мест сохранено');
+    expect(ru.favoritesSaved(21), '21 место сохранено');
+    expect(ru.favoritesSaved(22), '22 места сохранено');
+    expect(ru.favoritesSaved(114), '114 мест сохранено');
+  });
+
+  test('английские числительные — две формы', () {
+    final en = LEn();
+    expect(en.favoritesSaved(1), '1 place saved');
+    expect(en.favoritesSaved(2), '2 places saved');
+    expect(en.favoritesSaved(21), '21 places saved');
   });
 
   test('каждое изображение имеет запись атрибуции', () {
@@ -94,9 +114,16 @@ void main() {
     expect(imageCredits, isNotEmpty);
     for (final credit in imageCredits) {
       expect(credit.author, isNotEmpty, reason: 'нет автора: ${credit.asset}');
-      expect(credit.license, isNotEmpty, reason: 'нет лицензии: ${credit.asset}');
-      expect(credit.sourceUrl, startsWith('https://'),
-          reason: 'нет ссылки на источник: ${credit.asset}');
+      expect(
+        credit.license,
+        isNotEmpty,
+        reason: 'нет лицензии: ${credit.asset}',
+      );
+      expect(
+        credit.sourceUrl,
+        startsWith('https://'),
+        reason: 'нет ссылки на источник: ${credit.asset}',
+      );
     }
   });
 }

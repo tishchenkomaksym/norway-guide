@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../core/categories.dart';
+import '../../l10n/app_localizations.dart';
 
 /// Полоса плашек категорий.
 ///
@@ -134,7 +135,7 @@ class _CategoryChip extends StatelessWidget {
                 Icon(iconForCategory(id), size: 17, color: foreground),
                 const SizedBox(width: 7),
                 Text(
-                  categoryLabel(id),
+                  categoryLabel(context, id),
                   style: TextStyle(
                     color: foreground,
                     fontSize: 13.5,
@@ -193,7 +194,7 @@ class _ResetChip extends StatelessWidget {
               Icon(Icons.close, size: 16, color: scheme.onSurfaceVariant),
               const SizedBox(width: 5),
               Text(
-                'Сбросить',
+                L.of(context).resetFilter,
                 style: TextStyle(
                   color: scheme.onSurfaceVariant,
                   fontSize: 13.5,

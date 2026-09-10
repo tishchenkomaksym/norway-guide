@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../core/categories.dart';
 import '../../core/providers.dart';
 import '../../data/database.dart';
+import '../../l10n/app_localizations.dart';
 import '../place/place_screen.dart';
 
 /// Моя поездка: сохранённые места, отметки «был здесь» и личные заметки.
@@ -18,7 +19,7 @@ class FavoritesScreen extends ConsumerWidget {
     final favorites = ref.watch(favoritePlacesProvider);
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Моя поездка')),
+      appBar: AppBar(title: Text(L.of(context).favoritesTitle)),
       body: favorites.when(
         loading: () => const Center(child: CircularProgressIndicator()),
         error: (e, _) => Center(child: Text('Ошибка: $e')),
@@ -33,13 +34,13 @@ class FavoritesScreen extends ConsumerWidget {
             children: [
               if (planned.isNotEmpty) ...[
                 _SectionHeader(
-                  title: 'Хочу посмотреть',
+                  title: L.of(context).favoritesWant,
                   count: planned.length,
                 ),
                 for (final f in planned) _FavoriteTile(item: f),
               ],
               if (visited.isNotEmpty) ...[
-                _SectionHeader(title: 'Уже был', count: visited.length),
+                _SectionHeader(title: L.of(context).favoritesVisited, count: visited.length),
                 for (final f in visited) _FavoriteTile(item: f),
               ],
             ],
@@ -101,9 +102,9 @@ class _FavoriteTile extends ConsumerWidget {
         if (context.mounted) {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
-              content: Text('${place.name} убрано из поездки'),
+              content: Text(L.of(context).removedFromTrip(place.name)),
               action: SnackBarAction(
-                label: 'Вернуть',
+                label: L.of(context).undo,
                 // Заметку восстановить не получится — она удалена вместе
                 // с записью. Возвращаем хотя бы само место.
                 onPressed: () => db.toggleFavorite(place.place.id),
@@ -140,7 +141,7 @@ class _FavoriteTile extends ConsumerWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              categorySingular(place.place.category),
+              categorySingular(context, place.place.category),
               style: Theme.of(context).textTheme.labelSmall?.copyWith(
                     color: color,
                     fontWeight: FontWeight.w600,
@@ -180,7 +181,7 @@ class _FavoriteTile extends ConsumerWidget {
                     : Icons.edit_note,
                 size: 20,
               ),
-              tooltip: 'Заметка',
+              tooltip: L.of(context).noteTooltip,
               onPressed: () => _editNote(context, ref, item),
             ),
             IconButton(
@@ -191,7 +192,7 @@ class _FavoriteTile extends ConsumerWidget {
                 size: 22,
                 color: item.visited ? Colors.green : null,
               ),
-              tooltip: item.visited ? 'Не был' : 'Был здесь',
+              tooltip: item.visited ? L.of(context).markNotVisited : L.of(context).markVisited,
               onPressed: () async {
                 final db = await ref.read(databaseProvider.future);
                 await db.setVisited(place.place.id, !item.visited);
@@ -224,19 +225,19 @@ Future<void> _editNote(
         controller: controller,
         autofocus: true,
         maxLines: 4,
-        decoration: const InputDecoration(
-          hintText: 'Во сколько открывается, где парковка, что взять…',
-          border: OutlineInputBorder(),
+        decoration: InputDecoration(
+          hintText: L.of(context).noteHint,
+          border: const OutlineInputBorder(),
         ),
       ),
       actions: [
         TextButton(
           onPressed: () => Navigator.of(context).pop(),
-          child: const Text('Отмена'),
+          child: Text(L.of(context).cancel),
         ),
         FilledButton(
           onPressed: () => Navigator.of(context).pop(controller.text),
-          child: const Text('Сохранить'),
+          child: Text(L.of(context).save),
         ),
       ],
     ),
@@ -279,13 +280,12 @@ class _Empty extends StatelessWidget {
             Icon(Icons.favorite_border, size: 46, color: scheme.outlineVariant),
             const SizedBox(height: 14),
             Text(
-              'Здесь пока пусто',
+              L.of(context).favoritesEmpty,
               style: Theme.of(context).textTheme.titleMedium,
             ),
             const SizedBox(height: 6),
             Text(
-              'Нажмите сердечко на карточке места — оно попадёт сюда. '
-              'Можно отмечать посещённые и оставлять заметки.',
+              L.of(context).favoritesEmptyDetail,
               textAlign: TextAlign.center,
               style: Theme.of(context)
                   .textTheme

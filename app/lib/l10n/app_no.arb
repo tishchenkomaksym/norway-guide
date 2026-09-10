@@ -1,0 +1,210 @@
+{
+  "@@locale": "no",
+  "appTitle": "Norge",
+  "appTagline": "Fjorder, fossefall og byer — uten nett",
+  "nearbyTitle": "Hva er i nærheten",
+  "nearbySubtitle": "Nære steder med avstand og retning",
+  "browseTitle": "Hvor skal du",
+  "browseSubtitle": "Byer og severdigheter i hele landet",
+  "favoritesTitle": "Min tur",
+  "favoritesSaved": "{count, plural, one{{count} sted lagret} other{{count} steder lagret}}",
+  "@favoritesSaved": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "sourcesTitle": "Kilder og lisenser",
+  "sourcesTooltip": "Om kildene",
+  "photoBy": "Foto: {credit}",
+  "@photoBy": {
+    "placeholders": {
+      "credit": {
+        "type": "String"
+      }
+    }
+  },
+  "nearbyScreenTitle": "I nærheten",
+  "nearbyScreenTitleAt": "Nær {city}",
+  "@nearbyScreenTitleAt": {
+    "placeholders": {
+      "city": {
+        "type": "String"
+      }
+    }
+  },
+  "searchTooltip": "Søk",
+  "setCityTooltip": "Velg sted",
+  "useGpsTooltip": "Bruk GPS",
+  "interestsTooltip": "Mine interesser",
+  "locationUnknown": "Ukjent posisjon. Trykk for å velge sted",
+  "nothingInFilters": "Ingenting passer de valgte filtrene",
+  "loadError": "Kunne ikke laste steder",
+  "otherLanguageShort": "Annet språk",
+  "descriptionOtherLanguage": "Ingen oversettelse ennå — tekst på kildespråket",
+  "tabCities": "Steder",
+  "tabPlaces": "Severdigheter",
+  "noCities": "Ingen steder i dette datasettet",
+  "nothingInCategories": "Ingenting funnet i valgte kategorier",
+  "shownOf": "Viser {shown} av {total}",
+  "@shownOf": {
+    "placeholders": {
+      "shown": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "resetFilter": "Nullstill",
+  "placesCount": "{count} steder",
+  "@placesCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "cityLarge": "Storby",
+  "cityMedium": "By",
+  "citySmall": "Småby",
+  "cityVillage": "Tettsted",
+  "cityHamlet": "Lite tettsted",
+  "cityTourist": "Turiststed",
+  "cityGeneric": "Bosetting",
+  "noPlacesInCity": "Ingen steder her ennå",
+  "placeNotFound": "Fant ikke stedet",
+  "noDescription": "Ingen beskrivelse ennå. Koordinater og veibeskrivelse virker — du kan dra og se selv.",
+  "noDescriptionShort": "Beskrivelse ikke lastet",
+  "routeButton": "Veibeskrivelse",
+  "mapsFailed": "Kunne ikke åpne kart. Krever nett.",
+  "addToFavorites": "Legg til i turen",
+  "removeFromFavorites": "Fjern fra turen",
+  "factOpeningHours": "Åpningstider",
+  "factFee": "Inngang",
+  "factDifficulty": "Vanskelighetsgrad",
+  "factDuration": "Varighet",
+  "factMinutes": "{count} min",
+  "@factMinutes": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "factSeason": "Sesong",
+  "factWebsite": "Nettsted",
+  "searchHint": "Sted, by, foss…",
+  "searchPrompt": "Skriv minst to bokstaver",
+  "searchPromptDetail": "Vi søker på ditt språk, norsk og engelsk samtidig — skriv slik det står på skiltet.",
+  "searchNothing": "Fant ingenting for «{query}»",
+  "@searchNothing": {
+    "placeholders": {
+      "query": {
+        "type": "String"
+      }
+    }
+  },
+  "searchNothingDetail": "Ikke alle steder har beskrivelse. Prøv norsk skrivemåte eller deler av ordet.",
+  "searchError": "Søkefeil",
+  "favoritesWant": "Vil se",
+  "favoritesVisited": "Har vært",
+  "favoritesEmpty": "Ingenting her ennå",
+  "favoritesEmptyDetail": "Trykk hjertet på et sted, så havner det her. Du kan krysse av besøkte steder og skrive notater.",
+  "noteTooltip": "Notat",
+  "noteHint": "Åpningstid, parkering, hva du bør ta med…",
+  "markVisited": "Har vært her",
+  "markNotVisited": "Ikke ennå",
+  "removedFromTrip": "{place} fjernet fra turen",
+  "@removedFromTrip": {
+    "placeholders": {
+      "place": {
+        "type": "String"
+      }
+    }
+  },
+  "undo": "Angre",
+  "cancel": "Avbryt",
+  "save": "Lagre",
+  "emergencyTitle": "Nødhjelp",
+  "emergencyTooltip": "Nødhjelp",
+  "emergencyOther": "Andre tjenester",
+  "emergencyKnow": "Viktig å vite",
+  "emergencyCoordinates": "Dine koordinater",
+  "emergencyCopy": "Kopier",
+  "emergencyCopied": "Koordinater kopiert",
+  "emergencyManualPosition": "Posisjon valgt manuelt — ikke fra GPS",
+  "emergencyDial": "{service}: ring {number}",
+  "@emergencyDial": {
+    "placeholders": {
+      "service": {
+        "type": "String"
+      },
+      "number": {
+        "type": "String"
+      }
+    }
+  },
+  "whereAreYou": "Hvor er du?",
+  "cityHint": "Sted: Bergen, Oslo, Tromsø…",
+  "nothingFound": "Ingenting funnet",
+  "profileQuestion": "Hva interesserer deg mest?",
+  "profileQuestionDetail": "Vi velger hva som vises først. Ingenting skjules — hele katalogen er tilgjengelig via søk.",
+  "profileWhen": "Når reiser du?",
+  "profileWhenDetail": "Fjellveier og noen stier er stengt om vinteren — vi foreslår ikke steder du ikke kommer til nå.",
+  "profileNow": "Jeg er i Norge nå",
+  "profileSoon": "I løpet av de nærmeste månedene",
+  "profileBrowsing": "Bare ser meg om",
+  "profileSkip": "Hopp over",
+  "profileNext": "Videre",
+  "profileDone": "{count, plural, one{Ferdig — passende steder ligger nå høyere} other{Ferdig — {count} interesser tatt hensyn til}}",
+  "@profileDone": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "catMuseums": "Museer",
+  "catViewpoints": "Utsiktspunkter",
+  "catFjords": "Fjorder",
+  "catWaterfalls": "Fossefall",
+  "catChurches": "Kirker",
+  "catHikes": "Turstier",
+  "catGlaciers": "Isbreer",
+  "catBeaches": "Strender",
+  "catMuseum": "Museum",
+  "catViewpoint": "Utsiktspunkt",
+  "catFjord": "Fjord",
+  "catWaterfall": "Foss",
+  "catChurch": "Kirke",
+  "catHike": "Tursti",
+  "catGlacier": "Isbre",
+  "catBeach": "Strand",
+  "catOther": "Sted",
+  "emgAmbulance": "Ambulanse",
+  "emgAmbulanceSub": "Ambulanse · livstruende, alvorlig skade",
+  "emgPolice": "Politi",
+  "emgPoliceSub": "Politi · kriminalitet, ulykke, savnet person",
+  "emgFire": "Brannvesen",
+  "emgFireSub": "Brann · brann, røyk, gasslekkasje",
+  "emgDoctor": "Legevakt",
+  "emgDoctorSub": "Legevakt · haster, men ikke livstruende",
+  "emgSea": "Sjøredning",
+  "emgSeaSub": "Hovedredningssentralen · hendelse til sjøs",
+  "emgPoison": "Forgiftning",
+  "emgPoisonSub": "Giftinformasjonen · døgnåpent",
+  "emgRoad": "Veitrafikk",
+  "emgRoadSub": "Vegtrafikksentralen · stengte veier, skred",
+  "emgNoteSimTitle": "Virker uten nett og uten SIM",
+  "emgNoteSimBody": "Anrop til 112 og 113 går via enhver tilgjengelig mast, også uten dekning fra din operatør og uten SIM-kort i telefonen.",
+  "emgNoteCoordsTitle": "Oppgi koordinatene",
+  "emgNoteCoordsBody": "I fjellet og på fjorden finnes ingen adresse. Les opp breddegrad og lengdegrad — de står nedenfor og kan kopieres.",
+  "emgNoteEnglishTitle": "Engelsk forstås",
+  "emgNoteEnglishBody": "Operatørene snakker engelsk. Vær rolig og kort: hva som har skjedd, hvor, hvor mange skadde.",
+  "emgNoteMountainTitle": "I fjellet — 112",
+  "emgNoteMountainBody": "Politiet leder redning i fjellet, det finnes ikke eget nummer. La telefonen stå på: den brukes til å finne deg.",
+  "emgVerified": "Numrene gjelder Norge. Kontrollert 10.09.2026 mot politiet.no, helsenorge.no, hovedredningssentralen.no."
+}

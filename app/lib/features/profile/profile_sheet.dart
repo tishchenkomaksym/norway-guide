@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../core/profile.dart';
+import '../../l10n/app_localizations.dart';
 
 /// Вопрос об интересах.
 ///
@@ -55,13 +56,12 @@ class _ProfileSheetState extends ConsumerState<_ProfileSheet> {
   List<Widget> _interestsStep(BuildContext context, UserProfile profile) {
     return [
       Text(
-        'Что вам интереснее всего?',
+        L.of(context).profileQuestion,
         style: Theme.of(context).textTheme.titleLarge,
       ),
       const SizedBox(height: 4),
       Text(
-        'Подберём, что показывать первым. Ничего не спрячем — весь каталог '
-        'остаётся доступен через поиск.',
+        L.of(context).profileQuestionDetail,
         style: Theme.of(context).textTheme.bodySmall,
       ),
       const SizedBox(height: 16),
@@ -83,12 +83,12 @@ class _ProfileSheetState extends ConsumerState<_ProfileSheet> {
         children: [
           TextButton(
             onPressed: () => Navigator.of(context).pop(),
-            child: const Text('Пропустить'),
+            child: Text(L.of(context).profileSkip),
           ),
           const Spacer(),
           FilledButton(
             onPressed: () => setState(() => _step = 1),
-            child: const Text('Дальше'),
+            child: Text(L.of(context).profileNext),
           ),
         ],
       ),
@@ -98,20 +98,19 @@ class _ProfileSheetState extends ConsumerState<_ProfileSheet> {
   List<Widget> _timeStep(BuildContext context) {
     return [
       Text(
-        'Когда планируете поездку?',
+        L.of(context).profileWhen,
         style: Theme.of(context).textTheme.titleLarge,
       ),
       const SizedBox(height: 4),
       Text(
-        'Горные дороги и часть троп закрыты зимой — не будем предлагать '
-        'то, куда сейчас не проехать.',
+        L.of(context).profileWhenDetail,
         style: Theme.of(context).textTheme.bodySmall,
       ),
       const SizedBox(height: 16),
-      for (final entry in const {
-        TravelTime.now: 'Я сейчас в Норвегии',
-        TravelTime.soon: 'В ближайшие месяцы',
-        TravelTime.browsing: 'Просто смотрю',
+      for (final entry in {
+        TravelTime.now: L.of(context).profileNow,
+        TravelTime.soon: L.of(context).profileSoon,
+        TravelTime.browsing: L.of(context).profileBrowsing,
       }.entries)
         Padding(
           padding: const EdgeInsets.only(bottom: 8),
@@ -130,7 +129,7 @@ class _ProfileSheetState extends ConsumerState<_ProfileSheet> {
       const SizedBox(height: 4),
       TextButton(
         onPressed: () => Navigator.of(context).pop(),
-        child: const Text('Пропустить'),
+        child: Text(L.of(context).profileSkip),
       ),
     ];
   }
@@ -142,11 +141,7 @@ class _ProfileSheetState extends ConsumerState<_ProfileSheet> {
     if (count == 0) return;
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
-        content: Text(
-          count == 1
-              ? 'Готово — подходящие места теперь выше в списке'
-              : 'Готово — учли $count интереса в порядке выдачи',
-        ),
+        content: Text(L.of(context).profileDone(count)),
       ),
     );
   }

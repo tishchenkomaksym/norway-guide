@@ -21,24 +21,40 @@ void main() {
         prefix = '2 3', tokenize = 'unicode61 remove_diacritics 2')
     ''');
 
-    await db.into(db.regions).insert(RegionsCompanion.insert(
-        id: 'r', nameNo: 'Region', bbox: '0,0,1,1', packVersion: 1));
-    await db.into(db.places).insert(PlacesCompanion.insert(
-          id: 'osm:node/1',
-          regionId: 'r',
-          category: 'viewpoint',
-          nameNo: 'Preikestolen',
-          lat: 58.98,
-          lon: 6.18,
-          importance: const Value(98),
-        ));
-    await db.into(db.translations).insert(TranslationsCompanion.insert(
-          entityType: 'place',
-          entityId: 'osm:node/1',
-          lang: 'en',
-          name: const Value('Pulpit Rock'),
-          summary: const Value('Flat cliff above the Lysefjord.'),
-        ));
+    await db
+        .into(db.regions)
+        .insert(
+          RegionsCompanion.insert(
+            id: 'r',
+            nameNo: 'Region',
+            bbox: '0,0,1,1',
+            packVersion: 1,
+          ),
+        );
+    await db
+        .into(db.places)
+        .insert(
+          PlacesCompanion.insert(
+            id: 'osm:node/1',
+            regionId: 'r',
+            category: 'viewpoint',
+            nameNo: 'Preikestolen',
+            lat: 58.98,
+            lon: 6.18,
+            importance: const Value(98),
+          ),
+        );
+    await db
+        .into(db.translations)
+        .insert(
+          TranslationsCompanion.insert(
+            entityType: 'place',
+            entityId: 'osm:node/1',
+            lang: 'en',
+            name: const Value('Pulpit Rock'),
+            summary: const Value('Flat cliff above the Lysefjord.'),
+          ),
+        );
     await db.customStatement(
       "INSERT INTO search_fts (entity_type, entity_id, lang, name, description) "
       "VALUES ('place', 'osm:node/1', 'en', 'Pulpit Rock', "
@@ -69,19 +85,21 @@ void main() {
     expect(await db.searchPlaces('"', 'ru'), isEmpty);
   });
 
-  test('операторы FTS трактуются как обычные слова, а не как синтаксис',
-      () async {
-    // Слова AND, OR и NOT в синтаксисе FTS5 значимы. После экранирования
-    // они становятся обычными словами: запрос не падает, а просто не
-    // находит текст, где этих слов нет.
-    expect(await db.searchPlaces('AND', 'ru'), isEmpty);
-    expect(await db.searchPlaces('pulpit OR rock', 'ru'), isEmpty);
+  test(
+    'операторы FTS трактуются как обычные слова, а не как синтаксис',
+    () async {
+      // Слова AND, OR и NOT в синтаксисе FTS5 значимы. После экранирования
+      // они становятся обычными словами: запрос не падает, а просто не
+      // находит текст, где этих слов нет.
+      expect(await db.searchPlaces('AND', 'ru'), isEmpty);
+      expect(await db.searchPlaces('pulpit OR rock', 'ru'), isEmpty);
 
-    // При этом слова из текста находятся, и семантика именно «все слова»:
-    // «Bergen museum» должно искать музеи Бергена, а не всё подряд.
-    expect(await db.searchPlaces('pulpit rock', 'ru'), hasLength(1));
-    expect(await db.searchPlaces('pulpit fjord', 'ru'), isEmpty);
-  });
+      // При этом слова из текста находятся, и семантика именно «все слова»:
+      // «Bergen museum» должно искать музеи Бергена, а не всё подряд.
+      expect(await db.searchPlaces('pulpit rock', 'ru'), hasLength(1));
+      expect(await db.searchPlaces('pulpit fjord', 'ru'), isEmpty);
+    },
+  );
 
   test('спецсимволы не ломают запрос', () async {
     for (final q in ['*', '()', 'a:b', '^', 'NEAR(', '- -']) {

@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../core/categories.dart';
 import '../../core/profile.dart';
 import '../../data/database.dart';
+import '../../l10n/app_localizations.dart';
 import '../place/place_screen.dart';
 
 /// Сетка карточек мест с подгрузкой по мере прокрутки.
@@ -111,7 +112,7 @@ class _PagedPlaceGridState extends State<PagedPlaceGrid> {
           Padding(
             padding: const EdgeInsets.only(bottom: 12),
             child: Text(
-              'Показано $count из ${widget.items.length}',
+              L.of(context).shownOf(count, widget.items.length),
               style: Theme.of(context).textTheme.labelSmall,
             ),
           ),
@@ -188,7 +189,7 @@ class PlaceCard extends ConsumerWidget {
                         const SizedBox(width: 6),
                         Expanded(
                           child: Text(
-                            categorySingular(item.place.category),
+                            categorySingular(context, item.place.category),
                             style: const TextStyle(
                               color: Colors.white,
                               fontSize: 12.5,
@@ -218,7 +219,7 @@ class PlaceCard extends ConsumerWidget {
                     const SizedBox(height: 4),
                     Expanded(
                       child: Text(
-                        item.summary ?? 'Описание пока не загружено',
+                        item.summary ?? L.of(context).noDescriptionShort,
                         style: Theme.of(context).textTheme.bodySmall?.copyWith(
                               color:
                                   item.summary == null ? scheme.outline : null,
@@ -229,7 +230,7 @@ class PlaceCard extends ConsumerWidget {
                     ),
                     if (item.isFallback && item.summary != null)
                       Text(
-                        'На другом языке',
+                        L.of(context).otherLanguageShort,
                         style: Theme.of(context).textTheme.labelSmall,
                       ),
                   ],

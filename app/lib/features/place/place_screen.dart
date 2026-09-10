@@ -5,6 +5,7 @@ import 'package:url_launcher/url_launcher.dart';
 import '../../core/categories.dart';
 import '../../core/providers.dart';
 import '../../data/database.dart';
+import '../../l10n/app_localizations.dart';
 import '../cities/place_grid.dart' show gradientFor;
 
 /// Карточка места.
@@ -32,7 +33,7 @@ class PlaceScreen extends ConsumerWidget {
         error: (e, _) => Center(child: Text('Ошибка: $e')),
         data: (item) {
           if (item == null) {
-            return const Center(child: Text('Место не найдено'));
+            return Center(child: Text(L.of(context).placeNotFound));
           }
           return CustomScrollView(
             slivers: [
@@ -57,7 +58,7 @@ class PlaceScreen extends ConsumerWidget {
                     const SizedBox(height: 22),
                     FilledButton.icon(
                       icon: const Icon(Icons.directions),
-                      label: const Text('Проложить маршрут'),
+                      label: Text(L.of(context).routeButton),
                       onPressed: () => _openExternalMap(
                         context,
                         item.place.lat,
@@ -105,7 +106,7 @@ class _Header extends ConsumerWidget {
       actions: [
         IconButton(
           icon: Icon(isFavorite ? Icons.favorite : Icons.favorite_border),
-          tooltip: isFavorite ? 'Убрать из избранного' : 'В избранное',
+          tooltip: isFavorite ? L.of(context).removeFromFavorites : L.of(context).addToFavorites,
           onPressed: () async {
             final db = await ref.read(databaseProvider.future);
             await db.toggleFavorite(item.place.id);
@@ -156,7 +157,7 @@ class _Header extends ConsumerWidget {
                       borderRadius: BorderRadius.circular(20),
                     ),
                     child: Text(
-                      categorySingular(item.place.category),
+                      categorySingular(context, item.place.category),
                       style: const TextStyle(
                           color: Colors.white, fontSize: 12.5),
                     ),
@@ -250,7 +251,7 @@ class _LanguageNote extends StatelessWidget {
           const SizedBox(width: 8),
           Expanded(
             child: Text(
-              'Перевода пока нет — текст на языке источника',
+              L.of(context).descriptionOtherLanguage,
               style: Theme.of(context).textTheme.bodySmall,
             ),
           ),
@@ -275,8 +276,7 @@ class _NoText extends StatelessWidget {
         const SizedBox(width: 10),
         Expanded(
           child: Text(
-            'Описания для этого места пока нет. Координаты и маршрут '
-            'работают — можно доехать и посмотреть самому.',
+            L.of(context).noDescription,
             style: Theme.of(context)
                 .textTheme
                 .bodyMedium
@@ -296,16 +296,18 @@ class _Facts extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final rows = <(IconData, String, String?)>[
-      (Icons.schedule, 'Часы работы', place.openingHours),
-      (Icons.payments_outlined, 'Вход', place.entranceFee),
-      (Icons.trending_up, 'Сложность', place.difficulty),
+      (Icons.schedule, L.of(context).factOpeningHours, place.openingHours),
+      (Icons.payments_outlined, L.of(context).factFee, place.entranceFee),
+      (Icons.trending_up, L.of(context).factDifficulty, place.difficulty),
       (
         Icons.timer_outlined,
-        'Время',
-        place.durationMin == null ? null : '${place.durationMin} мин'
+        L.of(context).factDuration,
+        place.durationMin == null
+            ? null
+            : L.of(context).factMinutes(place.durationMin!)
       ),
-      (Icons.calendar_month, 'Сезон', place.season),
-      (Icons.link, 'Сайт', place.website),
+      (Icons.calendar_month, L.of(context).factSeason, place.season),
+      (Icons.link, L.of(context).factWebsite, place.website),
     ];
 
     final visible = rows.where((r) => r.$3 != null && r.$3!.isNotEmpty).toList();
@@ -368,7 +370,7 @@ Future<void> _openExternalMap(
 
   if (context.mounted) {
     ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(content: Text('Не удалось открыть карты. Нужен интернет.')),
+      SnackBar(content: Text(L.of(context).mapsFailed)),
     );
   }
 }

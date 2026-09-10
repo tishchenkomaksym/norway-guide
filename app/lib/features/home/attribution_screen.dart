@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../core/attribution.dart';
+import '../../l10n/app_localizations.dart';
 
 /// Экран атрибуции.
 ///
@@ -15,7 +16,7 @@ class AttributionScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Источники и лицензии')),
+      appBar: AppBar(title: Text(L.of(context).sourcesTitle)),
       body: ListView(
         padding: const EdgeInsets.all(20),
         children: [

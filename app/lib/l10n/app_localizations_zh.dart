@@ -1,0 +1,426 @@
+// ignore: unused_import
+import 'package:intl/intl.dart' as intl;
+
+import 'app_localizations.dart';
+
+// ignore_for_file: type=lint
+
+/// The translations for Chinese (`zh`).
+class LZh extends L {
+  LZh([String locale = 'zh']) : super(locale);
+
+  @override
+  String get appTitle => '挪威';
+
+  @override
+  String get appTagline => '峡湾、瀑布与城镇 — 无需联网';
+
+  @override
+  String get nearbyTitle => '附近有什么';
+
+  @override
+  String get nearbySubtitle => '附近地点，含距离和方向';
+
+  @override
+  String get browseTitle => '去哪里';
+
+  @override
+  String get browseSubtitle => '全国的城镇与景点';
+
+  @override
+  String get favoritesTitle => '我的行程';
+
+  @override
+  String favoritesSaved(int count) {
+    return '已保存 $count 个地点';
+  }
+
+  @override
+  String get sourcesTitle => '来源与许可';
+
+  @override
+  String get sourcesTooltip => '关于来源';
+
+  @override
+  String photoBy(String credit) {
+    return '图片：$credit';
+  }
+
+  @override
+  String get nearbyScreenTitle => '我的附近';
+
+  @override
+  String nearbyScreenTitleAt(String city) {
+    return '$city附近';
+  }
+
+  @override
+  String get searchTooltip => '搜索';
+
+  @override
+  String get setCityTooltip => '选择城市';
+
+  @override
+  String get useGpsTooltip => '使用 GPS';
+
+  @override
+  String get interestsTooltip => '我的兴趣';
+
+  @override
+  String get locationUnknown => '位置未知，点击选择城市';
+
+  @override
+  String get nothingInFilters => '没有符合所选筛选条件的结果';
+
+  @override
+  String get loadError => '无法加载地点';
+
+  @override
+  String get otherLanguageShort => '其他语言';
+
+  @override
+  String get descriptionOtherLanguage => '暂无翻译 — 显示原文';
+
+  @override
+  String get tabCities => '城镇';
+
+  @override
+  String get tabPlaces => '景点';
+
+  @override
+  String get noCities => '此数据版本中没有城镇';
+
+  @override
+  String get nothingInCategories => '所选分类中没有找到内容';
+
+  @override
+  String shownOf(int shown, int total) {
+    return '已显示 $shown / $total';
+  }
+
+  @override
+  String get resetFilter => '重置';
+
+  @override
+  String placesCount(int count) {
+    return '$count 个地点';
+  }
+
+  @override
+  String get cityLarge => '大城市';
+
+  @override
+  String get cityMedium => '城市';
+
+  @override
+  String get citySmall => '小城';
+
+  @override
+  String get cityVillage => '村镇';
+
+  @override
+  String get cityHamlet => '小村';
+
+  @override
+  String get cityTourist => '旅游地';
+
+  @override
+  String get cityGeneric => '聚居地';
+
+  @override
+  String get noPlacesInCity => '该城镇暂无地点';
+
+  @override
+  String get placeNotFound => '未找到该地点';
+
+  @override
+  String get noDescription => '暂无介绍。坐标和导航可用 — 可以自己前往查看。';
+
+  @override
+  String get noDescriptionShort => '介绍尚未加载';
+
+  @override
+  String get routeButton => '导航前往';
+
+  @override
+  String get mapsFailed => '无法打开地图，需要联网。';
+
+  @override
+  String get addToFavorites => '加入行程';
+
+  @override
+  String get removeFromFavorites => '移出行程';
+
+  @override
+  String get factOpeningHours => '开放时间';
+
+  @override
+  String get factFee => '门票';
+
+  @override
+  String get factDifficulty => '难度';
+
+  @override
+  String get factDuration => '所需时间';
+
+  @override
+  String factMinutes(int count) {
+    return '$count 分钟';
+  }
+
+  @override
+  String get factSeason => '季节';
+
+  @override
+  String get factWebsite => '网站';
+
+  @override
+  String get searchHint => '地点、城镇、瀑布…';
+
+  @override
+  String get searchPrompt => '请至少输入两个字符';
+
+  @override
+  String get searchPromptDetail => '同时搜索您的语言、挪威语和英语 — 可以按路牌上的写法输入。';
+
+  @override
+  String searchNothing(String query) {
+    return '没有找到「$query」';
+  }
+
+  @override
+  String get searchNothingDetail => '并非所有地点都有介绍。可尝试挪威语写法或词的一部分。';
+
+  @override
+  String get searchError => '搜索出错';
+
+  @override
+  String get favoritesWant => '想去';
+
+  @override
+  String get favoritesVisited => '已去过';
+
+  @override
+  String get favoritesEmpty => '这里还是空的';
+
+  @override
+  String get favoritesEmptyDetail => '点击地点卡片上的心形即可加入这里。可以标记去过的地方并添加备注。';
+
+  @override
+  String get noteTooltip => '备注';
+
+  @override
+  String get noteHint => '几点开门、在哪停车、需要带什么…';
+
+  @override
+  String get markVisited => '已去过';
+
+  @override
+  String get markNotVisited => '还没去';
+
+  @override
+  String removedFromTrip(String place) {
+    return '已将$place移出行程';
+  }
+
+  @override
+  String get undo => '撤销';
+
+  @override
+  String get cancel => '取消';
+
+  @override
+  String get save => '保存';
+
+  @override
+  String get emergencyTitle => '紧急求助';
+
+  @override
+  String get emergencyTooltip => '紧急求助';
+
+  @override
+  String get emergencyOther => '其他服务';
+
+  @override
+  String get emergencyKnow => '重要提示';
+
+  @override
+  String get emergencyCoordinates => '您的坐标';
+
+  @override
+  String get emergencyCopy => '复制';
+
+  @override
+  String get emergencyCopied => '坐标已复制';
+
+  @override
+  String get emergencyManualPosition => '位置为手动设置，非 GPS 定位';
+
+  @override
+  String emergencyDial(String service, String number) {
+    return '$service：拨打 $number';
+  }
+
+  @override
+  String get whereAreYou => '您在哪里？';
+
+  @override
+  String get cityHint => '城市：Bergen、Oslo、Tromsø…';
+
+  @override
+  String get nothingFound => '没有找到';
+
+  @override
+  String get profileQuestion => '您最感兴趣的是什么？';
+
+  @override
+  String get profileQuestionDetail => '我们会调整优先显示的内容。不会隐藏任何内容 — 完整目录仍可通过搜索查看。';
+
+  @override
+  String get profileWhen => '您计划何时出行？';
+
+  @override
+  String get profileWhenDetail => '山路和部分步道冬季关闭 — 不会推荐现在无法抵达的地方。';
+
+  @override
+  String get profileNow => '我现在就在挪威';
+
+  @override
+  String get profileSoon => '未来几个月';
+
+  @override
+  String get profileBrowsing => '只是看看';
+
+  @override
+  String get profileSkip => '跳过';
+
+  @override
+  String get profileNext => '下一步';
+
+  @override
+  String profileDone(int count) {
+    return '完成 — 已按 $count 项兴趣调整排序';
+  }
+
+  @override
+  String get catMuseums => '博物馆';
+
+  @override
+  String get catViewpoints => '观景点';
+
+  @override
+  String get catFjords => '峡湾';
+
+  @override
+  String get catWaterfalls => '瀑布';
+
+  @override
+  String get catChurches => '教堂';
+
+  @override
+  String get catHikes => '步道';
+
+  @override
+  String get catGlaciers => '冰川';
+
+  @override
+  String get catBeaches => '海滩';
+
+  @override
+  String get catMuseum => '博物馆';
+
+  @override
+  String get catViewpoint => '观景点';
+
+  @override
+  String get catFjord => '峡湾';
+
+  @override
+  String get catWaterfall => '瀑布';
+
+  @override
+  String get catChurch => '教堂';
+
+  @override
+  String get catHike => '步道';
+
+  @override
+  String get catGlacier => '冰川';
+
+  @override
+  String get catBeach => '海滩';
+
+  @override
+  String get catOther => '地点';
+
+  @override
+  String get emgAmbulance => '急救';
+
+  @override
+  String get emgAmbulanceSub => 'Ambulanse · 危及生命、重伤';
+
+  @override
+  String get emgPolice => '警察';
+
+  @override
+  String get emgPoliceSub => 'Politi · 犯罪、事故、人员失踪';
+
+  @override
+  String get emgFire => '消防';
+
+  @override
+  String get emgFireSub => 'Brann · 火灾、浓烟、燃气泄漏';
+
+  @override
+  String get emgDoctor => '值班医生';
+
+  @override
+  String get emgDoctorSub => 'Legevakt · 紧急但无生命危险';
+
+  @override
+  String get emgSea => '海上救援';
+
+  @override
+  String get emgSeaSub => 'Hovedredningssentralen · 海上事故';
+
+  @override
+  String get emgPoison => '中毒';
+
+  @override
+  String get emgPoisonSub => 'Giftinformasjonen · 24 小时';
+
+  @override
+  String get emgRoad => '道路服务';
+
+  @override
+  String get emgRoadSub => 'Vegtrafikksentralen · 道路封闭、雪崩';
+
+  @override
+  String get emgNoteSimTitle => '无网络、无 SIM 卡也能拨通';
+
+  @override
+  String get emgNoteSimBody =>
+      '拨打 112 和 113 会经由任何可用信号塔接通，即使您的运营商没有信号、手机里没有 SIM 卡。';
+
+  @override
+  String get emgNoteCoordsTitle => '报出坐标';
+
+  @override
+  String get emgNoteCoordsBody => '山区和峡湾没有门牌地址。请读出纬度和经度 — 就在本页下方，可以复制。';
+
+  @override
+  String get emgNoteEnglishTitle => '可以说英语';
+
+  @override
+  String get emgNoteEnglishBody => '挪威紧急服务接线员会说英语。请保持冷静、简短说明：发生了什么、在哪里、有多少人受伤。';
+
+  @override
+  String get emgNoteMountainTitle => '山区求助拨 112';
+
+  @override
+  String get emgNoteMountainBody => '山区救援由警方负责，没有单独号码。请勿关机：救援人员会通过手机定位您。';
+
+  @override
+  String get emgVerified =>
+      '号码适用于挪威。已于 2026-09-10 依据 politiet.no、helsenorge.no、hovedredningssentralen.no 核对。';
+}

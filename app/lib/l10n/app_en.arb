@@ -1,0 +1,210 @@
+{
+  "@@locale": "en",
+  "appTitle": "Norway",
+  "appTagline": "Fjords, waterfalls and towns — offline",
+  "nearbyTitle": "What's around me",
+  "nearbySubtitle": "Nearby places with distance and direction",
+  "browseTitle": "Where to go",
+  "browseSubtitle": "Towns and sights across the country",
+  "favoritesTitle": "My trip",
+  "favoritesSaved": "{count, plural, one{{count} place saved} other{{count} places saved}}",
+  "@favoritesSaved": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "sourcesTitle": "Sources and licences",
+  "sourcesTooltip": "About the sources",
+  "photoBy": "Photo: {credit}",
+  "@photoBy": {
+    "placeholders": {
+      "credit": {
+        "type": "String"
+      }
+    }
+  },
+  "nearbyScreenTitle": "Around me",
+  "nearbyScreenTitleAt": "Around {city}",
+  "@nearbyScreenTitleAt": {
+    "placeholders": {
+      "city": {
+        "type": "String"
+      }
+    }
+  },
+  "searchTooltip": "Search",
+  "setCityTooltip": "Set your town",
+  "useGpsTooltip": "Use GPS",
+  "interestsTooltip": "My interests",
+  "locationUnknown": "Location unknown. Tap to choose a town",
+  "nothingInFilters": "Nothing matches the selected filters",
+  "loadError": "Could not load places",
+  "otherLanguageShort": "Another language",
+  "descriptionOtherLanguage": "No translation yet — text in the source language",
+  "tabCities": "Towns",
+  "tabPlaces": "Sights",
+  "noCities": "No towns in this data build",
+  "nothingInCategories": "Nothing found in the selected categories",
+  "shownOf": "Showing {shown} of {total}",
+  "@shownOf": {
+    "placeholders": {
+      "shown": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "resetFilter": "Reset",
+  "placesCount": "{count} places",
+  "@placesCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "cityLarge": "Large city",
+  "cityMedium": "Town",
+  "citySmall": "Small town",
+  "cityVillage": "Village",
+  "cityHamlet": "Hamlet",
+  "cityTourist": "Tourist spot",
+  "cityGeneric": "Settlement",
+  "noPlacesInCity": "No places for this town yet",
+  "placeNotFound": "Place not found",
+  "noDescription": "No description for this place yet. Coordinates and directions work — you can go and see for yourself.",
+  "noDescriptionShort": "Description not loaded yet",
+  "routeButton": "Get directions",
+  "mapsFailed": "Could not open maps. Internet required.",
+  "addToFavorites": "Add to trip",
+  "removeFromFavorites": "Remove from trip",
+  "factOpeningHours": "Opening hours",
+  "factFee": "Entry",
+  "factDifficulty": "Difficulty",
+  "factDuration": "Duration",
+  "factMinutes": "{count} min",
+  "@factMinutes": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "factSeason": "Season",
+  "factWebsite": "Website",
+  "searchHint": "Place, town, waterfall…",
+  "searchPrompt": "Type at least two letters",
+  "searchPromptDetail": "We search your language, Norwegian and English at once — type it the way it appears on the road sign.",
+  "searchNothing": "Nothing found for “{query}”",
+  "@searchNothing": {
+    "placeholders": {
+      "query": {
+        "type": "String"
+      }
+    }
+  },
+  "searchNothingDetail": "Not every place has a description. Try the Norwegian spelling or part of the word.",
+  "searchError": "Search error",
+  "favoritesWant": "Want to see",
+  "favoritesVisited": "Been there",
+  "favoritesEmpty": "Nothing here yet",
+  "favoritesEmptyDetail": "Tap the heart on a place card and it lands here. You can mark visited places and add notes.",
+  "noteTooltip": "Note",
+  "noteHint": "Opening time, where to park, what to bring…",
+  "markVisited": "Been here",
+  "markNotVisited": "Not yet",
+  "removedFromTrip": "{place} removed from the trip",
+  "@removedFromTrip": {
+    "placeholders": {
+      "place": {
+        "type": "String"
+      }
+    }
+  },
+  "undo": "Undo",
+  "cancel": "Cancel",
+  "save": "Save",
+  "emergencyTitle": "Emergency",
+  "emergencyTooltip": "Emergency",
+  "emergencyOther": "Other services",
+  "emergencyKnow": "What to know",
+  "emergencyCoordinates": "Your coordinates",
+  "emergencyCopy": "Copy",
+  "emergencyCopied": "Coordinates copied",
+  "emergencyManualPosition": "Location set manually — not from GPS",
+  "emergencyDial": "{service}: dial {number}",
+  "@emergencyDial": {
+    "placeholders": {
+      "service": {
+        "type": "String"
+      },
+      "number": {
+        "type": "String"
+      }
+    }
+  },
+  "whereAreYou": "Where are you?",
+  "cityHint": "Town: Bergen, Oslo, Tromsø…",
+  "nothingFound": "Nothing found",
+  "profileQuestion": "What interests you most?",
+  "profileQuestionDetail": "We'll pick what to show first. Nothing gets hidden — the full catalogue stays available through search.",
+  "profileWhen": "When are you travelling?",
+  "profileWhenDetail": "Mountain roads and some trails close in winter — we won't suggest places you can't reach right now.",
+  "profileNow": "I'm in Norway now",
+  "profileSoon": "In the coming months",
+  "profileBrowsing": "Just browsing",
+  "profileSkip": "Skip",
+  "profileNext": "Next",
+  "profileDone": "{count, plural, one{Done — matching places now rank higher} other{Done — {count} interests taken into account}}",
+  "@profileDone": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "catMuseums": "Museums",
+  "catViewpoints": "Viewpoints",
+  "catFjords": "Fjords",
+  "catWaterfalls": "Waterfalls",
+  "catChurches": "Churches",
+  "catHikes": "Trails",
+  "catGlaciers": "Glaciers",
+  "catBeaches": "Beaches",
+  "catMuseum": "Museum",
+  "catViewpoint": "Viewpoint",
+  "catFjord": "Fjord",
+  "catWaterfall": "Waterfall",
+  "catChurch": "Church",
+  "catHike": "Trail",
+  "catGlacier": "Glacier",
+  "catBeach": "Beach",
+  "catOther": "Place",
+  "emgAmbulance": "Ambulance",
+  "emgAmbulanceSub": "Ambulanse · life-threatening, severe injury",
+  "emgPolice": "Police",
+  "emgPoliceSub": "Politi · crime, accident, missing person",
+  "emgFire": "Fire brigade",
+  "emgFireSub": "Brann · fire, smoke, gas leak",
+  "emgDoctor": "On-call doctor",
+  "emgDoctorSub": "Legevakt · urgent but not life-threatening",
+  "emgSea": "Sea rescue",
+  "emgSeaSub": "Hovedredningssentralen · incident at sea",
+  "emgPoison": "Poisoning",
+  "emgPoisonSub": "Giftinformasjonen · around the clock",
+  "emgRoad": "Road service",
+  "emgRoadSub": "Vegtrafikksentralen · closed roads, avalanches",
+  "emgNoteSimTitle": "Works without network or SIM",
+  "emgNoteSimBody": "Calls to 112 and 113 go through any available mast, even if your operator has no coverage and there is no SIM card in the phone.",
+  "emgNoteCoordsTitle": "Give your coordinates",
+  "emgNoteCoordsBody": "There are no addresses in the mountains or on the fjords. Read out the latitude and longitude — they are below on this screen and can be copied. The operator will understand.",
+  "emgNoteEnglishTitle": "English is understood",
+  "emgNoteEnglishBody": "Norwegian emergency operators speak English. Stay calm and be brief: what happened, where, how many injured.",
+  "emgNoteMountainTitle": "In the mountains — 112",
+  "emgNoteMountainBody": "Mountain rescue is run by the police; there is no separate number. Keep your phone on: they will use it to find you.",
+  "emgVerified": "Numbers apply to Norway. Verified 10 Sep 2026 against politiet.no, helsenorge.no, hovedredningssentralen.no."
+}

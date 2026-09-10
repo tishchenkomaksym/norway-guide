@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../core/attribution.dart';
 import '../../core/providers.dart';
+import '../../l10n/app_localizations.dart';
 import '../cities/browse_screen.dart';
 import '../emergency/emergency_button.dart';
 import '../favorites/favorites_screen.dart';
@@ -33,6 +34,7 @@ class HomeScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final l = L.of(context);
     final credit = creditFor(heroPhoto);
     final favoriteCount = ref.watch(favoritesProvider).valueOrNull?.length ?? 0;
 
@@ -83,7 +85,7 @@ class HomeScreen extends ConsumerWidget {
                       IconButton(
                         icon: const Icon(Icons.info_outline,
                             color: Colors.white70),
-                        tooltip: 'Об источниках',
+                        tooltip: l.sourcesTooltip,
                         onPressed: () => Navigator.of(context).push(
                           MaterialPageRoute(
                             builder: (_) => const AttributionScreen(),
@@ -93,9 +95,9 @@ class HomeScreen extends ConsumerWidget {
                     ],
                   ),
                   const Spacer(),
-                  const Text(
-                    'Норвегия',
-                    style: TextStyle(
+                  Text(
+                    l.appTitle,
+                    style: const TextStyle(
                       color: Colors.white,
                       fontSize: 40,
                       height: 1.05,
@@ -104,9 +106,9 @@ class HomeScreen extends ConsumerWidget {
                     ),
                   ),
                   const SizedBox(height: 8),
-                  const Text(
-                    'Фьорды, водопады и города — без интернета',
-                    style: TextStyle(
+                  Text(
+                    l.appTagline,
+                    style: const TextStyle(
                       color: Colors.white70,
                       fontSize: 15,
                       height: 1.35,
@@ -115,15 +117,15 @@ class HomeScreen extends ConsumerWidget {
                   const SizedBox(height: 24),
                   _ChoiceCard(
                     icon: Icons.near_me,
-                    title: 'Что рядом со мной',
-                    subtitle: 'Ближайшие места с расстоянием и направлением',
+                    title: l.nearbyTitle,
+                    subtitle: l.nearbySubtitle,
                     onTap: () => _go(context, const NearbyScreen()),
                   ),
                   const SizedBox(height: 10),
                   _ChoiceCard(
                     icon: Icons.explore_outlined,
-                    title: 'Куда поехать',
-                    subtitle: 'Города и достопримечательности страны',
+                    title: l.browseTitle,
+                    subtitle: l.browseSubtitle,
                     onTap: () => _go(context, const BrowseScreen()),
                   ),
                   // Третий путь появляется, только когда в нём есть смысл:
@@ -133,15 +135,15 @@ class HomeScreen extends ConsumerWidget {
                     const SizedBox(height: 10),
                     _ChoiceCard(
                       icon: Icons.favorite_border,
-                      title: 'Моя поездка',
-                      subtitle: favoritesSubtitle(favoriteCount),
+                      title: l.favoritesTitle,
+                      subtitle: l.favoritesSaved(favoriteCount),
                       onTap: () => _go(context, const FavoritesScreen()),
                     ),
                   ],
                   const SizedBox(height: 14),
                   if (credit != null)
                     Text(
-                      'Фото: ${credit.short}',
+                      l.photoBy(credit.short),
                       style: const TextStyle(
                         color: Colors.white38,
                         fontSize: 11,
@@ -160,16 +162,9 @@ class HomeScreen extends ConsumerWidget {
     Navigator.of(context).push(MaterialPageRoute(builder: (_) => screen));
   }
 
-  /// Русские числительные: «1 место», «2 места», «5 мест».
-  static String favoritesSubtitle(int n) {
-    final mod10 = n % 10;
-    final mod100 = n % 100;
-    if (mod10 == 1 && mod100 != 11) return '$n место сохранено';
-    if (mod10 >= 2 && mod10 <= 4 && (mod100 < 12 || mod100 > 14)) {
-      return '$n места сохранено';
-    }
-    return '$n мест сохранено';
-  }
+  // Склонение числительных больше не пишем руками: ARB-формат берёт
+  // правила множественного числа из ICU, и они разные для каждого языка —
+  // в русском три формы, в английском две, в китайском одна.
 }
 
 /// Полупрозрачная карточка поверх фотографии.

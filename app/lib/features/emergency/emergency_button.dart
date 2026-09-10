@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../l10n/app_localizations.dart';
 import 'emergency_screen.dart';
 
 /// Кнопка перехода к экстренной помощи.
@@ -26,7 +27,7 @@ class EmergencyButton extends StatelessWidget {
         color: onDark ? Colors.white70 : null,
         size: 22,
       ),
-      tooltip: 'Экстренная помощь',
+      tooltip: L.of(context).emergencyTooltip,
       onPressed: () => Navigator.of(context).push(
         MaterialPageRoute(builder: (_) => const EmergencyScreen()),
       ),

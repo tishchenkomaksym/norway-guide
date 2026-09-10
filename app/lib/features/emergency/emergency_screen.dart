@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../core/providers.dart';
+import '../../l10n/app_localizations.dart';
 import 'emergency_data.dart';
 
 /// Экстренная помощь.
@@ -19,12 +20,14 @@ class EmergencyScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final critical = emergencyContacts.where((c) => c.critical).toList();
-    final other = emergencyContacts.where((c) => !c.critical).toList();
+    final l = L.of(context);
+    final contacts = emergencyContacts(context);
+    final critical = contacts.where((c) => c.critical).toList();
+    final other = contacts.where((c) => !c.critical).toList();
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Экстренная помощь'),
+        title: Text(l.emergencyTitle),
         backgroundColor: const Color(0xFFC62828),
         foregroundColor: Colors.white,
       ),
@@ -38,20 +41,19 @@ class EmergencyScreen extends ConsumerWidget {
           const SizedBox(height: 10),
           const _CoordinatesCard(),
           const SizedBox(height: 18),
-          Text('Другие службы',
+          Text(l.emergencyOther,
               style: Theme.of(context).textTheme.titleSmall),
           const SizedBox(height: 8),
           for (final c in other) _SmallCallTile(contact: c),
           const SizedBox(height: 22),
-          Text('Что важно знать',
+          Text(l.emergencyKnow,
               style: Theme.of(context).textTheme.titleSmall),
           const SizedBox(height: 8),
-          for (final (icon, title, body) in emergencyNotes)
+          for (final (icon, title, body) in emergencyNotes(context))
             _Note(icon: icon, title: title, body: body),
           const SizedBox(height: 16),
           Text(
-            'Номера действительны для Норвегии. Проверены 10.09.2026 по '
-            'источникам politiet.no, helsenorge.no, hovedredningssentralen.no.',
+            l.emgVerified,
             style: Theme.of(context).textTheme.bodySmall?.copyWith(
                   color: Theme.of(context).colorScheme.outline,
                 ),
@@ -187,7 +189,7 @@ class _CoordinatesCard extends ConsumerWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'Ваши координаты',
+                        L.of(context).emergencyCoordinates,
                         style: Theme.of(context).textTheme.labelMedium,
                       ),
                       const SizedBox(height: 2),
@@ -200,7 +202,7 @@ class _CoordinatesCard extends ConsumerWidget {
                       ),
                       if (approximate)
                         Text(
-                          'Положение задано вручную — не по GPS',
+                          L.of(context).emergencyManualPosition,
                           style: Theme.of(context).textTheme.bodySmall?.copyWith(
                                 color: scheme.error,
                               ),
@@ -210,11 +212,11 @@ class _CoordinatesCard extends ConsumerWidget {
                 ),
                 IconButton(
                   icon: const Icon(Icons.copy, size: 20),
-                  tooltip: 'Скопировать',
+                  tooltip: L.of(context).emergencyCopy,
                   onPressed: () {
                     Clipboard.setData(ClipboardData(text: text));
                     ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(content: Text('Координаты скопированы')),
+                      SnackBar(content: Text(L.of(context).emergencyCopied)),
                     );
                   },
                 ),
@@ -284,7 +286,8 @@ Future<void> _call(BuildContext context, EmergencyContact contact) async {
   if (context.mounted) {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
-        content: Text('${contact.title}: наберите ${contact.number}'),
+        content: Text(
+            L.of(context).emergencyDial(contact.title, contact.number)),
         duration: const Duration(seconds: 6),
       ),
     );

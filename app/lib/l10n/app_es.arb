@@ -1,0 +1,210 @@
+{
+  "@@locale": "es",
+  "appTitle": "Noruega",
+  "appTagline": "Fiordos, cascadas y ciudades — sin conexión",
+  "nearbyTitle": "Qué hay cerca",
+  "nearbySubtitle": "Lugares cercanos con distancia y dirección",
+  "browseTitle": "Adónde ir",
+  "browseSubtitle": "Ciudades y lugares de interés del país",
+  "favoritesTitle": "Mi viaje",
+  "favoritesSaved": "{count, plural, one{{count} lugar guardado} other{{count} lugares guardados}}",
+  "@favoritesSaved": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "sourcesTitle": "Fuentes y licencias",
+  "sourcesTooltip": "Sobre las fuentes",
+  "photoBy": "Foto: {credit}",
+  "@photoBy": {
+    "placeholders": {
+      "credit": {
+        "type": "String"
+      }
+    }
+  },
+  "nearbyScreenTitle": "Cerca de mí",
+  "nearbyScreenTitleAt": "Cerca de {city}",
+  "@nearbyScreenTitleAt": {
+    "placeholders": {
+      "city": {
+        "type": "String"
+      }
+    }
+  },
+  "searchTooltip": "Buscar",
+  "setCityTooltip": "Elegir ciudad",
+  "useGpsTooltip": "Usar GPS",
+  "interestsTooltip": "Mis intereses",
+  "locationUnknown": "Ubicación desconocida. Toca para elegir una ciudad",
+  "nothingInFilters": "Nada coincide con los filtros seleccionados",
+  "loadError": "No se pudieron cargar los lugares",
+  "otherLanguageShort": "En otro idioma",
+  "descriptionOtherLanguage": "Aún sin traducción — texto en el idioma original",
+  "tabCities": "Ciudades",
+  "tabPlaces": "Lugares",
+  "noCities": "No hay ciudades en estos datos",
+  "nothingInCategories": "No se encontró nada en las categorías elegidas",
+  "shownOf": "Mostrando {shown} de {total}",
+  "@shownOf": {
+    "placeholders": {
+      "shown": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "resetFilter": "Restablecer",
+  "placesCount": "{count} lugares",
+  "@placesCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "cityLarge": "Ciudad grande",
+  "cityMedium": "Ciudad",
+  "citySmall": "Ciudad pequeña",
+  "cityVillage": "Pueblo",
+  "cityHamlet": "Aldea",
+  "cityTourist": "Lugar turístico",
+  "cityGeneric": "Localidad",
+  "noPlacesInCity": "Todavía no hay lugares para esta ciudad",
+  "placeNotFound": "Lugar no encontrado",
+  "noDescription": "Todavía no hay descripción. Las coordenadas y la ruta funcionan — puedes ir y verlo tú mismo.",
+  "noDescriptionShort": "Descripción no cargada",
+  "routeButton": "Cómo llegar",
+  "mapsFailed": "No se pudieron abrir los mapas. Se necesita internet.",
+  "addToFavorites": "Añadir al viaje",
+  "removeFromFavorites": "Quitar del viaje",
+  "factOpeningHours": "Horario",
+  "factFee": "Entrada",
+  "factDifficulty": "Dificultad",
+  "factDuration": "Duración",
+  "factMinutes": "{count} min",
+  "@factMinutes": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "factSeason": "Temporada",
+  "factWebsite": "Sitio web",
+  "searchHint": "Lugar, ciudad, cascada…",
+  "searchPrompt": "Escribe al menos dos letras",
+  "searchPromptDetail": "Buscamos a la vez en tu idioma, en noruego y en inglés — escríbelo como aparece en la señal.",
+  "searchNothing": "No se encontró nada para «{query}»",
+  "@searchNothing": {
+    "placeholders": {
+      "query": {
+        "type": "String"
+      }
+    }
+  },
+  "searchNothingDetail": "No todos los lugares tienen descripción. Prueba la grafía noruega o parte de la palabra.",
+  "searchError": "Error de búsqueda",
+  "favoritesWant": "Quiero ver",
+  "favoritesVisited": "Ya estuve",
+  "favoritesEmpty": "Aquí no hay nada todavía",
+  "favoritesEmptyDetail": "Toca el corazón en la ficha de un lugar y aparecerá aquí. Puedes marcar los visitados y añadir notas.",
+  "noteTooltip": "Nota",
+  "noteHint": "A qué hora abre, dónde aparcar, qué llevar…",
+  "markVisited": "Ya estuve aquí",
+  "markNotVisited": "Todavía no",
+  "removedFromTrip": "{place} quitado del viaje",
+  "@removedFromTrip": {
+    "placeholders": {
+      "place": {
+        "type": "String"
+      }
+    }
+  },
+  "undo": "Deshacer",
+  "cancel": "Cancelar",
+  "save": "Guardar",
+  "emergencyTitle": "Emergencias",
+  "emergencyTooltip": "Emergencias",
+  "emergencyOther": "Otros servicios",
+  "emergencyKnow": "Conviene saber",
+  "emergencyCoordinates": "Tus coordenadas",
+  "emergencyCopy": "Copiar",
+  "emergencyCopied": "Coordenadas copiadas",
+  "emergencyManualPosition": "Ubicación puesta a mano — no por GPS",
+  "emergencyDial": "{service}: marca {number}",
+  "@emergencyDial": {
+    "placeholders": {
+      "service": {
+        "type": "String"
+      },
+      "number": {
+        "type": "String"
+      }
+    }
+  },
+  "whereAreYou": "¿Dónde estás?",
+  "cityHint": "Ciudad: Bergen, Oslo, Tromsø…",
+  "nothingFound": "No se encontró nada",
+  "profileQuestion": "¿Qué te interesa más?",
+  "profileQuestionDetail": "Elegiremos qué mostrar primero. No ocultamos nada — el catálogo completo sigue disponible en la búsqueda.",
+  "profileWhen": "¿Cuándo viajas?",
+  "profileWhenDetail": "Las carreteras de montaña y algunos senderos cierran en invierno — no te propondremos sitios a los que ahora no se llega.",
+  "profileNow": "Estoy en Noruega ahora",
+  "profileSoon": "En los próximos meses",
+  "profileBrowsing": "Solo estoy mirando",
+  "profileSkip": "Omitir",
+  "profileNext": "Siguiente",
+  "profileDone": "{count, plural, one{Listo — los lugares afines aparecen más arriba} other{Listo — {count} intereses tenidos en cuenta}}",
+  "@profileDone": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "catMuseums": "Museos",
+  "catViewpoints": "Miradores",
+  "catFjords": "Fiordos",
+  "catWaterfalls": "Cascadas",
+  "catChurches": "Iglesias",
+  "catHikes": "Senderos",
+  "catGlaciers": "Glaciares",
+  "catBeaches": "Playas",
+  "catMuseum": "Museo",
+  "catViewpoint": "Mirador",
+  "catFjord": "Fiordo",
+  "catWaterfall": "Cascada",
+  "catChurch": "Iglesia",
+  "catHike": "Sendero",
+  "catGlacier": "Glaciar",
+  "catBeach": "Playa",
+  "catOther": "Lugar",
+  "emgAmbulance": "Ambulancia",
+  "emgAmbulanceSub": "Ambulanse · peligro de muerte, herida grave",
+  "emgPolice": "Policía",
+  "emgPoliceSub": "Politi · delito, accidente, persona desaparecida",
+  "emgFire": "Bomberos",
+  "emgFireSub": "Brann · incendio, humo, fuga de gas",
+  "emgDoctor": "Médico de guardia",
+  "emgDoctorSub": "Legevakt · urgente, pero sin peligro de muerte",
+  "emgSea": "Rescate marítimo",
+  "emgSeaSub": "Hovedredningssentralen · incidente en el mar",
+  "emgPoison": "Intoxicaciones",
+  "emgPoisonSub": "Giftinformasjonen · 24 horas",
+  "emgRoad": "Servicio de carreteras",
+  "emgRoadSub": "Vegtrafikksentralen · carreteras cortadas, aludes",
+  "emgNoteSimTitle": "Funciona sin cobertura y sin SIM",
+  "emgNoteSimBody": "Las llamadas al 112 y al 113 pasan por cualquier antena disponible, aunque tu operador no tenga cobertura y no haya tarjeta SIM en el teléfono.",
+  "emgNoteCoordsTitle": "Da tus coordenadas",
+  "emgNoteCoordsBody": "En la montaña y en los fiordos no hay direcciones. Dicta la latitud y la longitud — están más abajo en esta pantalla y se pueden copiar.",
+  "emgNoteEnglishTitle": "Entienden inglés",
+  "emgNoteEnglishBody": "Los operadores de emergencias de Noruega hablan inglés. Habla con calma y brevedad: qué ha pasado, dónde, cuántos heridos.",
+  "emgNoteMountainTitle": "En la montaña — 112",
+  "emgNoteMountainBody": "El rescate en montaña lo dirige la policía; no hay un número aparte. No apagues el teléfono: lo usarán para localizarte.",
+  "emgVerified": "Los números son de Noruega. Verificados el 10/09/2026 en politiet.no, helsenorge.no, hovedredningssentralen.no."
+}

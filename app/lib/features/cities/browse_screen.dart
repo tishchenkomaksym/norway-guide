@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../core/providers.dart';
 import '../../data/database.dart';
+import '../../l10n/app_localizations.dart';
 import '../search/search_screen.dart';
 import 'category_chips.dart';
 import 'city_screen.dart';
@@ -31,11 +32,11 @@ class _BrowseScreenState extends ConsumerState<BrowseScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Куда поехать'),
+        title: Text(L.of(context).browseTitle),
         actions: [
           IconButton(
             icon: const Icon(Icons.search),
-            tooltip: 'Поиск',
+            tooltip: L.of(context).searchTooltip,
             onPressed: () => Navigator.of(context).push(
               MaterialPageRoute(builder: (_) => const SearchScreen()),
             ),
@@ -47,16 +48,16 @@ class _BrowseScreenState extends ConsumerState<BrowseScreen> {
           Padding(
             padding: const EdgeInsets.fromLTRB(16, 8, 16, 12),
             child: SegmentedButton<BrowseTab>(
-              segments: const [
+              segments: [
                 ButtonSegment(
                   value: BrowseTab.cities,
-                  label: Text('Города'),
-                  icon: Icon(Icons.location_city, size: 18),
+                  label: Text(L.of(context).tabCities),
+                  icon: const Icon(Icons.location_city, size: 18),
                 ),
                 ButtonSegment(
                   value: BrowseTab.places,
-                  label: Text('Места'),
-                  icon: Icon(Icons.photo_camera, size: 18),
+                  label: Text(L.of(context).tabPlaces),
+                  icon: const Icon(Icons.photo_camera, size: 18),
                 ),
               ],
               selected: {_tab},
@@ -99,7 +100,7 @@ class _PlacesTab extends ConsumerWidget {
             loading: () => const Center(child: CircularProgressIndicator()),
             error: (e, _) => Center(child: Text('Ошибка: $e')),
             data: (list) => list.isEmpty
-                ? const _Empty(text: 'По выбранным категориям ничего не нашлось')
+                ? _Empty(text: L.of(context).nothingInCategories)
                 : PagedPlaceGrid(items: list),
           ),
         ),
@@ -159,7 +160,7 @@ class _CitiesGridState extends ConsumerState<_CitiesGrid> {
       error: (e, _) => Center(child: Text('Ошибка: $e')),
       data: (list) {
         if (list.isEmpty) {
-          return const _Empty(text: 'Городов в этой сборке данных нет');
+          return _Empty(text: L.of(context).noCities);
         }
         _total = list.length;
         _fillViewport();
@@ -184,7 +185,7 @@ class _CitiesGridState extends ConsumerState<_CitiesGrid> {
               Padding(
                 padding: const EdgeInsets.only(bottom: 12),
                 child: Text(
-                  'Показано $count из ${list.length}',
+                  L.of(context).shownOf(count, list.length),
                   style: Theme.of(context).textTheme.labelSmall,
                 ),
               ),
@@ -265,7 +266,7 @@ class _CityCardTile extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      _subtitle(city.population, item.notableCount),
+                      _subtitle(context, city.population, item.notableCount),
                       style: Theme.of(context).textTheme.bodySmall,
                     ),
                     const Spacer(),
@@ -274,7 +275,7 @@ class _CityCardTile extends StatelessWidget {
                         Icon(Icons.place, size: 14, color: scheme.primary),
                         const SizedBox(width: 4),
                         Text(
-                          '${item.placeCount} мест',
+                          L.of(context).placesCount(item.placeCount),
                           style: Theme.of(context).textTheme.labelMedium,
                         ),
                         if (item.notableCount > 0) ...[
@@ -305,16 +306,17 @@ class _CityCardTile extends StatelessWidget {
   /// границы коммун. У Осло там 1,1 млн, хотя в самой коммуне около 717 тыс.
   /// Для гида это и не нужно: человеку важно, крупный это город или посёлок,
   /// а не цифра из статистического бюллетеня.
-  static String _subtitle(int? population, int notable) {
+  static String _subtitle(BuildContext context, int? population, int notable) {
+    final l = L.of(context);
     final pop = population ?? 0;
-    if (pop >= 100000) return 'Крупный город';
-    if (pop >= 20000) return 'Город';
-    if (pop >= 5000) return 'Небольшой город';
-    if (pop >= 1000) return 'Посёлок';
-    if (pop > 0) return 'Небольшой посёлок';
+    if (pop >= 100000) return l.cityLarge;
+    if (pop >= 20000) return l.cityMedium;
+    if (pop >= 5000) return l.citySmall;
+    if (pop >= 1000) return l.cityVillage;
+    if (pop > 0) return l.cityHamlet;
     // У туристических мест население в OSM часто не проставлено вовсе —
     // писать «0 жителей» было бы неверно.
-    return notable > 0 ? 'Туристическое место' : 'Населённый пункт';
+    return notable > 0 ? l.cityTourist : l.cityGeneric;
   }
 }
 

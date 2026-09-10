@@ -1,0 +1,210 @@
+{
+  "@@locale": "ru",
+  "appTitle": "Норвегия",
+  "appTagline": "Фьорды, водопады и города — без интернета",
+  "nearbyTitle": "Что рядом со мной",
+  "nearbySubtitle": "Ближайшие места с расстоянием и направлением",
+  "browseTitle": "Куда поехать",
+  "browseSubtitle": "Города и достопримечательности страны",
+  "favoritesTitle": "Моя поездка",
+  "favoritesSaved": "{count, plural, one{{count} место сохранено} few{{count} места сохранено} other{{count} мест сохранено}}",
+  "@favoritesSaved": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "sourcesTitle": "Источники и лицензии",
+  "sourcesTooltip": "Об источниках",
+  "photoBy": "Фото: {credit}",
+  "@photoBy": {
+    "placeholders": {
+      "credit": {
+        "type": "String"
+      }
+    }
+  },
+  "nearbyScreenTitle": "Рядом со мной",
+  "nearbyScreenTitleAt": "Рядом: {city}",
+  "@nearbyScreenTitleAt": {
+    "placeholders": {
+      "city": {
+        "type": "String"
+      }
+    }
+  },
+  "searchTooltip": "Поиск",
+  "setCityTooltip": "Указать город",
+  "useGpsTooltip": "Определить по GPS",
+  "interestsTooltip": "Мои интересы",
+  "locationUnknown": "Положение неизвестно. Нажмите, чтобы указать город",
+  "nothingInFilters": "Ничего не найдено по выбранным фильтрам",
+  "loadError": "Не удалось загрузить места",
+  "otherLanguageShort": "На другом языке",
+  "descriptionOtherLanguage": "Перевода пока нет — текст на языке источника",
+  "tabCities": "Города",
+  "tabPlaces": "Места",
+  "noCities": "Городов в этой сборке данных нет",
+  "nothingInCategories": "По выбранным категориям ничего не нашлось",
+  "shownOf": "Показано {shown} из {total}",
+  "@shownOf": {
+    "placeholders": {
+      "shown": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "resetFilter": "Сбросить",
+  "placesCount": "{count} мест",
+  "@placesCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "cityLarge": "Крупный город",
+  "cityMedium": "Город",
+  "citySmall": "Небольшой город",
+  "cityVillage": "Посёлок",
+  "cityHamlet": "Небольшой посёлок",
+  "cityTourist": "Туристическое место",
+  "cityGeneric": "Населённый пункт",
+  "noPlacesInCity": "Для этого города мест пока нет",
+  "placeNotFound": "Место не найдено",
+  "noDescription": "Описания для этого места пока нет. Координаты и маршрут работают — можно доехать и посмотреть самому.",
+  "noDescriptionShort": "Описание пока не загружено",
+  "routeButton": "Проложить маршрут",
+  "mapsFailed": "Не удалось открыть карты. Нужен интернет.",
+  "addToFavorites": "В избранное",
+  "removeFromFavorites": "Убрать из избранного",
+  "factOpeningHours": "Часы работы",
+  "factFee": "Вход",
+  "factDifficulty": "Сложность",
+  "factDuration": "Время",
+  "factMinutes": "{count} мин",
+  "@factMinutes": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "factSeason": "Сезон",
+  "factWebsite": "Сайт",
+  "searchHint": "Место, город, водопад…",
+  "searchPrompt": "Введите хотя бы две буквы",
+  "searchPromptDetail": "Ищем на языке интерфейса, норвежском и английском одновременно — можно набирать так, как написано на указателе.",
+  "searchNothing": "По запросу «{query}» ничего не нашлось",
+  "@searchNothing": {
+    "placeholders": {
+      "query": {
+        "type": "String"
+      }
+    }
+  },
+  "searchNothingDetail": "Описания есть не у всех мест. Попробуйте норвежское написание или часть слова.",
+  "searchError": "Ошибка поиска",
+  "favoritesWant": "Хочу посмотреть",
+  "favoritesVisited": "Уже был",
+  "favoritesEmpty": "Здесь пока пусто",
+  "favoritesEmptyDetail": "Нажмите сердечко на карточке места — оно попадёт сюда. Можно отмечать посещённые и оставлять заметки.",
+  "noteTooltip": "Заметка",
+  "noteHint": "Во сколько открывается, где парковка, что взять…",
+  "markVisited": "Был здесь",
+  "markNotVisited": "Не был",
+  "removedFromTrip": "{place} убрано из поездки",
+  "@removedFromTrip": {
+    "placeholders": {
+      "place": {
+        "type": "String"
+      }
+    }
+  },
+  "undo": "Вернуть",
+  "cancel": "Отмена",
+  "save": "Сохранить",
+  "emergencyTitle": "Экстренная помощь",
+  "emergencyTooltip": "Экстренная помощь",
+  "emergencyOther": "Другие службы",
+  "emergencyKnow": "Что важно знать",
+  "emergencyCoordinates": "Ваши координаты",
+  "emergencyCopy": "Скопировать",
+  "emergencyCopied": "Координаты скопированы",
+  "emergencyManualPosition": "Положение задано вручную — не по GPS",
+  "emergencyDial": "{service}: наберите {number}",
+  "@emergencyDial": {
+    "placeholders": {
+      "service": {
+        "type": "String"
+      },
+      "number": {
+        "type": "String"
+      }
+    }
+  },
+  "whereAreYou": "Где вы находитесь?",
+  "cityHint": "Город: Берген, Oslo, Tromsø…",
+  "nothingFound": "Ничего не найдено",
+  "profileQuestion": "Что вам интереснее всего?",
+  "profileQuestionDetail": "Подберём, что показывать первым. Ничего не спрячем — весь каталог остаётся доступен через поиск.",
+  "profileWhen": "Когда планируете поездку?",
+  "profileWhenDetail": "Горные дороги и часть троп закрыты зимой — не будем предлагать то, куда сейчас не проехать.",
+  "profileNow": "Я сейчас в Норвегии",
+  "profileSoon": "В ближайшие месяцы",
+  "profileBrowsing": "Просто смотрю",
+  "profileSkip": "Пропустить",
+  "profileNext": "Дальше",
+  "profileDone": "{count, plural, one{Готово — подходящие места теперь выше в списке} other{Готово — учли {count} интереса в порядке выдачи}}",
+  "@profileDone": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "catMuseums": "Музеи",
+  "catViewpoints": "Смотровые",
+  "catFjords": "Фьорды",
+  "catWaterfalls": "Водопады",
+  "catChurches": "Церкви",
+  "catHikes": "Тропы",
+  "catGlaciers": "Ледники",
+  "catBeaches": "Пляжи",
+  "catMuseum": "Музей",
+  "catViewpoint": "Смотровая",
+  "catFjord": "Фьорд",
+  "catWaterfall": "Водопад",
+  "catChurch": "Церковь",
+  "catHike": "Тропа",
+  "catGlacier": "Ледник",
+  "catBeach": "Пляж",
+  "catOther": "Место",
+  "emgAmbulance": "Скорая помощь",
+  "emgAmbulanceSub": "Ambulanse · угроза жизни, тяжёлая травма",
+  "emgPolice": "Полиция",
+  "emgPoliceSub": "Politi · преступление, авария, пропал человек",
+  "emgFire": "Пожарная служба",
+  "emgFireSub": "Brann · пожар, задымление, утечка газа",
+  "emgDoctor": "Дежурный врач",
+  "emgDoctorSub": "Legevakt · срочно, но жизни ничто не угрожает",
+  "emgSea": "Спасение на воде",
+  "emgSeaSub": "Hovedredningssentralen · происшествие в море",
+  "emgPoison": "Отравления",
+  "emgPoisonSub": "Giftinformasjonen · круглосуточно",
+  "emgRoad": "Дорожная служба",
+  "emgRoadSub": "Vegtrafikksentralen · перекрытые дороги, лавины",
+  "emgNoteSimTitle": "Работает без сети и без SIM",
+  "emgNoteSimBody": "Звонок на 112 и 113 проходит через любую доступную вышку, даже если у вашего оператора нет покрытия и в телефоне нет SIM-карты.",
+  "emgNoteCoordsTitle": "Назовите координаты",
+  "emgNoteCoordsBody": "В горах и на фьордах адреса нет. Продиктуйте широту и долготу — они ниже на этом экране, их можно скопировать. Оператор поймёт.",
+  "emgNoteEnglishTitle": "Английский понимают",
+  "emgNoteEnglishBody": "Операторы экстренных служб Норвегии говорят по-английски. Говорите спокойно и коротко: что случилось, где, сколько пострадавших.",
+  "emgNoteMountainTitle": "В горах — 112",
+  "emgNoteMountainBody": "Спасением в горах занимается полиция, отдельного номера нет. Не выключайте телефон: по нему вас будут искать.",
+  "emgVerified": "Номера действительны для Норвегии. Проверены 10.09.2026 по источникам politiet.no, helsenorge.no, hovedredningssentralen.no."
+}

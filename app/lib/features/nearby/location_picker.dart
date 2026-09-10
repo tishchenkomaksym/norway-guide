@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../core/known_places.dart';
 import '../../core/providers.dart';
+import '../../l10n/app_localizations.dart';
 
 /// Диалог «где вы находитесь».
 ///
@@ -49,7 +50,7 @@ class _LocationDialogState extends State<_LocationDialog> {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      title: const Text('Где вы находитесь?'),
+      title: Text(L.of(context).whereAreYou),
       content: SizedBox(
         width: 400,
         height: 420,
@@ -58,10 +59,10 @@ class _LocationDialogState extends State<_LocationDialog> {
             TextField(
               controller: _controller,
               autofocus: true,
-              decoration: const InputDecoration(
-                hintText: 'Город: Берген, Oslo, Tromsø…',
-                prefixIcon: Icon(Icons.search),
-                border: OutlineInputBorder(),
+              decoration: InputDecoration(
+                hintText: L.of(context).cityHint,
+                prefixIcon: const Icon(Icons.search),
+                border: const OutlineInputBorder(),
               ),
               onChanged: _onChanged,
               onSubmitted: (_) {
@@ -73,7 +74,7 @@ class _LocationDialogState extends State<_LocationDialog> {
             const SizedBox(height: 12),
             Expanded(
               child: _results.isEmpty
-                  ? const Center(child: Text('Ничего не найдено'))
+                  ? Center(child: Text(L.of(context).nothingFound))
                   : ListView.builder(
                       itemCount: _results.length,
                       itemBuilder: (context, i) {
@@ -97,7 +98,7 @@ class _LocationDialogState extends State<_LocationDialog> {
       actions: [
         TextButton(
           onPressed: () => Navigator.of(context).pop(),
-          child: const Text('Отмена'),
+          child: Text(L.of(context).cancel),
         ),
       ],
     );

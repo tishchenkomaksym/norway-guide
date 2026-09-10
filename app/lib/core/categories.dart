@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../l10n/app_localizations.dart';
+
 /// Категории мест — единственное место, где они описаны.
 ///
 /// Раньше метки и иконки были продублированы в экранах «Рядом со мной»
@@ -10,10 +12,9 @@ import 'package:flutter/material.dart';
 /// (pipeline/internal/osm/categories.go). Менять их нельзя без пересборки
 /// данных.
 class PlaceCategory {
-  const PlaceCategory(this.id, this.label, this.icon, this.color);
+  const PlaceCategory(this.id, this.icon, this.color);
 
   final String id;
-  final String label;
   final IconData icon;
 
   /// Цвет категории. Не случайный: взят от того, как объект выглядит
@@ -24,14 +25,14 @@ class PlaceCategory {
 }
 
 const placeCategories = <PlaceCategory>[
-  PlaceCategory('museum', 'Музеи', Icons.museum, Color(0xFF8E5BA6)),
-  PlaceCategory('viewpoint', 'Смотровые', Icons.landscape, Color(0xFFE08A3C)),
-  PlaceCategory('fjord', 'Фьорды', Icons.water, Color(0xFF1F6F8B)),
-  PlaceCategory('waterfall', 'Водопады', Icons.water_drop, Color(0xFF3EA6C4)),
-  PlaceCategory('church', 'Церкви', Icons.church, Color(0xFFA9743F)),
-  PlaceCategory('hike', 'Тропы', Icons.hiking, Color(0xFF4E8C4A)),
-  PlaceCategory('glacier', 'Ледники', Icons.ac_unit, Color(0xFF6FA8C7)),
-  PlaceCategory('beach', 'Пляжи', Icons.beach_access, Color(0xFFD9B25A)),
+  PlaceCategory('museum', Icons.museum, Color(0xFF8E5BA6)),
+  PlaceCategory('viewpoint', Icons.landscape, Color(0xFFE08A3C)),
+  PlaceCategory('fjord', Icons.water, Color(0xFF1F6F8B)),
+  PlaceCategory('waterfall', Icons.water_drop, Color(0xFF3EA6C4)),
+  PlaceCategory('church', Icons.church, Color(0xFFA9743F)),
+  PlaceCategory('hike', Icons.hiking, Color(0xFF4E8C4A)),
+  PlaceCategory('glacier', Icons.ac_unit, Color(0xFF6FA8C7)),
+  PlaceCategory('beach', Icons.beach_access, Color(0xFFD9B25A)),
 ];
 
 /// Цвет категории; для неизвестной — нейтральный серо-синий.
@@ -40,21 +41,57 @@ Color colorForCategory(String id) => _byId[id]?.color ?? const Color(0xFF6B7A85)
 final _byId = {for (final c in placeCategories) c.id: c};
 
 /// Название категории во множественном числе — для плашек фильтра.
-String categoryLabel(String id) => _byId[id]?.label ?? 'Другое';
+///
+/// Требует контекста, потому что переводится: категорий восемь, они видны
+/// на каждом экране, и оставить их по-русски значило бы, что приложение
+/// «локализовано» лишь наполовину.
+String categoryLabel(BuildContext context, String id) {
+  final l = L.of(context);
+  switch (id) {
+    case 'museum':
+      return l.catMuseums;
+    case 'viewpoint':
+      return l.catViewpoints;
+    case 'fjord':
+      return l.catFjords;
+    case 'waterfall':
+      return l.catWaterfalls;
+    case 'church':
+      return l.catChurches;
+    case 'hike':
+      return l.catHikes;
+    case 'glacier':
+      return l.catGlaciers;
+    case 'beach':
+      return l.catBeaches;
+    default:
+      return l.catOther;
+  }
+}
 
 /// Название в единственном числе — для карточки одного места.
-String categorySingular(String id) {
-  const singular = {
-    'museum': 'Музей',
-    'viewpoint': 'Смотровая',
-    'fjord': 'Фьорд',
-    'waterfall': 'Водопад',
-    'church': 'Церковь',
-    'hike': 'Тропа',
-    'glacier': 'Ледник',
-    'beach': 'Пляж',
-  };
-  return singular[id] ?? 'Место';
+String categorySingular(BuildContext context, String id) {
+  final l = L.of(context);
+  switch (id) {
+    case 'museum':
+      return l.catMuseum;
+    case 'viewpoint':
+      return l.catViewpoint;
+    case 'fjord':
+      return l.catFjord;
+    case 'waterfall':
+      return l.catWaterfall;
+    case 'church':
+      return l.catChurch;
+    case 'hike':
+      return l.catHike;
+    case 'glacier':
+      return l.catGlacier;
+    case 'beach':
+      return l.catBeach;
+    default:
+      return l.catOther;
+  }
 }
 
 IconData iconForCategory(String id) => _byId[id]?.icon ?? Icons.place;
