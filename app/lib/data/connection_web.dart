@@ -2,6 +2,8 @@ import 'package:drift/drift.dart';
 import 'package:drift/wasm.dart';
 import 'package:flutter/services.dart' show rootBundle;
 
+import 'database.dart' show AppDatabase;
+
 /// Подключение в браузере: SQLite собран в WebAssembly, хранилище — OPFS
 /// или IndexedDB, что выберет сам drift.
 ///
@@ -30,6 +32,32 @@ Future<QueryExecutor> openConnection() async {
       }
     },
   );
+
+  // Та же ловушка, что была на устройстве: initializeDatabase вызывается
+  // только когда базы ещё нет, поэтому в браузере навсегда оставался бы
+  // слепок от первого запуска. На телефоне это скрыло целый новый раздел.
+  //
+  // В браузере файл подменить нельзя, поэтому просто предупреждаем: web —
+  // среда разработки, релиз идёт на Android и iOS, а очистить хранилище
+  // сайта разработчик умеет. Молчать об этом нельзя: расхождение выглядит
+  // как «код не работает», хотя работает старая база.
+  try {
+    final rows = await result.resolvedExecutor.runSelect(
+      'PRAGMA user_version',
+      const [],
+    );
+    final version = rows.isEmpty ? 0 : rows.first.values.first;
+    if (version != AppDatabase.contentSchemaVersion) {
+      // ignore: avoid_print
+      print(
+        'drift web: в хранилище база версии $version, '
+        'код ждёт ${AppDatabase.contentSchemaVersion}. '
+        'Очистите данные сайта, иначе видны старые данные.',
+      );
+    }
+  } catch (_) {
+    // Версию прочитать не удалось — не повод не запускаться.
+  }
 
   if (result.missingFeatures.isNotEmpty) {
     // Не падаем: drift подберёт рабочий вариант хранения, просто менее

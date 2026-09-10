@@ -175,8 +175,10 @@ class AppDatabase extends _$AppDatabase {
   ///
   /// Версия 2 (2026-09-10): топ самых посещаемых мест — topRank, visitors,
   /// visitorsYear, topSource, unesco.
+  static const contentSchemaVersion = 2;
+
   @override
-  int get schemaVersion => 2;
+  int get schemaVersion => contentSchemaVersion;
 
   /// Цепочка подстановки языков по §8.4 спеки: язык пользователя → en → no →
   /// имя из OSM как есть. Приложение никогда не показывает пустой экран.
