@@ -9,6 +9,7 @@ import 'package:nordguide/features/home/home_screen.dart';
 import 'package:nordguide/l10n/app_localizations.dart';
 import 'package:nordguide/l10n/app_localizations_en.dart';
 import 'package:nordguide/l10n/app_localizations_ru.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 /// Стартовый экран уже один раз «пропадал»: Spacer внутри
 /// SingleChildScrollView роняет построение, и остаётся только фон.
@@ -16,9 +17,15 @@ import 'package:nordguide/l10n/app_localizations_ru.dart';
 /// Стартовый экран показывает счётчик избранного, а значит тянет за собой
 /// базу. Для проверки вёрстки она не нужна: подменяем провайдер пустым
 /// списком, иначе тест открывает настоящий файл базы и виснет.
-Widget _app({List<Favorite> favorites = const []}) {
+Widget _app({
+  List<Favorite> favorites = const [],
+  required SharedPreferences prefs,
+}) {
   return ProviderScope(
     overrides: [
+      // Переключатель языка в шапке читает сохранённые настройки, поэтому
+      // без хранилища экран не строится вовсе.
+      prefsProvider.overrideWithValue(prefs),
       favoritesProvider.overrideWith((ref) => Stream.value(favorites)),
     ],
     child: const MaterialApp(
@@ -36,8 +43,17 @@ Widget _app({List<Favorite> favorites = const []}) {
 }
 
 void main() {
+  TestWidgetsFlutterBinding.ensureInitialized();
+
+  late SharedPreferences prefs;
+
+  setUp(() async {
+    SharedPreferences.setMockInitialValues({});
+    prefs = await SharedPreferences.getInstance();
+  });
+
   testWidgets('стартовый экран строится и показывает оба пути', (tester) async {
-    await tester.pumpWidget(_app());
+    await tester.pumpWidget(_app(prefs: prefs));
 
     expect(tester.takeException(), isNull);
     expect(find.text('Норвегия'), findsOneWidget);
@@ -50,14 +66,14 @@ void main() {
     tester.view.devicePixelRatio = 1.0;
     addTearDown(tester.view.resetPhysicalSize);
 
-    await tester.pumpWidget(_app());
+    await tester.pumpWidget(_app(prefs: prefs));
 
     expect(tester.takeException(), isNull);
     expect(find.text('Что рядом со мной'), findsOneWidget);
   });
 
   testWidgets('на экране видна атрибуция фотографии', (tester) async {
-    await tester.pumpWidget(_app());
+    await tester.pumpWidget(_app(prefs: prefs));
 
     // Требование CC BY-SA: снимок нельзя показывать без указания автора.
     // Имя берём из справочника, а не вписываем в тест: при замене фото
@@ -68,7 +84,7 @@ void main() {
   });
 
   testWidgets('без сохранённых мест раздела «Моя поездка» нет', (tester) async {
-    await tester.pumpWidget(_app());
+    await tester.pumpWidget(_app(prefs: prefs));
     await tester.pump();
     // Пустой раздел на первом запуске — обещание без содержания.
     expect(find.text('Моя поездка'), findsNothing);
@@ -77,6 +93,7 @@ void main() {
   testWidgets('с сохранённым местом раздел появляется', (tester) async {
     await tester.pumpWidget(
       _app(
+        prefs: prefs,
         favorites: const [
           Favorite(placeId: 'osm:node/1', addedAt: 0, visited: false),
         ],
