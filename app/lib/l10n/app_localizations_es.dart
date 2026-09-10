@@ -10,7 +10,7 @@ class LEs extends L {
   LEs([String locale = 'es']) : super(locale);
 
   @override
-  String get appTitle => 'Noruega';
+  String get appTitle => 'Norway Explore';
 
   @override
   String get appTagline => 'Fiordos, cascadas y ciudades — sin conexión';

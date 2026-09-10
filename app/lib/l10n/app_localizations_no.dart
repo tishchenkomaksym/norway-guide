@@ -10,7 +10,7 @@ class LNo extends L {
   LNo([String locale = 'no']) : super(locale);
 
   @override
-  String get appTitle => 'Norge';
+  String get appTitle => 'Norway Explore';
 
   @override
   String get appTagline => 'Fjorder, fossefall og byer — uten nett';

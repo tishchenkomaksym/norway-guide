@@ -10,7 +10,7 @@ class LZh extends L {
   LZh([String locale = 'zh']) : super(locale);
 
   @override
-  String get appTitle => '挪威';
+  String get appTitle => 'Norway Explore';
 
   @override
   String get appTagline => '峡湾、瀑布与城镇 — 无需联网';

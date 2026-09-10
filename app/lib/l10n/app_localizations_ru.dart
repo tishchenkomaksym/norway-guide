@@ -10,7 +10,7 @@ class LRu extends L {
   LRu([String locale = 'ru']) : super(locale);
 
   @override
-  String get appTitle => 'Норвегия';
+  String get appTitle => 'Norway Explore';
 
   @override
   String get appTagline => 'Фьорды, водопады и города — без интернета';

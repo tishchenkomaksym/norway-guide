@@ -59,7 +59,9 @@ void main() {
     await tester.pumpWidget(_app(prefs: await _prefs()));
 
     expect(tester.takeException(), isNull);
-    expect(find.text('Норвегия'), findsOneWidget);
+    // Название приложения — бренд, оно одинаково во всех локалях
+    // и не переводится, в отличие от подписи под ним.
+    expect(find.text('Norway Explore'), findsOneWidget);
     expect(find.text('Что рядом со мной'), findsOneWidget);
     expect(find.text('Куда поехать'), findsOneWidget);
   });

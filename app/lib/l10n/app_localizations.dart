@@ -108,7 +108,7 @@ abstract class L {
   /// No description provided for @appTitle.
   ///
   /// In ru, this message translates to:
-  /// **'Норвегия'**
+  /// **'Norway Explore'**
   String get appTitle;
 
   /// No description provided for @appTagline.

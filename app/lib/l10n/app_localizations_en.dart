@@ -10,7 +10,7 @@ class LEn extends L {
   LEn([String locale = 'en']) : super(locale);
 
   @override
-  String get appTitle => 'Norway';
+  String get appTitle => 'Norway Explore';
 
   @override
   String get appTagline => 'Fjords, waterfalls and towns — offline';

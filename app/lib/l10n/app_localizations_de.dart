@@ -10,7 +10,7 @@ class LDe extends L {
   LDe([String locale = 'de']) : super(locale);
 
   @override
-  String get appTitle => 'Norwegen';
+  String get appTitle => 'Norway Explore';
 
   @override
   String get appTagline => 'Fjorde, Wasserfälle und Städte — ohne Internet';
