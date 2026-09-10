@@ -143,8 +143,12 @@ const _placeJoins = '''
   --
   -- Первым берём тот, что отмечен основным, затем — самый ранний по rowid:
   -- media складывает снимки в порядке качества, и первый обычно лучший.
+  -- path_full нужен карточке места: список показывает миниатюру, а шапка
+  -- карточки — крупный снимок. Первая версия подзапроса его не выбирала,
+  -- и карточка падала с «no such column: ph.path_full», показывая вместо
+  -- фотографии и описания текст исключения.
   LEFT JOIN (
-    SELECT place_id, path_thumb, author, license,
+    SELECT place_id, path_thumb, path_full, author, license,
            MIN(rowid) AS _r
       FROM photos
      WHERE place_id IS NOT NULL
