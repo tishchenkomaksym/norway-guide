@@ -275,10 +275,11 @@ class _Note extends StatelessWidget {
 Future<void> _call(BuildContext context, EmergencyContact contact) async {
   final uri = Uri.parse('tel:${contact.dialNumber}');
   try {
-    if (await canLaunchUrl(uri)) {
-      await launchUrl(uri);
-      return;
-    }
+    // Без canLaunchUrl: он возвращает false, если схема tel не объявлена
+    // в <queries> манифеста, и кнопка вызова 113 молча перестаёт работать.
+    // Здесь цена ошибки — несостоявшийся вызов скорой, поэтому пробуем
+    // открыть напрямую.
+    if (await launchUrl(uri, mode: LaunchMode.externalApplication)) return;
   } catch (_) {
     // Падать на экране экстренной помощи нельзя ни при каких условиях.
   }

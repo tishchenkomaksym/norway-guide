@@ -41,5 +41,26 @@
             <action android:name="android.intent.action.PROCESS_TEXT"/>
             <data android:mimeType="text/plain"/>
         </intent>
+
+        <!-- Начиная с Android 11 приложение не видит другие приложения,
+             пока не объявит здесь, что именно ему нужно. Без этих строк
+             canLaunchUrl возвращает false даже когда карты и телефон
+             установлены, и приложение врёт пользователю про отсутствие
+             интернета.
+
+             Для экрана экстренной помощи это не косметика: без
+             android.intent.action.DIAL кнопка вызова 113 не работает. -->
+        <intent>
+            <action android:name="android.intent.action.VIEW"/>
+            <data android:scheme="geo"/>
+        </intent>
+        <intent>
+            <action android:name="android.intent.action.VIEW"/>
+            <data android:scheme="https"/>
+        </intent>
+        <intent>
+            <action android:name="android.intent.action.DIAL"/>
+            <data android:scheme="tel"/>
+        </intent>
     </queries>
 </manifest>

@@ -362,9 +362,15 @@ Future<void> _openExternalMap(
     Uri.parse('https://www.google.com/maps/search/?api=1&query=$lat,$lon'),
   ];
 
+  // Пробуем открыть, а не спрашиваем canLaunchUrl: тот отвечает false
+  // всегда, когда схема не объявлена в <queries> манифеста, и приложение
+  // начинает врать про отсутствие интернета при работающей сети.
+  // Прямая попытка честнее — она либо открывает, либо бросает исключение.
   for (final uri in uris) {
-    if (await canLaunchUrl(uri)) {
+    try {
       if (await launchUrl(uri, mode: LaunchMode.externalApplication)) return;
+    } catch (_) {
+      // Следующий вариант: geo: понимают не все прошивки, https — все.
     }
   }
 

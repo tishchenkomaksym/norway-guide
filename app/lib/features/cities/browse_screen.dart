@@ -171,9 +171,12 @@ class _CitiesGridState extends ConsumerState<_CitiesGrid> {
               child: GridView.builder(
                 controller: _controller,
                 padding: const EdgeInsets.fromLTRB(16, 0, 16, 24),
+                // 480 вместо 320: на телефоне колонка одна, и карточка
+                // в 320 логических точек высоты растягивалась пустотой.
+                // Проверено на устройстве — на широком экране этого не видно.
                 gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
-                  maxCrossAxisExtent: 320,
-                  mainAxisExtent: 180,
+                  maxCrossAxisExtent: 480,
+                  mainAxisExtent: 168,
                   crossAxisSpacing: 12,
                   mainAxisSpacing: 12,
                 ),
@@ -261,15 +264,14 @@ class _CityCardTile extends StatelessWidget {
             ),
             Expanded(
               child: Padding(
-                padding: const EdgeInsets.fromLTRB(12, 8, 12, 10),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+                padding: const EdgeInsets.fromLTRB(12, 8, 12, 8),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
                       _subtitle(context, city.population, item.notableCount),
                       style: Theme.of(context).textTheme.bodySmall,
                     ),
-                    const Spacer(),
                     Row(
                       children: [
                         Icon(Icons.place, size: 14, color: scheme.primary),
