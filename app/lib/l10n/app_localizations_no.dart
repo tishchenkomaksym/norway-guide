@@ -695,4 +695,40 @@ class LNo extends L {
     );
     return '$_temp0';
   }
+
+  @override
+  String get routeBannerTitle => 'En ferdig rundtur i byen';
+
+  @override
+  String routeTitle(String city) {
+    return 'Rundtur i $city';
+  }
+
+  @override
+  String routeAbout(String hours) {
+    return 'omtrent $hours t';
+  }
+
+  @override
+  String routeDistance(String km) {
+    return '$km km';
+  }
+
+  @override
+  String routeStops(int n) {
+    String _temp0 = intl.Intl.pluralLogic(
+      n,
+      locale: localeName,
+      other: '$n stopp',
+      one: '1 stopp',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get routeEmpty => 'Ingen stopp i denne rundturen';
+
+  @override
+  String get routeNote =>
+      'Rekkefølge og tid er omtrentlige: avstanden måles i luftlinje med tillegg for gater, og besøkstiden anslås etter type sted. For veibeskrivelse, bruk kartknappen på stedets side.';
 }

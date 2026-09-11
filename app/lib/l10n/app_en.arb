@@ -292,5 +292,12 @@
   "downloadsFailed": "Download failed",
   "downloadsOffline": "No connection to the content server",
   "downloadsNothingInstalled": "Nothing downloaded yet. Places still work — only extra photos are missing.",
-  "downloadsInstalledCount": "{n, plural, =1{1 region downloaded} other{{n} regions downloaded}}"
+  "downloadsInstalledCount": "{n, plural, =1{1 region downloaded} other{{n} regions downloaded}}",
+  "routeBannerTitle": "A ready-made walk around the city",
+  "routeTitle": "Walk around {city}",
+  "routeAbout": "about {hours} h",
+  "routeDistance": "{km} km",
+  "routeStops": "{n, plural, =1{1 stop} other{{n} stops}}",
+  "routeEmpty": "No stops in this walk",
+  "routeNote": "The order and timings are approximate: distances are measured in a straight line with an allowance for streets, and viewing time is estimated by the type of place. For turn-by-turn directions use the map button on a place's page."
 }

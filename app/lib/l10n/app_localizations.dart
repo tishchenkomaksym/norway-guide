@@ -1280,6 +1280,48 @@ abstract class L {
   /// In ru, this message translates to:
   /// **'{n, plural, one{скачан {n} регион} few{скачано {n} региона} many{скачано {n} регионов} other{скачано {n} региона}}'**
   String downloadsInstalledCount(int n);
+
+  /// No description provided for @routeBannerTitle.
+  ///
+  /// In ru, this message translates to:
+  /// **'Готовая прогулка по городу'**
+  String get routeBannerTitle;
+
+  /// No description provided for @routeTitle.
+  ///
+  /// In ru, this message translates to:
+  /// **'Прогулка по городу {city}'**
+  String routeTitle(String city);
+
+  /// No description provided for @routeAbout.
+  ///
+  /// In ru, this message translates to:
+  /// **'около {hours} ч'**
+  String routeAbout(String hours);
+
+  /// No description provided for @routeDistance.
+  ///
+  /// In ru, this message translates to:
+  /// **'{km} км'**
+  String routeDistance(String km);
+
+  /// No description provided for @routeStops.
+  ///
+  /// In ru, this message translates to:
+  /// **'{n, plural, one{{n} остановка} few{{n} остановки} many{{n} остановок} other{{n} остановки}}'**
+  String routeStops(int n);
+
+  /// No description provided for @routeEmpty.
+  ///
+  /// In ru, this message translates to:
+  /// **'В этой прогулке нет остановок'**
+  String get routeEmpty;
+
+  /// No description provided for @routeNote.
+  ///
+  /// In ru, this message translates to:
+  /// **'Порядок и время приблизительные: расстояние считается по прямой с поправкой на улицы, а время осмотра — по типу места. Чтобы проложить дорогу, используйте кнопку карты в карточке места.'**
+  String get routeNote;
 }
 
 class _LDelegate extends LocalizationsDelegate<L> {

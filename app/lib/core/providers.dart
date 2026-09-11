@@ -217,6 +217,25 @@ final mostVisitedProvider = FutureProvider<List<PlaceWithText>>((ref) async {
   return db.mostVisitedPlaces(lang);
 });
 
+/// Готовая прогулка по городу — или null, если её для него нет.
+final cityRouteProvider = FutureProvider.family<Route?, String>((
+  ref,
+  cityId,
+) async {
+  final db = await ref.watch(databaseProvider.future);
+  return db.routeForCity(cityId);
+});
+
+/// Остановки маршрута по порядку.
+final routeStopsProvider = FutureProvider.family<List<PlaceWithText>, String>((
+  ref,
+  routeId,
+) async {
+  final db = await ref.watch(databaseProvider.future);
+  final lang = ref.watch(languageProvider);
+  return db.routeStopsFor(routeId, lang);
+});
+
 /// Все фотографии места — для галереи в карточке.
 final placePhotosProvider = FutureProvider.family<List<Photo>, String>((
   ref,

@@ -657,4 +657,35 @@ class LZh extends L {
     );
     return '$_temp0';
   }
+
+  @override
+  String get routeBannerTitle => '现成的城市漫步路线';
+
+  @override
+  String routeTitle(String city) {
+    return '$city 漫步路线';
+  }
+
+  @override
+  String routeAbout(String hours) {
+    return '约 $hours 小时';
+  }
+
+  @override
+  String routeDistance(String km) {
+    return '$km 公里';
+  }
+
+  @override
+  String routeStops(int n) {
+    String _temp0 = intl.Intl.pluralLogic(n, locale: localeName, other: '$n 站');
+    return '$_temp0';
+  }
+
+  @override
+  String get routeEmpty => '此路线没有站点';
+
+  @override
+  String get routeNote =>
+      '顺序与时间均为估算：距离按直线计算并加上街道系数，参观时长按地点类型估计。需要导航请使用地点页面的地图按钮。';
 }

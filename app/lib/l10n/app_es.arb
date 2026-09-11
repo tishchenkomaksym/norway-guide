@@ -292,5 +292,12 @@
   "downloadsFailed": "Error de descarga",
   "downloadsOffline": "Sin conexión con el servidor de contenidos",
   "downloadsNothingInstalled": "Aún no has descargado nada. Los lugares siguen funcionando: solo faltan fotos adicionales.",
-  "downloadsInstalledCount": "{n, plural, =1{1 región descargada} other{{n} regiones descargadas}}"
+  "downloadsInstalledCount": "{n, plural, =1{1 región descargada} other{{n} regiones descargadas}}",
+  "routeBannerTitle": "Un paseo listo por la ciudad",
+  "routeTitle": "Paseo por {city}",
+  "routeAbout": "unas {hours} h",
+  "routeDistance": "{km} km",
+  "routeStops": "{n, plural, =1{1 parada} other{{n} paradas}}",
+  "routeEmpty": "Este paseo no tiene paradas",
+  "routeNote": "El orden y los tiempos son aproximados: las distancias se miden en línea recta con un margen por las calles, y el tiempo de visita se estima según el tipo de lugar. Para indicaciones paso a paso, usa el botón de mapa en la ficha del lugar."
 }

@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../core/providers.dart';
 import '../../data/database.dart';
 import '../../l10n/app_localizations.dart';
+import '../routes/route_screen.dart';
 import 'category_chips.dart';
 import 'place_grid.dart';
 
@@ -61,6 +62,11 @@ class _CityScreenState extends ConsumerState<CityScreen> {
 
           return Column(
             children: [
+              // Прогулка стоит выше списка мест и выше фильтров: человек,
+              // открывший город, чаще всего спрашивает «что успею за
+              // полдня», а не «покажи все музеи». Если маршрута для
+              // города нет — полоса просто не появляется.
+              _RouteBanner(city: widget.city),
               CategoryChips(
                 counts: counts,
                 selected: _selected,
@@ -70,6 +76,86 @@ class _CityScreenState extends ConsumerState<CityScreen> {
             ],
           );
         },
+      ),
+    );
+  }
+}
+
+/// Полоса «готовая прогулка» над списком мест.
+///
+/// Появляется только там, где маршрут действительно составлен: для этого
+/// в городе нужно несколько мест в шаговой доступности от центра, а таких
+/// городов меньше сорока. Показывать пустую кнопку «маршрут» в остальных
+/// значило бы обещать то, чего нет.
+class _RouteBanner extends ConsumerWidget {
+  const _RouteBanner({required this.city});
+
+  final City city;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final route = ref.watch(cityRouteProvider(city.id)).valueOrNull;
+    if (route == null) return const SizedBox.shrink();
+
+    final l = L.of(context);
+    final theme = Theme.of(context);
+    final parts = [
+      if (route.durationH != null)
+        l.routeAbout(route.durationH!.toStringAsFixed(1)),
+      if (route.distanceKm != null)
+        l.routeDistance(route.distanceKm!.toStringAsFixed(1)),
+    ].join(' · ');
+
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(12, 10, 12, 0),
+      child: Material(
+        color: theme.colorScheme.primaryContainer,
+        borderRadius: BorderRadius.circular(12),
+        clipBehavior: Clip.antiAlias,
+        child: InkWell(
+          onTap: () => Navigator.of(context).push(
+            MaterialPageRoute(
+              builder: (_) => RouteScreen(route: route, cityName: city.nameNo),
+            ),
+          ),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
+            child: Row(
+              children: [
+                Icon(
+                  Icons.directions_walk,
+                  color: theme.colorScheme.onPrimaryContainer,
+                ),
+                const SizedBox(width: 12),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        l.routeBannerTitle,
+                        style: theme.textTheme.titleSmall?.copyWith(
+                          color: theme.colorScheme.onPrimaryContainer,
+                        ),
+                      ),
+                      if (parts.isNotEmpty)
+                        Text(
+                          parts,
+                          style: theme.textTheme.bodySmall?.copyWith(
+                            color: theme.colorScheme.onPrimaryContainer
+                                .withValues(alpha: 0.8),
+                          ),
+                        ),
+                    ],
+                  ),
+                ),
+                Icon(
+                  Icons.chevron_right,
+                  color: theme.colorScheme.onPrimaryContainer,
+                ),
+              ],
+            ),
+          ),
+        ),
       ),
     );
   }

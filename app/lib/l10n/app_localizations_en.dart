@@ -694,4 +694,40 @@ class LEn extends L {
     );
     return '$_temp0';
   }
+
+  @override
+  String get routeBannerTitle => 'A ready-made walk around the city';
+
+  @override
+  String routeTitle(String city) {
+    return 'Walk around $city';
+  }
+
+  @override
+  String routeAbout(String hours) {
+    return 'about $hours h';
+  }
+
+  @override
+  String routeDistance(String km) {
+    return '$km km';
+  }
+
+  @override
+  String routeStops(int n) {
+    String _temp0 = intl.Intl.pluralLogic(
+      n,
+      locale: localeName,
+      other: '$n stops',
+      one: '1 stop',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get routeEmpty => 'No stops in this walk';
+
+  @override
+  String get routeNote =>
+      'The order and timings are approximate: distances are measured in a straight line with an allowance for streets, and viewing time is estimated by the type of place. For turn-by-turn directions use the map button on a place\'s page.';
 }

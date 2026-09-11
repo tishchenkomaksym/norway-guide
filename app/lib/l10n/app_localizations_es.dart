@@ -699,4 +699,40 @@ class LEs extends L {
     );
     return '$_temp0';
   }
+
+  @override
+  String get routeBannerTitle => 'Un paseo listo por la ciudad';
+
+  @override
+  String routeTitle(String city) {
+    return 'Paseo por $city';
+  }
+
+  @override
+  String routeAbout(String hours) {
+    return 'unas $hours h';
+  }
+
+  @override
+  String routeDistance(String km) {
+    return '$km km';
+  }
+
+  @override
+  String routeStops(int n) {
+    String _temp0 = intl.Intl.pluralLogic(
+      n,
+      locale: localeName,
+      other: '$n paradas',
+      one: '1 parada',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get routeEmpty => 'Este paseo no tiene paradas';
+
+  @override
+  String get routeNote =>
+      'El orden y los tiempos son aproximados: las distancias se miden en línea recta con un margen por las calles, y el tiempo de visita se estima según el tipo de lugar. Para indicaciones paso a paso, usa el botón de mapa en la ficha del lugar.';
 }

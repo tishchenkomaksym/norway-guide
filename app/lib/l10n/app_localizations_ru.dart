@@ -702,4 +702,42 @@ class LRu extends L {
     );
     return '$_temp0';
   }
+
+  @override
+  String get routeBannerTitle => 'Готовая прогулка по городу';
+
+  @override
+  String routeTitle(String city) {
+    return 'Прогулка по городу $city';
+  }
+
+  @override
+  String routeAbout(String hours) {
+    return 'около $hours ч';
+  }
+
+  @override
+  String routeDistance(String km) {
+    return '$km км';
+  }
+
+  @override
+  String routeStops(int n) {
+    String _temp0 = intl.Intl.pluralLogic(
+      n,
+      locale: localeName,
+      other: '$n остановки',
+      many: '$n остановок',
+      few: '$n остановки',
+      one: '$n остановка',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get routeEmpty => 'В этой прогулке нет остановок';
+
+  @override
+  String get routeNote =>
+      'Порядок и время приблизительные: расстояние считается по прямой с поправкой на улицы, а время осмотра — по типу места. Чтобы проложить дорогу, используйте кнопку карты в карточке места.';
 }

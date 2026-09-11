@@ -700,4 +700,40 @@ class LDe extends L {
     );
     return '$_temp0';
   }
+
+  @override
+  String get routeBannerTitle => 'Ein fertiger Stadtrundgang';
+
+  @override
+  String routeTitle(String city) {
+    return 'Rundgang durch $city';
+  }
+
+  @override
+  String routeAbout(String hours) {
+    return 'etwa $hours Std.';
+  }
+
+  @override
+  String routeDistance(String km) {
+    return '$km km';
+  }
+
+  @override
+  String routeStops(int n) {
+    String _temp0 = intl.Intl.pluralLogic(
+      n,
+      locale: localeName,
+      other: '$n Stationen',
+      one: '1 Station',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get routeEmpty => 'Keine Stationen in diesem Rundgang';
+
+  @override
+  String get routeNote =>
+      'Reihenfolge und Zeiten sind Näherungswerte: Entfernungen werden in Luftlinie mit Zuschlag für Straßen gemessen, die Besuchsdauer nach Art des Ortes geschätzt. Für die Wegführung nutzen Sie die Kartenschaltfläche auf der Seite des Ortes.';
 }

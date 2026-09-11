@@ -204,27 +204,27 @@ class AppDatabase extends _$AppDatabase {
   /// user_data_test: файл user.sqlite оставался нулевого размера.
   @override
   MigrationStrategy get migration => MigrationStrategy(
-        onCreate: (m) async {
-          for (final table in allTables) {
-            if (table.actualTableName == 'favorites') continue;
-            await m.createTable(table);
-          }
-        },
-        beforeOpen: (details) async {
-          final attached = await customSelect('PRAGMA database_list').get();
-          final hasUserData = attached.any(
-            (row) => row.read<String>('name') == 'userdata',
-          );
-          final prefix = hasUserData ? 'userdata.' : '';
-          await customStatement(
-            'CREATE TABLE IF NOT EXISTS ${prefix}favorites ('
-            'place_id TEXT NOT NULL PRIMARY KEY, '
-            'added_at INTEGER NOT NULL, '
-            'visited INTEGER NOT NULL DEFAULT 0, '
-            'user_note TEXT)',
-          );
-        },
+    onCreate: (m) async {
+      for (final table in allTables) {
+        if (table.actualTableName == 'favorites') continue;
+        await m.createTable(table);
+      }
+    },
+    beforeOpen: (details) async {
+      final attached = await customSelect('PRAGMA database_list').get();
+      final hasUserData = attached.any(
+        (row) => row.read<String>('name') == 'userdata',
       );
+      final prefix = hasUserData ? 'userdata.' : '';
+      await customStatement(
+        'CREATE TABLE IF NOT EXISTS ${prefix}favorites ('
+        'place_id TEXT NOT NULL PRIMARY KEY, '
+        'added_at INTEGER NOT NULL, '
+        'visited INTEGER NOT NULL DEFAULT 0, '
+        'user_note TEXT)',
+      );
+    },
+  );
 
   /// Цепочка подстановки языков по §8.4 спеки: язык пользователя → en → no →
   /// имя из OSM как есть. Приложение никогда не показывает пустой экран.
@@ -333,8 +333,11 @@ class AppDatabase extends _$AppDatabase {
   /// Ранжирование: сначала совпадение по имени (bm25 с большим весом),
   /// затем значимость места. Иначе безымянный ручей с описанием, где
   /// упомянут Берген, обгонял бы сам Берген.
-  Future<List<PlaceWithText>> searchPlaces(String query, String lang,
-      {int limit = 40}) async {
+  Future<List<PlaceWithText>> searchPlaces(
+    String query,
+    String lang, {
+    int limit = 40,
+  }) async {
     final match = _toFtsQuery(query);
     if (match == null) return [];
 
@@ -419,9 +422,9 @@ class AppDatabase extends _$AppDatabase {
 
   /// Национальные правила по виду деятельности.
   Future<List<NationalRule>> nationalRulesFor(String activity) {
-    return (select(nationalRules)
-          ..where((r) => r.activity.equals(activity)))
-        .get();
+    return (select(
+      nationalRules,
+    )..where((r) => r.activity.equals(activity))).get();
   }
 
   /// Коммуна, ближайшая к точке, — по местам, для которых правила уже
@@ -456,7 +459,11 @@ class AppDatabase extends _$AppDatabase {
     var bestDistance = double.infinity;
     for (final row in rows) {
       final d = distanceMeters(
-          lat, lon, row.read<double>('p_lat'), row.read<double>('p_lon'));
+        lat,
+        lon,
+        row.read<double>('p_lat'),
+        row.read<double>('p_lon'),
+      );
       if (d < bestDistance) {
         bestDistance = d;
         best = placeRules.map(row.data);
@@ -616,8 +623,10 @@ class AppDatabase extends _$AppDatabase {
   /// Порядок здесь задан руками в пайплайне (`internal/toplist`) и потому
   /// стабилен: список не переставляется от того, что кто-то дополнил
   /// разметку в OSM.
-  Future<List<PlaceWithText>> mostVisitedPlaces(String lang,
-      {int limit = 25}) async {
+  Future<List<PlaceWithText>> mostVisitedPlaces(
+    String lang, {
+    int limit = 25,
+  }) async {
     final rows = await customSelect(
       '''
       SELECT p.*,
@@ -633,6 +642,51 @@ class AppDatabase extends _$AppDatabase {
     ).get();
 
     return rows.map(_mapPlace).toList();
+  }
+
+  /// Пешая прогулка по городу, если она для него составлена.
+  ///
+  /// Маршрут есть не у каждого города: нужно хотя бы несколько мест
+  /// в шаговой доступности от центра. Отсутствие — обычное состояние,
+  /// а не ошибка, поэтому возвращается null.
+  Future<Route?> routeForCity(String cityId) async {
+    final rows = await (select(
+      routes,
+    )..where((r) => r.cityId.equals(cityId))).get();
+    return rows.isEmpty ? null : rows.first;
+  }
+
+  /// Остановки маршрута по порядку, вместе с текстами и снимками.
+  ///
+  /// Один запрос, а не выборка мест по одному: остановок немного, но
+  /// экран маршрута открывается в дороге, и лишние обращения к базе тут
+  /// ни к чему.
+  Future<List<PlaceWithText>> routeStopsFor(String routeId, String lang) async {
+    final rows = await customSelect(
+      '''
+      SELECT p.*,
+      $_placeColumns,
+             s.ord AS stop_ord
+      FROM route_stops s
+      JOIN places p ON p.id = s.place_id
+      $_placeJoins
+      WHERE s.route_id = ?
+      ORDER BY s.ord
+      ''',
+      variables: [Variable<String>(lang), Variable<String>(routeId)],
+      readsFrom: {routeStops, places, translations, photos},
+    ).get();
+
+    return rows.map(_mapPlace).toList();
+  }
+
+  /// Города, для которых есть готовая прогулка.
+  Future<Set<String>> citiesWithRoutes() async {
+    final rows = await customSelect(
+      'SELECT DISTINCT city_id FROM routes WHERE city_id IS NOT NULL',
+      readsFrom: {routes},
+    ).get();
+    return rows.map((r) => r.read<String>('city_id')).toSet();
   }
 
   /// Все фотографии места, для галереи в карточке.
@@ -703,30 +757,35 @@ class AppDatabase extends _$AppDatabase {
       variables: [Variable<String>(lang)],
       readsFrom: {favorites, places, translations, photos},
     ).watch().map(
-          (rows) => rows
-              .map(
-                (row) => FavoritePlace(
-                  place: _mapPlace(row),
-                  addedAt: DateTime.fromMillisecondsSinceEpoch(
-                      row.read<int>('fav_added_at')),
-                  visited: row.read<int>('fav_visited') == 1,
-                  note: row.readNullable<String>('fav_note'),
-                ),
-              )
-              .toList(),
-        );
+      (rows) => rows
+          .map(
+            (row) => FavoritePlace(
+              place: _mapPlace(row),
+              addedAt: DateTime.fromMillisecondsSinceEpoch(
+                row.read<int>('fav_added_at'),
+              ),
+              visited: row.read<int>('fav_visited') == 1,
+              note: row.readNullable<String>('fav_note'),
+            ),
+          )
+          .toList(),
+    );
   }
 
   Future<void> setVisited(String placeId, bool visited) {
-    return (update(favorites)..where((f) => f.placeId.equals(placeId)))
-        .write(FavoritesCompanion(visited: Value(visited)));
+    return (update(favorites)..where((f) => f.placeId.equals(placeId))).write(
+      FavoritesCompanion(visited: Value(visited)),
+    );
   }
 
   Future<void> setNote(String placeId, String? note) {
-    return (update(favorites)..where((f) => f.placeId.equals(placeId)))
-        .write(FavoritesCompanion(
-      userNote: Value(note == null || note.trim().isEmpty ? null : note.trim()),
-    ));
+    return (update(favorites)..where((f) => f.placeId.equals(placeId))).write(
+      FavoritesCompanion(
+        userNote: Value(
+          note == null || note.trim().isEmpty ? null : note.trim(),
+        ),
+      ),
+    );
   }
 
   Future<void> removeFavorite(String placeId) {
@@ -734,9 +793,9 @@ class AppDatabase extends _$AppDatabase {
   }
 
   Future<void> toggleFavorite(String placeId) async {
-    final existing = await (select(favorites)
-          ..where((f) => f.placeId.equals(placeId)))
-        .getSingleOrNull();
+    final existing = await (select(
+      favorites,
+    )..where((f) => f.placeId.equals(placeId))).getSingleOrNull();
     if (existing == null) {
       await into(favorites).insert(
         FavoritesCompanion.insert(
@@ -759,7 +818,8 @@ double distanceMeters(double lat1, double lon1, double lat2, double lon2) {
   const earthRadius = 6371000.0;
   final dLat = (lat2 - lat1) * _degToRad;
   final dLon = (lon2 - lon1) * _degToRad;
-  final a = math.sin(dLat / 2) * math.sin(dLat / 2) +
+  final a =
+      math.sin(dLat / 2) * math.sin(dLat / 2) +
       math.cos(lat1 * _degToRad) *
           math.cos(lat2 * _degToRad) *
           math.sin(dLon / 2) *
@@ -771,7 +831,8 @@ double distanceMeters(double lat1, double lon1, double lat2, double lon2) {
 double bearingDegrees(double lat1, double lon1, double lat2, double lon2) {
   final dLon = (lon2 - lon1) * _degToRad;
   final y = math.sin(dLon) * math.cos(lat2 * _degToRad);
-  final x = math.cos(lat1 * _degToRad) * math.sin(lat2 * _degToRad) -
+  final x =
+      math.cos(lat1 * _degToRad) * math.sin(lat2 * _degToRad) -
       math.sin(lat1 * _degToRad) * math.cos(lat2 * _degToRad) * math.cos(dLon);
   final deg = math.atan2(y, x) / _degToRad;
   return (deg + 360) % 360;

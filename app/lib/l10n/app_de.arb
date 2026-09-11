@@ -292,5 +292,12 @@
   "downloadsFailed": "Download fehlgeschlagen",
   "downloadsOffline": "Keine Verbindung zum Inhaltsserver",
   "downloadsNothingInstalled": "Noch nichts heruntergeladen. Die Orte funktionieren weiterhin — es fehlen nur zusätzliche Fotos.",
-  "downloadsInstalledCount": "{n, plural, =1{1 Region geladen} other{{n} Regionen geladen}}"
+  "downloadsInstalledCount": "{n, plural, =1{1 Region geladen} other{{n} Regionen geladen}}",
+  "routeBannerTitle": "Ein fertiger Stadtrundgang",
+  "routeTitle": "Rundgang durch {city}",
+  "routeAbout": "etwa {hours} Std.",
+  "routeDistance": "{km} km",
+  "routeStops": "{n, plural, =1{1 Station} other{{n} Stationen}}",
+  "routeEmpty": "Keine Stationen in diesem Rundgang",
+  "routeNote": "Reihenfolge und Zeiten sind Näherungswerte: Entfernungen werden in Luftlinie mit Zuschlag für Straßen gemessen, die Besuchsdauer nach Art des Ortes geschätzt. Für die Wegführung nutzen Sie die Kartenschaltfläche auf der Seite des Ortes."
 }

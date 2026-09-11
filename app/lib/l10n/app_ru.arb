@@ -331,5 +331,40 @@
         "type": "int"
       }
     }
+  },
+  "routeBannerTitle": "Готовая прогулка по городу",
+  "routeTitle": "Прогулка по городу {city}",
+  "routeAbout": "около {hours} ч",
+  "routeDistance": "{km} км",
+  "routeStops": "{n, plural, one{{n} остановка} few{{n} остановки} many{{n} остановок} other{{n} остановки}}",
+  "routeEmpty": "В этой прогулке нет остановок",
+  "routeNote": "Порядок и время приблизительные: расстояние считается по прямой с поправкой на улицы, а время осмотра — по типу места. Чтобы проложить дорогу, используйте кнопку карты в карточке места.",
+  "@routeTitle": {
+    "placeholders": {
+      "city": {
+        "type": "String"
+      }
+    }
+  },
+  "@routeAbout": {
+    "placeholders": {
+      "hours": {
+        "type": "String"
+      }
+    }
+  },
+  "@routeDistance": {
+    "placeholders": {
+      "km": {
+        "type": "String"
+      }
+    }
+  },
+  "@routeStops": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
   }
 }

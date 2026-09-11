@@ -65,6 +65,21 @@ type placeRule struct {
 	CheckedAt      string   `json:"checked_at"`
 }
 
+// route — готовая прогулка по городу от cmd/routes.
+type route struct {
+	ID         string      `json:"id"`
+	CityID     string      `json:"city_id"`
+	DurationH  float64     `json:"duration_h"`
+	DistanceKm float64     `json:"distance_km"`
+	Stops      []routeStop `json:"stops"`
+}
+
+type routeStop struct {
+	PlaceID string `json:"place_id"`
+	Ord     int    `json:"ord"`
+	Note    string `json:"note"`
+}
+
 type nationalRule struct {
 	Activity  string `json:"activity"`
 	Title     string `json:"title"`
@@ -101,6 +116,7 @@ func main() {
 		transPath  = flag.String("translations", "data/translations.jsonl", "тексты от enrich, можно несколько через запятую")
 		photosPath = flag.String("photos", "data/photos.jsonl", "фотографии от media, можно несколько через запятую")
 		rulesPath  = flag.String("rules", "data/rules.jsonl", "правила от rules")
+		routesPath = flag.String("routes", "data/routes.jsonl", "маршруты от cmd/routes")
 		natPath    = flag.String("national", "data/national-rules.jsonl", "национальные правила")
 		outPath    = flag.String("out", "data/content.sqlite", "куда собирать базу")
 		regionID   = flag.String("region", "norway", "идентификатор региона")
@@ -138,6 +154,11 @@ func main() {
 	natRules, err := readJSONL[nationalRule](*natPath)
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "предупреждение: нац. правила не прочитаны: %v\n", err)
+	}
+	// Маршруты необязательны: без них экран прогулок просто пуст.
+	routes, err := readJSONL[route](*routesPath)
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "предупреждение: маршруты не прочитаны: %v\n", err)
 	}
 
 	// Место без описания и без фотографии — это строка с названием
@@ -212,7 +233,7 @@ func main() {
 	}
 
 	stats, err := fill(db, *regionID, *regionName, places, keptCities,
-		translations, photos, placeRules, natRules, *cityRadius)
+		translations, photos, placeRules, natRules, routes, *cityRadius)
 	if err != nil {
 		fatal(err)
 	}
@@ -242,6 +263,7 @@ type buildStats struct {
 	placesWithText                                       int
 	photos, photosRejected                               int
 	rules, nationalRules, rulesRejected                  int
+	routes, routeStops                                   int
 	byLang                                               map[string]int
 }
 
@@ -254,6 +276,7 @@ func fill(
 	photos []photo,
 	placeRules []placeRule,
 	natRules []nationalRule,
+	routes []route,
 	cityRadiusKm float64,
 ) (*buildStats, error) {
 	st := &buildStats{byLang: map[string]int{}}
@@ -469,6 +492,61 @@ func fill(
 			return nil, fmt.Errorf("нац. правило %q: %w", r.Title, err)
 		}
 		st.nationalRules++
+	}
+
+	// Маршруты и их остановки.
+	//
+	// Место, попавшее в маршрут, обязано существовать в базе: после фильтра
+	// «только с описанием или фото» часть мест отсеивается, а cmd/routes
+	// строил маршруты по той же базе — но между прогонами она могла
+	// пересобраться. Ссылка на исчезнувшее место сломала бы экран маршрута
+	// молча, поэтому такие остановки отбрасываются здесь.
+	known := make(map[string]bool, len(places))
+	for _, p := range places {
+		known[p.ID] = true
+	}
+
+	routeStmt, err := tx.Prepare(
+		`INSERT OR REPLACE INTO routes (id, city_id, duration_h, distance_km)
+		 VALUES (?, ?, ?, ?)`)
+	if err != nil {
+		return nil, err
+	}
+	stopStmt, err := tx.Prepare(
+		`INSERT OR REPLACE INTO route_stops (route_id, place_id, ord, note)
+		 VALUES (?, ?, ?, ?)`)
+	if err != nil {
+		return nil, err
+	}
+
+	for _, r := range routes {
+		// Собираем остановки заранее: маршрут из двух точек после отсева
+		// уже не маршрут, и записывать его не стоит.
+		stops := make([]routeStop, 0, len(r.Stops))
+		for _, s := range r.Stops {
+			if known[s.PlaceID] {
+				stops = append(stops, s)
+			}
+		}
+		if len(stops) < 3 {
+			continue
+		}
+
+		if _, err := routeStmt.Exec(r.ID, nullable(r.CityID),
+			r.DurationH, r.DistanceKm); err != nil {
+			return nil, fmt.Errorf("маршрут %s: %w", r.ID, err)
+		}
+		st.routes++
+
+		for i, s := range stops {
+			// Порядок пересчитываем: после отсева в исходной нумерации
+			// появились бы дыры.
+			if _, err := stopStmt.Exec(r.ID, s.PlaceID, i,
+				nullable(s.Note)); err != nil {
+				return nil, fmt.Errorf("остановка %s/%d: %w", r.ID, i, err)
+			}
+			st.routeStops++
+		}
 	}
 
 	// Заглавное фото города — чтобы карточка в обзоре не лезла за ним
