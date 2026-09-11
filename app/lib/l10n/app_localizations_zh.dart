@@ -740,4 +740,38 @@ class LZh extends L {
 
   @override
   String get settingsAbout => '关于';
+
+  @override
+  String distanceMeters(int n) {
+    return '$n 米';
+  }
+
+  @override
+  String distanceKm(String km) {
+    return '$km 公里';
+  }
+
+  @override
+  String get compassN => '北';
+
+  @override
+  String get compassNE => '东北';
+
+  @override
+  String get compassE => '东';
+
+  @override
+  String get compassSE => '东南';
+
+  @override
+  String get compassS => '南';
+
+  @override
+  String get compassSW => '西南';
+
+  @override
+  String get compassW => '西';
+
+  @override
+  String get compassNW => '西北';
 }

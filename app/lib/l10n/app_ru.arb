@@ -399,5 +399,29 @@
   "settingsResetOffers": "Снова показывать предложения",
   "settingsResetOffersDetail": "Регионы, от которых вы отказались, предложим ещё раз",
   "settingsResetDone": "Предложения возвращены",
-  "settingsAbout": "О приложении"
+  "settingsAbout": "О приложении",
+  "distanceMeters": "{n} м",
+  "distanceKm": "{km} км",
+  "compassN": "С",
+  "compassNE": "СВ",
+  "compassE": "В",
+  "compassSE": "ЮВ",
+  "compassS": "Ю",
+  "compassSW": "ЮЗ",
+  "compassW": "З",
+  "compassNW": "СЗ",
+  "@distanceMeters": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "@distanceKm": {
+    "placeholders": {
+      "km": {
+        "type": "String"
+      }
+    }
+  }
 }

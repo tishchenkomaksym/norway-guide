@@ -794,4 +794,38 @@ class LRu extends L {
 
   @override
   String get settingsAbout => 'О приложении';
+
+  @override
+  String distanceMeters(int n) {
+    return '$n м';
+  }
+
+  @override
+  String distanceKm(String km) {
+    return '$km км';
+  }
+
+  @override
+  String get compassN => 'С';
+
+  @override
+  String get compassNE => 'СВ';
+
+  @override
+  String get compassE => 'В';
+
+  @override
+  String get compassSE => 'ЮВ';
+
+  @override
+  String get compassS => 'Ю';
+
+  @override
+  String get compassSW => 'ЮЗ';
+
+  @override
+  String get compassW => 'З';
+
+  @override
+  String get compassNW => 'СЗ';
 }

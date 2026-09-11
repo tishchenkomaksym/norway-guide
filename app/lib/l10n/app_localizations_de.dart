@@ -790,4 +790,38 @@ class LDe extends L {
 
   @override
   String get settingsAbout => 'Über die App';
+
+  @override
+  String distanceMeters(int n) {
+    return '$n m';
+  }
+
+  @override
+  String distanceKm(String km) {
+    return '$km km';
+  }
+
+  @override
+  String get compassN => 'N';
+
+  @override
+  String get compassNE => 'NO';
+
+  @override
+  String get compassE => 'O';
+
+  @override
+  String get compassSE => 'SO';
+
+  @override
+  String get compassS => 'S';
+
+  @override
+  String get compassSW => 'SW';
+
+  @override
+  String get compassW => 'W';
+
+  @override
+  String get compassNW => 'NW';
 }

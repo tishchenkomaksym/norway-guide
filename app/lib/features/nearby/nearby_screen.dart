@@ -2,16 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:geolocator/geolocator.dart';
 
-import '../../core/categories.dart';
 import '../../core/profile.dart';
 import '../../core/providers.dart';
-import '../../data/database.dart';
 import '../cities/browse_screen.dart';
 import '../downloads/region_offer.dart';
 import '../cities/category_chips.dart';
+import '../cities/place_grid.dart';
 import '../emergency/emergency_button.dart';
 import '../favorites/favorites_screen.dart';
-import '../place/place_screen.dart';
 import '../profile/profile_sheet.dart';
 import '../../l10n/app_localizations.dart';
 import '../rules/rules_screen.dart';
@@ -161,10 +159,16 @@ class _NearbyScreenState extends ConsumerState<NearbyScreen> {
                 if (list.isEmpty) {
                   return const _NothingNearby();
                 }
-                return ListView.separated(
-                  itemCount: list.length,
-                  separatorBuilder: (_, _) => const Divider(height: 1),
-                  itemBuilder: (context, i) => _PlaceTile(item: list[i]),
+                // Карточки, а не строки списка.
+                //
+                // Раньше здесь были ListTile с кружком-иконкой: фотографий
+                // не видно вовсе, хотя они есть у большинства мест. В
+                // путеводителе снимок отвечает на вопрос «стоит ли туда
+                // идти» быстрее любого описания, а расстояние вынесено
+                // прямо на фотографию — ради него экран и открывают.
+                return PagedPlaceGrid(
+                  items: list,
+                  padding: const EdgeInsets.fromLTRB(12, 12, 12, 24),
                 );
               },
             ),
@@ -486,74 +490,4 @@ class _CategoryFilter extends ConsumerWidget {
           ref.read(categoryFilterProvider.notifier).state = next,
     );
   }
-}
-
-class _PlaceTile extends ConsumerWidget {
-  const _PlaceTile({required this.item});
-
-  final PlaceWithText item;
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final distance = item.distanceMeters;
-
-    return ListTile(
-      leading: CircleAvatar(
-        child: Icon(iconForCategory(item.place.category), size: 20),
-      ),
-      title: Text(item.name),
-      subtitle: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          if (item.summary != null)
-            Text(item.summary!, maxLines: 2, overflow: TextOverflow.ellipsis),
-          if (item.isFallback)
-            Padding(
-              padding: const EdgeInsets.only(top: 2),
-              child: Text(
-                L.of(context).otherLanguageShort,
-                style: Theme.of(context).textTheme.labelSmall,
-              ),
-            ),
-        ],
-      ),
-      trailing: distance == null
-          ? null
-          : Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.end,
-              children: [
-                Text(formatDistance(distance)),
-                if (item.bearingDeg != null)
-                  Text(
-                    compassLabel(item.bearingDeg!),
-                    style: Theme.of(context).textTheme.labelSmall,
-                  ),
-              ],
-            ),
-      onTap: () {
-        // Счётчик просмотров — сигнал заинтересованности, по которому позже
-        // задаётся вопрос об интересах.
-        ref.read(placeViewCountProvider.notifier).state++;
-        Navigator.of(context).push(
-          MaterialPageRoute(
-            builder: (_) => PlaceScreen(placeId: item.place.id),
-          ),
-        );
-      },
-    );
-  }
-}
-
-String formatDistance(double meters) {
-  if (meters < 1000) return '${meters.round()} м';
-  if (meters < 10000) return '${(meters / 1000).toStringAsFixed(1)} км';
-  return '${(meters / 1000).round()} км';
-}
-
-const _compassPoints = ['С', 'СВ', 'В', 'ЮВ', 'Ю', 'ЮЗ', 'З', 'СЗ'];
-
-String compassLabel(double bearing) {
-  final index = ((bearing + 22.5) % 360 ~/ 45).clamp(0, 7);
-  return _compassPoints[index];
 }

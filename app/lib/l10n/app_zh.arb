@@ -315,5 +315,15 @@
   "settingsResetOffers": "重新显示下载建议",
   "settingsResetOffersDetail": "您此前忽略的地区将再提示一次",
   "settingsResetDone": "建议已恢复",
-  "settingsAbout": "关于"
+  "settingsAbout": "关于",
+  "distanceMeters": "{n} 米",
+  "distanceKm": "{km} 公里",
+  "compassN": "北",
+  "compassNE": "东北",
+  "compassE": "东",
+  "compassSE": "东南",
+  "compassS": "南",
+  "compassSW": "西南",
+  "compassW": "西",
+  "compassNW": "西北"
 }

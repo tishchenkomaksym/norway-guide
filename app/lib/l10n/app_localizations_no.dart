@@ -785,4 +785,38 @@ class LNo extends L {
 
   @override
   String get settingsAbout => 'Om';
+
+  @override
+  String distanceMeters(int n) {
+    return '$n m';
+  }
+
+  @override
+  String distanceKm(String km) {
+    return '$km km';
+  }
+
+  @override
+  String get compassN => 'N';
+
+  @override
+  String get compassNE => 'NØ';
+
+  @override
+  String get compassE => 'Ø';
+
+  @override
+  String get compassSE => 'SØ';
+
+  @override
+  String get compassS => 'S';
+
+  @override
+  String get compassSW => 'SV';
+
+  @override
+  String get compassW => 'V';
+
+  @override
+  String get compassNW => 'NV';
 }

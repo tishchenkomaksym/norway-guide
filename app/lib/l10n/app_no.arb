@@ -315,5 +315,15 @@
   "settingsResetOffers": "Vis nedlastingsforslag igjen",
   "settingsResetOffersDetail": "Regioner du avviste blir foreslått en gang til",
   "settingsResetDone": "Forslag gjenopprettet",
-  "settingsAbout": "Om"
+  "settingsAbout": "Om",
+  "distanceMeters": "{n} m",
+  "distanceKm": "{km} km",
+  "compassN": "N",
+  "compassNE": "NØ",
+  "compassE": "Ø",
+  "compassSE": "SØ",
+  "compassS": "S",
+  "compassSW": "SV",
+  "compassW": "V",
+  "compassNW": "NV"
 }

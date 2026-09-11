@@ -784,4 +784,38 @@ class LEn extends L {
 
   @override
   String get settingsAbout => 'About';
+
+  @override
+  String distanceMeters(int n) {
+    return '$n m';
+  }
+
+  @override
+  String distanceKm(String km) {
+    return '$km km';
+  }
+
+  @override
+  String get compassN => 'N';
+
+  @override
+  String get compassNE => 'NE';
+
+  @override
+  String get compassE => 'E';
+
+  @override
+  String get compassSE => 'SE';
+
+  @override
+  String get compassS => 'S';
+
+  @override
+  String get compassSW => 'SW';
+
+  @override
+  String get compassW => 'W';
+
+  @override
+  String get compassNW => 'NW';
 }

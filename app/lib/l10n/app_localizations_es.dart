@@ -789,4 +789,38 @@ class LEs extends L {
 
   @override
   String get settingsAbout => 'Acerca de';
+
+  @override
+  String distanceMeters(int n) {
+    return '$n m';
+  }
+
+  @override
+  String distanceKm(String km) {
+    return '$km km';
+  }
+
+  @override
+  String get compassN => 'N';
+
+  @override
+  String get compassNE => 'NE';
+
+  @override
+  String get compassE => 'E';
+
+  @override
+  String get compassSE => 'SE';
+
+  @override
+  String get compassS => 'S';
+
+  @override
+  String get compassSW => 'SO';
+
+  @override
+  String get compassW => 'O';
+
+  @override
+  String get compassNW => 'NO';
 }

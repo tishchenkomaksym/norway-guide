@@ -1418,6 +1418,66 @@ abstract class L {
   /// In ru, this message translates to:
   /// **'О приложении'**
   String get settingsAbout;
+
+  /// No description provided for @distanceMeters.
+  ///
+  /// In ru, this message translates to:
+  /// **'{n} м'**
+  String distanceMeters(int n);
+
+  /// No description provided for @distanceKm.
+  ///
+  /// In ru, this message translates to:
+  /// **'{km} км'**
+  String distanceKm(String km);
+
+  /// No description provided for @compassN.
+  ///
+  /// In ru, this message translates to:
+  /// **'С'**
+  String get compassN;
+
+  /// No description provided for @compassNE.
+  ///
+  /// In ru, this message translates to:
+  /// **'СВ'**
+  String get compassNE;
+
+  /// No description provided for @compassE.
+  ///
+  /// In ru, this message translates to:
+  /// **'В'**
+  String get compassE;
+
+  /// No description provided for @compassSE.
+  ///
+  /// In ru, this message translates to:
+  /// **'ЮВ'**
+  String get compassSE;
+
+  /// No description provided for @compassS.
+  ///
+  /// In ru, this message translates to:
+  /// **'Ю'**
+  String get compassS;
+
+  /// No description provided for @compassSW.
+  ///
+  /// In ru, this message translates to:
+  /// **'ЮЗ'**
+  String get compassSW;
+
+  /// No description provided for @compassW.
+  ///
+  /// In ru, this message translates to:
+  /// **'З'**
+  String get compassW;
+
+  /// No description provided for @compassNW.
+  ///
+  /// In ru, this message translates to:
+  /// **'СЗ'**
+  String get compassNW;
 }
 
 class _LDelegate extends LocalizationsDelegate<L> {

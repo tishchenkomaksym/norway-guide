@@ -315,5 +315,15 @@
   "settingsResetOffers": "Download-Vorschläge erneut zeigen",
   "settingsResetOffersDetail": "Abgelehnte Regionen werden noch einmal vorgeschlagen",
   "settingsResetDone": "Vorschläge zurückgesetzt",
-  "settingsAbout": "Über die App"
+  "settingsAbout": "Über die App",
+  "distanceMeters": "{n} m",
+  "distanceKm": "{km} km",
+  "compassN": "N",
+  "compassNE": "NO",
+  "compassE": "O",
+  "compassSE": "SO",
+  "compassS": "S",
+  "compassSW": "SW",
+  "compassW": "W",
+  "compassNW": "NW"
 }

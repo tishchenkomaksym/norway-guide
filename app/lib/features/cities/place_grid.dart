@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../core/place_photo.dart';
 import '../../core/categories.dart';
+import '../../core/distance.dart';
 import '../../core/profile.dart';
 import '../../data/database.dart';
 import '../../l10n/app_localizations.dart';
@@ -177,6 +178,52 @@ class PlaceCard extends ConsumerWidget {
                       ),
                     ),
                   ),
+
+                  // Расстояние и направление — поверх снимка, в углу.
+                  //
+                  // Заполняется только запросами «рядом со мной», в списках
+                  // города и страны его нет, и плашка там не появляется.
+                  // Именно расстояние отвечает на вопрос, ради которого
+                  // человек открыл этот экран, поэтому оно видно до
+                  // прочтения названия.
+                  if (item.distanceMeters != null)
+                    Positioned(
+                      top: 8,
+                      right: 8,
+                      child: Container(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 8,
+                          vertical: 3,
+                        ),
+                        decoration: BoxDecoration(
+                          color: Colors.black.withValues(alpha: 0.55),
+                          borderRadius: BorderRadius.circular(20),
+                        ),
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Text(
+                              formatDistance(context, item.distanceMeters!),
+                              style: const TextStyle(
+                                color: Colors.white,
+                                fontSize: 12,
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ),
+                            if (item.bearingDeg != null) ...[
+                              const SizedBox(width: 4),
+                              Text(
+                                compassLabel(context, item.bearingDeg!),
+                                style: const TextStyle(
+                                  color: Colors.white70,
+                                  fontSize: 11,
+                                ),
+                              ),
+                            ],
+                          ],
+                        ),
+                      ),
+                    ),
 
                   Positioned(
                     left: 10,

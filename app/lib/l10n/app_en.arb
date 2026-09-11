@@ -315,5 +315,15 @@
   "settingsResetOffers": "Show download offers again",
   "settingsResetOffersDetail": "Regions you dismissed will be offered once more",
   "settingsResetDone": "Offers restored",
-  "settingsAbout": "About"
+  "settingsAbout": "About",
+  "distanceMeters": "{n} m",
+  "distanceKm": "{km} km",
+  "compassN": "N",
+  "compassNE": "NE",
+  "compassE": "E",
+  "compassSE": "SE",
+  "compassS": "S",
+  "compassSW": "SW",
+  "compassW": "W",
+  "compassNW": "NW"
 }
