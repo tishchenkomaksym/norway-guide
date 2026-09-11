@@ -57,16 +57,14 @@ const imageCredits = <ImageCredit>[
     title: 'Гейрангер-фьорд со смотровой Эрнесвинген',
     author: 'Ximonic (Simo Räsänen)',
     license: 'CC BY-SA 3.0',
-    sourceUrl:
-        'https://commons.wikimedia.org/wiki/File:Geirangerfjord_from_%C3%98rnesvingen,_2013_June.jpg',
+    sourceUrl: 'https://commons.wikimedia.org/wiki/File:Geirangerfjord_from_%C3%98rnesvingen,_2013_June.jpg',
   ),
   ImageCredit(
     asset: 'assets/images/preikestolen.jpg',
     title: 'Прекестулен над Люсе-фьордом',
     author: 'Maarten Heerlien',
     license: 'CC BY 2.0',
-    sourceUrl:
-        'https://commons.wikimedia.org/wiki/File:Preikestolen_1_(52606536704).jpg',
+    sourceUrl: 'https://commons.wikimedia.org/wiki/File:Preikestolen_1_(52606536704).jpg',
   ),
   ImageCredit(
     asset: 'assets/images/geirangerfjord.jpg',

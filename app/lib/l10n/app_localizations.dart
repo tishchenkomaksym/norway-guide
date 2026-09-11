@@ -1214,6 +1214,72 @@ abstract class L {
   /// In ru, this message translates to:
   /// **'Готово'**
   String get profileDoneButton;
+
+  /// No description provided for @downloadsTitle.
+  ///
+  /// In ru, this message translates to:
+  /// **'Скачать перед поездкой'**
+  String get downloadsTitle;
+
+  /// No description provided for @downloadsNote.
+  ///
+  /// In ru, this message translates to:
+  /// **'Фотографии качаются по регионам, чтобы приложение оставалось лёгким. Ничего не скачивается само — путеводитель не тратит ваш трафик без спроса.'**
+  String get downloadsNote;
+
+  /// No description provided for @downloadsBuiltAt.
+  ///
+  /// In ru, this message translates to:
+  /// **'Данные собраны {date}'**
+  String downloadsBuiltAt(String date);
+
+  /// No description provided for @downloadsPhotos.
+  ///
+  /// In ru, this message translates to:
+  /// **'{n, plural, one{{n} фотография} few{{n} фотографии} many{{n} фотографий} other{{n} фотографии}}'**
+  String downloadsPhotos(int n);
+
+  /// No description provided for @downloadsStart.
+  ///
+  /// In ru, this message translates to:
+  /// **'Скачать'**
+  String get downloadsStart;
+
+  /// No description provided for @downloadsRemove.
+  ///
+  /// In ru, this message translates to:
+  /// **'Удалить'**
+  String get downloadsRemove;
+
+  /// No description provided for @downloadsUpdateAvailable.
+  ///
+  /// In ru, this message translates to:
+  /// **'Доступна более новая версия'**
+  String get downloadsUpdateAvailable;
+
+  /// No description provided for @downloadsFailed.
+  ///
+  /// In ru, this message translates to:
+  /// **'Не удалось скачать'**
+  String get downloadsFailed;
+
+  /// No description provided for @downloadsOffline.
+  ///
+  /// In ru, this message translates to:
+  /// **'Нет связи с сервером контента'**
+  String get downloadsOffline;
+
+  /// No description provided for @downloadsNothingInstalled.
+  ///
+  /// In ru, this message translates to:
+  /// **'Пока ничего не скачано. Места работают — не хватает только дополнительных фотографий.'**
+  String get downloadsNothingInstalled;
+
+  /// No description provided for @downloadsInstalledCount.
+  ///
+  /// In ru, this message translates to:
+  /// **'{n, plural, one{скачан {n} регион} few{скачано {n} региона} many{скачано {n} регионов} other{скачано {n} региона}}'**
+  String downloadsInstalledCount(int n);
 }
 
 class _LDelegate extends LocalizationsDelegate<L> {

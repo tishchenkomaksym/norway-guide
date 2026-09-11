@@ -49,7 +49,8 @@ class _NearbyScreenState extends ConsumerState<NearbyScreen> {
     if (gps.valueOrNull?.isOk ?? false) return;
 
     final problem = gps.valueOrNull?.problem;
-    final refused = problem == LocationProblem.denied ||
+    final refused =
+        problem == LocationProblem.denied ||
         problem == LocationProblem.deniedForever;
     if (!refused) return;
 
@@ -79,28 +80,30 @@ class _NearbyScreenState extends ConsumerState<NearbyScreen> {
     final hasPosition = mock != null || (position.valueOrNull?.isOk ?? false);
 
     final problem = position.valueOrNull?.problem;
-    final canPickCity = problem == LocationProblem.denied ||
+    final canPickCity =
+        problem == LocationProblem.denied ||
         problem == LocationProblem.deniedForever;
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(mock == null
-            ? L.of(context).nearbyScreenTitle
-            : L.of(context).nearbyScreenTitleAt(mock.name)),
+        title: Text(
+          mock == null
+              ? L.of(context).nearbyScreenTitle
+              : L.of(context).nearbyScreenTitleAt(mock.name),
+        ),
         actions: [
           IconButton(
             icon: const Icon(Icons.search),
             tooltip: L.of(context).searchTooltip,
-            onPressed: () => Navigator.of(context).push(
-              MaterialPageRoute(builder: (_) => const SearchScreen()),
-            ),
+            onPressed: () => Navigator.of(context)
+                .push(MaterialPageRoute(builder: (_) => const SearchScreen())),
           ),
           IconButton(
             icon: const Icon(Icons.favorite_border),
             tooltip: L.of(context).favoritesTitle,
-            onPressed: () => Navigator.of(context).push(
-              MaterialPageRoute(builder: (_) => const FavoritesScreen()),
-            ),
+            onPressed: () => Navigator.of(
+              context,
+            ).push(MaterialPageRoute(builder: (_) => const FavoritesScreen())),
           ),
           // Здесь кнопка нужнее всего: этот экран открывают в пути.
           const EmergencyButton(),
@@ -133,7 +136,8 @@ class _NearbyScreenState extends ConsumerState<NearbyScreen> {
       ),
       body: Column(
         children: [
-          if (!hasPosition) _NoLocationBanner(problem: position.valueOrNull?.problem),
+          if (!hasPosition)
+            _NoLocationBanner(problem: position.valueOrNull?.problem),
           const _ModeHint(),
           const _CategoryFilter(),
           Expanded(
@@ -142,8 +146,10 @@ class _NearbyScreenState extends ConsumerState<NearbyScreen> {
               error: (e, _) => Center(
                 child: Padding(
                   padding: const EdgeInsets.all(24),
-                  child: Text('${L.of(context).loadError}:\n$e',
-                      textAlign: TextAlign.center),
+                  child: Text(
+                    '${L.of(context).loadError}:\n$e',
+                    textAlign: TextAlign.center,
+                  ),
                 ),
               ),
               data: (list) {
@@ -191,7 +197,9 @@ class _NothingNearby extends ConsumerWidget {
           mainAxisSize: MainAxisSize.min,
           children: [
             Icon(
-              filtered ? Icons.filter_alt_off_outlined : Icons.explore_off_outlined,
+              filtered
+                  ? Icons.filter_alt_off_outlined
+                  : Icons.explore_off_outlined,
               size: 44,
               color: Theme.of(context).colorScheme.outline,
             ),
@@ -205,9 +213,8 @@ class _NothingNearby extends ConsumerWidget {
             Text(
               filtered ? l.nothingInFiltersHint : l.nothingNearbyHint,
               textAlign: TextAlign.center,
-              style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                    color: Theme.of(context).colorScheme.outline,
-                  ),
+              style: Theme.of(context).textTheme.bodySmall
+                  ?.copyWith(color: Theme.of(context).colorScheme.outline),
             ),
             const SizedBox(height: 18),
             if (filtered)
@@ -244,10 +251,10 @@ class _ModeButton extends ConsumerWidget {
     final l = L.of(context);
 
     String label(AppMode m) => switch (m) {
-          AppMode.tourist => l.modeTourist,
-          AppMode.fishing => l.modeFishing,
-          AppMode.hunting => l.modeHunting,
-        };
+      AppMode.tourist => l.modeTourist,
+      AppMode.fishing => l.modeFishing,
+      AppMode.hunting => l.modeHunting,
+    };
 
     return PopupMenuButton<AppMode>(
       icon: Icon(switch (current) {
@@ -266,7 +273,9 @@ class _ModeButton extends ConsumerWidget {
               children: [
                 SizedBox(
                   width: 28,
-                  child: m == current ? const Icon(Icons.check, size: 18) : null,
+                  child: m == current
+                      ? const Icon(Icons.check, size: 18)
+                      : null,
                 ),
                 Text(label(m)),
               ],
@@ -374,7 +383,8 @@ class _NoLocationBanner extends ConsumerWidget {
 
     // Город вручную предлагаем только тому, кто отказал в доступе:
     // у остальных геолокация починится включением службы или повтором.
-    final canPickCity = problem == LocationProblem.denied ||
+    final canPickCity =
+        problem == LocationProblem.denied ||
         problem == LocationProblem.deniedForever;
 
     return Material(
@@ -386,8 +396,11 @@ class _NoLocationBanner extends ConsumerWidget {
           children: [
             Row(
               children: [
-                Icon(Icons.location_disabled, size: 18,
-                    color: scheme.onSecondaryContainer),
+                Icon(
+                  Icons.location_disabled,
+                  size: 18,
+                  color: scheme.onSecondaryContainer,
+                ),
                 const SizedBox(width: 8),
                 Expanded(
                   child: Text(
@@ -446,8 +459,6 @@ class _NoLocationBanner extends ConsumerWidget {
   }
 }
 
-
-
 class _CategoryFilter extends ConsumerWidget {
   const _CategoryFilter();
 
@@ -490,11 +501,7 @@ class _PlaceTile extends ConsumerWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           if (item.summary != null)
-            Text(
-              item.summary!,
-              maxLines: 2,
-              overflow: TextOverflow.ellipsis,
-            ),
+            Text(item.summary!, maxLines: 2, overflow: TextOverflow.ellipsis),
           if (item.isFallback)
             Padding(
               padding: const EdgeInsets.only(top: 2),
@@ -539,9 +546,7 @@ String formatDistance(double meters) {
   return '${(meters / 1000).round()} км';
 }
 
-const _compassPoints = [
-  'С', 'СВ', 'В', 'ЮВ', 'Ю', 'ЮЗ', 'З', 'СЗ',
-];
+const _compassPoints = ['С', 'СВ', 'В', 'ЮВ', 'Ю', 'ЮЗ', 'З', 'СЗ'];
 
 String compassLabel(double bearing) {
   final index = ((bearing + 22.5) % 360 ~/ 45).clamp(0, 7);

@@ -96,7 +96,9 @@ class _CategoryChip extends StatelessWidget {
 
     final background = selected
         ? color
-        : (dark ? color.withValues(alpha: 0.16) : color.withValues(alpha: 0.10));
+        : (dark
+              ? color.withValues(alpha: 0.16)
+              : color.withValues(alpha: 0.10));
     final foreground = selected
         ? Colors.white
         : (dark ? color.withValues(alpha: 0.95) : _darken(color));
@@ -146,8 +148,10 @@ class _CategoryChip extends StatelessWidget {
                 // Счётчик отдельной каплей, а не в тексте: число вида «· 30099»
                 // сливалось с названием и мешало читать.
                 Container(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 6, vertical: 1),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 6,
+                    vertical: 1,
+                  ),
                   decoration: BoxDecoration(
                     color: selected
                         ? Colors.white.withValues(alpha: 0.25)

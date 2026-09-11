@@ -70,8 +70,9 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
                           for (final interest in interests)
                             _InterestChip(
                               interest: interest,
-                              selected:
-                                  profile.interestIds.contains(interest.id),
+                              selected: profile.interestIds.contains(
+                                interest.id,
+                              ),
                               onTap: () => ref
                                   .read(profileProvider.notifier)
                                   .toggleInterest(interest.id),
@@ -84,9 +85,11 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
                       Row(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Icon(Icons.info_outline,
-                              size: 15,
-                              color: onBackdrop.withValues(alpha: 0.6)),
+                          Icon(
+                            Icons.info_outline,
+                            size: 15,
+                            color: onBackdrop.withValues(alpha: 0.6),
+                          ),
                           const SizedBox(width: 8),
                           Expanded(
                             child: Text(

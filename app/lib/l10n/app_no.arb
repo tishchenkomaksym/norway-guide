@@ -281,5 +281,16 @@
   "unescoShort": "UNESCO",
   "photoCount": "{n, plural, =1{1 bilde} other{{n} bilder}}",
   "visitorsPerYear": "Omtrent {n} besøkende i året ({year})",
-  "profileDoneButton": "Ferdig"
+  "profileDoneButton": "Ferdig",
+  "downloadsTitle": "Last ned før turen",
+  "downloadsNote": "Bilder lastes ned per region, så appen holder seg liten. Ingenting lastes ned automatisk — guiden bruker aldri data uten at du ber om det.",
+  "downloadsBuiltAt": "Innhold laget {date}",
+  "downloadsPhotos": "{n, plural, =1{1 bilde} other{{n} bilder}}",
+  "downloadsStart": "Last ned",
+  "downloadsRemove": "Fjern",
+  "downloadsUpdateAvailable": "En nyere versjon finnes",
+  "downloadsFailed": "Nedlastingen mislyktes",
+  "downloadsOffline": "Ingen forbindelse til innholdsserveren",
+  "downloadsNothingInstalled": "Ingenting lastet ned ennå. Stedene virker fortsatt — bare ekstra bilder mangler.",
+  "downloadsInstalledCount": "{n, plural, =1{1 region lastet ned} other{{n} regioner lastet ned}}"
 }

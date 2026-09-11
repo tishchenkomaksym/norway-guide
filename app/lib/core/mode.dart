@@ -65,7 +65,7 @@ const _modeKey = 'app.mode';
 
 class ModeNotifier extends StateNotifier<AppMode> {
   ModeNotifier(this._prefs, UserProfile profile)
-      : super(_initial(_prefs, profile));
+    : super(_initial(_prefs, profile));
 
   final SharedPreferences _prefs;
 

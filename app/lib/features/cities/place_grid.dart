@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../core/place_photo.dart';
 import '../../core/categories.dart';
 import '../../core/profile.dart';
 import '../../data/database.dart';
@@ -80,7 +81,8 @@ class _PagedPlaceGridState extends State<PagedPlaceGrid> {
     final position = _controller.position;
     // Подгружаем заранее, за пол-экрана до конца: так подгрузка незаметна,
     // а не выглядит как рывок в конце списка.
-    if (position.pixels >= position.maxScrollExtent - position.viewportDimension / 2) {
+    if (position.pixels >=
+        position.maxScrollExtent - position.viewportDimension / 2) {
       setState(() {
         _visible = (_visible + widget.pageSize).clamp(0, widget.items.length);
       });
@@ -158,11 +160,9 @@ class PlaceCard extends ConsumerWidget {
                 fit: StackFit.expand,
                 children: [
                   if (item.hasPhoto)
-                    Image.asset(
-                      item.photoPath!,
-                      fit: BoxFit.cover,
-                      errorBuilder: (_, _, _) =>
-                          _CategoryFill(category: item.place.category),
+                    PlacePhoto(
+                      path: item.photoPath!,
+                      fallback: _CategoryFill(category: item.place.category),
                     )
                   else
                     _CategoryFill(category: item.place.category),
@@ -184,8 +184,11 @@ class PlaceCard extends ConsumerWidget {
                     bottom: 8,
                     child: Row(
                       children: [
-                        Icon(iconForCategory(item.place.category),
-                            color: Colors.white, size: 16),
+                        Icon(
+                          iconForCategory(item.place.category),
+                          color: Colors.white,
+                          size: 16,
+                        ),
                         const SizedBox(width: 6),
                         Expanded(
                           child: Text(
@@ -221,9 +224,8 @@ class PlaceCard extends ConsumerWidget {
                       child: Text(
                         item.summary ?? L.of(context).noDescriptionShort,
                         style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                              color:
-                                  item.summary == null ? scheme.outline : null,
-                            ),
+                          color: item.summary == null ? scheme.outline : null,
+                        ),
                         maxLines: 3,
                         overflow: TextOverflow.ellipsis,
                       ),

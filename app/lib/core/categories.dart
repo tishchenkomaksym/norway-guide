@@ -36,7 +36,8 @@ const placeCategories = <PlaceCategory>[
 ];
 
 /// Цвет категории; для неизвестной — нейтральный серо-синий.
-Color colorForCategory(String id) => _byId[id]?.color ?? const Color(0xFF6B7A85);
+Color colorForCategory(String id) =>
+    _byId[id]?.color ?? const Color(0xFF6B7A85);
 
 final _byId = {for (final c in placeCategories) c.id: c};
 

@@ -645,4 +645,61 @@ class LRu extends L {
 
   @override
   String get profileDoneButton => 'Готово';
+
+  @override
+  String get downloadsTitle => 'Скачать перед поездкой';
+
+  @override
+  String get downloadsNote =>
+      'Фотографии качаются по регионам, чтобы приложение оставалось лёгким. Ничего не скачивается само — путеводитель не тратит ваш трафик без спроса.';
+
+  @override
+  String downloadsBuiltAt(String date) {
+    return 'Данные собраны $date';
+  }
+
+  @override
+  String downloadsPhotos(int n) {
+    String _temp0 = intl.Intl.pluralLogic(
+      n,
+      locale: localeName,
+      other: '$n фотографии',
+      many: '$n фотографий',
+      few: '$n фотографии',
+      one: '$n фотография',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get downloadsStart => 'Скачать';
+
+  @override
+  String get downloadsRemove => 'Удалить';
+
+  @override
+  String get downloadsUpdateAvailable => 'Доступна более новая версия';
+
+  @override
+  String get downloadsFailed => 'Не удалось скачать';
+
+  @override
+  String get downloadsOffline => 'Нет связи с сервером контента';
+
+  @override
+  String get downloadsNothingInstalled =>
+      'Пока ничего не скачано. Места работают — не хватает только дополнительных фотографий.';
+
+  @override
+  String downloadsInstalledCount(int n) {
+    String _temp0 = intl.Intl.pluralLogic(
+      n,
+      locale: localeName,
+      other: 'скачано $n региона',
+      many: 'скачано $n регионов',
+      few: 'скачано $n региона',
+      one: 'скачан $n регион',
+    );
+    return '$_temp0';
+  }
 }

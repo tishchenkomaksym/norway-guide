@@ -57,9 +57,7 @@ class _CityScreenState extends ConsumerState<CityScreen> {
           final effective = _selected.intersection(counts.keys.toSet());
           final shown = effective.isEmpty
               ? all
-              : all
-                  .where((p) => effective.contains(p.place.category))
-                  .toList();
+              : all.where((p) => effective.contains(p.place.category)).toList();
 
           return Column(
             children: [

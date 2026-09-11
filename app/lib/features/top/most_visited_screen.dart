@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../core/place_photo.dart';
 import '../../core/categories.dart';
 import '../../core/providers.dart';
 import '../../data/database.dart';
@@ -94,9 +95,9 @@ class _TopTile extends StatelessWidget {
     final place = item.place;
 
     return InkWell(
-      onTap: () => Navigator.of(context).push(
-        MaterialPageRoute(builder: (_) => PlaceScreen(placeId: place.id)),
-      ),
+      onTap: () => Navigator.of(
+        context,
+      ).push(MaterialPageRoute(builder: (_) => PlaceScreen(placeId: place.id))),
       child: Padding(
         padding: const EdgeInsets.fromLTRB(12, 10, 12, 10),
         child: Row(
@@ -132,8 +133,11 @@ class _TopTile extends StatelessWidget {
                   const SizedBox(height: 2),
                   Row(
                     children: [
-                      Icon(iconForCategory(place.category),
-                          size: 13, color: theme.colorScheme.outline),
+                      Icon(
+                        iconForCategory(place.category),
+                        size: 13,
+                        color: theme.colorScheme.outline,
+                      ),
                       const SizedBox(width: 4),
                       Text(
                         categoryLabel(context, place.category),
@@ -163,7 +167,9 @@ class _TopTile extends StatelessWidget {
                     const SizedBox(height: 4),
                     Text(
                       l.visitorsPerYear(
-                          place.visitors, '${place.visitorsYear}'),
+                        place.visitors,
+                        '${place.visitorsYear}',
+                      ),
                       style: theme.textTheme.labelSmall?.copyWith(
                         color: theme.colorScheme.outline,
                       ),
@@ -190,24 +196,23 @@ class _Thumb extends StatelessWidget {
     const size = 64.0;
 
     Widget fallback() => Container(
-          width: size,
-          height: size,
-          color: theme.colorScheme.surfaceContainerHighest,
-          child: Icon(
-            iconForCategory(item.place.category),
-            color: theme.colorScheme.outline,
-          ),
-        );
+      width: size,
+      height: size,
+      color: theme.colorScheme.surfaceContainerHighest,
+      child: Icon(
+        iconForCategory(item.place.category),
+        color: theme.colorScheme.outline,
+      ),
+    );
 
     return ClipRRect(
       borderRadius: BorderRadius.circular(8),
       child: item.hasPhoto
-          ? Image.asset(
-              item.photoPath!,
+          ? PlacePhoto(
+              path: item.photoPath!,
               width: size,
               height: size,
-              fit: BoxFit.cover,
-              errorBuilder: (_, _, _) => fallback(),
+              fallback: fallback(),
             )
           : fallback(),
     );

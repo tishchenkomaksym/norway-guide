@@ -642,4 +642,57 @@ class LNo extends L {
 
   @override
   String get profileDoneButton => 'Ferdig';
+
+  @override
+  String get downloadsTitle => 'Last ned før turen';
+
+  @override
+  String get downloadsNote =>
+      'Bilder lastes ned per region, så appen holder seg liten. Ingenting lastes ned automatisk — guiden bruker aldri data uten at du ber om det.';
+
+  @override
+  String downloadsBuiltAt(String date) {
+    return 'Innhold laget $date';
+  }
+
+  @override
+  String downloadsPhotos(int n) {
+    String _temp0 = intl.Intl.pluralLogic(
+      n,
+      locale: localeName,
+      other: '$n bilder',
+      one: '1 bilde',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get downloadsStart => 'Last ned';
+
+  @override
+  String get downloadsRemove => 'Fjern';
+
+  @override
+  String get downloadsUpdateAvailable => 'En nyere versjon finnes';
+
+  @override
+  String get downloadsFailed => 'Nedlastingen mislyktes';
+
+  @override
+  String get downloadsOffline => 'Ingen forbindelse til innholdsserveren';
+
+  @override
+  String get downloadsNothingInstalled =>
+      'Ingenting lastet ned ennå. Stedene virker fortsatt — bare ekstra bilder mangler.';
+
+  @override
+  String downloadsInstalledCount(int n) {
+    String _temp0 = intl.Intl.pluralLogic(
+      n,
+      locale: localeName,
+      other: '$n regioner lastet ned',
+      one: '1 region lastet ned',
+    );
+    return '$_temp0';
+  }
 }

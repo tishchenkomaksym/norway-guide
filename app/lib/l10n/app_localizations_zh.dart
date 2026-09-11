@@ -608,4 +608,53 @@ class LZh extends L {
 
   @override
   String get profileDoneButton => '完成';
+
+  @override
+  String get downloadsTitle => '出行前下载';
+
+  @override
+  String get downloadsNote => '照片按地区下载，以保持应用轻量。不会自动下载任何内容——本指南绝不会未经您同意消耗流量。';
+
+  @override
+  String downloadsBuiltAt(String date) {
+    return '内容制作于 $date';
+  }
+
+  @override
+  String downloadsPhotos(int n) {
+    String _temp0 = intl.Intl.pluralLogic(
+      n,
+      locale: localeName,
+      other: '$n 张照片',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get downloadsStart => '下载';
+
+  @override
+  String get downloadsRemove => '删除';
+
+  @override
+  String get downloadsUpdateAvailable => '有更新的版本';
+
+  @override
+  String get downloadsFailed => '下载失败';
+
+  @override
+  String get downloadsOffline => '无法连接到内容服务器';
+
+  @override
+  String get downloadsNothingInstalled => '尚未下载任何内容。地点仍可使用，只是缺少额外照片。';
+
+  @override
+  String downloadsInstalledCount(int n) {
+    String _temp0 = intl.Intl.pluralLogic(
+      n,
+      locale: localeName,
+      other: '已下载 $n 个地区',
+    );
+    return '$_temp0';
+  }
 }

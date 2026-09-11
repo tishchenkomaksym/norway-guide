@@ -28,19 +28,22 @@ class AttributionScreen extends StatelessWidget {
           const SizedBox(height: 24),
           _Source(
             title: 'OpenStreetMap',
-            body: 'Карта, координаты и сведения о местах.\n'
+            body:
+                'Карта, координаты и сведения о местах.\n'
                 '© участники OpenStreetMap, лицензия ODbL',
             url: 'https://www.openstreetmap.org/copyright',
           ),
           _Source(
             title: 'Wikipedia и Wikivoyage',
-            body: 'Описания городов и достопримечательностей.\n'
+            body:
+                'Описания городов и достопримечательностей.\n'
                 'Лицензия CC BY-SA 4.0',
             url: 'https://creativecommons.org/licenses/by-sa/4.0/',
           ),
           _Source(
             title: 'Wikidata',
-            body: 'Связи между объектами и названия на разных языках.\n'
+            body:
+                'Связи между объектами и названия на разных языках.\n'
                 'Лицензия CC0',
             url: 'https://www.wikidata.org/',
           ),
@@ -86,9 +89,9 @@ class _Source extends StatelessWidget {
             child: Text(
               url,
               style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                    color: Theme.of(context).colorScheme.primary,
-                    decoration: TextDecoration.underline,
-                  ),
+                color: Theme.of(context).colorScheme.primary,
+                decoration: TextDecoration.underline,
+              ),
             ),
           ),
         ],

@@ -82,12 +82,7 @@ const interests = <Interest>[
     weights: {'glacier': 0.5},
     tags: {'winter_open': 1.0},
   ),
-  Interest(
-    id: 'cruise',
-    emoji: '🚢',
-    weights: {},
-    tags: {'near_port': 1.5},
-  ),
+  Interest(id: 'cruise', emoji: '🚢', weights: {}, tags: {'near_port': 1.5}),
 ];
 
 /// Когда человек путешествует. Влияет на сезонные ограничения: горные дороги

@@ -641,4 +641,57 @@ class LEn extends L {
 
   @override
   String get profileDoneButton => 'Done';
+
+  @override
+  String get downloadsTitle => 'Download before the trip';
+
+  @override
+  String get downloadsNote =>
+      'Photos are downloaded by region so the app stays small. Nothing is downloaded automatically — the guide never spends your data without you asking.';
+
+  @override
+  String downloadsBuiltAt(String date) {
+    return 'Content prepared on $date';
+  }
+
+  @override
+  String downloadsPhotos(int n) {
+    String _temp0 = intl.Intl.pluralLogic(
+      n,
+      locale: localeName,
+      other: '$n photos',
+      one: '1 photo',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get downloadsStart => 'Download';
+
+  @override
+  String get downloadsRemove => 'Remove';
+
+  @override
+  String get downloadsUpdateAvailable => 'A newer version is available';
+
+  @override
+  String get downloadsFailed => 'Download failed';
+
+  @override
+  String get downloadsOffline => 'No connection to the content server';
+
+  @override
+  String get downloadsNothingInstalled =>
+      'Nothing downloaded yet. Places still work — only extra photos are missing.';
+
+  @override
+  String downloadsInstalledCount(int n) {
+    String _temp0 = intl.Intl.pluralLogic(
+      n,
+      locale: localeName,
+      other: '$n regions downloaded',
+      one: '1 region downloaded',
+    );
+    return '$_temp0';
+  }
 }

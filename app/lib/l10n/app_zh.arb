@@ -281,5 +281,16 @@
   "unescoShort": "联合国教科文",
   "photoCount": "{n, plural, other{{n} 张照片}}",
   "visitorsPerYear": "每年约 {n} 名访客（{year}）",
-  "profileDoneButton": "完成"
+  "profileDoneButton": "完成",
+  "downloadsTitle": "出行前下载",
+  "downloadsNote": "照片按地区下载，以保持应用轻量。不会自动下载任何内容——本指南绝不会未经您同意消耗流量。",
+  "downloadsBuiltAt": "内容制作于 {date}",
+  "downloadsPhotos": "{n, plural, other{{n} 张照片}}",
+  "downloadsStart": "下载",
+  "downloadsRemove": "删除",
+  "downloadsUpdateAvailable": "有更新的版本",
+  "downloadsFailed": "下载失败",
+  "downloadsOffline": "无法连接到内容服务器",
+  "downloadsNothingInstalled": "尚未下载任何内容。地点仍可使用，只是缺少额外照片。",
+  "downloadsInstalledCount": "{n, plural, other{已下载 {n} 个地区}}"
 }

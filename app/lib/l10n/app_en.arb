@@ -281,5 +281,16 @@
   "unescoShort": "UNESCO",
   "photoCount": "{n, plural, =1{1 photo} other{{n} photos}}",
   "visitorsPerYear": "About {n} visitors a year ({year})",
-  "profileDoneButton": "Done"
+  "profileDoneButton": "Done",
+  "downloadsTitle": "Download before the trip",
+  "downloadsNote": "Photos are downloaded by region so the app stays small. Nothing is downloaded automatically — the guide never spends your data without you asking.",
+  "downloadsBuiltAt": "Content prepared on {date}",
+  "downloadsPhotos": "{n, plural, =1{1 photo} other{{n} photos}}",
+  "downloadsStart": "Download",
+  "downloadsRemove": "Remove",
+  "downloadsUpdateAvailable": "A newer version is available",
+  "downloadsFailed": "Download failed",
+  "downloadsOffline": "No connection to the content server",
+  "downloadsNothingInstalled": "Nothing downloaded yet. Places still work — only extra photos are missing.",
+  "downloadsInstalledCount": "{n, plural, =1{1 region downloaded} other{{n} regions downloaded}}"
 }

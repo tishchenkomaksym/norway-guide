@@ -28,9 +28,9 @@ class EmergencyButton extends StatelessWidget {
         size: 22,
       ),
       tooltip: L.of(context).emergencyTooltip,
-      onPressed: () => Navigator.of(context).push(
-        MaterialPageRoute(builder: (_) => const EmergencyScreen()),
-      ),
+      onPressed: () =>
+          Navigator.of(context)
+              .push(MaterialPageRoute(builder: (_) => const EmergencyScreen())),
     );
   }
 }

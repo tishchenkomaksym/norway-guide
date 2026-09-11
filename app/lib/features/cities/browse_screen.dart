@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../core/place_photo.dart';
 import '../../core/providers.dart';
 import '../../data/database.dart';
 import '../../l10n/app_localizations.dart';
@@ -37,9 +38,8 @@ class _BrowseScreenState extends ConsumerState<BrowseScreen> {
           IconButton(
             icon: const Icon(Icons.search),
             tooltip: L.of(context).searchTooltip,
-            onPressed: () => Navigator.of(context).push(
-              MaterialPageRoute(builder: (_) => const SearchScreen()),
-            ),
+            onPressed: () => Navigator.of(context)
+                .push(MaterialPageRoute(builder: (_) => const SearchScreen())),
           ),
         ],
       ),
@@ -213,9 +213,8 @@ class _CityCardTile extends StatelessWidget {
       clipBehavior: Clip.antiAlias,
       margin: EdgeInsets.zero,
       child: InkWell(
-        onTap: () => Navigator.of(context).push(
-          MaterialPageRoute(builder: (_) => CityScreen(city: city)),
-        ),
+        onTap: () => Navigator.of(context)
+            .push(MaterialPageRoute(builder: (_) => CityScreen(city: city))),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -228,10 +227,9 @@ class _CityCardTile extends StatelessWidget {
                 fit: StackFit.expand,
                 children: [
                   if (item.hasPhoto)
-                    Image.asset(
-                      item.photoPath!,
-                      fit: BoxFit.cover,
-                      errorBuilder: (_, _, _) => _CityFill(name: city.nameNo),
+                    PlacePhoto(
+                      path: item.photoPath!,
+                      fallback: _CityFill(name: city.nameNo),
                     )
                   else
                     _CityFill(name: city.nameNo),
@@ -364,4 +362,3 @@ class _Empty extends StatelessWidget {
     );
   }
 }
-

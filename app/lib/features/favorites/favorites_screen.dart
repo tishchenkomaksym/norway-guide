@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../core/place_photo.dart';
 import '../../core/categories.dart';
 import '../../core/providers.dart';
 import '../../data/database.dart';
@@ -40,7 +41,10 @@ class FavoritesScreen extends ConsumerWidget {
                 for (final f in planned) _FavoriteTile(item: f),
               ],
               if (visited.isNotEmpty) ...[
-                _SectionHeader(title: L.of(context).favoritesVisited, count: visited.length),
+                _SectionHeader(
+                  title: L.of(context).favoritesVisited,
+                  count: visited.length,
+                ),
                 for (final f in visited) _FavoriteTile(item: f),
               ],
             ],
@@ -67,9 +71,8 @@ class _SectionHeader extends StatelessWidget {
           const SizedBox(width: 8),
           Text(
             '$count',
-            style: Theme.of(context).textTheme.labelMedium?.copyWith(
-                  color: Theme.of(context).colorScheme.outline,
-                ),
+            style: Theme.of(context).textTheme.labelMedium
+                ?.copyWith(color: Theme.of(context).colorScheme.outline),
           ),
         ],
       ),
@@ -120,10 +123,9 @@ class _FavoriteTile extends ConsumerWidget {
           child: ClipRRect(
             borderRadius: BorderRadius.circular(8),
             child: place.hasPhoto
-                ? Image.asset(
-                    place.photoPath!,
-                    fit: BoxFit.cover,
-                    errorBuilder: (_, _, _) => _Fill(color: color, place: place),
+                ? PlacePhoto(
+                    path: place.photoPath!,
+                    fallback: _Fill(color: color, place: place),
                   )
                 : _Fill(color: color, place: place),
           ),
@@ -132,9 +134,7 @@ class _FavoriteTile extends ConsumerWidget {
           place.name,
           style: TextStyle(
             decoration: item.visited ? TextDecoration.lineThrough : null,
-            color: item.visited
-                ? Theme.of(context).colorScheme.outline
-                : null,
+            color: item.visited ? Theme.of(context).colorScheme.outline : null,
           ),
         ),
         subtitle: Column(
@@ -142,10 +142,8 @@ class _FavoriteTile extends ConsumerWidget {
           children: [
             Text(
               categorySingular(context, place.place.category),
-              style: Theme.of(context).textTheme.labelSmall?.copyWith(
-                    color: color,
-                    fontWeight: FontWeight.w600,
-                  ),
+              style: Theme.of(context).textTheme.labelSmall
+                  ?.copyWith(color: color, fontWeight: FontWeight.w600),
             ),
             if (item.note != null)
               Padding(
@@ -153,9 +151,11 @@ class _FavoriteTile extends ConsumerWidget {
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Icon(Icons.sticky_note_2_outlined,
-                        size: 13,
-                        color: Theme.of(context).colorScheme.outline),
+                    Icon(
+                      Icons.sticky_note_2_outlined,
+                      size: 13,
+                      color: Theme.of(context).colorScheme.outline,
+                    ),
                     const SizedBox(width: 4),
                     Expanded(
                       child: Text(
@@ -176,9 +176,7 @@ class _FavoriteTile extends ConsumerWidget {
           children: [
             IconButton(
               icon: Icon(
-                item.note == null
-                    ? Icons.note_add_outlined
-                    : Icons.edit_note,
+                item.note == null ? Icons.note_add_outlined : Icons.edit_note,
                 size: 20,
               ),
               tooltip: L.of(context).noteTooltip,
@@ -186,13 +184,13 @@ class _FavoriteTile extends ConsumerWidget {
             ),
             IconButton(
               icon: Icon(
-                item.visited
-                    ? Icons.check_circle
-                    : Icons.check_circle_outline,
+                item.visited ? Icons.check_circle : Icons.check_circle_outline,
                 size: 22,
                 color: item.visited ? Colors.green : null,
               ),
-              tooltip: item.visited ? L.of(context).markNotVisited : L.of(context).markVisited,
+              tooltip: item.visited
+                  ? L.of(context).markNotVisited
+                  : L.of(context).markVisited,
               onPressed: () async {
                 final db = await ref.read(databaseProvider.future);
                 await db.setVisited(place.place.id, !item.visited);
@@ -260,7 +258,11 @@ class _Fill extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       color: color.withValues(alpha: 0.15),
-      child: Icon(iconForCategory(place.place.category), size: 22, color: color),
+      child: Icon(
+        iconForCategory(place.place.category),
+        size: 22,
+        color: color,
+      ),
     );
   }
 }
@@ -287,9 +289,7 @@ class _Empty extends StatelessWidget {
             Text(
               L.of(context).favoritesEmptyDetail,
               textAlign: TextAlign.center,
-              style: Theme.of(context)
-                  .textTheme
-                  .bodySmall
+              style: Theme.of(context).textTheme.bodySmall
                   ?.copyWith(color: scheme.outline),
             ),
           ],

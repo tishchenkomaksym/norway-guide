@@ -646,4 +646,57 @@ class LEs extends L {
 
   @override
   String get profileDoneButton => 'Listo';
+
+  @override
+  String get downloadsTitle => 'Descargar antes del viaje';
+
+  @override
+  String get downloadsNote =>
+      'Las fotos se descargan por región para que la aplicación siga siendo ligera. No se descarga nada automáticamente: la guía nunca gasta tus datos sin pedírtelo.';
+
+  @override
+  String downloadsBuiltAt(String date) {
+    return 'Contenido preparado el $date';
+  }
+
+  @override
+  String downloadsPhotos(int n) {
+    String _temp0 = intl.Intl.pluralLogic(
+      n,
+      locale: localeName,
+      other: '$n fotos',
+      one: '1 foto',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get downloadsStart => 'Descargar';
+
+  @override
+  String get downloadsRemove => 'Eliminar';
+
+  @override
+  String get downloadsUpdateAvailable => 'Hay una versión más reciente';
+
+  @override
+  String get downloadsFailed => 'Error de descarga';
+
+  @override
+  String get downloadsOffline => 'Sin conexión con el servidor de contenidos';
+
+  @override
+  String get downloadsNothingInstalled =>
+      'Aún no has descargado nada. Los lugares siguen funcionando: solo faltan fotos adicionales.';
+
+  @override
+  String downloadsInstalledCount(int n) {
+    String _temp0 = intl.Intl.pluralLogic(
+      n,
+      locale: localeName,
+      other: '$n regiones descargadas',
+      one: '1 región descargada',
+    );
+    return '$_temp0';
+  }
 }

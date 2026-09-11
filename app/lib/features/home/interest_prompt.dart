@@ -69,7 +69,11 @@ class InterestPrompt extends ConsumerWidget {
                 // Крестик, а не только переход: отказаться должно быть
                 // так же легко, как согласиться.
                 IconButton(
-                  icon: const Icon(Icons.close, size: 16, color: Colors.white38),
+                  icon: const Icon(
+                    Icons.close,
+                    size: 16,
+                    color: Colors.white38,
+                  ),
                   tooltip: l.profileSkip,
                   onPressed: () =>
                       ref.read(profileProvider.notifier).markAnswered(),

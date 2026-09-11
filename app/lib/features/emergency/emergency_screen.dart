@@ -41,22 +41,19 @@ class EmergencyScreen extends ConsumerWidget {
           const SizedBox(height: 10),
           const _CoordinatesCard(),
           const SizedBox(height: 18),
-          Text(l.emergencyOther,
-              style: Theme.of(context).textTheme.titleSmall),
+          Text(l.emergencyOther, style: Theme.of(context).textTheme.titleSmall),
           const SizedBox(height: 8),
           for (final c in other) _SmallCallTile(contact: c),
           const SizedBox(height: 22),
-          Text(l.emergencyKnow,
-              style: Theme.of(context).textTheme.titleSmall),
+          Text(l.emergencyKnow, style: Theme.of(context).textTheme.titleSmall),
           const SizedBox(height: 8),
           for (final (icon, title, body) in emergencyNotes(context))
             _Note(icon: icon, title: title, body: body),
           const SizedBox(height: 16),
           Text(
             l.emgVerified,
-            style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                  color: Theme.of(context).colorScheme.outline,
-                ),
+            style: Theme.of(context).textTheme.bodySmall
+                ?.copyWith(color: Theme.of(context).colorScheme.outline),
           ),
         ],
       ),
@@ -203,9 +200,8 @@ class _CoordinatesCard extends ConsumerWidget {
                       if (approximate)
                         Text(
                           L.of(context).emergencyManualPosition,
-                          style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                                color: scheme.error,
-                              ),
+                          style: Theme.of(context).textTheme.bodySmall
+                              ?.copyWith(color: scheme.error),
                         ),
                     ],
                   ),
@@ -249,14 +245,11 @@ class _Note extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(title,
-                    style: Theme.of(context).textTheme.titleSmall),
+                Text(title, style: Theme.of(context).textTheme.titleSmall),
                 const SizedBox(height: 2),
                 Text(
                   body,
-                  style: Theme.of(context)
-                      .textTheme
-                      .bodySmall
+                  style: Theme.of(context).textTheme.bodySmall
                       ?.copyWith(height: 1.4),
                 ),
               ],
@@ -288,7 +281,8 @@ Future<void> _call(BuildContext context, EmergencyContact contact) async {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         content: Text(
-            L.of(context).emergencyDial(contact.title, contact.number)),
+          L.of(context).emergencyDial(contact.title, contact.number),
+        ),
         duration: const Duration(seconds: 6),
       ),
     );

@@ -30,7 +30,13 @@ class KnownPlace {
 /// норвежские буквы, разложенные в латиницу — «Ålesund» находится и по «alesund».
 String _normalize(String s) {
   const map = {
-    'å': 'a', 'æ': 'ae', 'ø': 'o', 'ä': 'a', 'ö': 'o', 'ü': 'u', 'é': 'e',
+    'å': 'a',
+    'æ': 'ae',
+    'ø': 'o',
+    'ä': 'a',
+    'ö': 'o',
+    'ü': 'u',
+    'é': 'e',
   };
   final lower = s.toLowerCase().trim();
   final buffer = StringBuffer();

@@ -5,6 +5,7 @@ import '../../core/attribution.dart';
 import '../../core/providers.dart';
 import '../../l10n/app_localizations.dart';
 import '../cities/browse_screen.dart';
+import '../downloads/downloads_screen.dart';
 import '../emergency/emergency_button.dart';
 import '../favorites/favorites_screen.dart';
 import '../nearby/nearby_screen.dart';
@@ -111,6 +112,23 @@ class HomeScreen extends ConsumerWidget {
                               // Временно, для проверки переводов — см. класс.
                               const LanguageSwitcher(onDark: true),
                               const EmergencyButton(onDark: true),
+                              // Загрузки в шапке, а не отдельной плашкой:
+                              // это подготовка к поездке, а не способ
+                              // смотреть контент. Плашки внизу ведут
+                              // к местам, и смешивать с ними служебный
+                              // экран не стоит.
+                              IconButton(
+                                icon: const Icon(
+                                  Icons.download_outlined,
+                                  color: Colors.white70,
+                                ),
+                                tooltip: l.downloadsTitle,
+                                onPressed: () => Navigator.of(context).push(
+                                  MaterialPageRoute(
+                                    builder: (_) => const DownloadsScreen(),
+                                  ),
+                                ),
+                              ),
                               IconButton(
                                 icon: const Icon(
                                   Icons.info_outline,

@@ -42,9 +42,7 @@ class RulesScreen extends ConsumerWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(
-          activity == 'hunting' ? l.rulesHunting : l.rulesFishing,
-        ),
+        title: Text(activity == 'hunting' ? l.rulesHunting : l.rulesFishing),
       ),
       body: ListView(
         padding: const EdgeInsets.fromLTRB(20, 16, 20, 32),
@@ -54,8 +52,10 @@ class RulesScreen extends ConsumerWidget {
           _Disclaimer(text: l.rulesDisclaimer),
           const SizedBox(height: 20),
 
-          Text(l.rulesWhereToCheck,
-              style: Theme.of(context).textTheme.titleMedium),
+          Text(
+            l.rulesWhereToCheck,
+            style: Theme.of(context).textTheme.titleMedium,
+          ),
           const SizedBox(height: 8),
           local.when(
             loading: () => const Padding(
@@ -69,15 +69,13 @@ class RulesScreen extends ConsumerWidget {
           ),
 
           const SizedBox(height: 24),
-          Text(l.rulesNational,
-              style: Theme.of(context).textTheme.titleMedium),
+          Text(l.rulesNational, style: Theme.of(context).textTheme.titleMedium),
           const SizedBox(height: 8),
           national.when(
             loading: () => const SizedBox.shrink(),
             error: (_, _) => const SizedBox.shrink(),
-            data: (rules) => Column(
-              children: [for (final r in rules) _RuleCard(rule: r)],
-            ),
+            data: (rules) =>
+                Column(children: [for (final r in rules) _RuleCard(rule: r)]),
           ),
         ],
       ),
@@ -108,9 +106,7 @@ class _Disclaimer extends StatelessWidget {
           Expanded(
             child: Text(
               text,
-              style: Theme.of(context)
-                  .textTheme
-                  .bodySmall
+              style: Theme.of(context).textTheme.bodySmall
                   ?.copyWith(height: 1.4),
             ),
           ),
@@ -167,7 +163,8 @@ class _KommuneCard extends StatelessWidget {
                 icon: Icons.call,
                 label: l.rulesCallKommune,
                 value: rule.kommunePhone!,
-                onTap: () => _open('tel:${rule.kommunePhone!.replaceAll(' ', '')}'),
+                onTap: () =>
+                    _open('tel:${rule.kommunePhone!.replaceAll(' ', '')}'),
               ),
             if (rule.kommuneWebsite != null)
               _ActionRow(
@@ -181,9 +178,8 @@ class _KommuneCard extends StatelessWidget {
             // видеть, насколько свежие сведения он читает.
             Text(
               l.rulesCheckedAt(rule.checkedAt),
-              style: Theme.of(context).textTheme.labelSmall?.copyWith(
-                    color: scheme.outline,
-                  ),
+              style: Theme.of(context).textTheme.labelSmall
+                  ?.copyWith(color: scheme.outline),
             ),
           ],
         ),
@@ -220,10 +216,8 @@ class _ActionRow extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(label,
-                      style: Theme.of(context).textTheme.labelSmall),
-                  Text(value,
-                      style: Theme.of(context).textTheme.bodyMedium),
+                  Text(label, style: Theme.of(context).textTheme.labelSmall),
+                  Text(value, style: Theme.of(context).textTheme.bodyMedium),
                 ],
               ),
             ),
@@ -256,8 +250,8 @@ class _RuleCard extends StatelessWidget {
             const SizedBox(height: 6),
             Text(
               rule.body,
-              style:
-                  Theme.of(context).textTheme.bodyMedium?.copyWith(height: 1.4),
+              style: Theme.of(context).textTheme.bodyMedium
+                  ?.copyWith(height: 1.4),
             ),
             const SizedBox(height: 10),
             InkWell(
@@ -269,9 +263,8 @@ class _RuleCard extends StatelessWidget {
                   Expanded(
                     child: Text(
                       l.rulesSource(rule.authority),
-                      style: Theme.of(context).textTheme.labelSmall?.copyWith(
-                            color: scheme.primary,
-                          ),
+                      style: Theme.of(context).textTheme.labelSmall
+                          ?.copyWith(color: scheme.primary),
                     ),
                   ),
                 ],
@@ -295,9 +288,8 @@ class _NoKommune extends StatelessWidget {
       padding: const EdgeInsets.symmetric(vertical: 8),
       child: Text(
         text,
-        style: Theme.of(context).textTheme.bodySmall?.copyWith(
-              color: Theme.of(context).colorScheme.outline,
-            ),
+        style: Theme.of(context).textTheme.bodySmall
+            ?.copyWith(color: Theme.of(context).colorScheme.outline),
       ),
     );
   }
@@ -309,10 +301,7 @@ class _NoKommune extends StatelessWidget {
 /// приложений на Android — см. docs/decisions.md.
 Future<void> _open(String url) async {
   try {
-    await launchUrl(
-      Uri.parse(url),
-      mode: LaunchMode.externalApplication,
-    );
+    await launchUrl(Uri.parse(url), mode: LaunchMode.externalApplication);
   } catch (_) {
     // Молча: экран не должен падать из-за отсутствия браузера.
   }

@@ -647,4 +647,57 @@ class LDe extends L {
 
   @override
   String get profileDoneButton => 'Fertig';
+
+  @override
+  String get downloadsTitle => 'Vor der Reise herunterladen';
+
+  @override
+  String get downloadsNote =>
+      'Fotos werden nach Region geladen, damit die App klein bleibt. Nichts wird automatisch geladen — der Reiseführer verbraucht nie ungefragt Ihr Datenvolumen.';
+
+  @override
+  String downloadsBuiltAt(String date) {
+    return 'Inhalte erstellt am $date';
+  }
+
+  @override
+  String downloadsPhotos(int n) {
+    String _temp0 = intl.Intl.pluralLogic(
+      n,
+      locale: localeName,
+      other: '$n Fotos',
+      one: '1 Foto',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get downloadsStart => 'Herunterladen';
+
+  @override
+  String get downloadsRemove => 'Entfernen';
+
+  @override
+  String get downloadsUpdateAvailable => 'Eine neuere Version ist verfügbar';
+
+  @override
+  String get downloadsFailed => 'Download fehlgeschlagen';
+
+  @override
+  String get downloadsOffline => 'Keine Verbindung zum Inhaltsserver';
+
+  @override
+  String get downloadsNothingInstalled =>
+      'Noch nichts heruntergeladen. Die Orte funktionieren weiterhin — es fehlen nur zusätzliche Fotos.';
+
+  @override
+  String downloadsInstalledCount(int n) {
+    String _temp0 = intl.Intl.pluralLogic(
+      n,
+      locale: localeName,
+      other: '$n Regionen geladen',
+      one: '1 Region geladen',
+    );
+    return '$_temp0';
+  }
 }

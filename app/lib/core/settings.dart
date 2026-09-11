@@ -60,9 +60,7 @@ class LanguageNotifier extends StateNotifier<String> {
   static String _initial(SharedPreferences prefs) {
     final saved = prefs.getString(_Keys.language);
     if (saved != null && supportedLanguages.contains(saved)) return saved;
-    return resolveLanguage(
-      WidgetsBinding.instance.platformDispatcher.locale,
-    );
+    return resolveLanguage(WidgetsBinding.instance.platformDispatcher.locale);
   }
 
   void set(String language) {
@@ -71,8 +69,7 @@ class LanguageNotifier extends StateNotifier<String> {
   }
 }
 
-final languageProvider =
-    StateNotifierProvider<LanguageNotifier, String>((ref) {
+final languageProvider = StateNotifierProvider<LanguageNotifier, String>((ref) {
   return LanguageNotifier(ref.watch(prefsProvider));
 });
 
@@ -113,8 +110,8 @@ class ManualPositionNotifier extends StateNotifier<NamedPoint?> {
 
 final mockPositionProvider =
     StateNotifierProvider<ManualPositionNotifier, NamedPoint?>((ref) {
-  return ManualPositionNotifier(ref.watch(prefsProvider));
-});
+      return ManualPositionNotifier(ref.watch(prefsProvider));
+    });
 
 /// Профиль интересов, переживающий перезапуск.
 ///
@@ -173,5 +170,5 @@ class PersistentProfileNotifier extends StateNotifier<UserProfile> {
 
 final profileProvider =
     StateNotifierProvider<PersistentProfileNotifier, UserProfile>((ref) {
-  return PersistentProfileNotifier(ref.watch(prefsProvider));
-});
+      return PersistentProfileNotifier(ref.watch(prefsProvider));
+    });

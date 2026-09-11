@@ -299,5 +299,37 @@
       }
     }
   },
-  "profileDoneButton": "Готово"
+  "profileDoneButton": "Готово",
+  "downloadsTitle": "Скачать перед поездкой",
+  "downloadsNote": "Фотографии качаются по регионам, чтобы приложение оставалось лёгким. Ничего не скачивается само — путеводитель не тратит ваш трафик без спроса.",
+  "downloadsBuiltAt": "Данные собраны {date}",
+  "downloadsPhotos": "{n, plural, one{{n} фотография} few{{n} фотографии} many{{n} фотографий} other{{n} фотографии}}",
+  "downloadsStart": "Скачать",
+  "downloadsRemove": "Удалить",
+  "downloadsUpdateAvailable": "Доступна более новая версия",
+  "downloadsFailed": "Не удалось скачать",
+  "downloadsOffline": "Нет связи с сервером контента",
+  "downloadsNothingInstalled": "Пока ничего не скачано. Места работают — не хватает только дополнительных фотографий.",
+  "downloadsInstalledCount": "{n, plural, one{скачан {n} регион} few{скачано {n} региона} many{скачано {n} регионов} other{скачано {n} региона}}",
+  "@downloadsBuiltAt": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "@downloadsPhotos": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "@downloadsInstalledCount": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  }
 }

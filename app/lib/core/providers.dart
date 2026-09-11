@@ -9,8 +9,14 @@ import 'settings.dart';
 
 export 'mode.dart' show AppMode, modeProvider, availableModesProvider;
 export 'settings.dart'
-    show languageProvider, mockPositionProvider, profileProvider,
-        prefsProvider, NamedPoint, resolveLanguage, supportedLanguages;
+    show
+        languageProvider,
+        mockPositionProvider,
+        profileProvider,
+        prefsProvider,
+        NamedPoint,
+        resolveLanguage,
+        supportedLanguages;
 
 final databaseProvider = FutureProvider<AppDatabase>((ref) async {
   final db = await openAppDatabase();
@@ -99,23 +105,23 @@ final categoryFilterProvider = StateProvider<Set<String>>((ref) => {});
 /// Последний вариант оставляет экран полезным, когда положение неизвестно.
 final searchOriginProvider =
     FutureProvider<({double lat, double lon, double radiusKm})>((ref) async {
-  final manual = ref.watch(mockPositionProvider);
-  if (manual != null) {
-    return (lat: manual.lat, lon: manual.lon, radiusKm: 200.0);
-  }
+      final manual = ref.watch(mockPositionProvider);
+      if (manual != null) {
+        return (lat: manual.lat, lon: manual.lon, radiusKm: 200.0);
+      }
 
-  final result = await ref.watch(positionProvider.future);
-  final position = result.position;
-  if (position != null) {
-    return (
-      lat: position.latitude,
-      lon: position.longitude,
-      radiusKm: 200.0,
-    );
-  }
+      final result = await ref.watch(positionProvider.future);
+      final position = result.position;
+      if (position != null) {
+        return (
+          lat: position.latitude,
+          lon: position.longitude,
+          radiusKm: 200.0,
+        );
+      }
 
-  return (lat: 64.5, lon: 11.0, radiusKm: 2000.0);
-});
+      return (lat: 64.5, lon: 11.0, radiusKm: 2000.0);
+    });
 
 /// Все места вокруг точки, без учёта фильтра категорий.
 ///
@@ -139,8 +145,9 @@ final placesAroundProvider = FutureProvider<List<PlaceWithText>>((ref) async {
 ///
 /// Кнопки фильтра для пустых категорий не показываем: предлагать «Ледники»
 /// там, где ледников нет, — это обещание, которое экран не выполнит.
-final nearbyCategoryCountsProvider =
-    FutureProvider<Map<String, int>>((ref) async {
+final nearbyCategoryCountsProvider = FutureProvider<Map<String, int>>((
+  ref,
+) async {
   final places = await ref.watch(placesAroundProvider.future);
   final modeCategories = ref.watch(modeProvider).categories;
 
@@ -211,19 +218,22 @@ final mostVisitedProvider = FutureProvider<List<PlaceWithText>>((ref) async {
 });
 
 /// Все фотографии места — для галереи в карточке.
-final placePhotosProvider =
-    FutureProvider.family<List<Photo>, String>((ref, placeId) async {
+final placePhotosProvider = FutureProvider.family<List<Photo>, String>((
+  ref,
+  placeId,
+) async {
   final db = await ref.watch(databaseProvider.future);
   return db.photosForPlace(placeId);
 });
 
 /// Места выбранного города, по убыванию значимости.
-final placesInCityProvider =
-    FutureProvider.family<List<PlaceWithText>, String>((ref, cityId) async {
-  final db = await ref.watch(databaseProvider.future);
-  final lang = ref.watch(languageProvider);
-  return db.placesInCity(cityId, lang);
-});
+final placesInCityProvider = FutureProvider.family<List<PlaceWithText>, String>(
+  (ref, cityId) async {
+    final db = await ref.watch(databaseProvider.future);
+    final lang = ref.watch(languageProvider);
+    return db.placesInCity(cityId, lang);
+  },
+);
 
 /// Места рядом с пользователем с учётом выбранных категорий и профиля.
 ///
@@ -290,23 +300,28 @@ final searchResultsProvider = FutureProvider<List<PlaceWithText>>((ref) async {
   return db.searchPlaces(query, lang);
 });
 
-final placeProvider =
-    FutureProvider.family<PlaceWithText?, String>((ref, id) async {
+final placeProvider = FutureProvider.family<PlaceWithText?, String>((
+  ref,
+  id,
+) async {
   final db = await ref.watch(databaseProvider.future);
   final lang = ref.watch(languageProvider);
   return db.placeById(id, lang);
 });
 
 /// Национальные правила по виду деятельности.
-final nationalRulesProvider =
-    FutureProvider.family<List<NationalRule>, String>((ref, activity) async {
-  final db = await ref.watch(databaseProvider.future);
-  return db.nationalRulesFor(activity);
-});
+final nationalRulesProvider = FutureProvider.family<List<NationalRule>, String>(
+  (ref, activity) async {
+    final db = await ref.watch(databaseProvider.future);
+    return db.nationalRulesFor(activity);
+  },
+);
 
 /// Правила для конкретного места: коммуна и её контакты.
-final placeRuleProvider =
-    FutureProvider.family<PlaceRule?, String>((ref, placeId) async {
+final placeRuleProvider = FutureProvider.family<PlaceRule?, String>((
+  ref,
+  placeId,
+) async {
   final db = await ref.watch(databaseProvider.future);
   final rules = await db.rulesForPlace(placeId);
   return rules.isEmpty ? null : rules.first;
@@ -324,8 +339,10 @@ final nearestKommuneRuleProvider = FutureProvider<PlaceRule?>((ref) async {
 });
 
 /// Виды деятельности, для которых у места есть сведения о правилах.
-final placeActivitiesProvider =
-    FutureProvider.family<List<String>, String>((ref, placeId) async {
+final placeActivitiesProvider = FutureProvider.family<List<String>, String>((
+  ref,
+  placeId,
+) async {
   final db = await ref.watch(databaseProvider.future);
   final rules = await db.rulesForPlace(placeId);
   return rules.map((r) => r.activity).toList();
@@ -337,8 +354,9 @@ final favoritesProvider = StreamProvider<List<Favorite>>((ref) async* {
 });
 
 /// Избранное вместе с данными мест — для экрана «Моя поездка».
-final favoritePlacesProvider =
-    StreamProvider<List<FavoritePlace>>((ref) async* {
+final favoritePlacesProvider = StreamProvider<List<FavoritePlace>>((
+  ref,
+) async* {
   final db = await ref.watch(databaseProvider.future);
   final lang = ref.watch(languageProvider);
   yield* db.watchFavoritePlaces(lang);

@@ -68,10 +68,13 @@ class _ProfileSheetState extends ConsumerState<_ProfileSheet> {
         children: [
           for (final interest in interests)
             FilterChip(
-              label: Text('${interest.emoji}  ${interestLabel(context, interest.id)}'),
+              label: Text(
+                '${interest.emoji}  ${interestLabel(context, interest.id)}',
+              ),
               selected: profile.interestIds.contains(interest.id),
-              onSelected: (_) =>
-                  ref.read(profileProvider.notifier).toggleInterest(interest.id),
+              onSelected: (_) => ref
+                  .read(profileProvider.notifier)
+                  .toggleInterest(interest.id),
             ),
         ],
       ),
@@ -111,10 +114,8 @@ class _ProfileSheetState extends ConsumerState<_ProfileSheet> {
   void _confirm(BuildContext context) {
     final count = ref.read(profileProvider).interestIds.length;
     if (count == 0) return;
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text(L.of(context).profileDone(count)),
-      ),
-    );
+    ScaffoldMessenger.of(
+      context,
+    ).showSnackBar(SnackBar(content: Text(L.of(context).profileDone(count))));
   }
 }

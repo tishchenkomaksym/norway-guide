@@ -48,9 +48,8 @@ class PlaceScreen extends ConsumerWidget {
                     if (item.summary != null)
                       SelectableText(
                         item.summary!,
-                        style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                              height: 1.55,
-                            ),
+                        style: Theme.of(context).textTheme.bodyLarge
+                            ?.copyWith(height: 1.55),
                       )
                     else
                       _NoText(category: item.place.category),
@@ -108,7 +107,9 @@ class _Header extends ConsumerWidget {
       actions: [
         IconButton(
           icon: Icon(isFavorite ? Icons.favorite : Icons.favorite_border),
-          tooltip: isFavorite ? L.of(context).removeFromFavorites : L.of(context).addToFavorites,
+          tooltip: isFavorite
+              ? L.of(context).removeFromFavorites
+              : L.of(context).addToFavorites,
           onPressed: () async {
             final db = await ref.read(databaseProvider.future);
             await db.toggleFavorite(item.place.id);
@@ -147,7 +148,9 @@ class _Header extends ConsumerWidget {
                 children: [
                   Container(
                     padding: const EdgeInsets.symmetric(
-                        horizontal: 10, vertical: 4),
+                      horizontal: 10,
+                      vertical: 4,
+                    ),
                     decoration: BoxDecoration(
                       color: Colors.black.withValues(alpha: 0.35),
                       borderRadius: BorderRadius.circular(20),
@@ -155,7 +158,9 @@ class _Header extends ConsumerWidget {
                     child: Text(
                       categorySingular(context, item.place.category),
                       style: const TextStyle(
-                          color: Colors.white, fontSize: 12.5),
+                        color: Colors.white,
+                        fontSize: 12.5,
+                      ),
                     ),
                   ),
                   if (stars != null) ...[
@@ -214,10 +219,8 @@ class _RulesBlock extends ConsumerWidget {
                 ),
                 onPressed: () => Navigator.of(context).push(
                   MaterialPageRoute(
-                    builder: (_) => RulesScreen(
-                      activity: activity,
-                      placeId: placeId,
-                    ),
+                    builder: (_) =>
+                        RulesScreen(activity: activity, placeId: placeId),
                   ),
                 ),
               ),
@@ -328,11 +331,7 @@ class _GalleryState extends ConsumerState<_Gallery> {
 }
 
 class _Single extends StatelessWidget {
-  const _Single({
-    required this.path,
-    required this.credit,
-    required this.item,
-  });
+  const _Single({required this.path, required this.credit, required this.item});
 
   final String path;
   final String credit;
@@ -460,9 +459,7 @@ class _NoText extends StatelessWidget {
         Expanded(
           child: Text(
             L.of(context).noDescription,
-            style: Theme.of(context)
-                .textTheme
-                .bodyMedium
+            style: Theme.of(context).textTheme.bodyMedium
                 ?.copyWith(color: scheme.outline, height: 1.45),
           ),
         ),
@@ -487,13 +484,15 @@ class _Facts extends StatelessWidget {
         L.of(context).factDuration,
         place.durationMin == null
             ? null
-            : L.of(context).factMinutes(place.durationMin!)
+            : L.of(context).factMinutes(place.durationMin!),
       ),
       (Icons.calendar_month, L.of(context).factSeason, place.season),
       (Icons.link, L.of(context).factWebsite, place.website),
     ];
 
-    final visible = rows.where((r) => r.$3 != null && r.$3!.isNotEmpty).toList();
+    final visible = rows
+        .where((r) => r.$3 != null && r.$3!.isNotEmpty)
+        .toList();
     if (visible.isEmpty) return const SizedBox.shrink();
 
     return Column(
@@ -505,8 +504,11 @@ class _Facts extends StatelessWidget {
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Icon(icon, size: 17,
-                    color: Theme.of(context).colorScheme.outline),
+                Icon(
+                  icon,
+                  size: 17,
+                  color: Theme.of(context).colorScheme.outline,
+                ),
                 const SizedBox(width: 10),
                 SizedBox(
                   width: 92,
@@ -558,8 +560,7 @@ Future<void> _openExternalMap(
   }
 
   if (context.mounted) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text(L.of(context).mapsFailed)),
-    );
+    ScaffoldMessenger.of(context)
+        .showSnackBar(SnackBar(content: Text(L.of(context).mapsFailed)));
   }
 }

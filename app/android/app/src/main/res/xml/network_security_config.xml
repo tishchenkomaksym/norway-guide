@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Обычный HTTP разрешён ровно для одного адреса — компьютера разработчика
+  в локальной сети, на котором поднимается раздача пакетов для проверки.
+
+  Глобально cleartext не включаем: настоящая раздача пойдёт по HTTPS
+  с Cloudflare R2, и оставить дыру «можно любой http» ради удобства
+  отладки — верный способ забыть о ней к релизу.
+-->
+<network-security-config>
+    <domain-config cleartextTrafficPermitted="true">
+        <domain includeSubdomains="false">192.168.86.21</domain>
+    </domain-config>
+</network-security-config>

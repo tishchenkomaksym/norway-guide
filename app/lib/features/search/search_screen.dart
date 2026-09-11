@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../core/place_photo.dart';
 import '../../core/categories.dart';
 import '../../core/profile.dart';
 import '../../core/providers.dart';
@@ -125,10 +126,9 @@ class _ResultTile extends ConsumerWidget {
         child: ClipRRect(
           borderRadius: BorderRadius.circular(8),
           child: item.hasPhoto
-              ? Image.asset(
-                  item.photoPath!,
-                  fit: BoxFit.cover,
-                  errorBuilder: (_, _, _) => _Fill(color: color, item: item),
+              ? PlacePhoto(
+                  path: item.photoPath!,
+                  fallback: _Fill(color: color, item: item),
                 )
               : _Fill(color: color, item: item),
         ),
@@ -141,10 +141,8 @@ class _ResultTile extends ConsumerWidget {
             children: [
               Text(
                 categorySingular(context, item.place.category),
-                style: Theme.of(context).textTheme.labelSmall?.copyWith(
-                      color: color,
-                      fontWeight: FontWeight.w600,
-                    ),
+                style: Theme.of(context).textTheme.labelSmall
+                    ?.copyWith(color: color, fontWeight: FontWeight.w600),
               ),
               if (stars != null) ...[
                 const SizedBox(width: 6),
@@ -154,11 +152,7 @@ class _ResultTile extends ConsumerWidget {
             ],
           ),
           if (item.summary != null)
-            Text(
-              item.summary!,
-              maxLines: 2,
-              overflow: TextOverflow.ellipsis,
-            ),
+            Text(item.summary!, maxLines: 2, overflow: TextOverflow.ellipsis),
         ],
       ),
       isThreeLine: item.summary != null,
@@ -211,9 +205,7 @@ class _Hint extends StatelessWidget {
             Text(
               L.of(context).searchPromptDetail,
               textAlign: TextAlign.center,
-              style: Theme.of(context)
-                  .textTheme
-                  .bodySmall
+              style: Theme.of(context).textTheme.bodySmall
                   ?.copyWith(color: scheme.outline),
             ),
           ],
@@ -245,9 +237,8 @@ class _Nothing extends StatelessWidget {
             Text(
               L.of(context).searchNothingDetail,
               textAlign: TextAlign.center,
-              style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                    color: Theme.of(context).colorScheme.outline,
-                  ),
+              style: Theme.of(context).textTheme.bodySmall
+                  ?.copyWith(color: Theme.of(context).colorScheme.outline),
             ),
           ],
         ),
