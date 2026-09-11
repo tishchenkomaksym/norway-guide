@@ -348,5 +348,9 @@
   "usageReset": "清除这些数字",
   "usageResetDetail": "计数器将从零开始",
   "usageResetDone": "数字已清除",
-  "settingsUsage": "您的使用情况"
+  "settingsUsage": "您的使用情况",
+  "ratingPrompt": "为这个地点评分",
+  "ratingYours": "您的评分",
+  "ratingVisited": "已标记为到访过",
+  "ratingPrivate": "只有您能看到，不会发送到任何地方。"
 }

@@ -851,4 +851,16 @@ class LZh extends L {
 
   @override
   String get settingsUsage => '您的使用情况';
+
+  @override
+  String get ratingPrompt => '为这个地点评分';
+
+  @override
+  String get ratingYours => '您的评分';
+
+  @override
+  String get ratingVisited => '已标记为到访过';
+
+  @override
+  String get ratingPrivate => '只有您能看到，不会发送到任何地方。';
 }

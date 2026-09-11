@@ -906,4 +906,17 @@ class LEs extends L {
 
   @override
   String get settingsUsage => 'Cómo usas la aplicación';
+
+  @override
+  String get ratingPrompt => 'Valora este lugar';
+
+  @override
+  String get ratingYours => 'Tu valoración';
+
+  @override
+  String get ratingVisited => 'marcado como visitado';
+
+  @override
+  String get ratingPrivate =>
+      'Solo lo ves tú. No se envía nada a ninguna parte.';
 }

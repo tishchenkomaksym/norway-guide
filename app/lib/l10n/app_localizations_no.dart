@@ -902,4 +902,16 @@ class LNo extends L {
 
   @override
   String get settingsUsage => 'Slik bruker du appen';
+
+  @override
+  String get ratingPrompt => 'Gi stedet en vurdering';
+
+  @override
+  String get ratingYours => 'Din vurdering';
+
+  @override
+  String get ratingVisited => 'markert som besøkt';
+
+  @override
+  String get ratingPrivate => 'Bare du ser dette. Ingenting sendes noe sted.';
 }

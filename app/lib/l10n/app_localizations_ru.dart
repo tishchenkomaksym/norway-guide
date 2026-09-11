@@ -913,4 +913,16 @@ class LRu extends L {
 
   @override
   String get settingsUsage => 'Как вы пользуетесь приложением';
+
+  @override
+  String get ratingPrompt => 'Оцените это место';
+
+  @override
+  String get ratingYours => 'Ваша оценка';
+
+  @override
+  String get ratingVisited => 'отмечено как посещённое';
+
+  @override
+  String get ratingPrivate => 'Это видите только вы. Никуда не отправляется.';
 }

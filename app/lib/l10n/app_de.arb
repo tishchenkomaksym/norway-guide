@@ -348,5 +348,9 @@
   "usageReset": "Zahlen löschen",
   "usageResetDetail": "Die Zähler beginnen bei null",
   "usageResetDone": "Zahlen gelöscht",
-  "settingsUsage": "So nutzen Sie die App"
+  "settingsUsage": "So nutzen Sie die App",
+  "ratingPrompt": "Diesen Ort bewerten",
+  "ratingYours": "Ihre Bewertung",
+  "ratingVisited": "als besucht markiert",
+  "ratingPrivate": "Das sehen nur Sie. Nichts wird irgendwohin gesendet."
 }

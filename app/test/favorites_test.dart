@@ -96,4 +96,47 @@ void main() {
     await db.toggleFavorite('osm:node/1');
     expect(await future, hasLength(1));
   });
+
+  test('оценка ставится, меняется и снимается', () async {
+    await db.toggleFavorite('osm:node/1');
+
+    await db.setRating('osm:node/1', 4);
+    var saved = (await db.watchFavorites().first).first;
+    expect(saved.rating, 4);
+    // Оценка подразумевает, что человек там был: заставлять его нажимать
+    // вторую кнопку незачем.
+    expect(saved.visited, isTrue, reason: 'оценка не отметила посещение');
+
+    await db.setRating('osm:node/1', 2);
+    saved = (await db.watchFavorites().first).first;
+    expect(saved.rating, 2);
+
+    // Ноль снимает оценку — иначе поставленную по ошибке пятёрку
+    // нечем убрать.
+    await db.setRating('osm:node/1', 0);
+    saved = (await db.watchFavorites().first).first;
+    expect(saved.rating, 0);
+    expect(saved.visited, isTrue, reason: 'снятие оценки не должно стирать визит');
+  });
+
+  test('оценка вне диапазона обрезается', () async {
+    await db.toggleFavorite('osm:node/1');
+
+    await db.setRating('osm:node/1', 99);
+    expect((await db.watchFavorites().first).first.rating, 5);
+
+    await db.setRating('osm:node/1', -3);
+    expect((await db.watchFavorites().first).first.rating, 0);
+  });
+
+  test('оценка доезжает до списка с данными места', () async {
+    await db.toggleFavorite('osm:node/1');
+    await db.setRating('osm:node/1', 5);
+    await db.setNote('osm:node/1', 'лучший вид за поездку');
+
+    final list = await db.watchFavoritePlaces('ru').first;
+    expect(list, hasLength(1));
+    expect(list.first.rating, 5);
+    expect(list.first.note, 'лучший вид за поездку');
+  });
 }

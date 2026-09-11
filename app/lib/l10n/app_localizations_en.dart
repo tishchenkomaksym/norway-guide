@@ -901,4 +901,17 @@ class LEn extends L {
 
   @override
   String get settingsUsage => 'How you use the app';
+
+  @override
+  String get ratingPrompt => 'Rate this place';
+
+  @override
+  String get ratingYours => 'Your rating';
+
+  @override
+  String get ratingVisited => 'marked as visited';
+
+  @override
+  String get ratingPrivate =>
+      'Only you can see this. Nothing is sent anywhere.';
 }

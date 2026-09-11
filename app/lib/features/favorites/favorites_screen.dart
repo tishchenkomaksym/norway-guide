@@ -162,10 +162,22 @@ class _FavoriteTile extends ConsumerWidget {
         subtitle: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
-              categorySingular(context, place.place.category),
-              style: Theme.of(context).textTheme.labelSmall
-                  ?.copyWith(color: color, fontWeight: FontWeight.w600),
+            Row(
+              children: [
+                Text(
+                  categorySingular(context, place.place.category),
+                  style: Theme.of(context).textTheme.labelSmall
+                      ?.copyWith(color: color, fontWeight: FontWeight.w600),
+                ),
+                // Личная оценка — рядом с категорией, мелкими звёздами.
+                // Отдельной строки она не заслуживает: это метка, а не
+                // содержание, и место в списке дороже.
+                if (item.rating > 0) ...[
+                  const SizedBox(width: 8),
+                  for (var i = 0; i < item.rating; i++)
+                    Icon(Icons.star, size: 11, color: color),
+                ],
+              ],
             ),
             if (item.note != null)
               Padding(

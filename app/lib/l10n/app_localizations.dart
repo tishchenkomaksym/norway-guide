@@ -1616,6 +1616,30 @@ abstract class L {
   /// In ru, this message translates to:
   /// **'Как вы пользуетесь приложением'**
   String get settingsUsage;
+
+  /// No description provided for @ratingPrompt.
+  ///
+  /// In ru, this message translates to:
+  /// **'Оцените это место'**
+  String get ratingPrompt;
+
+  /// No description provided for @ratingYours.
+  ///
+  /// In ru, this message translates to:
+  /// **'Ваша оценка'**
+  String get ratingYours;
+
+  /// No description provided for @ratingVisited.
+  ///
+  /// In ru, this message translates to:
+  /// **'отмечено как посещённое'**
+  String get ratingVisited;
+
+  /// No description provided for @ratingPrivate.
+  ///
+  /// In ru, this message translates to:
+  /// **'Это видите только вы. Никуда не отправляется.'**
+  String get ratingPrivate;
 }
 
 class _LDelegate extends LocalizationsDelegate<L> {

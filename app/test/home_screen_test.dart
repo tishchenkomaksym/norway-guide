@@ -116,7 +116,12 @@ void main() {
       _app(
         prefs: await _prefs(),
         favorites: const [
-          Favorite(placeId: 'osm:node/1', addedAt: 0, visited: false),
+          Favorite(
+            placeId: 'osm:node/1',
+            addedAt: 0,
+            visited: false,
+            rating: 0,
+          ),
         ],
       ),
     );

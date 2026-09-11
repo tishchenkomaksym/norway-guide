@@ -69,6 +69,7 @@ class FavoritePlace {
     required this.addedAt,
     required this.visited,
     this.note,
+    this.rating = 0,
   });
 
   final PlaceWithText place;
@@ -80,6 +81,10 @@ class FavoritePlace {
   /// Личная заметка. Единственные данные, которые человек создаёт сам,
   /// поэтому терять их при обновлении контента нельзя.
   final String? note;
+
+  /// Личная оценка: 1–5 звёзд, 0 — не оценивал. Видна только владельцу
+  /// телефона и никуда не отправляется.
+  final int rating;
 }
 
 /// Город для карточки обзора: сам город плюс сколько в нём интересного.
@@ -221,8 +226,32 @@ class AppDatabase extends _$AppDatabase {
         'place_id TEXT NOT NULL PRIMARY KEY, '
         'added_at INTEGER NOT NULL, '
         'visited INTEGER NOT NULL DEFAULT 0, '
-        'user_note TEXT)',
+        'user_note TEXT, '
+        'rating INTEGER NOT NULL DEFAULT 0)',
       );
+
+      // Досоздание колонок для тех, у кого файл уже существует.
+      //
+      // Обычная миграция drift здесь не работает: пользовательская
+      // таблица живёт в подключённом файле и намеренно исключена из
+      // onCreate, а его версия не связана с версией контента — контент
+      // пересобирается часто, структура пользовательских данных почти
+      // никогда. Поэтому колонки досоздаются по факту: смотрим, чего
+      // не хватает, и добавляем.
+      //
+      // ALTER TABLE ADD COLUMN в SQLite не переписывает таблицу и не
+      // трогает существующие строки — для сотни записей избранного это
+      // мгновенно.
+      final columns = await customSelect(
+        'PRAGMA ${prefix.isEmpty ? '' : 'userdata.'}table_info(favorites)',
+      ).get();
+      final names = columns.map((r) => r.read<String>('name')).toSet();
+      if (!names.contains('rating')) {
+        await customStatement(
+          'ALTER TABLE ${prefix}favorites '
+          'ADD COLUMN rating INTEGER NOT NULL DEFAULT 0',
+        );
+      }
     },
   );
 
@@ -748,7 +777,8 @@ class AppDatabase extends _$AppDatabase {
       $_placeColumns,
              f.added_at  AS fav_added_at,
              f.visited   AS fav_visited,
-             f.user_note AS fav_note
+             f.user_note AS fav_note,
+             f.rating    AS fav_rating
       FROM favorites f
       JOIN places p ON p.id = f.place_id
       $_placeJoins
@@ -766,6 +796,7 @@ class AppDatabase extends _$AppDatabase {
               ),
               visited: row.read<int>('fav_visited') == 1,
               note: row.readNullable<String>('fav_note'),
+              rating: row.read<int>('fav_rating'),
             ),
           )
           .toList(),
@@ -775,6 +806,21 @@ class AppDatabase extends _$AppDatabase {
   Future<void> setVisited(String placeId, bool visited) {
     return (update(favorites)..where((f) => f.placeId.equals(placeId))).write(
       FavoritesCompanion(visited: Value(visited)),
+    );
+  }
+
+  /// Личная оценка места: 1–5 звёзд, 0 стирает оценку.
+  ///
+  /// Место, которое оценили, автоматически считается посещённым: ставить
+  /// звёзды тому, где не был, незачем, а заставлять человека нажимать две
+  /// кнопки подряд — лишняя работа за него.
+  Future<void> setRating(String placeId, int rating) async {
+    final value = rating.clamp(0, 5);
+    await (update(favorites)..where((f) => f.placeId.equals(placeId))).write(
+      FavoritesCompanion(
+        rating: Value(value),
+        visited: value > 0 ? const Value(true) : const Value.absent(),
+      ),
     );
   }
 

@@ -348,5 +348,9 @@
   "usageReset": "Slett tallene",
   "usageResetDetail": "Tellerne starter på null",
   "usageResetDone": "Tallene er slettet",
-  "settingsUsage": "Slik bruker du appen"
+  "settingsUsage": "Slik bruker du appen",
+  "ratingPrompt": "Gi stedet en vurdering",
+  "ratingYours": "Din vurdering",
+  "ratingVisited": "markert som besøkt",
+  "ratingPrivate": "Bare du ser dette. Ingenting sendes noe sted."
 }

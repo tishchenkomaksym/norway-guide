@@ -907,4 +907,17 @@ class LDe extends L {
 
   @override
   String get settingsUsage => 'So nutzen Sie die App';
+
+  @override
+  String get ratingPrompt => 'Diesen Ort bewerten';
+
+  @override
+  String get ratingYours => 'Ihre Bewertung';
+
+  @override
+  String get ratingVisited => 'als besucht markiert';
+
+  @override
+  String get ratingPrivate =>
+      'Das sehen nur Sie. Nichts wird irgendwohin gesendet.';
 }

@@ -8,6 +8,7 @@ import '../../data/database.dart';
 import '../../l10n/app_localizations.dart';
 import '../cities/place_grid.dart' show gradientFor;
 import '../rules/rules_screen.dart';
+import 'rating_row.dart';
 
 /// Карточка места.
 ///
@@ -55,6 +56,10 @@ class PlaceScreen extends ConsumerWidget {
                       _NoText(category: item.place.category),
                     const SizedBox(height: 22),
                     _Facts(place: item.place),
+                    // Оценка стоит сразу после фактов и до правил:
+                    // человек, открывший карточку уже посещённого места,
+                    // чаще всего пришёл именно отметить впечатление.
+                    RatingRow(placeId: item.place.id),
                     _RulesBlock(placeId: item.place.id),
                     const SizedBox(height: 22),
                     FilledButton.icon(

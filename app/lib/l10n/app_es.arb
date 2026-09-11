@@ -348,5 +348,9 @@
   "usageReset": "Borrar estos números",
   "usageResetDetail": "Los contadores vuelven a cero",
   "usageResetDone": "Números borrados",
-  "settingsUsage": "Cómo usas la aplicación"
+  "settingsUsage": "Cómo usas la aplicación",
+  "ratingPrompt": "Valora este lugar",
+  "ratingYours": "Tu valoración",
+  "ratingVisited": "marcado como visitado",
+  "ratingPrivate": "Solo lo ves tú. No se envía nada a ninguna parte."
 }

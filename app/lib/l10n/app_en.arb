@@ -348,5 +348,9 @@
   "usageReset": "Erase these numbers",
   "usageResetDetail": "Counters start from zero",
   "usageResetDone": "Numbers erased",
-  "settingsUsage": "How you use the app"
+  "settingsUsage": "How you use the app",
+  "ratingPrompt": "Rate this place",
+  "ratingYours": "Your rating",
+  "ratingVisited": "marked as visited",
+  "ratingPrivate": "Only you can see this. Nothing is sent anywhere."
 }
