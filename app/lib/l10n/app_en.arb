@@ -299,5 +299,21 @@
   "routeDistance": "{km} km",
   "routeStops": "{n, plural, =1{1 stop} other{{n} stops}}",
   "routeEmpty": "No stops in this walk",
-  "routeNote": "The order and timings are approximate: distances are measured in a straight line with an allowance for streets, and viewing time is estimated by the type of place. For turn-by-turn directions use the map button on a place's page."
+  "routeNote": "The order and timings are approximate: distances are measured in a straight line with an allowance for streets, and viewing time is estimated by the type of place. For turn-by-turn directions use the map button on a place's page.",
+  "offerTitle": "You are in {region}",
+  "offerSubtitle": "{n} photos of this area · {mb} MB",
+  "offerLater": "Not now",
+  "settingsTitle": "Settings",
+  "settingsLanguage": "Language",
+  "settingsContent": "Content",
+  "settingsAutoWifi": "Download regions automatically",
+  "settingsAutoWifiDetail": "Only over Wi-Fi. Mobile data is never used.",
+  "settingsWifiNow": "Wi-Fi connected",
+  "settingsWifiNo": "No Wi-Fi right now",
+  "settingsProfileSection": "Your interests",
+  "settingsNoInterests": "Not set",
+  "settingsResetOffers": "Show download offers again",
+  "settingsResetOffersDetail": "Regions you dismissed will be offered once more",
+  "settingsResetDone": "Offers restored",
+  "settingsAbout": "About"
 }

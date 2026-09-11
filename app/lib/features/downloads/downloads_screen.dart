@@ -43,8 +43,8 @@ class DownloadsNotifier extends StateNotifier<Map<String, double>> {
 
 final downloadsProvider =
     StateNotifierProvider<DownloadsNotifier, Map<String, double>>(
-  DownloadsNotifier.new,
-);
+      DownloadsNotifier.new,
+    );
 
 /// Экран «Скачать перед поездкой».
 ///
@@ -218,17 +218,17 @@ class _PackTile extends ConsumerWidget {
               child: CircularProgressIndicator(strokeWidth: 2),
             )
           : isInstalled
-              ? IconButton(
-                  icon: const Icon(Icons.delete_outline),
-                  tooltip: l.downloadsRemove,
-                  onPressed: () =>
-                      ref.read(downloadsProvider.notifier).remove(pack.regionId),
-                )
-              : IconButton(
-                  icon: const Icon(Icons.download),
-                  tooltip: l.downloadsStart,
-                  onPressed: () => _start(context, ref),
-                ),
+          ? IconButton(
+              icon: const Icon(Icons.delete_outline),
+              tooltip: l.downloadsRemove,
+              onPressed: () =>
+                  ref.read(downloadsProvider.notifier).remove(pack.regionId),
+            )
+          : IconButton(
+              icon: const Icon(Icons.download),
+              tooltip: l.downloadsStart,
+              onPressed: () => _start(context, ref),
+            ),
       onTap: busy || isInstalled ? null : () => _start(context, ref),
     );
   }

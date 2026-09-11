@@ -735,4 +735,58 @@ class LEs extends L {
   @override
   String get routeNote =>
       'El orden y los tiempos son aproximados: las distancias se miden en línea recta con un margen por las calles, y el tiempo de visita se estima según el tipo de lugar. Para indicaciones paso a paso, usa el botón de mapa en la ficha del lugar.';
+
+  @override
+  String offerTitle(String region) {
+    return 'Estás en $region';
+  }
+
+  @override
+  String offerSubtitle(int n, String mb) {
+    return '$n fotos de esta zona · $mb MB';
+  }
+
+  @override
+  String get offerLater => 'Ahora no';
+
+  @override
+  String get settingsTitle => 'Ajustes';
+
+  @override
+  String get settingsLanguage => 'Idioma';
+
+  @override
+  String get settingsContent => 'Contenido';
+
+  @override
+  String get settingsAutoWifi => 'Descargar regiones automáticamente';
+
+  @override
+  String get settingsAutoWifiDetail =>
+      'Solo por Wi-Fi. Nunca se usan datos móviles.';
+
+  @override
+  String get settingsWifiNow => 'Wi-Fi conectado';
+
+  @override
+  String get settingsWifiNo => 'Ahora no hay Wi-Fi';
+
+  @override
+  String get settingsProfileSection => 'Tus intereses';
+
+  @override
+  String get settingsNoInterests => 'Sin definir';
+
+  @override
+  String get settingsResetOffers => 'Volver a mostrar las sugerencias';
+
+  @override
+  String get settingsResetOffersDetail =>
+      'Las regiones que descartaste se ofrecerán una vez más';
+
+  @override
+  String get settingsResetDone => 'Sugerencias restauradas';
+
+  @override
+  String get settingsAbout => 'Acerca de';
 }

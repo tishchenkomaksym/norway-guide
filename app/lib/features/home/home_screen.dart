@@ -9,10 +9,9 @@ import '../downloads/downloads_screen.dart';
 import '../emergency/emergency_button.dart';
 import '../favorites/favorites_screen.dart';
 import '../nearby/nearby_screen.dart';
+import '../settings/settings_screen.dart';
 import '../top/most_visited_screen.dart';
-import 'attribution_screen.dart';
 import 'interest_prompt.dart';
-import 'language_switcher.dart';
 
 /// Стартовый экран.
 ///
@@ -109,8 +108,6 @@ class HomeScreen extends ConsumerWidget {
                           Row(
                             mainAxisAlignment: MainAxisAlignment.end,
                             children: [
-                              // Временно, для проверки переводов — см. класс.
-                              const LanguageSwitcher(onDark: true),
                               const EmergencyButton(onDark: true),
                               // Загрузки в шапке, а не отдельной плашкой:
                               // это подготовка к поездке, а не способ
@@ -129,15 +126,18 @@ class HomeScreen extends ConsumerWidget {
                                   ),
                                 ),
                               ),
+                              // Настройки вместо прежней пары «переключатель
+                              // языка + источники»: язык, автозагрузка,
+                              // интересы и лицензии теперь живут там.
                               IconButton(
                                 icon: const Icon(
-                                  Icons.info_outline,
+                                  Icons.settings_outlined,
                                   color: Colors.white70,
                                 ),
-                                tooltip: l.sourcesTooltip,
+                                tooltip: l.settingsTitle,
                                 onPressed: () => Navigator.of(context).push(
                                   MaterialPageRoute(
-                                    builder: (_) => const AttributionScreen(),
+                                    builder: (_) => const SettingsScreen(),
                                   ),
                                 ),
                               ),

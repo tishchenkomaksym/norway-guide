@@ -299,5 +299,21 @@
   "routeDistance": "{km} km",
   "routeStops": "{n, plural, =1{1 stopp} other{{n} stopp}}",
   "routeEmpty": "Ingen stopp i denne rundturen",
-  "routeNote": "Rekkefølge og tid er omtrentlige: avstanden måles i luftlinje med tillegg for gater, og besøkstiden anslås etter type sted. For veibeskrivelse, bruk kartknappen på stedets side."
+  "routeNote": "Rekkefølge og tid er omtrentlige: avstanden måles i luftlinje med tillegg for gater, og besøkstiden anslås etter type sted. For veibeskrivelse, bruk kartknappen på stedets side.",
+  "offerTitle": "Du er i {region}",
+  "offerSubtitle": "{n} bilder fra dette området · {mb} MB",
+  "offerLater": "Ikke nå",
+  "settingsTitle": "Innstillinger",
+  "settingsLanguage": "Språk",
+  "settingsContent": "Innhold",
+  "settingsAutoWifi": "Last ned regioner automatisk",
+  "settingsAutoWifiDetail": "Kun over Wi-Fi. Mobildata brukes aldri.",
+  "settingsWifiNow": "Wi-Fi tilkoblet",
+  "settingsWifiNo": "Ingen Wi-Fi akkurat nå",
+  "settingsProfileSection": "Dine interesser",
+  "settingsNoInterests": "Ikke angitt",
+  "settingsResetOffers": "Vis nedlastingsforslag igjen",
+  "settingsResetOffersDetail": "Regioner du avviste blir foreslått en gang til",
+  "settingsResetDone": "Forslag gjenopprettet",
+  "settingsAbout": "Om"
 }

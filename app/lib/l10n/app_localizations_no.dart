@@ -731,4 +731,58 @@ class LNo extends L {
   @override
   String get routeNote =>
       'Rekkefølge og tid er omtrentlige: avstanden måles i luftlinje med tillegg for gater, og besøkstiden anslås etter type sted. For veibeskrivelse, bruk kartknappen på stedets side.';
+
+  @override
+  String offerTitle(String region) {
+    return 'Du er i $region';
+  }
+
+  @override
+  String offerSubtitle(int n, String mb) {
+    return '$n bilder fra dette området · $mb MB';
+  }
+
+  @override
+  String get offerLater => 'Ikke nå';
+
+  @override
+  String get settingsTitle => 'Innstillinger';
+
+  @override
+  String get settingsLanguage => 'Språk';
+
+  @override
+  String get settingsContent => 'Innhold';
+
+  @override
+  String get settingsAutoWifi => 'Last ned regioner automatisk';
+
+  @override
+  String get settingsAutoWifiDetail =>
+      'Kun over Wi-Fi. Mobildata brukes aldri.';
+
+  @override
+  String get settingsWifiNow => 'Wi-Fi tilkoblet';
+
+  @override
+  String get settingsWifiNo => 'Ingen Wi-Fi akkurat nå';
+
+  @override
+  String get settingsProfileSection => 'Dine interesser';
+
+  @override
+  String get settingsNoInterests => 'Ikke angitt';
+
+  @override
+  String get settingsResetOffers => 'Vis nedlastingsforslag igjen';
+
+  @override
+  String get settingsResetOffersDetail =>
+      'Regioner du avviste blir foreslått en gang til';
+
+  @override
+  String get settingsResetDone => 'Forslag gjenopprettet';
+
+  @override
+  String get settingsAbout => 'Om';
 }

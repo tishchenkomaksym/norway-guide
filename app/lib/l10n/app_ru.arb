@@ -366,5 +366,38 @@
         "type": "int"
       }
     }
-  }
+  },
+  "offerTitle": "Вы в регионе {region}",
+  "offerSubtitle": "{n} фотографий этих мест · {mb} МБ",
+  "offerLater": "Не сейчас",
+  "@offerTitle": {
+    "placeholders": {
+      "region": {
+        "type": "String"
+      }
+    }
+  },
+  "@offerSubtitle": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      },
+      "mb": {
+        "type": "String"
+      }
+    }
+  },
+  "settingsTitle": "Настройки",
+  "settingsLanguage": "Язык",
+  "settingsContent": "Контент",
+  "settingsAutoWifi": "Скачивать регионы автоматически",
+  "settingsAutoWifiDetail": "Только по Wi-Fi. Мобильный трафик не тратится никогда.",
+  "settingsWifiNow": "Wi-Fi подключён",
+  "settingsWifiNo": "Сейчас Wi-Fi нет",
+  "settingsProfileSection": "Ваши интересы",
+  "settingsNoInterests": "Не указаны",
+  "settingsResetOffers": "Снова показывать предложения",
+  "settingsResetOffersDetail": "Регионы, от которых вы отказались, предложим ещё раз",
+  "settingsResetDone": "Предложения возвращены",
+  "settingsAbout": "О приложении"
 }

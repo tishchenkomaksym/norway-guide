@@ -730,4 +730,58 @@ class LEn extends L {
   @override
   String get routeNote =>
       'The order and timings are approximate: distances are measured in a straight line with an allowance for streets, and viewing time is estimated by the type of place. For turn-by-turn directions use the map button on a place\'s page.';
+
+  @override
+  String offerTitle(String region) {
+    return 'You are in $region';
+  }
+
+  @override
+  String offerSubtitle(int n, String mb) {
+    return '$n photos of this area · $mb MB';
+  }
+
+  @override
+  String get offerLater => 'Not now';
+
+  @override
+  String get settingsTitle => 'Settings';
+
+  @override
+  String get settingsLanguage => 'Language';
+
+  @override
+  String get settingsContent => 'Content';
+
+  @override
+  String get settingsAutoWifi => 'Download regions automatically';
+
+  @override
+  String get settingsAutoWifiDetail =>
+      'Only over Wi-Fi. Mobile data is never used.';
+
+  @override
+  String get settingsWifiNow => 'Wi-Fi connected';
+
+  @override
+  String get settingsWifiNo => 'No Wi-Fi right now';
+
+  @override
+  String get settingsProfileSection => 'Your interests';
+
+  @override
+  String get settingsNoInterests => 'Not set';
+
+  @override
+  String get settingsResetOffers => 'Show download offers again';
+
+  @override
+  String get settingsResetOffersDetail =>
+      'Regions you dismissed will be offered once more';
+
+  @override
+  String get settingsResetDone => 'Offers restored';
+
+  @override
+  String get settingsAbout => 'About';
 }

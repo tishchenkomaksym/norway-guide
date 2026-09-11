@@ -740,4 +740,58 @@ class LRu extends L {
   @override
   String get routeNote =>
       'Порядок и время приблизительные: расстояние считается по прямой с поправкой на улицы, а время осмотра — по типу места. Чтобы проложить дорогу, используйте кнопку карты в карточке места.';
+
+  @override
+  String offerTitle(String region) {
+    return 'Вы в регионе $region';
+  }
+
+  @override
+  String offerSubtitle(int n, String mb) {
+    return '$n фотографий этих мест · $mb МБ';
+  }
+
+  @override
+  String get offerLater => 'Не сейчас';
+
+  @override
+  String get settingsTitle => 'Настройки';
+
+  @override
+  String get settingsLanguage => 'Язык';
+
+  @override
+  String get settingsContent => 'Контент';
+
+  @override
+  String get settingsAutoWifi => 'Скачивать регионы автоматически';
+
+  @override
+  String get settingsAutoWifiDetail =>
+      'Только по Wi-Fi. Мобильный трафик не тратится никогда.';
+
+  @override
+  String get settingsWifiNow => 'Wi-Fi подключён';
+
+  @override
+  String get settingsWifiNo => 'Сейчас Wi-Fi нет';
+
+  @override
+  String get settingsProfileSection => 'Ваши интересы';
+
+  @override
+  String get settingsNoInterests => 'Не указаны';
+
+  @override
+  String get settingsResetOffers => 'Снова показывать предложения';
+
+  @override
+  String get settingsResetOffersDetail =>
+      'Регионы, от которых вы отказались, предложим ещё раз';
+
+  @override
+  String get settingsResetDone => 'Предложения возвращены';
+
+  @override
+  String get settingsAbout => 'О приложении';
 }

@@ -7,6 +7,7 @@ import '../../core/profile.dart';
 import '../../core/providers.dart';
 import '../../data/database.dart';
 import '../cities/browse_screen.dart';
+import '../downloads/region_offer.dart';
 import '../cities/category_chips.dart';
 import '../emergency/emergency_button.dart';
 import '../favorites/favorites_screen.dart';
@@ -138,6 +139,10 @@ class _NearbyScreenState extends ConsumerState<NearbyScreen> {
         children: [
           if (!hasPosition)
             _NoLocationBanner(problem: position.valueOrNull?.problem),
+          // Предложение скачать фотографии региона, в котором человек
+          // сейчас находится. Появляется само, но качает только по
+          // нажатию — см. RegionOffer.
+          const RegionOffer(),
           const _ModeHint(),
           const _CategoryFilter(),
           Expanded(

@@ -1322,6 +1322,102 @@ abstract class L {
   /// In ru, this message translates to:
   /// **'Порядок и время приблизительные: расстояние считается по прямой с поправкой на улицы, а время осмотра — по типу места. Чтобы проложить дорогу, используйте кнопку карты в карточке места.'**
   String get routeNote;
+
+  /// No description provided for @offerTitle.
+  ///
+  /// In ru, this message translates to:
+  /// **'Вы в регионе {region}'**
+  String offerTitle(String region);
+
+  /// No description provided for @offerSubtitle.
+  ///
+  /// In ru, this message translates to:
+  /// **'{n} фотографий этих мест · {mb} МБ'**
+  String offerSubtitle(int n, String mb);
+
+  /// No description provided for @offerLater.
+  ///
+  /// In ru, this message translates to:
+  /// **'Не сейчас'**
+  String get offerLater;
+
+  /// No description provided for @settingsTitle.
+  ///
+  /// In ru, this message translates to:
+  /// **'Настройки'**
+  String get settingsTitle;
+
+  /// No description provided for @settingsLanguage.
+  ///
+  /// In ru, this message translates to:
+  /// **'Язык'**
+  String get settingsLanguage;
+
+  /// No description provided for @settingsContent.
+  ///
+  /// In ru, this message translates to:
+  /// **'Контент'**
+  String get settingsContent;
+
+  /// No description provided for @settingsAutoWifi.
+  ///
+  /// In ru, this message translates to:
+  /// **'Скачивать регионы автоматически'**
+  String get settingsAutoWifi;
+
+  /// No description provided for @settingsAutoWifiDetail.
+  ///
+  /// In ru, this message translates to:
+  /// **'Только по Wi-Fi. Мобильный трафик не тратится никогда.'**
+  String get settingsAutoWifiDetail;
+
+  /// No description provided for @settingsWifiNow.
+  ///
+  /// In ru, this message translates to:
+  /// **'Wi-Fi подключён'**
+  String get settingsWifiNow;
+
+  /// No description provided for @settingsWifiNo.
+  ///
+  /// In ru, this message translates to:
+  /// **'Сейчас Wi-Fi нет'**
+  String get settingsWifiNo;
+
+  /// No description provided for @settingsProfileSection.
+  ///
+  /// In ru, this message translates to:
+  /// **'Ваши интересы'**
+  String get settingsProfileSection;
+
+  /// No description provided for @settingsNoInterests.
+  ///
+  /// In ru, this message translates to:
+  /// **'Не указаны'**
+  String get settingsNoInterests;
+
+  /// No description provided for @settingsResetOffers.
+  ///
+  /// In ru, this message translates to:
+  /// **'Снова показывать предложения'**
+  String get settingsResetOffers;
+
+  /// No description provided for @settingsResetOffersDetail.
+  ///
+  /// In ru, this message translates to:
+  /// **'Регионы, от которых вы отказались, предложим ещё раз'**
+  String get settingsResetOffersDetail;
+
+  /// No description provided for @settingsResetDone.
+  ///
+  /// In ru, this message translates to:
+  /// **'Предложения возвращены'**
+  String get settingsResetDone;
+
+  /// No description provided for @settingsAbout.
+  ///
+  /// In ru, this message translates to:
+  /// **'О приложении'**
+  String get settingsAbout;
 }
 
 class _LDelegate extends LocalizationsDelegate<L> {

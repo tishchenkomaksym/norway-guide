@@ -736,4 +736,58 @@ class LDe extends L {
   @override
   String get routeNote =>
       'Reihenfolge und Zeiten sind Näherungswerte: Entfernungen werden in Luftlinie mit Zuschlag für Straßen gemessen, die Besuchsdauer nach Art des Ortes geschätzt. Für die Wegführung nutzen Sie die Kartenschaltfläche auf der Seite des Ortes.';
+
+  @override
+  String offerTitle(String region) {
+    return 'Sie sind in $region';
+  }
+
+  @override
+  String offerSubtitle(int n, String mb) {
+    return '$n Fotos dieser Gegend · $mb MB';
+  }
+
+  @override
+  String get offerLater => 'Jetzt nicht';
+
+  @override
+  String get settingsTitle => 'Einstellungen';
+
+  @override
+  String get settingsLanguage => 'Sprache';
+
+  @override
+  String get settingsContent => 'Inhalte';
+
+  @override
+  String get settingsAutoWifi => 'Regionen automatisch laden';
+
+  @override
+  String get settingsAutoWifiDetail =>
+      'Nur über WLAN. Mobile Daten werden nie genutzt.';
+
+  @override
+  String get settingsWifiNow => 'WLAN verbunden';
+
+  @override
+  String get settingsWifiNo => 'Derzeit kein WLAN';
+
+  @override
+  String get settingsProfileSection => 'Ihre Interessen';
+
+  @override
+  String get settingsNoInterests => 'Nicht festgelegt';
+
+  @override
+  String get settingsResetOffers => 'Download-Vorschläge erneut zeigen';
+
+  @override
+  String get settingsResetOffersDetail =>
+      'Abgelehnte Regionen werden noch einmal vorgeschlagen';
+
+  @override
+  String get settingsResetDone => 'Vorschläge zurückgesetzt';
+
+  @override
+  String get settingsAbout => 'Über die App';
 }

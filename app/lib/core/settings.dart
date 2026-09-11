@@ -30,6 +30,8 @@ class _Keys {
   static const interests = 'profile.interests';
   static const travelTime = 'profile.travelTime';
   static const profileAnswered = 'profile.answered';
+  static const autoDownloadWifi = 'settings.autoDownloadWifi';
+  static const offeredRegions = 'settings.offeredRegions';
 }
 
 /// Языки, на которых говорит приложение (§8.2 спеки).
@@ -171,4 +173,57 @@ class PersistentProfileNotifier extends StateNotifier<UserProfile> {
 final profileProvider =
     StateNotifierProvider<PersistentProfileNotifier, UserProfile>((ref) {
       return PersistentProfileNotifier(ref.watch(prefsProvider));
+    });
+
+/// Скачивать регион автоматически, когда есть Wi-Fi.
+///
+/// По умолчанию выключено, и это не осторожность ради осторожности.
+/// Турист в Норвегии чаще всего в роуминге: списать у него двадцать
+/// мегабайт без спроса — реальные деньги и одна звезда в сторе. Даже
+/// с включённой настройкой мобильный трафик не трогается никогда,
+/// только Wi-Fi.
+class AutoDownloadNotifier extends StateNotifier<bool> {
+  AutoDownloadNotifier(this._prefs)
+    : super(_prefs.getBool(_Keys.autoDownloadWifi) ?? false);
+
+  final SharedPreferences _prefs;
+
+  void set(bool value) {
+    state = value;
+    _prefs.setBool(_Keys.autoDownloadWifi, value);
+  }
+}
+
+final autoDownloadWifiProvider =
+    StateNotifierProvider<AutoDownloadNotifier, bool>((ref) {
+      return AutoDownloadNotifier(ref.watch(prefsProvider));
+    });
+
+/// Регионы, которые уже предлагали скачать.
+///
+/// Предложение показывается один раз на регион. Человек, отказавшийся
+/// качать фотографии Фьордов, не должен видеть ту же полосу при каждом
+/// открытии приложения всю поездку.
+class OfferedRegionsNotifier extends StateNotifier<Set<String>> {
+  OfferedRegionsNotifier(this._prefs)
+    : super((_prefs.getStringList(_Keys.offeredRegions) ?? const []).toSet());
+
+  final SharedPreferences _prefs;
+
+  void markOffered(String regionId) {
+    if (state.contains(regionId)) return;
+    state = {...state, regionId};
+    _prefs.setStringList(_Keys.offeredRegions, state.toList());
+  }
+
+  /// Забыть отказы — нужно в настройках, если человек передумал.
+  void reset() {
+    state = {};
+    _prefs.remove(_Keys.offeredRegions);
+  }
+}
+
+final offeredRegionsProvider =
+    StateNotifierProvider<OfferedRegionsNotifier, Set<String>>((ref) {
+      return OfferedRegionsNotifier(ref.watch(prefsProvider));
     });

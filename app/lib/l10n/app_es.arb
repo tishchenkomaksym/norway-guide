@@ -299,5 +299,21 @@
   "routeDistance": "{km} km",
   "routeStops": "{n, plural, =1{1 parada} other{{n} paradas}}",
   "routeEmpty": "Este paseo no tiene paradas",
-  "routeNote": "El orden y los tiempos son aproximados: las distancias se miden en línea recta con un margen por las calles, y el tiempo de visita se estima según el tipo de lugar. Para indicaciones paso a paso, usa el botón de mapa en la ficha del lugar."
+  "routeNote": "El orden y los tiempos son aproximados: las distancias se miden en línea recta con un margen por las calles, y el tiempo de visita se estima según el tipo de lugar. Para indicaciones paso a paso, usa el botón de mapa en la ficha del lugar.",
+  "offerTitle": "Estás en {region}",
+  "offerSubtitle": "{n} fotos de esta zona · {mb} MB",
+  "offerLater": "Ahora no",
+  "settingsTitle": "Ajustes",
+  "settingsLanguage": "Idioma",
+  "settingsContent": "Contenido",
+  "settingsAutoWifi": "Descargar regiones automáticamente",
+  "settingsAutoWifiDetail": "Solo por Wi-Fi. Nunca se usan datos móviles.",
+  "settingsWifiNow": "Wi-Fi conectado",
+  "settingsWifiNo": "Ahora no hay Wi-Fi",
+  "settingsProfileSection": "Tus intereses",
+  "settingsNoInterests": "Sin definir",
+  "settingsResetOffers": "Volver a mostrar las sugerencias",
+  "settingsResetOffersDetail": "Las regiones que descartaste se ofrecerán una vez más",
+  "settingsResetDone": "Sugerencias restauradas",
+  "settingsAbout": "Acerca de"
 }

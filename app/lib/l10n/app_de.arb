@@ -299,5 +299,21 @@
   "routeDistance": "{km} km",
   "routeStops": "{n, plural, =1{1 Station} other{{n} Stationen}}",
   "routeEmpty": "Keine Stationen in diesem Rundgang",
-  "routeNote": "Reihenfolge und Zeiten sind Näherungswerte: Entfernungen werden in Luftlinie mit Zuschlag für Straßen gemessen, die Besuchsdauer nach Art des Ortes geschätzt. Für die Wegführung nutzen Sie die Kartenschaltfläche auf der Seite des Ortes."
+  "routeNote": "Reihenfolge und Zeiten sind Näherungswerte: Entfernungen werden in Luftlinie mit Zuschlag für Straßen gemessen, die Besuchsdauer nach Art des Ortes geschätzt. Für die Wegführung nutzen Sie die Kartenschaltfläche auf der Seite des Ortes.",
+  "offerTitle": "Sie sind in {region}",
+  "offerSubtitle": "{n} Fotos dieser Gegend · {mb} MB",
+  "offerLater": "Jetzt nicht",
+  "settingsTitle": "Einstellungen",
+  "settingsLanguage": "Sprache",
+  "settingsContent": "Inhalte",
+  "settingsAutoWifi": "Regionen automatisch laden",
+  "settingsAutoWifiDetail": "Nur über WLAN. Mobile Daten werden nie genutzt.",
+  "settingsWifiNow": "WLAN verbunden",
+  "settingsWifiNo": "Derzeit kein WLAN",
+  "settingsProfileSection": "Ihre Interessen",
+  "settingsNoInterests": "Nicht festgelegt",
+  "settingsResetOffers": "Download-Vorschläge erneut zeigen",
+  "settingsResetOffersDetail": "Abgelehnte Regionen werden noch einmal vorgeschlagen",
+  "settingsResetDone": "Vorschläge zurückgesetzt",
+  "settingsAbout": "Über die App"
 }

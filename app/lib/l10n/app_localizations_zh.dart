@@ -688,4 +688,56 @@ class LZh extends L {
   @override
   String get routeNote =>
       '顺序与时间均为估算：距离按直线计算并加上街道系数，参观时长按地点类型估计。需要导航请使用地点页面的地图按钮。';
+
+  @override
+  String offerTitle(String region) {
+    return '您位于$region';
+  }
+
+  @override
+  String offerSubtitle(int n, String mb) {
+    return '该地区 $n 张照片 · $mb MB';
+  }
+
+  @override
+  String get offerLater => '暂不';
+
+  @override
+  String get settingsTitle => '设置';
+
+  @override
+  String get settingsLanguage => '语言';
+
+  @override
+  String get settingsContent => '内容';
+
+  @override
+  String get settingsAutoWifi => '自动下载地区内容';
+
+  @override
+  String get settingsAutoWifiDetail => '仅在 Wi-Fi 下。绝不使用移动流量。';
+
+  @override
+  String get settingsWifiNow => '已连接 Wi-Fi';
+
+  @override
+  String get settingsWifiNo => '当前没有 Wi-Fi';
+
+  @override
+  String get settingsProfileSection => '您的兴趣';
+
+  @override
+  String get settingsNoInterests => '未设置';
+
+  @override
+  String get settingsResetOffers => '重新显示下载建议';
+
+  @override
+  String get settingsResetOffersDetail => '您此前忽略的地区将再提示一次';
+
+  @override
+  String get settingsResetDone => '建议已恢复';
+
+  @override
+  String get settingsAbout => '关于';
 }

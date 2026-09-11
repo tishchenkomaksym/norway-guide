@@ -299,5 +299,21 @@
   "routeDistance": "{km} 公里",
   "routeStops": "{n, plural, other{{n} 站}}",
   "routeEmpty": "此路线没有站点",
-  "routeNote": "顺序与时间均为估算：距离按直线计算并加上街道系数，参观时长按地点类型估计。需要导航请使用地点页面的地图按钮。"
+  "routeNote": "顺序与时间均为估算：距离按直线计算并加上街道系数，参观时长按地点类型估计。需要导航请使用地点页面的地图按钮。",
+  "offerTitle": "您位于{region}",
+  "offerSubtitle": "该地区 {n} 张照片 · {mb} MB",
+  "offerLater": "暂不",
+  "settingsTitle": "设置",
+  "settingsLanguage": "语言",
+  "settingsContent": "内容",
+  "settingsAutoWifi": "自动下载地区内容",
+  "settingsAutoWifiDetail": "仅在 Wi-Fi 下。绝不使用移动流量。",
+  "settingsWifiNow": "已连接 Wi-Fi",
+  "settingsWifiNo": "当前没有 Wi-Fi",
+  "settingsProfileSection": "您的兴趣",
+  "settingsNoInterests": "未设置",
+  "settingsResetOffers": "重新显示下载建议",
+  "settingsResetOffersDetail": "您此前忽略的地区将再提示一次",
+  "settingsResetDone": "建议已恢复",
+  "settingsAbout": "关于"
 }
