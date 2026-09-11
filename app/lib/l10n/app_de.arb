@@ -335,5 +335,18 @@
   "exportSheetWatches": "Sportuhren: Garmin, Suunto, Polar",
   "exportSheetNot": "Die Datei enthält Punkte, keinen Weg. Den Weg dazwischen sucht Ihr Navigationsgerät selbst.",
   "exportSheetSend": "Datei senden",
-  "exportSheetCancel": "Abbrechen"
+  "exportSheetCancel": "Abbrechen",
+  "usageTitle": "So nutzen Sie die App",
+  "usageNote": "Diese Zahlen bleiben auf Ihrem Telefon. Nichts wird irgendwohin gesendet — weder an uns noch an andere. Sie können sie jederzeit löschen.",
+  "usageLaunches": "App geöffnet",
+  "usagePlaces": "Orte angesehen",
+  "usageRoutes": "Rundgänge geöffnet",
+  "usageSearches": "Suchen",
+  "usagePacks": "Regionen geladen",
+  "usageSince": "In Nutzung seit",
+  "usageDays": "{n, plural, =0{heute} =1{1 Tag} other{{n} Tagen}}",
+  "usageReset": "Zahlen löschen",
+  "usageResetDetail": "Die Zähler beginnen bei null",
+  "usageResetDone": "Zahlen gelöscht",
+  "settingsUsage": "So nutzen Sie die App"
 }

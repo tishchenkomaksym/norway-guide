@@ -335,5 +335,18 @@
   "exportSheetWatches": "运动手表：Garmin、Suunto、Polar",
   "exportSheetNot": "文件包含的是地点，不是道路。之间的路线由您的导航应用计算。",
   "exportSheetSend": "发送文件",
-  "exportSheetCancel": "取消"
+  "exportSheetCancel": "取消",
+  "usageTitle": "您的使用情况",
+  "usageNote": "这些数字只保存在您的手机上。不会发送到任何地方——既不给我们，也不给其他人。您随时可以清除。",
+  "usageLaunches": "打开次数",
+  "usagePlaces": "查看的地点",
+  "usageRoutes": "打开的路线",
+  "usageSearches": "搜索次数",
+  "usagePacks": "已下载地区",
+  "usageSince": "已使用",
+  "usageDays": "{n, plural, =0{今天} other{{n} 天}}",
+  "usageReset": "清除这些数字",
+  "usageResetDetail": "计数器将从零开始",
+  "usageResetDone": "数字已清除",
+  "settingsUsage": "您的使用情况"
 }

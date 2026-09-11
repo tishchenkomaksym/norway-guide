@@ -7,6 +7,7 @@ import '../../core/place_photo.dart';
 import '../../core/categories.dart';
 import '../../core/profile.dart';
 import '../../core/providers.dart';
+import '../../core/usage_stats.dart';
 import '../../data/database.dart';
 import '../../l10n/app_localizations.dart';
 import '../place/place_screen.dart';
@@ -48,6 +49,11 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
     _debounce = Timer(const Duration(milliseconds: 250), () {
       if (mounted) {
         ref.read(searchQueryProvider.notifier).state = value;
+        // Считаем поиск после паузы, а не на каждое нажатие: иначе
+        // слово «Гейрангер» дало бы десять поисков вместо одного.
+        if (value.trim().length >= 2) {
+          ref.read(usageStatsProvider.notifier).record(UsageEvent.search);
+        }
       }
     });
   }
@@ -158,6 +164,7 @@ class _ResultTile extends ConsumerWidget {
       isThreeLine: item.summary != null,
       onTap: () {
         ref.read(placeViewCountProvider.notifier).state++;
+        ref.read(usageStatsProvider.notifier).record(UsageEvent.placeOpened);
         Navigator.of(context).push(
           MaterialPageRoute(
             builder: (_) => PlaceScreen(placeId: item.place.id),

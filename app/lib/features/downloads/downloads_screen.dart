@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../core/packs.dart';
+import '../../core/usage_stats.dart';
 import '../../l10n/app_localizations.dart';
 
 /// Состояние загрузок: что качается и с каким прогрессом.
@@ -28,6 +29,7 @@ class DownloadsNotifier extends StateNotifier<Map<String, double>> {
       );
       _ref.invalidate(installedPacksProvider);
       _ref.invalidate(downloadedPhotosProvider);
+      _ref.read(usageStatsProvider.notifier).record(UsageEvent.packDownloaded);
     } finally {
       final next = {...state}..remove(info.regionId);
       state = next;

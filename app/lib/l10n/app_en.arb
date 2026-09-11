@@ -335,5 +335,18 @@
   "exportSheetWatches": "Sports watches: Garmin, Suunto, Polar",
   "exportSheetNot": "The file contains points, not a road. Your navigator will work out the way between them.",
   "exportSheetSend": "Send file",
-  "exportSheetCancel": "Cancel"
+  "exportSheetCancel": "Cancel",
+  "usageTitle": "How you use the app",
+  "usageNote": "These numbers stay on your phone. Nothing is sent anywhere — not to us, not to anyone. You can wipe them at any time.",
+  "usageLaunches": "App opened",
+  "usagePlaces": "Places viewed",
+  "usageRoutes": "Walks opened",
+  "usageSearches": "Searches",
+  "usagePacks": "Regions downloaded",
+  "usageSince": "Using since",
+  "usageDays": "{n, plural, =0{today} =1{1 day} other{{n} days}}",
+  "usageReset": "Erase these numbers",
+  "usageResetDetail": "Counters start from zero",
+  "usageResetDone": "Numbers erased",
+  "settingsUsage": "How you use the app"
 }

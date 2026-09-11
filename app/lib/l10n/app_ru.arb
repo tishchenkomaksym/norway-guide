@@ -433,5 +433,25 @@
   "exportSheetWatches": "Спортивные часы: Garmin, Suunto, Polar",
   "exportSheetNot": "В файле точки, а не дорога. Путь между ними навигатор проложит сам.",
   "exportSheetSend": "Отправить файл",
-  "exportSheetCancel": "Отмена"
+  "exportSheetCancel": "Отмена",
+  "usageTitle": "Как вы пользуетесь приложением",
+  "usageNote": "Эти числа остаются на вашем телефоне. Никуда не отправляются — ни нам, ни кому-либо ещё. Стереть их можно в любой момент.",
+  "usageLaunches": "Запусков",
+  "usagePlaces": "Открыто мест",
+  "usageRoutes": "Открыто прогулок",
+  "usageSearches": "Поисков",
+  "usagePacks": "Скачано регионов",
+  "usageSince": "Пользуетесь",
+  "usageDays": "{n, plural, =0{сегодня} one{{n} день} few{{n} дня} many{{n} дней} other{{n} дня}}",
+  "usageReset": "Стереть эти числа",
+  "usageResetDetail": "Счётчики начнутся с нуля",
+  "usageResetDone": "Числа стёрты",
+  "settingsUsage": "Как вы пользуетесь приложением",
+  "@usageDays": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  }
 }

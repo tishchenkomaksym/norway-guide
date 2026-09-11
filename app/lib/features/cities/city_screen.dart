@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../core/providers.dart';
+import '../../core/usage_stats.dart';
 import '../../data/database.dart';
 import '../../l10n/app_localizations.dart';
 import '../routes/route_screen.dart';
@@ -113,11 +114,15 @@ class _RouteBanner extends ConsumerWidget {
         borderRadius: BorderRadius.circular(12),
         clipBehavior: Clip.antiAlias,
         child: InkWell(
-          onTap: () => Navigator.of(context).push(
-            MaterialPageRoute(
-              builder: (_) => RouteScreen(route: route, cityName: city.nameNo),
-            ),
-          ),
+          onTap: () {
+            ref.read(usageStatsProvider.notifier).record(UsageEvent.routeOpened);
+            Navigator.of(context).push(
+              MaterialPageRoute(
+                builder: (_) =>
+                    RouteScreen(route: route, cityName: city.nameNo),
+              ),
+            );
+          },
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
             child: Row(

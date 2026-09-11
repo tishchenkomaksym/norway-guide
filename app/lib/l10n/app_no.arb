@@ -335,5 +335,18 @@
   "exportSheetWatches": "Sportsklokker: Garmin, Suunto, Polar",
   "exportSheetNot": "Filen inneholder punkter, ikke en vei. Navigatoren finner veien mellom dem selv.",
   "exportSheetSend": "Send fil",
-  "exportSheetCancel": "Avbryt"
+  "exportSheetCancel": "Avbryt",
+  "usageTitle": "Slik bruker du appen",
+  "usageNote": "Tallene blir på telefonen din. Ingenting sendes noe sted — verken til oss eller andre. Du kan slette dem når som helst.",
+  "usageLaunches": "Appen åpnet",
+  "usagePlaces": "Steder sett",
+  "usageRoutes": "Rundturer åpnet",
+  "usageSearches": "Søk",
+  "usagePacks": "Regioner lastet ned",
+  "usageSince": "I bruk siden",
+  "usageDays": "{n, plural, =0{i dag} =1{1 dag} other{{n} dager}}",
+  "usageReset": "Slett tallene",
+  "usageResetDetail": "Tellerne starter på null",
+  "usageResetDone": "Tallene er slettet",
+  "settingsUsage": "Slik bruker du appen"
 }

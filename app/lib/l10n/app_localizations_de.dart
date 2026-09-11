@@ -858,4 +858,53 @@ class LDe extends L {
 
   @override
   String get exportSheetCancel => 'Abbrechen';
+
+  @override
+  String get usageTitle => 'So nutzen Sie die App';
+
+  @override
+  String get usageNote =>
+      'Diese Zahlen bleiben auf Ihrem Telefon. Nichts wird irgendwohin gesendet — weder an uns noch an andere. Sie können sie jederzeit löschen.';
+
+  @override
+  String get usageLaunches => 'App geöffnet';
+
+  @override
+  String get usagePlaces => 'Orte angesehen';
+
+  @override
+  String get usageRoutes => 'Rundgänge geöffnet';
+
+  @override
+  String get usageSearches => 'Suchen';
+
+  @override
+  String get usagePacks => 'Regionen geladen';
+
+  @override
+  String get usageSince => 'In Nutzung seit';
+
+  @override
+  String usageDays(int n) {
+    String _temp0 = intl.Intl.pluralLogic(
+      n,
+      locale: localeName,
+      other: '$n Tagen',
+      one: '1 Tag',
+      zero: 'heute',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get usageReset => 'Zahlen löschen';
+
+  @override
+  String get usageResetDetail => 'Die Zähler beginnen bei null';
+
+  @override
+  String get usageResetDone => 'Zahlen gelöscht';
+
+  @override
+  String get settingsUsage => 'So nutzen Sie die App';
 }

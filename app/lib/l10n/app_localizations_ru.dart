@@ -862,4 +862,55 @@ class LRu extends L {
 
   @override
   String get exportSheetCancel => 'Отмена';
+
+  @override
+  String get usageTitle => 'Как вы пользуетесь приложением';
+
+  @override
+  String get usageNote =>
+      'Эти числа остаются на вашем телефоне. Никуда не отправляются — ни нам, ни кому-либо ещё. Стереть их можно в любой момент.';
+
+  @override
+  String get usageLaunches => 'Запусков';
+
+  @override
+  String get usagePlaces => 'Открыто мест';
+
+  @override
+  String get usageRoutes => 'Открыто прогулок';
+
+  @override
+  String get usageSearches => 'Поисков';
+
+  @override
+  String get usagePacks => 'Скачано регионов';
+
+  @override
+  String get usageSince => 'Пользуетесь';
+
+  @override
+  String usageDays(int n) {
+    String _temp0 = intl.Intl.pluralLogic(
+      n,
+      locale: localeName,
+      other: '$n дня',
+      many: '$n дней',
+      few: '$n дня',
+      one: '$n день',
+      zero: 'сегодня',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get usageReset => 'Стереть эти числа';
+
+  @override
+  String get usageResetDetail => 'Счётчики начнутся с нуля';
+
+  @override
+  String get usageResetDone => 'Числа стёрты';
+
+  @override
+  String get settingsUsage => 'Как вы пользуетесь приложением';
 }

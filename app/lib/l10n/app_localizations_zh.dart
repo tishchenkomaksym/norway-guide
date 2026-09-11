@@ -804,4 +804,51 @@ class LZh extends L {
 
   @override
   String get exportSheetCancel => '取消';
+
+  @override
+  String get usageTitle => '您的使用情况';
+
+  @override
+  String get usageNote => '这些数字只保存在您的手机上。不会发送到任何地方——既不给我们，也不给其他人。您随时可以清除。';
+
+  @override
+  String get usageLaunches => '打开次数';
+
+  @override
+  String get usagePlaces => '查看的地点';
+
+  @override
+  String get usageRoutes => '打开的路线';
+
+  @override
+  String get usageSearches => '搜索次数';
+
+  @override
+  String get usagePacks => '已下载地区';
+
+  @override
+  String get usageSince => '已使用';
+
+  @override
+  String usageDays(int n) {
+    String _temp0 = intl.Intl.pluralLogic(
+      n,
+      locale: localeName,
+      other: '$n 天',
+      zero: '今天',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get usageReset => '清除这些数字';
+
+  @override
+  String get usageResetDetail => '计数器将从零开始';
+
+  @override
+  String get usageResetDone => '数字已清除';
+
+  @override
+  String get settingsUsage => '您的使用情况';
 }

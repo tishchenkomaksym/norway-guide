@@ -853,4 +853,53 @@ class LNo extends L {
 
   @override
   String get exportSheetCancel => 'Avbryt';
+
+  @override
+  String get usageTitle => 'Slik bruker du appen';
+
+  @override
+  String get usageNote =>
+      'Tallene blir på telefonen din. Ingenting sendes noe sted — verken til oss eller andre. Du kan slette dem når som helst.';
+
+  @override
+  String get usageLaunches => 'Appen åpnet';
+
+  @override
+  String get usagePlaces => 'Steder sett';
+
+  @override
+  String get usageRoutes => 'Rundturer åpnet';
+
+  @override
+  String get usageSearches => 'Søk';
+
+  @override
+  String get usagePacks => 'Regioner lastet ned';
+
+  @override
+  String get usageSince => 'I bruk siden';
+
+  @override
+  String usageDays(int n) {
+    String _temp0 = intl.Intl.pluralLogic(
+      n,
+      locale: localeName,
+      other: '$n dager',
+      one: '1 dag',
+      zero: 'i dag',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get usageReset => 'Slett tallene';
+
+  @override
+  String get usageResetDetail => 'Tellerne starter på null';
+
+  @override
+  String get usageResetDone => 'Tallene er slettet';
+
+  @override
+  String get settingsUsage => 'Slik bruker du appen';
 }

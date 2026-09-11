@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'core/providers.dart';
+import 'core/usage_stats.dart';
 import 'features/home/home_screen.dart';
 import 'l10n/app_localizations.dart';
 
@@ -23,11 +24,26 @@ Future<void> main() async {
   );
 }
 
-class NordguideApp extends ConsumerWidget {
+class NordguideApp extends ConsumerStatefulWidget {
   const NordguideApp({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<NordguideApp> createState() => _NordguideAppState();
+}
+
+class _NordguideAppState extends ConsumerState<NordguideApp> {
+  @override
+  void initState() {
+    super.initState();
+    // Запуск считается один раз за сессию, в initState, а не в build:
+    // build вызывается при каждой смене языка и темы.
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      ref.read(usageStatsProvider.notifier).record(UsageEvent.launch);
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
     // Язык интерфейса берётся из системы и может быть переопределён
     // пользователем (см. languageProvider). Тот же язык используется
     // для выбора текстов о местах — но там работает цепочка подстановки
@@ -36,7 +52,7 @@ class NordguideApp extends ConsumerWidget {
     final language = ref.watch(languageProvider);
 
     return MaterialApp(
-      title: 'nordguide',
+      title: 'Norway Explore',
       debugShowCheckedModeBanner: false,
       locale: Locale(language),
       localizationsDelegates: const [

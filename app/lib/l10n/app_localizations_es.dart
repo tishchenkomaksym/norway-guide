@@ -857,4 +857,53 @@ class LEs extends L {
 
   @override
   String get exportSheetCancel => 'Cancelar';
+
+  @override
+  String get usageTitle => 'Cómo usas la aplicación';
+
+  @override
+  String get usageNote =>
+      'Estos números se quedan en tu teléfono. No se envía nada a ninguna parte, ni a nosotros ni a nadie. Puedes borrarlos cuando quieras.';
+
+  @override
+  String get usageLaunches => 'Veces abierta';
+
+  @override
+  String get usagePlaces => 'Lugares vistos';
+
+  @override
+  String get usageRoutes => 'Paseos abiertos';
+
+  @override
+  String get usageSearches => 'Búsquedas';
+
+  @override
+  String get usagePacks => 'Regiones descargadas';
+
+  @override
+  String get usageSince => 'En uso desde hace';
+
+  @override
+  String usageDays(int n) {
+    String _temp0 = intl.Intl.pluralLogic(
+      n,
+      locale: localeName,
+      other: '$n días',
+      one: '1 día',
+      zero: 'hoy',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get usageReset => 'Borrar estos números';
+
+  @override
+  String get usageResetDetail => 'Los contadores vuelven a cero';
+
+  @override
+  String get usageResetDone => 'Números borrados';
+
+  @override
+  String get settingsUsage => 'Cómo usas la aplicación';
 }

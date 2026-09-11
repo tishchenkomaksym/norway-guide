@@ -852,4 +852,53 @@ class LEn extends L {
 
   @override
   String get exportSheetCancel => 'Cancel';
+
+  @override
+  String get usageTitle => 'How you use the app';
+
+  @override
+  String get usageNote =>
+      'These numbers stay on your phone. Nothing is sent anywhere — not to us, not to anyone. You can wipe them at any time.';
+
+  @override
+  String get usageLaunches => 'App opened';
+
+  @override
+  String get usagePlaces => 'Places viewed';
+
+  @override
+  String get usageRoutes => 'Walks opened';
+
+  @override
+  String get usageSearches => 'Searches';
+
+  @override
+  String get usagePacks => 'Regions downloaded';
+
+  @override
+  String get usageSince => 'Using since';
+
+  @override
+  String usageDays(int n) {
+    String _temp0 = intl.Intl.pluralLogic(
+      n,
+      locale: localeName,
+      other: '$n days',
+      one: '1 day',
+      zero: 'today',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get usageReset => 'Erase these numbers';
+
+  @override
+  String get usageResetDetail => 'Counters start from zero';
+
+  @override
+  String get usageResetDone => 'Numbers erased';
+
+  @override
+  String get settingsUsage => 'How you use the app';
 }

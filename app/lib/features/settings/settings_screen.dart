@@ -9,6 +9,7 @@ import '../downloads/downloads_screen.dart';
 import '../downloads/region_offer.dart';
 import '../home/attribution_screen.dart';
 import '../profile/profile_sheet.dart';
+import 'usage_screen.dart';
 
 /// Настройки.
 ///
@@ -108,6 +109,13 @@ class SettingsScreen extends ConsumerWidget {
 
           const Divider(),
           _Header(text: l.settingsAbout),
+          ListTile(
+            leading: const Icon(Icons.insights_outlined),
+            title: Text(l.settingsUsage),
+            trailing: const Icon(Icons.chevron_right),
+            onTap: () => Navigator.of(context)
+                .push(MaterialPageRoute(builder: (_) => const UsageScreen())),
+          ),
           ListTile(
             leading: const Icon(Icons.info_outline),
             title: const Text('Sources and licences'),

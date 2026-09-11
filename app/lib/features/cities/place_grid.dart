@@ -5,6 +5,7 @@ import '../../core/place_photo.dart';
 import '../../core/categories.dart';
 import '../../core/distance.dart';
 import '../../core/profile.dart';
+import '../../core/usage_stats.dart';
 import '../../data/database.dart';
 import '../../l10n/app_localizations.dart';
 import '../place/place_screen.dart';
@@ -141,6 +142,7 @@ class PlaceCard extends ConsumerWidget {
       child: InkWell(
         onTap: () {
           ref.read(placeViewCountProvider.notifier).state++;
+          ref.read(usageStatsProvider.notifier).record(UsageEvent.placeOpened);
           Navigator.of(context).push(
             MaterialPageRoute(
               builder: (_) => PlaceScreen(placeId: item.place.id),

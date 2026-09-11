@@ -1538,6 +1538,84 @@ abstract class L {
   /// In ru, this message translates to:
   /// **'Отмена'**
   String get exportSheetCancel;
+
+  /// No description provided for @usageTitle.
+  ///
+  /// In ru, this message translates to:
+  /// **'Как вы пользуетесь приложением'**
+  String get usageTitle;
+
+  /// No description provided for @usageNote.
+  ///
+  /// In ru, this message translates to:
+  /// **'Эти числа остаются на вашем телефоне. Никуда не отправляются — ни нам, ни кому-либо ещё. Стереть их можно в любой момент.'**
+  String get usageNote;
+
+  /// No description provided for @usageLaunches.
+  ///
+  /// In ru, this message translates to:
+  /// **'Запусков'**
+  String get usageLaunches;
+
+  /// No description provided for @usagePlaces.
+  ///
+  /// In ru, this message translates to:
+  /// **'Открыто мест'**
+  String get usagePlaces;
+
+  /// No description provided for @usageRoutes.
+  ///
+  /// In ru, this message translates to:
+  /// **'Открыто прогулок'**
+  String get usageRoutes;
+
+  /// No description provided for @usageSearches.
+  ///
+  /// In ru, this message translates to:
+  /// **'Поисков'**
+  String get usageSearches;
+
+  /// No description provided for @usagePacks.
+  ///
+  /// In ru, this message translates to:
+  /// **'Скачано регионов'**
+  String get usagePacks;
+
+  /// No description provided for @usageSince.
+  ///
+  /// In ru, this message translates to:
+  /// **'Пользуетесь'**
+  String get usageSince;
+
+  /// No description provided for @usageDays.
+  ///
+  /// In ru, this message translates to:
+  /// **'{n, plural, =0{сегодня} one{{n} день} few{{n} дня} many{{n} дней} other{{n} дня}}'**
+  String usageDays(int n);
+
+  /// No description provided for @usageReset.
+  ///
+  /// In ru, this message translates to:
+  /// **'Стереть эти числа'**
+  String get usageReset;
+
+  /// No description provided for @usageResetDetail.
+  ///
+  /// In ru, this message translates to:
+  /// **'Счётчики начнутся с нуля'**
+  String get usageResetDetail;
+
+  /// No description provided for @usageResetDone.
+  ///
+  /// In ru, this message translates to:
+  /// **'Числа стёрты'**
+  String get usageResetDone;
+
+  /// No description provided for @settingsUsage.
+  ///
+  /// In ru, this message translates to:
+  /// **'Как вы пользуетесь приложением'**
+  String get settingsUsage;
 }
 
 class _LDelegate extends LocalizationsDelegate<L> {
