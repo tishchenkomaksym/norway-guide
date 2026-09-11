@@ -824,4 +824,14 @@ class LDe extends L {
 
   @override
   String get compassNW => 'NW';
+
+  @override
+  String get gpxExport => 'Als GPX exportieren';
+
+  @override
+  String get gpxDescription =>
+      'Erstellt in Norway Explore. Reihenfolge und Zeiten sind Näherungswerte.';
+
+  @override
+  String get gpxFailed => 'Datei konnte nicht geteilt werden';
 }

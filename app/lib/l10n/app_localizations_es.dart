@@ -823,4 +823,14 @@ class LEs extends L {
 
   @override
   String get compassNW => 'NO';
+
+  @override
+  String get gpxExport => 'Exportar como GPX';
+
+  @override
+  String get gpxDescription =>
+      'Creado en Norway Explore. El orden y los tiempos son aproximados.';
+
+  @override
+  String get gpxFailed => 'No se pudo compartir el archivo';
 }

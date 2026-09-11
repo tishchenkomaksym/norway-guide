@@ -1478,6 +1478,24 @@ abstract class L {
   /// In ru, this message translates to:
   /// **'СЗ'**
   String get compassNW;
+
+  /// No description provided for @gpxExport.
+  ///
+  /// In ru, this message translates to:
+  /// **'Сохранить как GPX'**
+  String get gpxExport;
+
+  /// No description provided for @gpxDescription.
+  ///
+  /// In ru, this message translates to:
+  /// **'Создано в Norway Explore. Порядок остановок и время приблизительные.'**
+  String get gpxDescription;
+
+  /// No description provided for @gpxFailed.
+  ///
+  /// In ru, this message translates to:
+  /// **'Не удалось передать файл'**
+  String get gpxFailed;
 }
 
 class _LDelegate extends LocalizationsDelegate<L> {

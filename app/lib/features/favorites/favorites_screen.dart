@@ -3,6 +3,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../core/place_photo.dart';
 import '../../core/categories.dart';
+import '../../core/gpx.dart';
+import '../../core/gpx_share.dart';
 import '../../core/providers.dart';
 import '../../data/database.dart';
 import '../../l10n/app_localizations.dart';
@@ -20,7 +22,27 @@ class FavoritesScreen extends ConsumerWidget {
     final favorites = ref.watch(favoritePlacesProvider);
 
     return Scaffold(
-      appBar: AppBar(title: Text(L.of(context).favoritesTitle)),
+      appBar: AppBar(
+        title: Text(L.of(context).favoritesTitle),
+        actions: [
+          // Избранное уезжает в навигатор набором точек без порядка:
+          // порядка обхода у него нет, и придумывать его не надо.
+          if (favorites.valueOrNull?.isNotEmpty ?? false)
+            IconButton(
+              icon: const Icon(Icons.ios_share),
+              tooltip: L.of(context).gpxExport,
+              onPressed: () => shareGpx(
+                context,
+                fileName: 'norway-explore.gpx',
+                content: GpxBuilder.waypoints(
+                  name: L.of(context).favoritesTitle,
+                  places: favorites.value!.map((f) => f.place).toList(),
+                ),
+                subject: L.of(context).favoritesTitle,
+              ),
+            ),
+        ],
+      ),
       body: favorites.when(
         loading: () => const Center(child: CircularProgressIndicator()),
         error: (e, _) => Center(child: Text('Ошибка: $e')),

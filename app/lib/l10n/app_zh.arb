@@ -325,5 +325,8 @@
   "compassS": "南",
   "compassSW": "西南",
   "compassW": "西",
-  "compassNW": "西北"
+  "compassNW": "西北",
+  "gpxExport": "导出为 GPX",
+  "gpxDescription": "由 Norway Explore 生成。站点顺序与时间均为估算。",
+  "gpxFailed": "无法分享文件"
 }

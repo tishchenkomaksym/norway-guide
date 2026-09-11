@@ -325,5 +325,8 @@
   "compassS": "S",
   "compassSW": "SW",
   "compassW": "W",
-  "compassNW": "NW"
+  "compassNW": "NW",
+  "gpxExport": "Als GPX exportieren",
+  "gpxDescription": "Erstellt in Norway Explore. Reihenfolge und Zeiten sind Näherungswerte.",
+  "gpxFailed": "Datei konnte nicht geteilt werden"
 }

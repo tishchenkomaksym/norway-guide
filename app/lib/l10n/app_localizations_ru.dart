@@ -828,4 +828,14 @@ class LRu extends L {
 
   @override
   String get compassNW => 'СЗ';
+
+  @override
+  String get gpxExport => 'Сохранить как GPX';
+
+  @override
+  String get gpxDescription =>
+      'Создано в Norway Explore. Порядок остановок и время приблизительные.';
+
+  @override
+  String get gpxFailed => 'Не удалось передать файл';
 }

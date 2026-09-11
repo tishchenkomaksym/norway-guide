@@ -46,6 +46,7 @@ APK 129,8 МБ (arm64).
 | Региональные пакеты и экран загрузок | `app/lib/features/downloads/` |
 | Пешие прогулки по городам | `app/lib/features/routes/` |
 | Настройки: язык, автозагрузка, интересы | `app/lib/features/settings/` |
+| GPX-экспорт маршрутов и избранного | `app/lib/core/gpx.dart` |
 | Предложение скачать регион по местоположению | `app/lib/features/downloads/region_offer.dart` |
 
 Подробнее: [[architecture]], [[data-model]].
@@ -117,15 +118,15 @@ Go 1.27.1, Flutter 3.47.2, Java 17 (Temurin), Android SDK 36.
 
 1. Раздача пакетов на Cloudflare R2 — после неё `pack --prune` уберёт
    85 МБ снимков из бандла и вернёт APK в бюджет 40–60 МБ
-2. GPX-экспорт маршрутов (Этап 4)
-3. Ленивая догрузка полных описаний (уровень 2 по §5)
+2. Ленивая догрузка полных описаний (уровень 2 по §5)
+3. Сжатие текстов zstd со словарём
 
 ## Как продолжить работу после перерыва
 
 ```powershell
 cd E:\NorwayTourGuide\app
 flutter analyze              # ожидается: No issues found
-flutter test --concurrency=1 # ожидается: 44 теста, все зелёные
+flutter test --concurrency=1 # ожидается: 52 теста, все зелёные
 flutter run -d chrome        # разработка
 flutter build apk --release --split-per-abi   # сборка под телефон
 ```
@@ -133,7 +134,7 @@ flutter build apk --release --split-per-abi   # сборка под телефо
 **Тесты приходится гонять по файлам.** Общий прогон падает с «did not
 complete» — тестовые изоляты конфликтуют между файлами (предположительно
 на моках `shared_preferences`). Каждый файл по отдельности проходит
-полностью, все 44 теста зелёные:
+полностью, все 52 теста зелёные:
 
 ```powershell
 foreach ($f in Get-ChildItem test\*.dart) { flutter test $f }

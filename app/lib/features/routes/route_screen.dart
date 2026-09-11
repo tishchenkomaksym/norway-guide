@@ -5,6 +5,8 @@ import 'package:flutter/material.dart' hide Route;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../core/categories.dart';
+import '../../core/gpx.dart';
+import '../../core/gpx_share.dart';
 import '../../core/place_photo.dart';
 import '../../core/providers.dart';
 import '../../data/database.dart';
@@ -34,7 +36,28 @@ class RouteScreen extends ConsumerWidget {
     final stops = ref.watch(routeStopsProvider(route.id));
 
     return Scaffold(
-      appBar: AppBar(title: Text(l.routeTitle(cityName))),
+      appBar: AppBar(
+        title: Text(l.routeTitle(cityName)),
+        actions: [
+          // Экспорт доступен, только когда остановки уже прочитаны:
+          // предлагать поделиться пустым файлом незачем.
+          if (stops.valueOrNull?.isNotEmpty ?? false)
+            IconButton(
+              icon: const Icon(Icons.ios_share),
+              tooltip: l.gpxExport,
+              onPressed: () => shareGpx(
+                context,
+                fileName: '$cityName.gpx',
+                content: GpxBuilder.route(
+                  name: l.routeTitle(cityName),
+                  stops: stops.value!,
+                  description: l.gpxDescription,
+                ),
+                subject: l.routeTitle(cityName),
+              ),
+            ),
+        ],
+      ),
       body: stops.when(
         loading: () => const Center(child: CircularProgressIndicator()),
         error: (e, _) => Center(

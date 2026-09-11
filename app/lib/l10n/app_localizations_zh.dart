@@ -774,4 +774,13 @@ class LZh extends L {
 
   @override
   String get compassNW => '西北';
+
+  @override
+  String get gpxExport => '导出为 GPX';
+
+  @override
+  String get gpxDescription => '由 Norway Explore 生成。站点顺序与时间均为估算。';
+
+  @override
+  String get gpxFailed => '无法分享文件';
 }

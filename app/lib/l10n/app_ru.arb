@@ -423,5 +423,8 @@
         "type": "String"
       }
     }
-  }
+  },
+  "gpxExport": "Сохранить как GPX",
+  "gpxDescription": "Создано в Norway Explore. Порядок остановок и время приблизительные.",
+  "gpxFailed": "Не удалось передать файл"
 }

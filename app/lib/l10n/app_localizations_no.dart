@@ -819,4 +819,14 @@ class LNo extends L {
 
   @override
   String get compassNW => 'NV';
+
+  @override
+  String get gpxExport => 'Eksporter som GPX';
+
+  @override
+  String get gpxDescription =>
+      'Laget i Norway Explore. Rekkefølge og tider er omtrentlige.';
+
+  @override
+  String get gpxFailed => 'Kunne ikke dele filen';
 }

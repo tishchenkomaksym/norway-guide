@@ -325,5 +325,8 @@
   "compassS": "S",
   "compassSW": "SV",
   "compassW": "V",
-  "compassNW": "NV"
+  "compassNW": "NV",
+  "gpxExport": "Eksporter som GPX",
+  "gpxDescription": "Laget i Norway Explore. Rekkefølge og tider er omtrentlige.",
+  "gpxFailed": "Kunne ikke dele filen"
 }

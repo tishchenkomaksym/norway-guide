@@ -818,4 +818,14 @@ class LEn extends L {
 
   @override
   String get compassNW => 'NW';
+
+  @override
+  String get gpxExport => 'Export as GPX';
+
+  @override
+  String get gpxDescription =>
+      'Created in Norway Explore. Order of stops and timings are approximate.';
+
+  @override
+  String get gpxFailed => 'Could not share the file';
 }
