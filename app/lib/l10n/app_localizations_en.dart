@@ -942,7 +942,7 @@ class LEn extends L {
 
   @override
   String get alertsSource =>
-      'Official warnings from the Norwegian Meteorological Institute (MET Norway), the source behind yr.no.';
+      'Official warnings: weather from the Norwegian Meteorological Institute (MET Norway), avalanche danger from NVE (varsom.no).';
 
   @override
   String alertsFetched(String time) {

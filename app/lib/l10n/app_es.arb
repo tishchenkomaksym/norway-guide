@@ -358,6 +358,6 @@
   "alertsMore": "{n, plural, =1{1 aviso más} other{{n} avisos más}}",
   "alertsMarine": "en el mar",
   "alertsUntil": "Hasta {time}",
-  "alertsSource": "Avisos oficiales del Instituto Meteorológico de Noruega (MET Norway), la fuente detrás de yr.no.",
+  "alertsSource": "Avisos oficiales: meteorología del Instituto Meteorológico de Noruega (MET Norway), riesgo de aludes de la NVE (varsom.no).",
   "alertsFetched": "Recibido a las {time}"
 }

@@ -955,7 +955,7 @@ class LRu extends L {
 
   @override
   String get alertsSource =>
-      'Официальные предупреждения Норвежского метеорологического института (MET Norway) — того же источника, что стоит за yr.no.';
+      'Официальные предупреждения: погода — Норвежский метеорологический институт (MET Norway), лавинная опасность — NVE (varsom.no).';
 
   @override
   String alertsFetched(String time) {

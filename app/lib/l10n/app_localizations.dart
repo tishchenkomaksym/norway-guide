@@ -1674,7 +1674,7 @@ abstract class L {
   /// No description provided for @alertsSource.
   ///
   /// In ru, this message translates to:
-  /// **'Официальные предупреждения Норвежского метеорологического института (MET Norway) — того же источника, что стоит за yr.no.'**
+  /// **'Официальные предупреждения: погода — Норвежский метеорологический институт (MET Norway), лавинная опасность — NVE (varsom.no).'**
   String get alertsSource;
 
   /// No description provided for @alertsFetched.

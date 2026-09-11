@@ -463,7 +463,7 @@
   "alertsMore": "{n, plural, one{ещё {n} предупреждение} few{ещё {n} предупреждения} many{ещё {n} предупреждений} other{ещё {n} предупреждения}}",
   "alertsMarine": "на море",
   "alertsUntil": "До {time}",
-  "alertsSource": "Официальные предупреждения Норвежского метеорологического института (MET Norway) — того же источника, что стоит за yr.no.",
+  "alertsSource": "Официальные предупреждения: погода — Норвежский метеорологический институт (MET Norway), лавинная опасность — NVE (varsom.no).",
   "alertsFetched": "Получено в {time}",
   "@alertsMore": {
     "placeholders": {

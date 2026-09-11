@@ -358,6 +358,6 @@
   "alertsMore": "{n, plural, =1{1 varsel til} other{{n} varsler til}}",
   "alertsMarine": "til havs",
   "alertsUntil": "Til {time}",
-  "alertsSource": "Offisielle farevarsler fra Meteorologisk institutt, kilden bak yr.no.",
+  "alertsSource": "Offisielle varsler: vær fra Meteorologisk institutt, snøskredfare fra NVE (varsom.no).",
   "alertsFetched": "Hentet {time}"
 }

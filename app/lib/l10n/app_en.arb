@@ -358,6 +358,6 @@
   "alertsMore": "{n, plural, =1{1 more warning} other{{n} more warnings}}",
   "alertsMarine": "at sea",
   "alertsUntil": "Until {time}",
-  "alertsSource": "Official warnings from the Norwegian Meteorological Institute (MET Norway), the source behind yr.no.",
+  "alertsSource": "Official warnings: weather from the Norwegian Meteorological Institute (MET Norway), avalanche danger from NVE (varsom.no).",
   "alertsFetched": "Received at {time}"
 }

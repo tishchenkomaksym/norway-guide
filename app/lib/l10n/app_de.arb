@@ -358,6 +358,6 @@
   "alertsMore": "{n, plural, =1{1 weitere Warnung} other{{n} weitere Warnungen}}",
   "alertsMarine": "auf See",
   "alertsUntil": "Bis {time}",
-  "alertsSource": "Offizielle Warnungen des Norwegischen Meteorologischen Instituts (MET Norway), der Quelle hinter yr.no.",
+  "alertsSource": "Amtliche Warnungen: Wetter vom Norwegischen Meteorologischen Institut (MET Norway), Lawinengefahr von der NVE (varsom.no).",
   "alertsFetched": "Abgerufen um {time}"
 }

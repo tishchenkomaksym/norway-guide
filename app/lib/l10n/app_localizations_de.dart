@@ -948,7 +948,7 @@ class LDe extends L {
 
   @override
   String get alertsSource =>
-      'Offizielle Warnungen des Norwegischen Meteorologischen Instituts (MET Norway), der Quelle hinter yr.no.';
+      'Amtliche Warnungen: Wetter vom Norwegischen Meteorologischen Institut (MET Norway), Lawinengefahr von der NVE (varsom.no).';
 
   @override
   String alertsFetched(String time) {

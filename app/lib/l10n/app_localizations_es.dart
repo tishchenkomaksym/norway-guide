@@ -947,7 +947,7 @@ class LEs extends L {
 
   @override
   String get alertsSource =>
-      'Avisos oficiales del Instituto Meteorológico de Noruega (MET Norway), la fuente detrás de yr.no.';
+      'Avisos oficiales: meteorología del Instituto Meteorológico de Noruega (MET Norway), riesgo de aludes de la NVE (varsom.no).';
 
   @override
   String alertsFetched(String time) {

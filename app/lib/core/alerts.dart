@@ -45,6 +45,16 @@ enum AlertLevel {
   }
 }
 
+/// Откуда пришло предупреждение. Нужен, чтобы подписать источник: человек
+/// должен знать, кому верить и где перепроверить.
+enum AlertSource {
+  /// Метеорологический институт: ветер, дождь, снег, гроза.
+  met,
+
+  /// NVE (Varsom): лавинная опасность в горах.
+  avalanche,
+}
+
 @immutable
 class WeatherAlert {
   const WeatherAlert({
@@ -58,6 +68,7 @@ class WeatherAlert {
     this.endsAt,
     this.web,
     this.marine = false,
+    this.source = AlertSource.met,
   });
 
   final String id;
@@ -77,6 +88,8 @@ class WeatherAlert {
   /// Предупреждение для моря, а не для суши. Турист на берегу не должен
   /// пугаться штормового ветра, объявленного для лодок в открытом море.
   final bool marine;
+
+  final AlertSource source;
 
   bool get isExpired =>
       endsAt != null && endsAt!.isBefore(DateTime.now().toUtc());
@@ -108,6 +121,7 @@ class WeatherAlert {
     'endsAt': endsAt?.toIso8601String(),
     'web': web,
     'marine': marine,
+    'source': source.name,
   };
 
   factory WeatherAlert.fromJson(Map<String, dynamic> json) => WeatherAlert(
@@ -124,6 +138,10 @@ class WeatherAlert {
     endsAt: DateTime.tryParse(json['endsAt'] as String? ?? ''),
     web: json['web'] as String?,
     marine: json['marine'] as bool? ?? false,
+    source: AlertSource.values.firstWhere(
+      (s) => s.name == json['source'],
+      orElse: () => AlertSource.met,
+    ),
   );
 }
 
@@ -169,8 +187,14 @@ final weatherAlertsProvider = FutureProvider<List<WeatherAlert>>((ref) async {
         .where((a) => !a.isExpired)
         .toList();
 
-    await _writeCache(prefs, alerts);
-    return alerts;
+    // Лавины — отдельная служба и отдельный запрос. Объединяем в один
+    // список: человеку всё равно, какое ведомство объявило опасность,
+    // ему важно, что в горах сегодня опасно.
+    final avalanche = await _fetchAvalanche(lat, lon, lang);
+    final all = [...alerts, ...avalanche];
+
+    await _writeCache(prefs, all);
+    return all;
   } catch (_) {
     // Нет сети — показываем то, что успели получить раньше, если оно ещё
     // не истекло. Предупреждение с истёкшим сроком отбрасывается: пугать
@@ -178,6 +202,79 @@ final weatherAlertsProvider = FutureProvider<List<WeatherAlert>>((ref) async {
     return _readCache(prefs);
   }
 });
+
+/// Лавинная опасность от NVE (varsom.no).
+///
+/// Зачем отдельно от погоды. Лавины объявляет не метеоинститут, а
+/// Управление водных ресурсов и энергетики — другое ведомство, другая
+/// шкала, другой API. Для человека это одна и та же опасность, поэтому
+/// в приложении они объединены в один список, но источник у каждого
+/// предупреждения подписан свой.
+///
+/// Работает только зимой и только в горах: летом служба не публикует
+/// прогнозов, и пустой ответ здесь — норма, а не сбой. Приложением
+/// пользуются в основном летом, так что чаще всего этот запрос вернёт
+/// пустоту, и это правильно.
+///
+/// Шкала лавинной опасности европейская, от 1 до 5. Третий уровень
+/// («значительная») — тот, на котором в Норвегии происходит большинство
+/// несчастных случаев: люди считают его умеренным, хотя это не так.
+/// Поэтому 3 и выше показываем как оранжевый, 4–5 как красный.
+Future<List<WeatherAlert>> _fetchAvalanche(
+  double lat,
+  double lon,
+  String lang,
+) async {
+  try {
+    // API различает языки числом: 1 — норвежский, 2 — английский.
+    final langKey = lang == 'no' ? 1 : 2;
+    final today = DateTime.now();
+    final from = _date(today);
+    final to = _date(today.add(const Duration(days: 1)));
+
+    final uri = Uri.parse(
+      'https://api01.nve.no/hydrology/forecast/avalanche/v6.3.0/api'
+      '/AvalancheWarningByCoordinates/Simple'
+      '/${lat.toStringAsFixed(4)}/${lon.toStringAsFixed(4)}'
+      '/$langKey/$from/$to',
+    );
+    final response = await http
+        .get(uri, headers: {'User-Agent': _userAgent})
+        .timeout(const Duration(seconds: 10));
+    if (response.statusCode != 200) return const [];
+
+    final list = jsonDecode(utf8.decode(response.bodyBytes)) as List<dynamic>;
+    return list
+        .map((e) => e as Map<String, dynamic>)
+        .where((w) => (w['DangerLevel'] as int? ?? 0) >= 2)
+        .map((w) {
+          final level = w['DangerLevel'] as int? ?? 0;
+          return WeatherAlert(
+            id: 'avalanche-${w['RegId']}',
+            event: 'Avalanche danger $level/5',
+            area: w['RegionName'] as String? ?? '',
+            level: level >= 4
+                ? AlertLevel.red
+                : level >= 3
+                ? AlertLevel.orange
+                : AlertLevel.yellow,
+            description: w['MainText'] as String? ?? '',
+            endsAt: DateTime.tryParse(w['ValidTo'] as String? ?? ''),
+            web: 'https://www.varsom.no/',
+            source: AlertSource.avalanche,
+          );
+        })
+        .toList();
+  } catch (_) {
+    // Лавинная служба недоступна — это не повод терять погодные
+    // предупреждения, которые уже получены.
+    return const [];
+  }
+}
+
+String _date(DateTime value) =>
+    '${value.year}-${value.month.toString().padLeft(2, '0')}'
+    '-${value.day.toString().padLeft(2, '0')}';
 
 /// Требование лицензии MET: запросы обязаны представляться.
 const _userAgent =

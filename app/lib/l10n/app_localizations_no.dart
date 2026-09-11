@@ -942,7 +942,7 @@ class LNo extends L {
 
   @override
   String get alertsSource =>
-      'Offisielle farevarsler fra Meteorologisk institutt, kilden bak yr.no.';
+      'Offisielle varsler: vær fra Meteorologisk institutt, snøskredfare fra NVE (varsom.no).';
 
   @override
   String alertsFetched(String time) {

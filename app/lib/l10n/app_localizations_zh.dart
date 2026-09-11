@@ -889,7 +889,8 @@ class LZh extends L {
   }
 
   @override
-  String get alertsSource => '来自挪威气象研究所（MET Norway）的官方预警，也是 yr.no 的数据来源。';
+  String get alertsSource =>
+      '官方预警：天气来自挪威气象研究所（MET Norway），雪崩风险来自 NVE（varsom.no）。';
 
   @override
   String alertsFetched(String time) {

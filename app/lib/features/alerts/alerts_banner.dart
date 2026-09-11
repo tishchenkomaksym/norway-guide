@@ -40,10 +40,11 @@ class AlertsBanner extends ConsumerWidget {
           padding: const EdgeInsets.fromLTRB(16, 10, 12, 10),
           child: Row(
             children: [
-              Icon(
-                top.marine ? Icons.sailing : Icons.warning_amber_rounded,
-                color: _foreground(top.level),
-              ),
+              Icon(switch (top.source) {
+                AlertSource.avalanche => Icons.terrain,
+                AlertSource.met when top.marine => Icons.sailing,
+                AlertSource.met => Icons.warning_amber_rounded,
+              }, color: _foreground(top.level)),
               const SizedBox(width: 12),
               Expanded(
                 child: Column(
@@ -224,15 +225,37 @@ class _AlertCard extends StatelessWidget {
                 ),
               ),
             ],
-            if (alert.endsAt != null) ...[
-              const SizedBox(height: 10),
-              Text(
-                l.alertsUntil(_until(alert.endsAt!)),
-                style: theme.textTheme.labelSmall?.copyWith(
-                  color: theme.colorScheme.outline,
+            const SizedBox(height: 10),
+            // Кто объявил. Ведомства разные — погода от метеоинститута,
+            // лавины от NVE, — и человек должен знать, кому верить и где
+            // перепроверить.
+            Row(
+              children: [
+                Text(
+                  switch (alert.source) {
+                    AlertSource.met => 'MET Norway',
+                    AlertSource.avalanche => 'NVE · varsom.no',
+                  },
+                  style: theme.textTheme.labelSmall?.copyWith(
+                    color: theme.colorScheme.outline,
+                  ),
                 ),
-              ),
-            ],
+                if (alert.endsAt != null) ...[
+                  Text(
+                    ' · ',
+                    style: theme.textTheme.labelSmall?.copyWith(
+                      color: theme.colorScheme.outline,
+                    ),
+                  ),
+                  Text(
+                    l.alertsUntil(_until(alert.endsAt!)),
+                    style: theme.textTheme.labelSmall?.copyWith(
+                      color: theme.colorScheme.outline,
+                    ),
+                  ),
+                ],
+              ],
+            ),
           ],
         ),
       ),
