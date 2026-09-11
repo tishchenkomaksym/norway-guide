@@ -184,6 +184,48 @@ class AppDatabase extends _$AppDatabase {
   @override
   int get schemaVersion => contentSchemaVersion;
 
+  /// Пользовательская таблица создаётся отдельно от контентных.
+  ///
+  /// Контентные таблицы приходят готовыми из пайплайна, и в обычной жизни
+  /// drift их не создаёт вовсе: версия файла совпадает с ожидаемой. Создание
+  /// срабатывает только на пустой базе — в тестах и при отсутствии пакета
+  /// в assets.
+  ///
+  /// А вот `favorites` обязана оказаться в подключённом файле `userdata`,
+  /// а не рядом с контентом: иначе обновление пакета её сотрёт. Обычный
+  /// `CREATE TABLE` без префикса всегда создаёт таблицу в main, поэтому
+  /// префикс подставляется явно — и только если файл действительно
+  /// подключён. В тестах с базой в памяти подключения нет, и таблица
+  /// создаётся там же, что правильно.
+  ///
+  /// Первая версия этого кода полагалась на то, что SQLite сам найдёт
+  /// таблицу в подключённой базе. Так и было бы — но drift успевал раньше
+  /// создать пустую favorites в main, и записи уходили туда. Отловил тест
+  /// user_data_test: файл user.sqlite оставался нулевого размера.
+  @override
+  MigrationStrategy get migration => MigrationStrategy(
+        onCreate: (m) async {
+          for (final table in allTables) {
+            if (table.actualTableName == 'favorites') continue;
+            await m.createTable(table);
+          }
+        },
+        beforeOpen: (details) async {
+          final attached = await customSelect('PRAGMA database_list').get();
+          final hasUserData = attached.any(
+            (row) => row.read<String>('name') == 'userdata',
+          );
+          final prefix = hasUserData ? 'userdata.' : '';
+          await customStatement(
+            'CREATE TABLE IF NOT EXISTS ${prefix}favorites ('
+            'place_id TEXT NOT NULL PRIMARY KEY, '
+            'added_at INTEGER NOT NULL, '
+            'visited INTEGER NOT NULL DEFAULT 0, '
+            'user_note TEXT)',
+          );
+        },
+      );
+
   /// Цепочка подстановки языков по §8.4 спеки: язык пользователя → en → no →
   /// имя из OSM как есть. Приложение никогда не показывает пустой экран.
   ///

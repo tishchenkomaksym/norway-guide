@@ -10,58 +10,100 @@ import 'database.dart' show AppDatabase;
 
 /// Подключение на iOS, Android и десктопе.
 ///
-/// База не создаётся пустой, а копируется готовой из assets: содержимое
-/// готовит Go-пайплайн, приложение его только читает.
+/// Файлов два, и это принципиально:
 ///
-/// На iOS файл нужно исключать из резервной копии iCloud — иначе туда
-/// поедут гигабайты контента, и Apple это отдельно проверяет при ревью.
-/// Пока база маленькая, но пометку надо ставить с самого начала.
+/// - `content.sqlite` — контент из пайплайна, только на чтение. При выходе
+///   новой версии данных заменяется целиком.
+/// - `user.sqlite` — избранное, заметки, отметки «был здесь». Создаётся
+///   приложением и не трогается никогда.
+///
+/// Второй подключается к первому через ATTACH, поэтому для drift это одна
+/// база: запросы могут соединять избранное с местами, как раньше.
+///
+/// Почему не одна база. Контентный пакет заменяется целиком, и всё, что
+/// лежит рядом с ним, при замене исчезает. Раньше отметки приходилось
+/// вычитывать перед заменой и возвращать обратно — работало, но каждое
+/// обновление было шансом потерять то, что человек создал сам и что
+/// не восстанавливается ничем.
+///
+/// На iOS `content.sqlite` нужно исключать из резервной копии iCloud —
+/// туда не должны уезжать гигабайты контента, Apple это проверяет при
+/// ревью. А вот `user.sqlite` в бэкап как раз должен попадать.
 Future<QueryExecutor> openConnection() async {
   return LazyDatabase(() async {
     final dir = await getApplicationDocumentsDirectory();
-    final file = File(p.join(dir.path, 'nordguide.sqlite'));
+    final content = File(p.join(dir.path, 'nordguide.sqlite'));
+    final user = File(p.join(dir.path, 'user.sqlite'));
 
-    await _ensureContent(file);
+    final rescued = await _ensureContent(content);
+    await _ensureUser(user, rescued);
 
     return NativeDatabase.createInBackground(
-      file,
-      setup: (db) => db.execute('PRAGMA foreign_keys = ON'),
+      content,
+      setup: (db) {
+        db.execute('PRAGMA foreign_keys = ON');
+        // ATTACH под именем main нельзя, поэтому пользовательские таблицы
+        // видны как user.favorites. Схема drift знает их без префикса,
+        // и чтобы запросы не переписывать, файл подключается под именем,
+        // совпадающим с ожидаемым: drift ищет favorites в main, а SQLite
+        // разрешает неквалифицированное имя по всем подключённым базам,
+        // если в main такой таблицы нет.
+        db.execute("ATTACH DATABASE ? AS userdata", [user.path]);
+      },
     );
   });
 }
 
-/// Разворачивает базу из assets и обновляет её при выходе новой версии.
+/// Разворачивает контентную базу и обновляет её при выходе новой версии.
 ///
-/// Раньше файл копировался только когда его ещё нет. Это тихо ломало любое
-/// обновление контента: на устройстве навсегда оставалась база от первой
-/// установки. Топ-20 не появился на телефоне именно поэтому — колонки
-/// `top_rank` в старом файле не было, а новый файл туда не попадал.
-///
-/// Версия сравнивается по `PRAGMA user_version`, которую проставляет
-/// пайплайн (`packer.SchemaVersion`).
-///
-/// Обновление контента не должно стирать избранное, а оно пока лежит в том
-/// же файле, что и контент. Поэтому перед заменой отметки вычитываются
-/// и возвращаются обратно. Правильное решение — отдельный файл БД для
-/// пользовательских данных через ATTACH; до него избранное переносится
-/// руками, и терять его нельзя.
-Future<void> _ensureContent(File file) async {
+/// Возвращает отметки, спасённые из старой базы: до разделения файлов
+/// избранное хранилось вместе с контентом, и при первом запуске новой
+/// версии его нужно перенести в user.sqlite.
+Future<List<List<Object?>>> _ensureContent(File file) async {
   if (!await file.exists()) {
     await _copyFromAssets(file);
-    return;
+    return const [];
   }
 
   final current = await _readUserVersion(file);
-  if (current == AppDatabase.contentSchemaVersion) return;
+  if (current == AppDatabase.contentSchemaVersion) return const [];
 
-  final saved = await _readFavorites(file);
-  final replaced = await _copyFromAssets(file);
-  if (replaced && saved.isNotEmpty) {
-    await _restoreFavorites(file, saved);
+  // Старая база могла быть ещё «слитной» — с таблицей favorites внутри.
+  // Забираем отметки до замены: другого их источника нет.
+  final saved = await _readLegacyFavorites(file);
+  await _copyFromAssets(file);
+  return saved;
+}
+
+/// Создаёт пользовательский файл и переносит в него спасённые отметки.
+Future<void> _ensureUser(File file, List<List<Object?>> rescued) async {
+  final existed = await file.exists();
+
+  await _withRawDatabase(file, (executor) async {
+    await executor.runCustom(
+      'CREATE TABLE IF NOT EXISTS favorites ('
+      'place_id TEXT PRIMARY KEY, added_at INTEGER NOT NULL, '
+      'visited INTEGER NOT NULL DEFAULT 0, user_note TEXT)',
+      const [],
+    );
+    if (rescued.isNotEmpty) {
+      for (final row in rescued) {
+        await executor.runInsert(
+          'INSERT OR IGNORE INTO favorites '
+          '(place_id, added_at, visited, user_note) VALUES (?, ?, ?, ?)',
+          row,
+        );
+      }
+    }
+    return null;
+  }, null);
+
+  if (!existed) {
+    // Отдельная пометка в логе не нужна: файл создаётся один раз и молча.
   }
 }
 
-/// Копирует базу из assets поверх файла. Возвращает false, если ассета нет.
+/// Копирует контентную базу из assets поверх файла.
 Future<bool> _copyFromAssets(File file) async {
   try {
     final data = await rootBundle.load('assets/db/content.sqlite');
@@ -81,9 +123,8 @@ Future<bool> _copyFromAssets(File file) async {
 /// Пользователь исполнителя, который ничего не мигрирует.
 ///
 /// Нужен, чтобы открыть файл и выполнить пару запросов, не втягивая схему
-/// drift: если открыть старую базу как [AppDatabase], drift увидит
-/// несовпадение версий и полезет мигрировать таблицы, которые мы через
-/// секунду заменим целиком.
+/// drift: иначе drift увидит несовпадение версий и полезет мигрировать
+/// таблицы, которые через секунду будут заменены целиком.
 ///
 /// Прямой `package:sqlite3` здесь не годится, хотя выглядит проще: его
 /// импорт роняет тестовый изолят на загрузке, и все тесты файла начинают
@@ -123,7 +164,11 @@ Future<int> _readUserVersion(File file) {
   }, -1);
 }
 
-Future<List<List<Object?>>> _readFavorites(File file) {
+/// Читает избранное из «слитной» базы прежних версий.
+///
+/// Возвращает пустой список, если таблицы нет — значит база уже новая
+/// и переносить нечего.
+Future<List<List<Object?>>> _readLegacyFavorites(File file) {
   return _withRawDatabase(file, (executor) async {
     final rows = await executor.runSelect(
       'SELECT place_id, added_at, visited, user_note FROM favorites',
@@ -134,22 +179,5 @@ Future<List<List<Object?>>> _readFavorites(File file) {
           (r) => [r['place_id'], r['added_at'], r['visited'], r['user_note']],
         )
         .toList();
-    // Таблицы ещё нет (первая установка) — переносить нечего, и это
-    // не повод отменять обновление контента.
   }, const <List<Object?>>[]);
-}
-
-Future<void> _restoreFavorites(File file, List<List<Object?>> saved) async {
-  await _withRawDatabase(file, (executor) async {
-    for (final row in saved) {
-      await executor.runInsert(
-        'INSERT OR REPLACE INTO favorites '
-        '(place_id, added_at, visited, user_note) VALUES (?, ?, ?, ?)',
-        row,
-      );
-    }
-    return null;
-    // Не удалось вернуть отметки — приложение всё равно должно открыться
-    // с новым контентом.
-  }, null);
 }
