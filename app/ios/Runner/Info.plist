@@ -66,5 +66,29 @@
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
+	<!-- Геолокация.
+	     Без этих строк iOS не показывает запрос разрешения вовсе, и
+	     определение молча не работает: приложение выглядит сломанным,
+	     хотя код верен. Ровно эта ошибка уже случилась на Android.
+
+	     Текст видит человек в системном диалоге, и он обязан объяснять
+	     пользу, а не просить доступ. Apple отклоняет приложения с
+	     формулировками вида «нужен доступ к геопозиции».
+
+	     Фоновую геолокацию (NSLocationAlwaysUsageDescription) не просим:
+	     приложение работает, только когда открыто, а лишнее разрешение
+	     пугает людей и требует отдельного обоснования при ревью. -->
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>Shows places around you and the distance to them. Works offline — your location never leaves the phone.</string>
+
+	<!-- Приложение полностью офлайновое, но пакеты фотографий качаются
+	     по HTTPS. Произвольный HTTP не разрешаем: исключение для
+	     локальной отладки живёт только в Android-сборке. -->
+	<key>NSAppTransportSecurity</key>
+	<dict>
+		<key>NSAllowsArbitraryLoads</key>
+		<false/>
+	</dict>
+
 </dict>
 </plist>

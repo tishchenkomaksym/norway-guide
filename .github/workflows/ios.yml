@@ -1,0 +1,88 @@
+# Сборка iOS-приложения для проверки на устройстве.
+#
+# Зачем это здесь. Xcode существует только под macOS, поэтому собрать
+# iOS-версию на машине разработчика (Windows) физически невозможно —
+# это требование Apple, а не настройка, которую можно обойти. Сборка
+# запускается на арендованном macOS-раннере GitHub.
+#
+# Что получается на выходе: .ipa БЕЗ подписи. Установить его прямо
+# с сайта нельзя — Apple разрешает ставить на iPhone только приложения,
+# подписанные сертификатом разработчика. Как подписать своим бесплатным
+# Apple ID, описано в docs/ios-testing.md.
+#
+# Запуск: вручную, кнопкой в разделе Actions. Автоматически на каждый
+# коммит не вешаем: минуты macOS-раннера тратятся в десятикратном
+# размере от обычных, и очередь сборок съела бы месячный лимит за день.
+
+name: iOS build
+
+on:
+  workflow_dispatch:
+    inputs:
+      packs_url:
+        description: 'Адрес раздачи пакетов фотографий'
+        required: false
+        default: 'https://packs.nordguide.example/v1'
+
+jobs:
+  build:
+    runs-on: macos-14
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+          cache: true
+
+      - name: Версия Flutter
+        run: flutter --version
+
+      - name: Зависимости
+        working-directory: app
+        run: flutter pub get
+
+      - name: Локализация и кодогенерация
+        working-directory: app
+        run: |
+          flutter gen-l10n
+          dart run build_runner build
+
+      # Проверки идут до сборки: собирать сломанное на платном раннере
+      # бессмысленно.
+      - name: Анализ
+        working-directory: app
+        run: flutter analyze --no-pub
+
+      # Тесты гоняются по файлам: общий прогон падает с «did not complete»
+      # из-за конфликта изолятов между файлами (см. docs/status.md).
+      - name: Тесты
+        working-directory: app
+        run: |
+          for f in test/*.dart; do
+            echo "== $f"
+            flutter test "$f" --no-pub
+          done
+
+      - name: Сборка без подписи
+        working-directory: app
+        run: |
+          flutter build ios --release --no-codesign \
+            --dart-define=PACKS_URL=${{ inputs.packs_url }}
+
+      # Ручная упаковка в .ipa: flutter build ipa требует подписи,
+      # а нам нужен именно неподписанный файл под переподпись.
+      - name: Упаковка в .ipa
+        working-directory: app
+        run: |
+          mkdir -p Payload
+          cp -R build/ios/iphoneos/Runner.app Payload/
+          zip -qr NorwayExplore-unsigned.ipa Payload
+          ls -lh NorwayExplore-unsigned.ipa
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: NorwayExplore-ios-unsigned
+          path: app/NorwayExplore-unsigned.ipa
+          retention-days: 14

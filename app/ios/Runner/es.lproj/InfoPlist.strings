@@ -1,0 +1,5 @@
+/* Текст системного запроса геолокации.
+   Его видит человек в диалоге iOS, поэтому он объясняет пользу,
+   а не просит доступ: Apple отклоняет формулировки вида
+   «приложению нужен доступ к геопозиции». */
+"NSLocationWhenInUseUsageDescription" = "Muestra los lugares que tienes cerca y a qué distancia están. Funciona sin conexión: tu ubicación nunca sale del teléfono.";
