@@ -32,8 +32,6 @@ class _ProfileSheet extends ConsumerStatefulWidget {
 }
 
 class _ProfileSheetState extends ConsumerState<_ProfileSheet> {
-  int _step = 0;
-
   @override
   Widget build(BuildContext context) {
     final profile = ref.watch(profileProvider);
@@ -47,9 +45,7 @@ class _ProfileSheetState extends ConsumerState<_ProfileSheet> {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
-        children: _step == 0
-            ? _interestsStep(context, profile)
-            : _timeStep(context),
+        children: _interestsStep(context, profile),
       ),
     );
   }
@@ -88,52 +84,27 @@ class _ProfileSheetState extends ConsumerState<_ProfileSheet> {
           ),
           const Spacer(),
           FilledButton(
-            onPressed: () => setState(() => _step = 1),
-            child: Text(L.of(context).profileNext),
+            onPressed: () {
+              Navigator.of(context).pop();
+              _confirm(context);
+            },
+            child: Text(L.of(context).profileDoneButton),
           ),
         ],
       ),
     ];
   }
 
-  List<Widget> _timeStep(BuildContext context) {
-    return [
-      Text(
-        L.of(context).profileWhen,
-        style: Theme.of(context).textTheme.titleLarge,
-      ),
-      const SizedBox(height: 4),
-      Text(
-        L.of(context).profileWhenDetail,
-        style: Theme.of(context).textTheme.bodySmall,
-      ),
-      const SizedBox(height: 16),
-      for (final entry in {
-        TravelTime.now: L.of(context).profileNow,
-        TravelTime.soon: L.of(context).profileSoon,
-        TravelTime.browsing: L.of(context).profileBrowsing,
-      }.entries)
-        Padding(
-          padding: const EdgeInsets.only(bottom: 8),
-          child: SizedBox(
-            width: double.infinity,
-            child: OutlinedButton(
-              onPressed: () {
-                ref.read(profileProvider.notifier).setTravelTime(entry.key);
-                Navigator.of(context).pop();
-                _confirm(context);
-              },
-              child: Text(entry.value),
-            ),
-          ),
-        ),
-      const SizedBox(height: 4),
-      TextButton(
-        onPressed: () => Navigator.of(context).pop(),
-        child: Text(L.of(context).profileSkip),
-      ),
-    ];
-  }
+  // Второго шага с вопросом «когда едете» больше нет.
+  //
+  // Он ничего не давал выдаче: веса профиля считаются по интересам, а срок
+  // поездки нигде в ранжировании не участвовал. Зато он превращал короткий
+  // вопрос в анкету из двух экранов — ровно то, чего мы хотели избежать,
+  // убирая опрос со старта приложения.
+  //
+  // Поле TravelTime в профиле пока остаётся: оно сохранено у тех, кто уже
+  // отвечал, и пригодится, когда появятся сезонные подборки. Спрашивать
+  // его снова будем только если появится, ради чего.
 
   /// После ответа выдача должна измениться заметно — иначе непонятно, зачем
   /// спрашивали.

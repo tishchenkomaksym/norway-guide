@@ -280,5 +280,6 @@
   "mostVisitedNote": "Die Reihenfolge wurde von Hand zusammengestellt: nach Besucherzahlen, UNESCO-Status und Bekanntheit. Wo eine Besucherzahl steht, finden Sie Jahr und Quelle auf der Seite des Ortes.",
   "unescoShort": "UNESCO",
   "photoCount": "{n, plural, =1{1 Foto} other{{n} Fotos}}",
-  "visitorsPerYear": "Etwa {n} Besucher pro Jahr ({year})"
+  "visitorsPerYear": "Etwa {n} Besucher pro Jahr ({year})",
+  "profileDoneButton": "Fertig"
 }

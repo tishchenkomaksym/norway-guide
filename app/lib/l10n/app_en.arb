@@ -280,5 +280,6 @@
   "mostVisitedNote": "The order is compiled by hand from visitor numbers, UNESCO status and how widely a place is known. Where a visitor count is shown, its year and source are given in the place's card.",
   "unescoShort": "UNESCO",
   "photoCount": "{n, plural, =1{1 photo} other{{n} photos}}",
-  "visitorsPerYear": "About {n} visitors a year ({year})"
+  "visitorsPerYear": "About {n} visitors a year ({year})",
+  "profileDoneButton": "Done"
 }

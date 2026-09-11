@@ -644,4 +644,7 @@ class LDe extends L {
 
     return 'Etwa $nString Besucher pro Jahr ($year)';
   }
+
+  @override
+  String get profileDoneButton => 'Fertig';
 }

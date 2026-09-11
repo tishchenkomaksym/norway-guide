@@ -605,4 +605,7 @@ class LZh extends L {
 
     return '每年约 $nString 名访客（$year）';
   }
+
+  @override
+  String get profileDoneButton => '完成';
 }

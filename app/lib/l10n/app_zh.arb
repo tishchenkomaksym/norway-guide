@@ -280,5 +280,6 @@
   "mostVisitedNote": "排序由人工整理，依据参观人数、联合国教科文组织名录状态和知名度。若显示参观人数，年份与来源见地点详情页。",
   "unescoShort": "联合国教科文",
   "photoCount": "{n, plural, other{{n} 张照片}}",
-  "visitorsPerYear": "每年约 {n} 名访客（{year}）"
+  "visitorsPerYear": "每年约 {n} 名访客（{year}）",
+  "profileDoneButton": "完成"
 }

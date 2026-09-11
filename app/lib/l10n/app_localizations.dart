@@ -1208,6 +1208,12 @@ abstract class L {
   /// In ru, this message translates to:
   /// **'Около {n} посетителей в год ({year})'**
   String visitorsPerYear(int n, String year);
+
+  /// No description provided for @profileDoneButton.
+  ///
+  /// In ru, this message translates to:
+  /// **'Готово'**
+  String get profileDoneButton;
 }
 
 class _LDelegate extends LocalizationsDelegate<L> {

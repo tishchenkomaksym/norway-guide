@@ -642,4 +642,7 @@ class LRu extends L {
 
     return 'Около $nString посетителей в год ($year)';
   }
+
+  @override
+  String get profileDoneButton => 'Готово';
 }

@@ -639,4 +639,7 @@ class LNo extends L {
 
     return 'Omtrent $nString besøkende i året ($year)';
   }
+
+  @override
+  String get profileDoneButton => 'Ferdig';
 }

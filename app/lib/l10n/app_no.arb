@@ -280,5 +280,6 @@
   "mostVisitedNote": "Rekkefølgen er satt sammen manuelt ut fra besøkstall, UNESCO-status og hvor kjent stedet er. Der et besøkstall vises, står år og kilde i stedets kort.",
   "unescoShort": "UNESCO",
   "photoCount": "{n, plural, =1{1 bilde} other{{n} bilder}}",
-  "visitorsPerYear": "Omtrent {n} besøkende i året ({year})"
+  "visitorsPerYear": "Omtrent {n} besøkende i året ({year})",
+  "profileDoneButton": "Ferdig"
 }

@@ -643,4 +643,7 @@ class LEs extends L {
 
     return 'Unos $nString visitantes al año ($year)';
   }
+
+  @override
+  String get profileDoneButton => 'Listo';
 }

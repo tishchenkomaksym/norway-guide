@@ -31,14 +31,27 @@ class NearbyScreen extends ConsumerStatefulWidget {
 class _NearbyScreenState extends ConsumerState<NearbyScreen> {
   bool _askedOnce = false;
 
-  /// Спрашиваем город один раз при старте, если положение так и не
-  /// определилось. Повторно не пристаём — менять его можно кнопкой в шапке.
+  /// Спрашиваем город один раз при старте — но только у того, кто сам
+  /// отказал в доступе к геолокации.
+  ///
+  /// Раньше окно выскакивало при любой неудаче: выключенная служба,
+  /// потерянный сигнал, ещё не отвеченный системный запрос. Человек,
+  /// у которого GPS работает, видел вопрос «где вы?» на ровном месте,
+  /// а через секунду положение определялось само.
+  ///
+  /// Отказ в доступе — единственный случай, когда координаты взять
+  /// действительно неоткуда, и спросить город осмысленно.
   void _askLocationIfNeeded() {
     if (_askedOnce) return;
     final gps = ref.read(positionProvider);
     if (gps.isLoading) return;
     if (ref.read(mockPositionProvider) != null) return;
     if (gps.valueOrNull?.isOk ?? false) return;
+
+    final problem = gps.valueOrNull?.problem;
+    final refused = problem == LocationProblem.denied ||
+        problem == LocationProblem.deniedForever;
+    if (!refused) return;
 
     _askedOnce = true;
     WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -65,6 +78,10 @@ class _NearbyScreenState extends ConsumerState<NearbyScreen> {
     final mock = ref.watch(mockPositionProvider);
     final hasPosition = mock != null || (position.valueOrNull?.isOk ?? false);
 
+    final problem = position.valueOrNull?.problem;
+    final canPickCity = problem == LocationProblem.denied ||
+        problem == LocationProblem.deniedForever;
+
     return Scaffold(
       appBar: AppBar(
         title: Text(mock == null
@@ -87,11 +104,16 @@ class _NearbyScreenState extends ConsumerState<NearbyScreen> {
           ),
           // Здесь кнопка нужнее всего: этот экран открывают в пути.
           const EmergencyButton(),
-          IconButton(
-            icon: const Icon(Icons.edit_location_alt),
-            tooltip: L.of(context).setCityTooltip,
-            onPressed: () => showLocationPicker(context, ref),
-          ),
+          // Кнопка выбора города показывается, только когда геолокации
+          // нет по вине отказа или когда город уже выбран вручную —
+          // чтобы его можно было сменить. При работающем GPS она лишняя:
+          // приложение и так знает, где человек находится.
+          if (canPickCity || mock != null)
+            IconButton(
+              icon: const Icon(Icons.edit_location_alt),
+              tooltip: L.of(context).setCityTooltip,
+              onPressed: () => showLocationPicker(context, ref),
+            ),
           IconButton(
             icon: const Icon(Icons.my_location),
             tooltip: L.of(context).useGpsTooltip,
@@ -350,6 +372,11 @@ class _NoLocationBanner extends ConsumerWidget {
       null => (l.locationUnknown, false),
     };
 
+    // Город вручную предлагаем только тому, кто отказал в доступе:
+    // у остальных геолокация починится включением службы или повтором.
+    final canPickCity = problem == LocationProblem.denied ||
+        problem == LocationProblem.deniedForever;
+
     return Material(
       color: scheme.secondaryContainer,
       child: Padding(
@@ -372,14 +399,26 @@ class _NoLocationBanner extends ConsumerWidget {
             ),
             Row(
               children: [
-                // Выбор города первым: он работает всегда, а разрешения
-                // и настройки — только иногда.
-                TextButton.icon(
-                  style: compact,
-                  icon: const Icon(Icons.edit_location_alt, size: 16),
-                  label: Text(l.locSetCity),
-                  onPressed: () => showLocationPicker(context, ref),
-                ),
+                // Ручной выбор города — запасной путь, а не равноправный.
+                //
+                // Он появляется только когда человек сам отказал в доступе
+                // к геолокации: тогда автоматически определить место
+                // невозможно, и выбор города — единственный способ увидеть
+                // хоть что-то осмысленное.
+                //
+                // При выключенной в системе службе или временном сбое его
+                // нет намеренно: предлагать вбивать город вручную там, где
+                // достаточно включить геолокацию или повторить попытку —
+                // значит уводить человека в худший вариант. Координаты
+                // города грубее показаний GPS, и расстояния до мест
+                // считаются от центра населённого пункта.
+                if (canPickCity)
+                  TextButton.icon(
+                    style: compact,
+                    icon: const Icon(Icons.edit_location_alt, size: 16),
+                    label: Text(l.locSetCity),
+                    onPressed: () => showLocationPicker(context, ref),
+                  ),
                 TextButton.icon(
                   style: compact,
                   icon: const Icon(Icons.refresh, size: 16),
