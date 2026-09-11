@@ -424,7 +424,14 @@
       }
     }
   },
-  "gpxExport": "Сохранить как GPX",
+  "gpxExport": "Взять с собой",
   "gpxDescription": "Создано в Norway Explore. Порядок остановок и время приблизительные.",
-  "gpxFailed": "Не удалось передать файл"
+  "gpxFailed": "Не удалось передать файл",
+  "exportSheetTitle": "Взять маршрут с собой",
+  "exportSheetWhat": "Сохраняет остановки файлом, который откроют другие приложения и проведут вас по точкам. Наш путеводитель показывает только порядок обхода, он не ведёт по дороге.",
+  "exportSheetApps": "Навигаторы: OsmAnd, Komoot, Gaia GPS, Organic Maps",
+  "exportSheetWatches": "Спортивные часы: Garmin, Suunto, Polar",
+  "exportSheetNot": "В файле точки, а не дорога. Путь между ними навигатор проложит сам.",
+  "exportSheetSend": "Отправить файл",
+  "exportSheetCancel": "Отмена"
 }

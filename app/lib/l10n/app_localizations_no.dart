@@ -821,7 +821,7 @@ class LNo extends L {
   String get compassNW => 'NV';
 
   @override
-  String get gpxExport => 'Eksporter som GPX';
+  String get gpxExport => 'Ta med deg';
 
   @override
   String get gpxDescription =>
@@ -829,4 +829,28 @@ class LNo extends L {
 
   @override
   String get gpxFailed => 'Kunne ikke dele filen';
+
+  @override
+  String get exportSheetTitle => 'Ta turen med deg';
+
+  @override
+  String get exportSheetWhat =>
+      'Lagrer stoppene som en fil andre apper kan åpne og lede deg etter — guiden vår viser bare rekkefølgen, den navigerer ikke.';
+
+  @override
+  String get exportSheetApps =>
+      'Navigasjonsapper: OsmAnd, Komoot, Gaia GPS, Organic Maps';
+
+  @override
+  String get exportSheetWatches => 'Sportsklokker: Garmin, Suunto, Polar';
+
+  @override
+  String get exportSheetNot =>
+      'Filen inneholder punkter, ikke en vei. Navigatoren finner veien mellom dem selv.';
+
+  @override
+  String get exportSheetSend => 'Send fil';
+
+  @override
+  String get exportSheetCancel => 'Avbryt';
 }

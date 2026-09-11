@@ -826,7 +826,7 @@ class LDe extends L {
   String get compassNW => 'NW';
 
   @override
-  String get gpxExport => 'Als GPX exportieren';
+  String get gpxExport => 'Mitnehmen';
 
   @override
   String get gpxDescription =>
@@ -834,4 +834,28 @@ class LDe extends L {
 
   @override
   String get gpxFailed => 'Datei konnte nicht geteilt werden';
+
+  @override
+  String get exportSheetTitle => 'Route mitnehmen';
+
+  @override
+  String get exportSheetWhat =>
+      'Speichert die Stationen als Datei, die andere Apps öffnen und als Führung nutzen können — unser Reiseführer zeigt nur die Reihenfolge, er navigiert nicht.';
+
+  @override
+  String get exportSheetApps =>
+      'Navigations-Apps: OsmAnd, Komoot, Gaia GPS, Organic Maps';
+
+  @override
+  String get exportSheetWatches => 'Sportuhren: Garmin, Suunto, Polar';
+
+  @override
+  String get exportSheetNot =>
+      'Die Datei enthält Punkte, keinen Weg. Den Weg dazwischen sucht Ihr Navigationsgerät selbst.';
+
+  @override
+  String get exportSheetSend => 'Datei senden';
+
+  @override
+  String get exportSheetCancel => 'Abbrechen';
 }

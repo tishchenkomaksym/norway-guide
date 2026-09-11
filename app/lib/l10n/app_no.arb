@@ -326,7 +326,14 @@
   "compassSW": "SV",
   "compassW": "V",
   "compassNW": "NV",
-  "gpxExport": "Eksporter som GPX",
+  "gpxExport": "Ta med deg",
   "gpxDescription": "Laget i Norway Explore. Rekkefølge og tider er omtrentlige.",
-  "gpxFailed": "Kunne ikke dele filen"
+  "gpxFailed": "Kunne ikke dele filen",
+  "exportSheetTitle": "Ta turen med deg",
+  "exportSheetWhat": "Lagrer stoppene som en fil andre apper kan åpne og lede deg etter — guiden vår viser bare rekkefølgen, den navigerer ikke.",
+  "exportSheetApps": "Navigasjonsapper: OsmAnd, Komoot, Gaia GPS, Organic Maps",
+  "exportSheetWatches": "Sportsklokker: Garmin, Suunto, Polar",
+  "exportSheetNot": "Filen inneholder punkter, ikke en vei. Navigatoren finner veien mellom dem selv.",
+  "exportSheetSend": "Send fil",
+  "exportSheetCancel": "Avbryt"
 }

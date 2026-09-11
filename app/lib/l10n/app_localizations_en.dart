@@ -820,7 +820,7 @@ class LEn extends L {
   String get compassNW => 'NW';
 
   @override
-  String get gpxExport => 'Export as GPX';
+  String get gpxExport => 'Take with you';
 
   @override
   String get gpxDescription =>
@@ -828,4 +828,28 @@ class LEn extends L {
 
   @override
   String get gpxFailed => 'Could not share the file';
+
+  @override
+  String get exportSheetTitle => 'Take this route with you';
+
+  @override
+  String get exportSheetWhat =>
+      'Saves the stops as a file that other apps can open and guide you along — our guide only shows the order, it does not navigate.';
+
+  @override
+  String get exportSheetApps =>
+      'Navigation apps: OsmAnd, Komoot, Gaia GPS, Organic Maps';
+
+  @override
+  String get exportSheetWatches => 'Sports watches: Garmin, Suunto, Polar';
+
+  @override
+  String get exportSheetNot =>
+      'The file contains points, not a road. Your navigator will work out the way between them.';
+
+  @override
+  String get exportSheetSend => 'Send file';
+
+  @override
+  String get exportSheetCancel => 'Cancel';
 }

@@ -6,7 +6,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../core/categories.dart';
 import '../../core/gpx.dart';
-import '../../core/gpx_share.dart';
+import 'export_sheet.dart';
 import '../../core/place_photo.dart';
 import '../../core/providers.dart';
 import '../../data/database.dart';
@@ -42,10 +42,13 @@ class RouteScreen extends ConsumerWidget {
           // Экспорт доступен, только когда остановки уже прочитаны:
           // предлагать поделиться пустым файлом незачем.
           if (stops.valueOrNull?.isNotEmpty ?? false)
-            IconButton(
-              icon: const Icon(Icons.ios_share),
-              tooltip: l.gpxExport,
-              onPressed: () => shareGpx(
+            // Текстовая кнопка, а не значок: «взять с собой» понятно
+            // сразу, а иконка «поделиться» ничего не объясняет — человек
+            // не знает, что получит файл и что с ним делать.
+            TextButton.icon(
+              icon: const Icon(Icons.hiking, size: 18),
+              label: Text(l.gpxExport),
+              onPressed: () => showExportSheet(
                 context,
                 fileName: '$cityName.gpx',
                 content: GpxBuilder.route(

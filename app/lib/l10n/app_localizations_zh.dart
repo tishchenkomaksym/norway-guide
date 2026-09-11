@@ -776,11 +776,32 @@ class LZh extends L {
   String get compassNW => '西北';
 
   @override
-  String get gpxExport => '导出为 GPX';
+  String get gpxExport => '带走';
 
   @override
   String get gpxDescription => '由 Norway Explore 生成。站点顺序与时间均为估算。';
 
   @override
   String get gpxFailed => '无法分享文件';
+
+  @override
+  String get exportSheetTitle => '把路线带走';
+
+  @override
+  String get exportSheetWhat => '将站点保存为文件，其他应用可以打开并带您沿途游览——本指南只显示顺序，不做导航。';
+
+  @override
+  String get exportSheetApps => '导航应用：OsmAnd、Komoot、Gaia GPS、Organic Maps';
+
+  @override
+  String get exportSheetWatches => '运动手表：Garmin、Suunto、Polar';
+
+  @override
+  String get exportSheetNot => '文件包含的是地点，不是道路。之间的路线由您的导航应用计算。';
+
+  @override
+  String get exportSheetSend => '发送文件';
+
+  @override
+  String get exportSheetCancel => '取消';
 }

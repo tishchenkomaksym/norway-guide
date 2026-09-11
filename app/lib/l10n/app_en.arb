@@ -326,7 +326,14 @@
   "compassSW": "SW",
   "compassW": "W",
   "compassNW": "NW",
-  "gpxExport": "Export as GPX",
+  "gpxExport": "Take with you",
   "gpxDescription": "Created in Norway Explore. Order of stops and timings are approximate.",
-  "gpxFailed": "Could not share the file"
+  "gpxFailed": "Could not share the file",
+  "exportSheetTitle": "Take this route with you",
+  "exportSheetWhat": "Saves the stops as a file that other apps can open and guide you along — our guide only shows the order, it does not navigate.",
+  "exportSheetApps": "Navigation apps: OsmAnd, Komoot, Gaia GPS, Organic Maps",
+  "exportSheetWatches": "Sports watches: Garmin, Suunto, Polar",
+  "exportSheetNot": "The file contains points, not a road. Your navigator will work out the way between them.",
+  "exportSheetSend": "Send file",
+  "exportSheetCancel": "Cancel"
 }

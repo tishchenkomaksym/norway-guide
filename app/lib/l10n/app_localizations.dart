@@ -1482,7 +1482,7 @@ abstract class L {
   /// No description provided for @gpxExport.
   ///
   /// In ru, this message translates to:
-  /// **'Сохранить как GPX'**
+  /// **'Взять с собой'**
   String get gpxExport;
 
   /// No description provided for @gpxDescription.
@@ -1496,6 +1496,48 @@ abstract class L {
   /// In ru, this message translates to:
   /// **'Не удалось передать файл'**
   String get gpxFailed;
+
+  /// No description provided for @exportSheetTitle.
+  ///
+  /// In ru, this message translates to:
+  /// **'Взять маршрут с собой'**
+  String get exportSheetTitle;
+
+  /// No description provided for @exportSheetWhat.
+  ///
+  /// In ru, this message translates to:
+  /// **'Сохраняет остановки файлом, который откроют другие приложения и проведут вас по точкам. Наш путеводитель показывает только порядок обхода, он не ведёт по дороге.'**
+  String get exportSheetWhat;
+
+  /// No description provided for @exportSheetApps.
+  ///
+  /// In ru, this message translates to:
+  /// **'Навигаторы: OsmAnd, Komoot, Gaia GPS, Organic Maps'**
+  String get exportSheetApps;
+
+  /// No description provided for @exportSheetWatches.
+  ///
+  /// In ru, this message translates to:
+  /// **'Спортивные часы: Garmin, Suunto, Polar'**
+  String get exportSheetWatches;
+
+  /// No description provided for @exportSheetNot.
+  ///
+  /// In ru, this message translates to:
+  /// **'В файле точки, а не дорога. Путь между ними навигатор проложит сам.'**
+  String get exportSheetNot;
+
+  /// No description provided for @exportSheetSend.
+  ///
+  /// In ru, this message translates to:
+  /// **'Отправить файл'**
+  String get exportSheetSend;
+
+  /// No description provided for @exportSheetCancel.
+  ///
+  /// In ru, this message translates to:
+  /// **'Отмена'**
+  String get exportSheetCancel;
 }
 
 class _LDelegate extends LocalizationsDelegate<L> {

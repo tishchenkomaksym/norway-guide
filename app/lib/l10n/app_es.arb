@@ -326,7 +326,14 @@
   "compassSW": "SO",
   "compassW": "O",
   "compassNW": "NO",
-  "gpxExport": "Exportar como GPX",
+  "gpxExport": "Llevar conmigo",
   "gpxDescription": "Creado en Norway Explore. El orden y los tiempos son aproximados.",
-  "gpxFailed": "No se pudo compartir el archivo"
+  "gpxFailed": "No se pudo compartir el archivo",
+  "exportSheetTitle": "Llévate la ruta",
+  "exportSheetWhat": "Guarda las paradas en un archivo que otras aplicaciones pueden abrir y usar para guiarte: nuestra guía solo muestra el orden, no navega.",
+  "exportSheetApps": "Aplicaciones de navegación: OsmAnd, Komoot, Gaia GPS, Organic Maps",
+  "exportSheetWatches": "Relojes deportivos: Garmin, Suunto, Polar",
+  "exportSheetNot": "El archivo contiene puntos, no un camino. Tu navegador calculará la ruta entre ellos.",
+  "exportSheetSend": "Enviar archivo",
+  "exportSheetCancel": "Cancelar"
 }

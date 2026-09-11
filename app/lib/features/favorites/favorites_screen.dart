@@ -4,7 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../core/place_photo.dart';
 import '../../core/categories.dart';
 import '../../core/gpx.dart';
-import '../../core/gpx_share.dart';
+import '../routes/export_sheet.dart';
 import '../../core/providers.dart';
 import '../../data/database.dart';
 import '../../l10n/app_localizations.dart';
@@ -28,10 +28,10 @@ class FavoritesScreen extends ConsumerWidget {
           // Избранное уезжает в навигатор набором точек без порядка:
           // порядка обхода у него нет, и придумывать его не надо.
           if (favorites.valueOrNull?.isNotEmpty ?? false)
-            IconButton(
-              icon: const Icon(Icons.ios_share),
-              tooltip: L.of(context).gpxExport,
-              onPressed: () => shareGpx(
+            TextButton.icon(
+              icon: const Icon(Icons.hiking, size: 18),
+              label: Text(L.of(context).gpxExport),
+              onPressed: () => showExportSheet(
                 context,
                 fileName: 'norway-explore.gpx',
                 content: GpxBuilder.waypoints(

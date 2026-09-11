@@ -326,7 +326,14 @@
   "compassSW": "SW",
   "compassW": "W",
   "compassNW": "NW",
-  "gpxExport": "Als GPX exportieren",
+  "gpxExport": "Mitnehmen",
   "gpxDescription": "Erstellt in Norway Explore. Reihenfolge und Zeiten sind Näherungswerte.",
-  "gpxFailed": "Datei konnte nicht geteilt werden"
+  "gpxFailed": "Datei konnte nicht geteilt werden",
+  "exportSheetTitle": "Route mitnehmen",
+  "exportSheetWhat": "Speichert die Stationen als Datei, die andere Apps öffnen und als Führung nutzen können — unser Reiseführer zeigt nur die Reihenfolge, er navigiert nicht.",
+  "exportSheetApps": "Navigations-Apps: OsmAnd, Komoot, Gaia GPS, Organic Maps",
+  "exportSheetWatches": "Sportuhren: Garmin, Suunto, Polar",
+  "exportSheetNot": "Die Datei enthält Punkte, keinen Weg. Den Weg dazwischen sucht Ihr Navigationsgerät selbst.",
+  "exportSheetSend": "Datei senden",
+  "exportSheetCancel": "Abbrechen"
 }

@@ -830,7 +830,7 @@ class LRu extends L {
   String get compassNW => 'СЗ';
 
   @override
-  String get gpxExport => 'Сохранить как GPX';
+  String get gpxExport => 'Взять с собой';
 
   @override
   String get gpxDescription =>
@@ -838,4 +838,28 @@ class LRu extends L {
 
   @override
   String get gpxFailed => 'Не удалось передать файл';
+
+  @override
+  String get exportSheetTitle => 'Взять маршрут с собой';
+
+  @override
+  String get exportSheetWhat =>
+      'Сохраняет остановки файлом, который откроют другие приложения и проведут вас по точкам. Наш путеводитель показывает только порядок обхода, он не ведёт по дороге.';
+
+  @override
+  String get exportSheetApps =>
+      'Навигаторы: OsmAnd, Komoot, Gaia GPS, Organic Maps';
+
+  @override
+  String get exportSheetWatches => 'Спортивные часы: Garmin, Suunto, Polar';
+
+  @override
+  String get exportSheetNot =>
+      'В файле точки, а не дорога. Путь между ними навигатор проложит сам.';
+
+  @override
+  String get exportSheetSend => 'Отправить файл';
+
+  @override
+  String get exportSheetCancel => 'Отмена';
 }

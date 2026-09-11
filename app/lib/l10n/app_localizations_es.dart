@@ -825,7 +825,7 @@ class LEs extends L {
   String get compassNW => 'NO';
 
   @override
-  String get gpxExport => 'Exportar como GPX';
+  String get gpxExport => 'Llevar conmigo';
 
   @override
   String get gpxDescription =>
@@ -833,4 +833,28 @@ class LEs extends L {
 
   @override
   String get gpxFailed => 'No se pudo compartir el archivo';
+
+  @override
+  String get exportSheetTitle => 'Llévate la ruta';
+
+  @override
+  String get exportSheetWhat =>
+      'Guarda las paradas en un archivo que otras aplicaciones pueden abrir y usar para guiarte: nuestra guía solo muestra el orden, no navega.';
+
+  @override
+  String get exportSheetApps =>
+      'Aplicaciones de navegación: OsmAnd, Komoot, Gaia GPS, Organic Maps';
+
+  @override
+  String get exportSheetWatches => 'Relojes deportivos: Garmin, Suunto, Polar';
+
+  @override
+  String get exportSheetNot =>
+      'El archivo contiene puntos, no un camino. Tu navegador calculará la ruta entre ellos.';
+
+  @override
+  String get exportSheetSend => 'Enviar archivo';
+
+  @override
+  String get exportSheetCancel => 'Cancelar';
 }
