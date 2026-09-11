@@ -11,7 +11,7 @@
 // Запуск:
 //
 //	go run ./cmd/appart splash <вход.jpg> <выход.jpg> <срезать сверху, доля>
-//	go run ./cmd/appart icons <вход.jpg> <каталог android/app/src/main/res>
+//	go run ./cmd/appart icons <вход.jpg> <каталог res> [доля ширины] [сдвиг вверх]
 package main
 
 import (
@@ -46,7 +46,20 @@ func main() {
 			fatal(err)
 		}
 	case "icons":
-		if err := icons(os.Args[2], os.Args[3]); err != nil {
+		// Доля ширины и сдвиг центра по вертикали: у разных эмблем круг
+		// занимает разную часть кадра, и подбирать это приходится глазами.
+		frac, shift := 0.62, 0.055
+		if len(os.Args) > 4 {
+			if v, err := strconv.ParseFloat(os.Args[4], 64); err == nil {
+				frac = v
+			}
+		}
+		if len(os.Args) > 5 {
+			if v, err := strconv.ParseFloat(os.Args[5], 64); err == nil {
+				shift = v
+			}
+		}
+		if err := icons(os.Args[2], os.Args[3], frac, shift); err != nil {
 			fatal(err)
 		}
 	default:
@@ -103,7 +116,7 @@ var densities = map[string]int{
 // Эмблема вписывается в квадрат по своей короткой стороне и обрезается
 // сверху и снизу: подпись под эмблемой в размере 48 пикселей всё равно
 // нечитаема, а место занимает.
-func icons(src, resDir string) error {
+func icons(src, resDir string, sideFraction, yShift float64) error {
 	img, err := load(src)
 	if err != nil {
 		return err
@@ -120,9 +133,9 @@ func icons(src, resDir string) error {
 	//
 	// Поэтому вырезаем квадрат, который целиком помещается внутри овала:
 	// домик, горы и сияние — то, что различимо в мелком размере.
-	side := int(float64(b.Dx()) * 0.62)
+	side := int(float64(b.Dx()) * sideFraction)
 	cx := (b.Min.X + b.Max.X) / 2
-	cy := (b.Min.Y+b.Max.Y)/2 - int(float64(b.Dy())*0.055)
+	cy := (b.Min.Y+b.Max.Y)/2 - int(float64(b.Dy())*yShift)
 	crop := image.Rect(cx-side/2, cy-side/2, cx+side/2, cy+side/2).Intersect(b)
 
 	square := image.NewRGBA(image.Rect(0, 0, crop.Dx(), crop.Dy()))
