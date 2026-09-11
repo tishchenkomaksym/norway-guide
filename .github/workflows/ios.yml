@@ -23,6 +23,17 @@ on:
         description: 'Адрес раздачи пакетов фотографий'
         required: false
         default: 'https://packs.nordguide.example/v1'
+      publish:
+        description: 'Выложить сборку публичной ссылкой (для пересылки тестировщикам)'
+        type: boolean
+        required: false
+        default: true
+
+# Право писать в репозиторий нужно для публикации релиза: артефакты
+# Actions отдаются только авторизованным, и переслать ссылку на них
+# постороннему человеку нельзя — он упрётся в форму входа.
+permissions:
+  contents: write
 
 jobs:
   build:
@@ -86,3 +97,28 @@ jobs:
           name: NorwayExplore-ios-unsigned
           path: app/NorwayExplore-unsigned.ipa
           retention-days: 14
+
+      # Публичная ссылка на файл.
+      #
+      # Артефакты Actions скачиваются только после входа в GitHub, поэтому
+      # переслать их тестировщику невозможно: он увидит форму входа, а не
+      # файл. Релиз отдаётся по прямой ссылке кому угодно.
+      #
+      # Помечается как prerelease: это сборка для проверки, а не версия
+      # для людей, и в списке релизов она не должна выглядеть выпуском.
+      - name: Публичная ссылка
+        if: ${{ inputs.publish }}
+        env:
+          GH_TOKEN: ${{ github.token }}
+        working-directory: app
+        run: |
+          tag="ios-test-${{ github.run_number }}"
+          gh release create "$tag" NorwayExplore-unsigned.ipa             --title "iOS test build ${{ github.run_number }}"             --prerelease             --notes "Неподписанная сборка для проверки на iPhone.
+
+          Установка: скачать .ipa, затем подписать своим Apple ID через
+          Sideloadly (https://sideloadly.io/) — приложение проживёт 7 дней.
+          Подробности: docs/ios-testing.md
+
+          Адрес раздачи пакетов: ${{ inputs.packs_url }}"
+          echo "Ссылка на файл:"
+          gh release view "$tag" --json assets --jq '.assets[].url'
