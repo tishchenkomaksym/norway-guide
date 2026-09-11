@@ -925,4 +925,40 @@ class LRu extends L {
 
   @override
   String get ratingPrivate => 'Это видите только вы. Никуда не отправляется.';
+
+  @override
+  String get alertsTitle => 'Погодные предупреждения';
+
+  @override
+  String get alertsNone => 'Сейчас предупреждений для вашего района нет';
+
+  @override
+  String alertsMore(int n) {
+    String _temp0 = intl.Intl.pluralLogic(
+      n,
+      locale: localeName,
+      other: 'ещё $n предупреждения',
+      many: 'ещё $n предупреждений',
+      few: 'ещё $n предупреждения',
+      one: 'ещё $n предупреждение',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get alertsMarine => 'на море';
+
+  @override
+  String alertsUntil(String time) {
+    return 'До $time';
+  }
+
+  @override
+  String get alertsSource =>
+      'Официальные предупреждения Норвежского метеорологического института (MET Norway) — того же источника, что стоит за yr.no.';
+
+  @override
+  String alertsFetched(String time) {
+    return 'Получено в $time';
+  }
 }

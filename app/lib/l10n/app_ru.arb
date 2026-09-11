@@ -457,5 +457,33 @@
   "ratingPrompt": "Оцените это место",
   "ratingYours": "Ваша оценка",
   "ratingVisited": "отмечено как посещённое",
-  "ratingPrivate": "Это видите только вы. Никуда не отправляется."
+  "ratingPrivate": "Это видите только вы. Никуда не отправляется.",
+  "alertsTitle": "Погодные предупреждения",
+  "alertsNone": "Сейчас предупреждений для вашего района нет",
+  "alertsMore": "{n, plural, one{ещё {n} предупреждение} few{ещё {n} предупреждения} many{ещё {n} предупреждений} other{ещё {n} предупреждения}}",
+  "alertsMarine": "на море",
+  "alertsUntil": "До {time}",
+  "alertsSource": "Официальные предупреждения Норвежского метеорологического института (MET Norway) — того же источника, что стоит за yr.no.",
+  "alertsFetched": "Получено в {time}",
+  "@alertsMore": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "@alertsUntil": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "@alertsFetched": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  }
 }

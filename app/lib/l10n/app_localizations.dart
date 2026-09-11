@@ -1640,6 +1640,48 @@ abstract class L {
   /// In ru, this message translates to:
   /// **'Это видите только вы. Никуда не отправляется.'**
   String get ratingPrivate;
+
+  /// No description provided for @alertsTitle.
+  ///
+  /// In ru, this message translates to:
+  /// **'Погодные предупреждения'**
+  String get alertsTitle;
+
+  /// No description provided for @alertsNone.
+  ///
+  /// In ru, this message translates to:
+  /// **'Сейчас предупреждений для вашего района нет'**
+  String get alertsNone;
+
+  /// No description provided for @alertsMore.
+  ///
+  /// In ru, this message translates to:
+  /// **'{n, plural, one{ещё {n} предупреждение} few{ещё {n} предупреждения} many{ещё {n} предупреждений} other{ещё {n} предупреждения}}'**
+  String alertsMore(int n);
+
+  /// No description provided for @alertsMarine.
+  ///
+  /// In ru, this message translates to:
+  /// **'на море'**
+  String get alertsMarine;
+
+  /// No description provided for @alertsUntil.
+  ///
+  /// In ru, this message translates to:
+  /// **'До {time}'**
+  String alertsUntil(String time);
+
+  /// No description provided for @alertsSource.
+  ///
+  /// In ru, this message translates to:
+  /// **'Официальные предупреждения Норвежского метеорологического института (MET Norway) — того же источника, что стоит за yr.no.'**
+  String get alertsSource;
+
+  /// No description provided for @alertsFetched.
+  ///
+  /// In ru, this message translates to:
+  /// **'Получено в {time}'**
+  String alertsFetched(String time);
 }
 
 class _LDelegate extends LocalizationsDelegate<L> {

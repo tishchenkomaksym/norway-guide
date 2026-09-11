@@ -352,5 +352,12 @@
   "ratingPrompt": "Diesen Ort bewerten",
   "ratingYours": "Ihre Bewertung",
   "ratingVisited": "als besucht markiert",
-  "ratingPrivate": "Das sehen nur Sie. Nichts wird irgendwohin gesendet."
+  "ratingPrivate": "Das sehen nur Sie. Nichts wird irgendwohin gesendet.",
+  "alertsTitle": "Wetterwarnungen",
+  "alertsNone": "Derzeit keine Warnungen für Ihre Gegend",
+  "alertsMore": "{n, plural, =1{1 weitere Warnung} other{{n} weitere Warnungen}}",
+  "alertsMarine": "auf See",
+  "alertsUntil": "Bis {time}",
+  "alertsSource": "Offizielle Warnungen des Norwegischen Meteorologischen Instituts (MET Norway), der Quelle hinter yr.no.",
+  "alertsFetched": "Abgerufen um {time}"
 }

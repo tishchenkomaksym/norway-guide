@@ -863,4 +863,36 @@ class LZh extends L {
 
   @override
   String get ratingPrivate => '只有您能看到，不会发送到任何地方。';
+
+  @override
+  String get alertsTitle => '天气预警';
+
+  @override
+  String get alertsNone => '您所在区域当前没有预警';
+
+  @override
+  String alertsMore(int n) {
+    String _temp0 = intl.Intl.pluralLogic(
+      n,
+      locale: localeName,
+      other: '另有 $n 条预警',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get alertsMarine => '海上';
+
+  @override
+  String alertsUntil(String time) {
+    return '截至 $time';
+  }
+
+  @override
+  String get alertsSource => '来自挪威气象研究所（MET Norway）的官方预警，也是 yr.no 的数据来源。';
+
+  @override
+  String alertsFetched(String time) {
+    return '获取于 $time';
+  }
 }

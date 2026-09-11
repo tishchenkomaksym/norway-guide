@@ -920,4 +920,38 @@ class LDe extends L {
   @override
   String get ratingPrivate =>
       'Das sehen nur Sie. Nichts wird irgendwohin gesendet.';
+
+  @override
+  String get alertsTitle => 'Wetterwarnungen';
+
+  @override
+  String get alertsNone => 'Derzeit keine Warnungen für Ihre Gegend';
+
+  @override
+  String alertsMore(int n) {
+    String _temp0 = intl.Intl.pluralLogic(
+      n,
+      locale: localeName,
+      other: '$n weitere Warnungen',
+      one: '1 weitere Warnung',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get alertsMarine => 'auf See';
+
+  @override
+  String alertsUntil(String time) {
+    return 'Bis $time';
+  }
+
+  @override
+  String get alertsSource =>
+      'Offizielle Warnungen des Norwegischen Meteorologischen Instituts (MET Norway), der Quelle hinter yr.no.';
+
+  @override
+  String alertsFetched(String time) {
+    return 'Abgerufen um $time';
+  }
 }

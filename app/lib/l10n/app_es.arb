@@ -352,5 +352,12 @@
   "ratingPrompt": "Valora este lugar",
   "ratingYours": "Tu valoración",
   "ratingVisited": "marcado como visitado",
-  "ratingPrivate": "Solo lo ves tú. No se envía nada a ninguna parte."
+  "ratingPrivate": "Solo lo ves tú. No se envía nada a ninguna parte.",
+  "alertsTitle": "Avisos meteorológicos",
+  "alertsNone": "Ahora mismo no hay avisos para tu zona",
+  "alertsMore": "{n, plural, =1{1 aviso más} other{{n} avisos más}}",
+  "alertsMarine": "en el mar",
+  "alertsUntil": "Hasta {time}",
+  "alertsSource": "Avisos oficiales del Instituto Meteorológico de Noruega (MET Norway), la fuente detrás de yr.no.",
+  "alertsFetched": "Recibido a las {time}"
 }

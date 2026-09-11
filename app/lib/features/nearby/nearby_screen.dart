@@ -4,6 +4,7 @@ import 'package:geolocator/geolocator.dart';
 
 import '../../core/profile.dart';
 import '../../core/providers.dart';
+import '../alerts/alerts_banner.dart';
 import '../cities/browse_screen.dart';
 import '../downloads/region_offer.dart';
 import '../cities/category_chips.dart';
@@ -137,6 +138,10 @@ class _NearbyScreenState extends ConsumerState<NearbyScreen> {
         children: [
           if (!hasPosition)
             _NoLocationBanner(problem: position.valueOrNull?.problem),
+          // Предупреждение об опасной погоде — выше всего остального.
+          // Если на побережье штормовой ветер, человек должен увидеть это
+          // раньше, чем список музеев.
+          const AlertsBanner(),
           // Предложение скачать фотографии региона, в котором человек
           // сейчас находится. Появляется само, но качает только по
           // нажатию — см. RegionOffer.

@@ -914,4 +914,38 @@ class LEn extends L {
   @override
   String get ratingPrivate =>
       'Only you can see this. Nothing is sent anywhere.';
+
+  @override
+  String get alertsTitle => 'Weather warnings';
+
+  @override
+  String get alertsNone => 'No warnings for your area right now';
+
+  @override
+  String alertsMore(int n) {
+    String _temp0 = intl.Intl.pluralLogic(
+      n,
+      locale: localeName,
+      other: '$n more warnings',
+      one: '1 more warning',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get alertsMarine => 'at sea';
+
+  @override
+  String alertsUntil(String time) {
+    return 'Until $time';
+  }
+
+  @override
+  String get alertsSource =>
+      'Official warnings from the Norwegian Meteorological Institute (MET Norway), the source behind yr.no.';
+
+  @override
+  String alertsFetched(String time) {
+    return 'Received at $time';
+  }
 }

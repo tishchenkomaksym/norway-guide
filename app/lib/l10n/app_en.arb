@@ -352,5 +352,12 @@
   "ratingPrompt": "Rate this place",
   "ratingYours": "Your rating",
   "ratingVisited": "marked as visited",
-  "ratingPrivate": "Only you can see this. Nothing is sent anywhere."
+  "ratingPrivate": "Only you can see this. Nothing is sent anywhere.",
+  "alertsTitle": "Weather warnings",
+  "alertsNone": "No warnings for your area right now",
+  "alertsMore": "{n, plural, =1{1 more warning} other{{n} more warnings}}",
+  "alertsMarine": "at sea",
+  "alertsUntil": "Until {time}",
+  "alertsSource": "Official warnings from the Norwegian Meteorological Institute (MET Norway), the source behind yr.no.",
+  "alertsFetched": "Received at {time}"
 }

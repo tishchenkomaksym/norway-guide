@@ -919,4 +919,38 @@ class LEs extends L {
   @override
   String get ratingPrivate =>
       'Solo lo ves tú. No se envía nada a ninguna parte.';
+
+  @override
+  String get alertsTitle => 'Avisos meteorológicos';
+
+  @override
+  String get alertsNone => 'Ahora mismo no hay avisos para tu zona';
+
+  @override
+  String alertsMore(int n) {
+    String _temp0 = intl.Intl.pluralLogic(
+      n,
+      locale: localeName,
+      other: '$n avisos más',
+      one: '1 aviso más',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get alertsMarine => 'en el mar';
+
+  @override
+  String alertsUntil(String time) {
+    return 'Hasta $time';
+  }
+
+  @override
+  String get alertsSource =>
+      'Avisos oficiales del Instituto Meteorológico de Noruega (MET Norway), la fuente detrás de yr.no.';
+
+  @override
+  String alertsFetched(String time) {
+    return 'Recibido a las $time';
+  }
 }

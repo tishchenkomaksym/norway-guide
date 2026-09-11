@@ -352,5 +352,12 @@
   "ratingPrompt": "为这个地点评分",
   "ratingYours": "您的评分",
   "ratingVisited": "已标记为到访过",
-  "ratingPrivate": "只有您能看到，不会发送到任何地方。"
+  "ratingPrivate": "只有您能看到，不会发送到任何地方。",
+  "alertsTitle": "天气预警",
+  "alertsNone": "您所在区域当前没有预警",
+  "alertsMore": "{n, plural, other{另有 {n} 条预警}}",
+  "alertsMarine": "海上",
+  "alertsUntil": "截至 {time}",
+  "alertsSource": "来自挪威气象研究所（MET Norway）的官方预警，也是 yr.no 的数据来源。",
+  "alertsFetched": "获取于 {time}"
 }

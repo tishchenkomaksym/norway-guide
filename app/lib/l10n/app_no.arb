@@ -352,5 +352,12 @@
   "ratingPrompt": "Gi stedet en vurdering",
   "ratingYours": "Din vurdering",
   "ratingVisited": "markert som besøkt",
-  "ratingPrivate": "Bare du ser dette. Ingenting sendes noe sted."
+  "ratingPrivate": "Bare du ser dette. Ingenting sendes noe sted.",
+  "alertsTitle": "Farevarsler",
+  "alertsNone": "Ingen varsler for ditt område nå",
+  "alertsMore": "{n, plural, =1{1 varsel til} other{{n} varsler til}}",
+  "alertsMarine": "til havs",
+  "alertsUntil": "Til {time}",
+  "alertsSource": "Offisielle farevarsler fra Meteorologisk institutt, kilden bak yr.no.",
+  "alertsFetched": "Hentet {time}"
 }

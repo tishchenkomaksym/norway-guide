@@ -914,4 +914,38 @@ class LNo extends L {
 
   @override
   String get ratingPrivate => 'Bare du ser dette. Ingenting sendes noe sted.';
+
+  @override
+  String get alertsTitle => 'Farevarsler';
+
+  @override
+  String get alertsNone => 'Ingen varsler for ditt område nå';
+
+  @override
+  String alertsMore(int n) {
+    String _temp0 = intl.Intl.pluralLogic(
+      n,
+      locale: localeName,
+      other: '$n varsler til',
+      one: '1 varsel til',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get alertsMarine => 'til havs';
+
+  @override
+  String alertsUntil(String time) {
+    return 'Til $time';
+  }
+
+  @override
+  String get alertsSource =>
+      'Offisielle farevarsler fra Meteorologisk institutt, kilden bak yr.no.';
+
+  @override
+  String alertsFetched(String time) {
+    return 'Hentet $time';
+  }
 }
