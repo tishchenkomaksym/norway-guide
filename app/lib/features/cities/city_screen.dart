@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../core/place_sort.dart';
 import '../../core/providers.dart';
 import '../../core/usage_stats.dart';
 import '../../data/database.dart';
 import '../../l10n/app_localizations.dart';
 import '../routes/route_screen.dart';
 import 'category_chips.dart';
+import 'sort_button.dart';
 import 'place_grid.dart';
 
 /// Что посмотреть в городе.
@@ -31,7 +33,10 @@ class _CityScreenState extends ConsumerState<CityScreen> {
     final places = ref.watch(placesInCityProvider(widget.city.id));
 
     return Scaffold(
-      appBar: AppBar(title: Text(widget.city.nameNo)),
+      appBar: AppBar(
+        title: Text(widget.city.nameNo),
+        actions: const [SortButton()],
+      ),
       body: places.when(
         loading: () => const Center(child: CircularProgressIndicator()),
         error: (e, _) => Center(child: Text('Ошибка: $e')),
@@ -57,9 +62,10 @@ class _CityScreenState extends ConsumerState<CityScreen> {
           // Иначе выбор, сделанный в другом городе, оставил бы пустой экран
           // без видимой причины.
           final effective = _selected.intersection(counts.keys.toSet());
-          final shown = effective.isEmpty
+          final filtered = effective.isEmpty
               ? all
               : all.where((p) => effective.contains(p.place.category)).toList();
+          final shown = sortPlaces(filtered, ref.watch(placeSortProvider));
 
           return Column(
             children: [
@@ -115,7 +121,9 @@ class _RouteBanner extends ConsumerWidget {
         clipBehavior: Clip.antiAlias,
         child: InkWell(
           onTap: () {
-            ref.read(usageStatsProvider.notifier).record(UsageEvent.routeOpened);
+            ref
+                .read(usageStatsProvider.notifier)
+                .record(UsageEvent.routeOpened);
             Navigator.of(context).push(
               MaterialPageRoute(
                 builder: (_) =>

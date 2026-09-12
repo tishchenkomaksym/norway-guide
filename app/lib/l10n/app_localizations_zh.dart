@@ -896,4 +896,16 @@ class LZh extends L {
   String alertsFetched(String time) {
     return '获取于 $time';
   }
+
+  @override
+  String get sortTooltip => '排序';
+
+  @override
+  String get sortByRating => '知名度优先';
+
+  @override
+  String get sortByDistance => '距离优先';
+
+  @override
+  String get sortByName => '按名称';
 }

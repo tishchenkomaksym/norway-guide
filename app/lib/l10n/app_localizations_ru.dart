@@ -961,4 +961,16 @@ class LRu extends L {
   String alertsFetched(String time) {
     return 'Получено в $time';
   }
+
+  @override
+  String get sortTooltip => 'Сортировка';
+
+  @override
+  String get sortByRating => 'Сначала известные';
+
+  @override
+  String get sortByDistance => 'Сначала ближние';
+
+  @override
+  String get sortByName => 'По названию';
 }

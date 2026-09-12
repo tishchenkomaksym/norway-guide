@@ -103,7 +103,11 @@ class _Header extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final stars = ratingStars(item.place.importance);
+    final stars = ratingStars(
+      unesco: item.place.unesco == 1,
+      topRank: item.place.topRank,
+      langCount: item.langCount,
+    );
 
     return SliverAppBar(
       expandedHeight: 210,

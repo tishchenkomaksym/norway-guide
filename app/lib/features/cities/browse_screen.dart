@@ -2,11 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../core/place_photo.dart';
+import '../../core/place_sort.dart';
 import '../../core/providers.dart';
 import '../../data/database.dart';
 import '../../l10n/app_localizations.dart';
 import '../search/search_screen.dart';
 import 'category_chips.dart';
+import 'sort_button.dart';
 import 'city_screen.dart';
 import 'place_grid.dart';
 
@@ -35,6 +37,7 @@ class _BrowseScreenState extends ConsumerState<BrowseScreen> {
       appBar: AppBar(
         title: Text(L.of(context).browseTitle),
         actions: [
+          const SortButton(),
           IconButton(
             icon: const Icon(Icons.search),
             tooltip: L.of(context).searchTooltip,
@@ -101,7 +104,9 @@ class _PlacesTab extends ConsumerWidget {
             error: (e, _) => Center(child: Text('Ошибка: $e')),
             data: (list) => list.isEmpty
                 ? _Empty(text: L.of(context).nothingInCategories)
-                : PagedPlaceGrid(items: list),
+                : PagedPlaceGrid(
+                    items: sortPlaces(list, ref.watch(placeSortProvider)),
+                  ),
           ),
         ),
       ],

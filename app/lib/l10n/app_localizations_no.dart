@@ -948,4 +948,16 @@ class LNo extends L {
   String alertsFetched(String time) {
     return 'Hentet $time';
   }
+
+  @override
+  String get sortTooltip => 'Sortering';
+
+  @override
+  String get sortByRating => 'Mest kjente først';
+
+  @override
+  String get sortByDistance => 'Nærmeste først';
+
+  @override
+  String get sortByName => 'Etter navn';
 }

@@ -1682,6 +1682,30 @@ abstract class L {
   /// In ru, this message translates to:
   /// **'Получено в {time}'**
   String alertsFetched(String time);
+
+  /// No description provided for @sortTooltip.
+  ///
+  /// In ru, this message translates to:
+  /// **'Сортировка'**
+  String get sortTooltip;
+
+  /// No description provided for @sortByRating.
+  ///
+  /// In ru, this message translates to:
+  /// **'Сначала известные'**
+  String get sortByRating;
+
+  /// No description provided for @sortByDistance.
+  ///
+  /// In ru, this message translates to:
+  /// **'Сначала ближние'**
+  String get sortByDistance;
+
+  /// No description provided for @sortByName.
+  ///
+  /// In ru, this message translates to:
+  /// **'По названию'**
+  String get sortByName;
 }
 
 class _LDelegate extends LocalizationsDelegate<L> {

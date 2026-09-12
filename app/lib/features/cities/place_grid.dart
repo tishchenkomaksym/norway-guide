@@ -134,7 +134,11 @@ class PlaceCard extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final scheme = Theme.of(context).colorScheme;
-    final stars = ratingStars(item.place.importance);
+    final stars = ratingStars(
+      unesco: item.place.unesco == 1,
+      topRank: item.place.topRank,
+      langCount: item.langCount,
+    );
 
     return Card(
       clipBehavior: Clip.antiAlias,

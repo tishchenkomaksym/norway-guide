@@ -359,5 +359,9 @@
   "alertsMarine": "at sea",
   "alertsUntil": "Until {time}",
   "alertsSource": "Official warnings: weather from the Norwegian Meteorological Institute (MET Norway), avalanche danger from NVE (varsom.no).",
-  "alertsFetched": "Received at {time}"
+  "alertsFetched": "Received at {time}",
+  "sortTooltip": "Sort",
+  "sortByRating": "Most notable first",
+  "sortByDistance": "Nearest first",
+  "sortByName": "By name"
 }

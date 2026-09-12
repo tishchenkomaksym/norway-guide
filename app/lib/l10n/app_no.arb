@@ -359,5 +359,9 @@
   "alertsMarine": "til havs",
   "alertsUntil": "Til {time}",
   "alertsSource": "Offisielle varsler: vær fra Meteorologisk institutt, snøskredfare fra NVE (varsom.no).",
-  "alertsFetched": "Hentet {time}"
+  "alertsFetched": "Hentet {time}",
+  "sortTooltip": "Sortering",
+  "sortByRating": "Mest kjente først",
+  "sortByDistance": "Nærmeste først",
+  "sortByName": "Etter navn"
 }

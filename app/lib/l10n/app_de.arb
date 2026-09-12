@@ -359,5 +359,9 @@
   "alertsMarine": "auf See",
   "alertsUntil": "Bis {time}",
   "alertsSource": "Amtliche Warnungen: Wetter vom Norwegischen Meteorologischen Institut (MET Norway), Lawinengefahr von der NVE (varsom.no).",
-  "alertsFetched": "Abgerufen um {time}"
+  "alertsFetched": "Abgerufen um {time}",
+  "sortTooltip": "Sortierung",
+  "sortByRating": "Bekannteste zuerst",
+  "sortByDistance": "Nächste zuerst",
+  "sortByName": "Nach Name"
 }

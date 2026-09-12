@@ -485,5 +485,9 @@
         "type": "String"
       }
     }
-  }
+  },
+  "sortTooltip": "Сортировка",
+  "sortByRating": "Сначала известные",
+  "sortByDistance": "Сначала ближние",
+  "sortByName": "По названию"
 }

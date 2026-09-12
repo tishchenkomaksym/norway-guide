@@ -359,5 +359,9 @@
   "alertsMarine": "海上",
   "alertsUntil": "截至 {time}",
   "alertsSource": "官方预警：天气来自挪威气象研究所（MET Norway），雪崩风险来自 NVE（varsom.no）。",
-  "alertsFetched": "获取于 {time}"
+  "alertsFetched": "获取于 {time}",
+  "sortTooltip": "排序",
+  "sortByRating": "知名度优先",
+  "sortByDistance": "距离优先",
+  "sortByName": "按名称"
 }

@@ -359,5 +359,9 @@
   "alertsMarine": "en el mar",
   "alertsUntil": "Hasta {time}",
   "alertsSource": "Avisos oficiales: meteorología del Instituto Meteorológico de Noruega (MET Norway), riesgo de aludes de la NVE (varsom.no).",
-  "alertsFetched": "Recibido a las {time}"
+  "alertsFetched": "Recibido a las {time}",
+  "sortTooltip": "Orden",
+  "sortByRating": "Más destacados primero",
+  "sortByDistance": "Más cercanos primero",
+  "sortByName": "Por nombre"
 }

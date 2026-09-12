@@ -3,12 +3,14 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:geolocator/geolocator.dart';
 
 import '../../core/profile.dart';
+import '../../core/place_sort.dart';
 import '../../core/providers.dart';
 import '../alerts/alerts_banner.dart';
 import '../cities/browse_screen.dart';
 import '../downloads/region_offer.dart';
 import '../cities/category_chips.dart';
 import '../cities/place_grid.dart';
+import '../cities/sort_button.dart';
 import '../emergency/emergency_button.dart';
 import '../favorites/favorites_screen.dart';
 import '../profile/profile_sheet.dart';
@@ -126,6 +128,7 @@ class _NearbyScreenState extends ConsumerState<NearbyScreen> {
               ref.invalidate(nearbyPlacesProvider);
             },
           ),
+          const SortButton(withDistance: true),
           const _ModeButton(),
           IconButton(
             icon: const Icon(Icons.tune),
@@ -172,7 +175,7 @@ class _NearbyScreenState extends ConsumerState<NearbyScreen> {
                 // идти» быстрее любого описания, а расстояние вынесено
                 // прямо на фотографию — ради него экран и открывают.
                 return PagedPlaceGrid(
-                  items: list,
+                  items: sortPlaces(list, ref.watch(placeSortProvider)),
                   padding: const EdgeInsets.fromLTRB(12, 12, 12, 24),
                 );
               },

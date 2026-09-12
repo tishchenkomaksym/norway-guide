@@ -21,6 +21,7 @@ class PlaceWithText {
     this.photoPath,
     this.photoAuthor,
     this.photoLicense,
+    this.langCount = 0,
   });
 
   final Place place;
@@ -47,6 +48,11 @@ class PlaceWithText {
 
   bool get hasPhoto => photoPath != null && photoAuthor != null;
 
+  /// На скольких языках есть описание. Признак известности: о месте,
+  /// про которое написали и по-английски, и по-немецки, знают за
+  /// пределами Норвегии.
+  final int langCount;
+
   PlaceWithText copyWith({double? distanceMeters, double? bearingDeg}) {
     return PlaceWithText(
       place: place,
@@ -58,6 +64,7 @@ class PlaceWithText {
       photoPath: photoPath,
       photoAuthor: photoAuthor,
       photoLicense: photoLicense,
+      langCount: langCount,
     );
   }
 }
@@ -129,7 +136,15 @@ const _placeColumns = '''
        CASE WHEN t_user.summary IS NULL THEN 1 ELSE 0 END      AS is_fallback,
        ph.path_thumb                                           AS photo_path,
        ph.author                                               AS photo_author,
-       ph.license                                              AS photo_license
+       ph.license                                              AS photo_license,
+       -- На скольких языках о месте написали. Это признак известности
+       -- за пределами Норвегии: статья по-немецки и по-английски
+       -- означает, что место знают иностранцы, а не только местные.
+       -- Считается подзапросом, а не по джойнам выше: те привязаны
+       -- к трём конкретным языкам, а языков может стать больше.
+       (SELECT COUNT(DISTINCT lang) FROM translations tl
+         WHERE tl.entity_type = 'place' AND tl.entity_id = p.id)
+                                                               AS lang_count
 ''';
 
 const _placeJoins = '''
@@ -439,6 +454,11 @@ class AppDatabase extends _$AppDatabase {
       photoPath: row.readNullable<String>('photo_path'),
       photoAuthor: row.readNullable<String>('photo_author'),
       photoLicense: row.readNullable<String>('photo_license'),
+      // Колонки может не быть в запросах, собранных отдельно от
+      // _placeColumns, — тогда считаем, что языков не знаем.
+      langCount: row.data.containsKey('lang_count')
+          ? row.read<int>('lang_count')
+          : 0,
     );
   }
 

@@ -948,4 +948,16 @@ class LEn extends L {
   String alertsFetched(String time) {
     return 'Received at $time';
   }
+
+  @override
+  String get sortTooltip => 'Sort';
+
+  @override
+  String get sortByRating => 'Most notable first';
+
+  @override
+  String get sortByDistance => 'Nearest first';
+
+  @override
+  String get sortByName => 'By name';
 }

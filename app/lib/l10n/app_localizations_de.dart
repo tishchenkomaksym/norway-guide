@@ -954,4 +954,16 @@ class LDe extends L {
   String alertsFetched(String time) {
     return 'Abgerufen um $time';
   }
+
+  @override
+  String get sortTooltip => 'Sortierung';
+
+  @override
+  String get sortByRating => 'Bekannteste zuerst';
+
+  @override
+  String get sortByDistance => 'Nächste zuerst';
+
+  @override
+  String get sortByName => 'Nach Name';
 }

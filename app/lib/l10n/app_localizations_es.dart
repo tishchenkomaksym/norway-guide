@@ -953,4 +953,16 @@ class LEs extends L {
   String alertsFetched(String time) {
     return 'Recibido a las $time';
   }
+
+  @override
+  String get sortTooltip => 'Orden';
+
+  @override
+  String get sortByRating => 'Más destacados primero';
+
+  @override
+  String get sortByDistance => 'Más cercanos primero';
+
+  @override
+  String get sortByName => 'Por nombre';
 }
