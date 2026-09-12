@@ -6,7 +6,7 @@
   "nearbySubtitle": "Nære steder med avstand og retning",
   "browseTitle": "Hvor skal du",
   "browseSubtitle": "Byer og severdigheter i hele landet",
-  "favoritesTitle": "Min tur",
+  "favoritesTitle": "Lagrede steder",
   "favoritesSaved": "{count, plural, one{{count} sted lagret} other{{count} steder lagret}}",
   "@favoritesSaved": {
     "placeholders": {
@@ -379,5 +379,6 @@
   "tripPhotoRemoveDetail": "Det slettes fra turen og fra appens mappe. Originalen i galleriet blir liggende.",
   "tripEmptyTitle": "Turen din starter her",
   "tripEmptyDetail": "Ta bilder underveis og merk stedene du besøker. Til slutt får du et kart over turen — ett bilde du kan dele.",
-  "tripOpen": "Min tur"
+  "tripOpen": "Min tur",
+  "tripSubtitle": "Bilder og steder du besøker"
 }

@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../core/attribution.dart';
 import '../../core/providers.dart';
+import '../../core/trip_photos.dart';
 import '../../l10n/app_localizations.dart';
 import '../cities/browse_screen.dart';
 import '../downloads/downloads_screen.dart';
@@ -11,6 +12,7 @@ import '../favorites/favorites_screen.dart';
 import '../nearby/nearby_screen.dart';
 import '../settings/settings_screen.dart';
 import '../top/most_visited_screen.dart';
+import '../trip/trip_screen.dart';
 import 'interest_prompt.dart';
 
 /// Стартовый экран.
@@ -45,6 +47,8 @@ class HomeScreen extends ConsumerWidget {
     final l = L.of(context);
     final credit = creditFor(heroPhoto);
     final favoriteCount = ref.watch(favoritesProvider).valueOrNull?.length ?? 0;
+    final tripPhotoCount =
+        ref.watch(tripPhotosProvider).valueOrNull?.length ?? 0;
 
     return Scaffold(
       body: Stack(
@@ -189,9 +193,26 @@ class HomeScreen extends ConsumerWidget {
                             onTap: () =>
                                 _go(context, const MostVisitedScreen()),
                           ),
-                          // Третий путь появляется, только когда в нём есть смысл:
-                          // пустое «Моя поездка» на первом запуске — это обещание
-                          // без содержания.
+                          // «Моя поездка» показывается всегда, даже пустая.
+                          //
+                          // Сначала я поставил её под то же условие, что
+                          // и избранное, — и получился замкнутый круг:
+                          // положить в поездку нечего, потому что экран
+                          // не открыть, а экран не открыть, потому что
+                          // в поездке пусто. Пустой экран объясняет, что
+                          // делать, и это лучше отсутствующего входа.
+                          const SizedBox(height: 10),
+                          _ChoiceCard(
+                            icon: Icons.map_outlined,
+                            title: l.tripOpen,
+                            subtitle: tripPhotoCount > 0
+                                ? l.tripPhotos(tripPhotoCount)
+                                : l.tripSubtitle,
+                            onTap: () => _go(context, const TripScreen()),
+                          ),
+                          // Избранное — только когда в нём что-то есть:
+                          // туда кладут с карточки места, и отдельный
+                          // вход для пустого списка не нужен.
                           if (favoriteCount > 0) ...[
                             const SizedBox(height: 10),
                             _ChoiceCard(

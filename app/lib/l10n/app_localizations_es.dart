@@ -28,7 +28,7 @@ class LEs extends L {
   String get browseSubtitle => 'Ciudades y lugares de interés del país';
 
   @override
-  String get favoritesTitle => 'Mi viaje';
+  String get favoritesTitle => 'Lugares guardados';
 
   @override
   String favoritesSaved(int count) {
@@ -1023,4 +1023,7 @@ class LEs extends L {
 
   @override
   String get tripOpen => 'Mi viaje';
+
+  @override
+  String get tripSubtitle => 'Fotos y lugares que visitas';
 }

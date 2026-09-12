@@ -144,7 +144,7 @@ abstract class L {
   /// No description provided for @favoritesTitle.
   ///
   /// In ru, this message translates to:
-  /// **'Моя поездка'**
+  /// **'Сохранённые места'**
   String get favoritesTitle;
 
   /// No description provided for @favoritesSaved.
@@ -1802,6 +1802,12 @@ abstract class L {
   /// In ru, this message translates to:
   /// **'Моя поездка'**
   String get tripOpen;
+
+  /// No description provided for @tripSubtitle.
+  ///
+  /// In ru, this message translates to:
+  /// **'Ваши снимки и посещённые места'**
+  String get tripSubtitle;
 }
 
 class _LDelegate extends LocalizationsDelegate<L> {

@@ -6,7 +6,7 @@
   "nearbySubtitle": "Ближайшие места с расстоянием и направлением",
   "browseTitle": "Куда поехать",
   "browseSubtitle": "Города и достопримечательности страны",
-  "favoritesTitle": "Моя поездка",
+  "favoritesTitle": "Сохранённые места",
   "favoritesSaved": "{count, plural, one{{count} место сохранено} few{{count} места сохранено} many{{count} мест сохранено} other{{count} мест сохранено}}",
   "@favoritesSaved": {
     "placeholders": {
@@ -512,5 +512,6 @@
         "type": "int"
       }
     }
-  }
+  },
+  "tripSubtitle": "Ваши снимки и посещённые места"
 }

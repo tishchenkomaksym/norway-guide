@@ -28,7 +28,7 @@ class LNo extends L {
   String get browseSubtitle => 'Byer og severdigheter i hele landet';
 
   @override
-  String get favoritesTitle => 'Min tur';
+  String get favoritesTitle => 'Lagrede steder';
 
   @override
   String favoritesSaved(int count) {
@@ -1018,4 +1018,7 @@ class LNo extends L {
 
   @override
   String get tripOpen => 'Min tur';
+
+  @override
+  String get tripSubtitle => 'Bilder og steder du besøker';
 }

@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:nordguide/core/attribution.dart';
 import 'package:nordguide/core/providers.dart';
+import 'package:nordguide/core/trip_photos.dart';
 import 'package:nordguide/data/database.dart';
 import 'package:nordguide/features/home/home_screen.dart';
 import 'package:nordguide/l10n/app_localizations.dart';
@@ -19,6 +20,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 /// списком, иначе тест открывает настоящий файл базы и виснет.
 Widget _app({
   List<Favorite> favorites = const [],
+  List<TripPhoto> tripPhotos = const [],
   required SharedPreferences prefs,
 }) {
   return ProviderScope(
@@ -27,6 +29,10 @@ Widget _app({
       // без хранилища экран не строится вовсе.
       prefsProvider.overrideWithValue(prefs),
       favoritesProvider.overrideWith((ref) => Stream.value(favorites)),
+      // Плашка «Моя поездка» читает снимки, а те — базу. Без подмены
+      // тест открывает настоящий файл базы и предупреждает о втором
+      // экземпляре drift.
+      tripPhotosProvider.overrideWith((ref) => Stream.value(tripPhotos)),
     ],
     child: const MaterialApp(
       locale: Locale('ru'),
@@ -104,14 +110,21 @@ void main() {
     }
   });
 
-  testWidgets('без сохранённых мест раздела «Моя поездка» нет', (tester) async {
+  testWidgets('«Моя поездка» доступна всегда, избранное — нет', (tester) async {
     await tester.pumpWidget(_app(prefs: await _prefs()));
     await tester.pump();
-    // Пустой раздел на первом запуске — обещание без содержания.
-    expect(find.text('Моя поездка'), findsNothing);
+
+    // Поездка открывается даже пустой: иначе получается замкнутый круг —
+    // положить в неё нечего, потому что экран не открыть, а экран не
+    // открыть, потому что пусто. Ровно на это однажды и напоролись.
+    expect(find.text('Моя поездка'), findsOneWidget);
+
+    // А вот избранное без единого места прятать правильно: туда кладут
+    // с карточки места, и отдельный вход в пустой список не нужен.
+    expect(find.text('Сохранённые места'), findsNothing);
   });
 
-  testWidgets('с сохранённым местом раздел появляется', (tester) async {
+  testWidgets('с сохранённым местом появляется избранное', (tester) async {
     await tester.pumpWidget(
       _app(
         prefs: await _prefs(),
@@ -127,7 +140,7 @@ void main() {
     );
     await tester.pump();
 
-    expect(find.text('Моя поездка'), findsOneWidget);
+    expect(find.text('Сохранённые места'), findsOneWidget);
     expect(find.text('1 место сохранено'), findsOneWidget);
   });
 

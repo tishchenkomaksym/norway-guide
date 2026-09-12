@@ -440,6 +440,14 @@ class _Empty extends StatelessWidget {
               ),
               textAlign: TextAlign.center,
             ),
+            const SizedBox(height: 20),
+            // Кнопка в центре, а не только плавающая в углу: на пустом
+            // экране человек смотрит туда, где текст.
+            FilledButton.icon(
+              onPressed: onAdd,
+              icon: const Icon(Icons.add_a_photo_outlined, size: 18),
+              label: Text(l.tripAddPhoto),
+            ),
           ],
         ),
       ),

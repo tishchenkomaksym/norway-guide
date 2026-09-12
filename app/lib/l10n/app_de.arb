@@ -6,7 +6,7 @@
   "nearbySubtitle": "Orte in der Nähe mit Entfernung und Richtung",
   "browseTitle": "Wohin es geht",
   "browseSubtitle": "Städte und Sehenswürdigkeiten im ganzen Land",
-  "favoritesTitle": "Meine Reise",
+  "favoritesTitle": "Gemerkte Orte",
   "favoritesSaved": "{count, plural, one{{count} Ort gespeichert} other{{count} Orte gespeichert}}",
   "@favoritesSaved": {
     "placeholders": {
@@ -379,5 +379,6 @@
   "tripPhotoRemoveDetail": "Es wird aus der Reise und aus dem App-Ordner gelöscht. Das Original in Ihrer Galerie bleibt.",
   "tripEmptyTitle": "Hier beginnt Ihre Reise",
   "tripEmptyDetail": "Fotografieren Sie unterwegs und markieren Sie besuchte Orte. Am Ende erhalten Sie eine Karte Ihrer Reise — ein Bild zum Teilen.",
-  "tripOpen": "Meine Reise"
+  "tripOpen": "Meine Reise",
+  "tripSubtitle": "Fotos und besuchte Orte"
 }

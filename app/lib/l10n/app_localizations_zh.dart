@@ -28,7 +28,7 @@ class LZh extends L {
   String get browseSubtitle => '全国的城镇与景点';
 
   @override
-  String get favoritesTitle => '我的行程';
+  String get favoritesTitle => '已保存地点';
 
   @override
   String favoritesSaved(int count) {
@@ -963,4 +963,7 @@ class LZh extends L {
 
   @override
   String get tripOpen => '我的旅程';
+
+  @override
+  String get tripSubtitle => '您的照片与到访地点';
 }

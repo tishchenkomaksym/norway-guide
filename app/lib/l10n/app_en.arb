@@ -6,7 +6,7 @@
   "nearbySubtitle": "Nearby places with distance and direction",
   "browseTitle": "Where to go",
   "browseSubtitle": "Towns and sights across the country",
-  "favoritesTitle": "My trip",
+  "favoritesTitle": "Saved places",
   "favoritesSaved": "{count, plural, one{{count} place saved} other{{count} places saved}}",
   "@favoritesSaved": {
     "placeholders": {
@@ -379,5 +379,6 @@
   "tripPhotoRemoveDetail": "It will be deleted from the trip and from the app folder. The original in your gallery stays.",
   "tripEmptyTitle": "Your trip starts here",
   "tripEmptyDetail": "Take photos along the way and mark places you visited. At the end you get a map of your trip — one picture you can share.",
-  "tripOpen": "My trip"
+  "tripOpen": "My trip",
+  "tripSubtitle": "Photos and places you visit"
 }

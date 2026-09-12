@@ -28,7 +28,7 @@ class LEn extends L {
   String get browseSubtitle => 'Towns and sights across the country';
 
   @override
-  String get favoritesTitle => 'My trip';
+  String get favoritesTitle => 'Saved places';
 
   @override
   String favoritesSaved(int count) {
@@ -1018,4 +1018,7 @@ class LEn extends L {
 
   @override
   String get tripOpen => 'My trip';
+
+  @override
+  String get tripSubtitle => 'Photos and places you visit';
 }

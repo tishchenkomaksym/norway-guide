@@ -6,7 +6,7 @@
   "nearbySubtitle": "附近地点，含距离和方向",
   "browseTitle": "去哪里",
   "browseSubtitle": "全国的城镇与景点",
-  "favoritesTitle": "我的行程",
+  "favoritesTitle": "已保存地点",
   "favoritesSaved": "已保存 {count} 个地点",
   "@favoritesSaved": {
     "placeholders": {
@@ -379,5 +379,6 @@
   "tripPhotoRemoveDetail": "将从旅程和应用文件夹中删除，手机相册中的原图保留。",
   "tripEmptyTitle": "您的旅程从这里开始",
   "tripEmptyDetail": "一路拍照，并标记到访过的地点。最后会生成一张旅程地图——一张可以分享的图片。",
-  "tripOpen": "我的旅程"
+  "tripOpen": "我的旅程",
+  "tripSubtitle": "您的照片与到访地点"
 }

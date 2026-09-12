@@ -28,7 +28,7 @@ class LDe extends L {
   String get browseSubtitle => 'Städte und Sehenswürdigkeiten im ganzen Land';
 
   @override
-  String get favoritesTitle => 'Meine Reise';
+  String get favoritesTitle => 'Gemerkte Orte';
 
   @override
   String favoritesSaved(int count) {
@@ -1024,4 +1024,7 @@ class LDe extends L {
 
   @override
   String get tripOpen => 'Meine Reise';
+
+  @override
+  String get tripSubtitle => 'Fotos und besuchte Orte';
 }

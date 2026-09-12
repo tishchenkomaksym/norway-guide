@@ -28,7 +28,7 @@ class LRu extends L {
   String get browseSubtitle => 'Города и достопримечательности страны';
 
   @override
-  String get favoritesTitle => 'Моя поездка';
+  String get favoritesTitle => 'Сохранённые места';
 
   @override
   String favoritesSaved(int count) {
@@ -1036,4 +1036,7 @@ class LRu extends L {
 
   @override
   String get tripOpen => 'Моя поездка';
+
+  @override
+  String get tripSubtitle => 'Ваши снимки и посещённые места';
 }

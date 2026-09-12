@@ -6,7 +6,7 @@
   "nearbySubtitle": "Lugares cercanos con distancia y dirección",
   "browseTitle": "Adónde ir",
   "browseSubtitle": "Ciudades y lugares de interés del país",
-  "favoritesTitle": "Mi viaje",
+  "favoritesTitle": "Lugares guardados",
   "favoritesSaved": "{count, plural, one{{count} lugar guardado} other{{count} lugares guardados}}",
   "@favoritesSaved": {
     "placeholders": {
@@ -379,5 +379,6 @@
   "tripPhotoRemoveDetail": "Se borrará del viaje y de la carpeta de la aplicación. El original de tu galería se mantiene.",
   "tripEmptyTitle": "Tu viaje empieza aquí",
   "tripEmptyDetail": "Haz fotos por el camino y marca los lugares que visites. Al final tendrás un mapa de tu viaje: una imagen para compartir.",
-  "tripOpen": "Mi viaje"
+  "tripOpen": "Mi viaje",
+  "tripSubtitle": "Fotos y lugares que visitas"
 }
