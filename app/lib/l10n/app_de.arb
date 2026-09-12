@@ -363,5 +363,21 @@
   "sortTooltip": "Sortierung",
   "sortByRating": "Bekannteste zuerst",
   "sortByDistance": "Nächste zuerst",
-  "sortByName": "Nach Name"
+  "sortByName": "Nach Name",
+  "tripTitle": "Meine Reise",
+  "tripCardTitle": "Meine Reise\ndurch Norwegen",
+  "tripAddPhoto": "Foto hinzufügen",
+  "tripTakePhoto": "Foto aufnehmen",
+  "tripFromGallery": "Aus der Galerie wählen",
+  "tripShare": "Als Bild teilen",
+  "tripShareFailed": "Bild konnte nicht erstellt werden",
+  "tripPhotoFailed": "Foto konnte nicht hinzugefügt werden",
+  "tripPlacesVisited": "Orte besucht",
+  "tripPhotosTaken": "Fotos gemacht",
+  "tripPhotos": "{n, plural, =1{1 Foto} other{{n} Fotos}}",
+  "tripPhotoRemove": "Dieses Foto entfernen?",
+  "tripPhotoRemoveDetail": "Es wird aus der Reise und aus dem App-Ordner gelöscht. Das Original in Ihrer Galerie bleibt.",
+  "tripEmptyTitle": "Hier beginnt Ihre Reise",
+  "tripEmptyDetail": "Fotografieren Sie unterwegs und markieren Sie besuchte Orte. Am Ende erhalten Sie eine Karte Ihrer Reise — ein Bild zum Teilen.",
+  "tripOpen": "Meine Reise"
 }

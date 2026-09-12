@@ -976,4 +976,64 @@ class LRu extends L {
 
   @override
   String get sortByName => 'По названию';
+
+  @override
+  String get tripTitle => 'Моя поездка';
+
+  @override
+  String get tripCardTitle => 'Моя поездка\nпо Норвегии';
+
+  @override
+  String get tripAddPhoto => 'Добавить фото';
+
+  @override
+  String get tripTakePhoto => 'Сделать снимок';
+
+  @override
+  String get tripFromGallery => 'Выбрать из галереи';
+
+  @override
+  String get tripShare => 'Поделиться картинкой';
+
+  @override
+  String get tripShareFailed => 'Не удалось собрать картинку';
+
+  @override
+  String get tripPhotoFailed => 'Не удалось добавить снимок';
+
+  @override
+  String get tripPlacesVisited => 'мест посещено';
+
+  @override
+  String get tripPhotosTaken => 'снимков сделано';
+
+  @override
+  String tripPhotos(int n) {
+    String _temp0 = intl.Intl.pluralLogic(
+      n,
+      locale: localeName,
+      other: '$n снимка',
+      many: '$n снимков',
+      few: '$n снимка',
+      one: '$n снимок',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get tripPhotoRemove => 'Убрать этот снимок?';
+
+  @override
+  String get tripPhotoRemoveDetail =>
+      'Он удалится из поездки и из папки приложения. Оригинал в галерее телефона останется.';
+
+  @override
+  String get tripEmptyTitle => 'Здесь начнётся ваша поездка';
+
+  @override
+  String get tripEmptyDetail =>
+      'Снимайте по дороге и отмечайте места, где побывали. В конце получится карта поездки — одна картинка, которой можно поделиться.';
+
+  @override
+  String get tripOpen => 'Моя поездка';
 }

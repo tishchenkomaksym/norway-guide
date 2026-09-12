@@ -3,3 +3,6 @@
    а не просит доступ: Apple отклоняет формулировки вида
    «приложению нужен доступ к геопозиции». */
 "NSLocationWhenInUseUsageDescription" = "Shows places around you and the distance to them. Works offline — your location never leaves the phone.";
+
+"NSCameraUsageDescription" = "Lets you take photos for your trip map. Photos stay on your phone.";
+"NSPhotoLibraryUsageDescription" = "Lets you add your own photos to your trip map. Photos stay on your phone.";

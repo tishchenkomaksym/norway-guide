@@ -216,6 +216,7 @@ const _placeJoins = '''
     PlaceRules,
     NationalRules,
     Favorites,
+    TripPhotos,
   ],
 )
 class AppDatabase extends _$AppDatabase {
@@ -254,7 +255,10 @@ class AppDatabase extends _$AppDatabase {
   MigrationStrategy get migration => MigrationStrategy(
     onCreate: (m) async {
       for (final table in allTables) {
-        if (table.actualTableName == 'favorites') continue;
+        // Пользовательские таблицы создаются отдельно, в подключённом
+        // файле: см. beforeOpen ниже.
+        const userTables = {'favorites', 'trip_photos'};
+        if (userTables.contains(table.actualTableName)) continue;
         await m.createTable(table);
       }
     },
@@ -285,6 +289,19 @@ class AppDatabase extends _$AppDatabase {
       // ALTER TABLE ADD COLUMN в SQLite не переписывает таблицу и не
       // трогает существующие строки — для сотни записей избранного это
       // мгновенно.
+      // Снимки поездки — тоже пользовательские данные, и живут там же,
+      // где избранное: рядом с контентом их стёрло бы первое обновление
+      // пакета.
+      await customStatement(
+        'CREATE TABLE IF NOT EXISTS ${prefix}trip_photos ('
+        'id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, '
+        'place_id TEXT, '
+        'path TEXT NOT NULL, '
+        'taken_at INTEGER NOT NULL, '
+        'lat REAL, lon REAL, '
+        'caption TEXT)',
+      );
+
       final columns = await customSelect(
         'PRAGMA ${prefix.isEmpty ? '' : 'userdata.'}table_info(favorites)',
       ).get();
@@ -804,6 +821,76 @@ class AppDatabase extends _$AppDatabase {
       readsFrom: {routes},
     ).get();
     return rows.map((r) => r.read<String>('city_id')).toSet();
+  }
+
+/// Снимки поездки, новые сверху.
+  Stream<List<TripPhoto>> watchTripPhotos() {
+    return (select(tripPhotos)
+          ..orderBy([(t) => OrderingTerm.desc(t.takenAt)]))
+        .watch();
+  }
+
+  /// Снимки, привязанные к конкретному месту.
+  Future<List<TripPhoto>> tripPhotosForPlace(String placeId) {
+    return (select(tripPhotos)..where((t) => t.placeId.equals(placeId))).get();
+  }
+
+  Future<int> addTripPhoto({
+    required String path,
+    required DateTime takenAt,
+    String? placeId,
+    double? lat,
+    double? lon,
+    String? caption,
+  }) {
+    return into(tripPhotos).insert(
+      TripPhotosCompanion.insert(
+        path: path,
+        takenAt: takenAt.millisecondsSinceEpoch,
+        placeId: Value(placeId),
+        lat: Value(lat),
+        lon: Value(lon),
+        caption: Value(caption),
+      ),
+    );
+  }
+
+  Future<void> removeTripPhoto(int id) {
+    return (delete(tripPhotos)..where((t) => t.id.equals(id))).go();
+  }
+
+  Future<void> setTripPhotoCaption(int id, String? caption) {
+    return (update(tripPhotos)..where((t) => t.id.equals(id))).write(
+      TripPhotosCompanion(
+        caption: Value(
+          caption == null || caption.trim().isEmpty ? null : caption.trim(),
+        ),
+      ),
+    );
+  }
+
+  /// Места, где человек был: отмеченные как посещённые или со снимками.
+  ///
+  /// Из них складывается карта поездки. Отметка «был здесь» и собственная
+  /// фотография — два разных способа сказать одно и то же, и оба должны
+  /// попасть на карту.
+  Future<List<PlaceWithText>> visitedPlaces(String lang) async {
+    final rows = await customSelect(
+      '''
+      SELECT p.*,
+      $_placeColumns
+      FROM places p
+      $_placeJoins
+      WHERE p.id IN (
+        SELECT place_id FROM favorites WHERE visited = 1
+        UNION
+        SELECT place_id FROM trip_photos WHERE place_id IS NOT NULL
+      )
+      ''',
+      variables: [Variable<String>(lang)],
+      readsFrom: {places, translations, photos, favorites, tripPhotos},
+    ).get();
+    return rows.map(_mapPlace).toList();
   }
 
   /// Все фотографии места, для галереи в карточке.

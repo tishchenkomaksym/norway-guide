@@ -489,5 +489,28 @@
   "sortTooltip": "Сортировка",
   "sortByRating": "Сначала известные",
   "sortByDistance": "Сначала ближние",
-  "sortByName": "По названию"
+  "sortByName": "По названию",
+  "tripTitle": "Моя поездка",
+  "tripCardTitle": "Моя поездка\nпо Норвегии",
+  "tripAddPhoto": "Добавить фото",
+  "tripTakePhoto": "Сделать снимок",
+  "tripFromGallery": "Выбрать из галереи",
+  "tripShare": "Поделиться картинкой",
+  "tripShareFailed": "Не удалось собрать картинку",
+  "tripPhotoFailed": "Не удалось добавить снимок",
+  "tripPlacesVisited": "мест посещено",
+  "tripPhotosTaken": "снимков сделано",
+  "tripPhotos": "{n, plural, one{{n} снимок} few{{n} снимка} many{{n} снимков} other{{n} снимка}}",
+  "tripPhotoRemove": "Убрать этот снимок?",
+  "tripPhotoRemoveDetail": "Он удалится из поездки и из папки приложения. Оригинал в галерее телефона останется.",
+  "tripEmptyTitle": "Здесь начнётся ваша поездка",
+  "tripEmptyDetail": "Снимайте по дороге и отмечайте места, где побывали. В конце получится карта поездки — одна картинка, которой можно поделиться.",
+  "tripOpen": "Моя поездка",
+  "@tripPhotos": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  }
 }

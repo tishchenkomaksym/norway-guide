@@ -363,5 +363,21 @@
   "sortTooltip": "排序",
   "sortByRating": "知名度优先",
   "sortByDistance": "距离优先",
-  "sortByName": "按名称"
+  "sortByName": "按名称",
+  "tripTitle": "我的旅程",
+  "tripCardTitle": "我的\n挪威之旅",
+  "tripAddPhoto": "添加照片",
+  "tripTakePhoto": "拍照",
+  "tripFromGallery": "从相册选择",
+  "tripShare": "分享为图片",
+  "tripShareFailed": "无法生成图片",
+  "tripPhotoFailed": "无法添加照片",
+  "tripPlacesVisited": "个地点到访",
+  "tripPhotosTaken": "张照片",
+  "tripPhotos": "{n, plural, other{{n} 张照片}}",
+  "tripPhotoRemove": "移除这张照片？",
+  "tripPhotoRemoveDetail": "将从旅程和应用文件夹中删除，手机相册中的原图保留。",
+  "tripEmptyTitle": "您的旅程从这里开始",
+  "tripEmptyDetail": "一路拍照，并标记到访过的地点。最后会生成一张旅程地图——一张可以分享的图片。",
+  "tripOpen": "我的旅程"
 }

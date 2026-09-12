@@ -363,5 +363,21 @@
   "sortTooltip": "Sort",
   "sortByRating": "Most notable first",
   "sortByDistance": "Nearest first",
-  "sortByName": "By name"
+  "sortByName": "By name",
+  "tripTitle": "My trip",
+  "tripCardTitle": "My trip\nto Norway",
+  "tripAddPhoto": "Add photo",
+  "tripTakePhoto": "Take a photo",
+  "tripFromGallery": "Choose from gallery",
+  "tripShare": "Share as picture",
+  "tripShareFailed": "Could not create the picture",
+  "tripPhotoFailed": "Could not add the photo",
+  "tripPlacesVisited": "places visited",
+  "tripPhotosTaken": "photos taken",
+  "tripPhotos": "{n, plural, =1{1 photo} other{{n} photos}}",
+  "tripPhotoRemove": "Remove this photo?",
+  "tripPhotoRemoveDetail": "It will be deleted from the trip and from the app folder. The original in your gallery stays.",
+  "tripEmptyTitle": "Your trip starts here",
+  "tripEmptyDetail": "Take photos along the way and mark places you visited. At the end you get a map of your trip — one picture you can share.",
+  "tripOpen": "My trip"
 }

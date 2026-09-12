@@ -1706,6 +1706,102 @@ abstract class L {
   /// In ru, this message translates to:
   /// **'По названию'**
   String get sortByName;
+
+  /// No description provided for @tripTitle.
+  ///
+  /// In ru, this message translates to:
+  /// **'Моя поездка'**
+  String get tripTitle;
+
+  /// No description provided for @tripCardTitle.
+  ///
+  /// In ru, this message translates to:
+  /// **'Моя поездка\nпо Норвегии'**
+  String get tripCardTitle;
+
+  /// No description provided for @tripAddPhoto.
+  ///
+  /// In ru, this message translates to:
+  /// **'Добавить фото'**
+  String get tripAddPhoto;
+
+  /// No description provided for @tripTakePhoto.
+  ///
+  /// In ru, this message translates to:
+  /// **'Сделать снимок'**
+  String get tripTakePhoto;
+
+  /// No description provided for @tripFromGallery.
+  ///
+  /// In ru, this message translates to:
+  /// **'Выбрать из галереи'**
+  String get tripFromGallery;
+
+  /// No description provided for @tripShare.
+  ///
+  /// In ru, this message translates to:
+  /// **'Поделиться картинкой'**
+  String get tripShare;
+
+  /// No description provided for @tripShareFailed.
+  ///
+  /// In ru, this message translates to:
+  /// **'Не удалось собрать картинку'**
+  String get tripShareFailed;
+
+  /// No description provided for @tripPhotoFailed.
+  ///
+  /// In ru, this message translates to:
+  /// **'Не удалось добавить снимок'**
+  String get tripPhotoFailed;
+
+  /// No description provided for @tripPlacesVisited.
+  ///
+  /// In ru, this message translates to:
+  /// **'мест посещено'**
+  String get tripPlacesVisited;
+
+  /// No description provided for @tripPhotosTaken.
+  ///
+  /// In ru, this message translates to:
+  /// **'снимков сделано'**
+  String get tripPhotosTaken;
+
+  /// No description provided for @tripPhotos.
+  ///
+  /// In ru, this message translates to:
+  /// **'{n, plural, one{{n} снимок} few{{n} снимка} many{{n} снимков} other{{n} снимка}}'**
+  String tripPhotos(int n);
+
+  /// No description provided for @tripPhotoRemove.
+  ///
+  /// In ru, this message translates to:
+  /// **'Убрать этот снимок?'**
+  String get tripPhotoRemove;
+
+  /// No description provided for @tripPhotoRemoveDetail.
+  ///
+  /// In ru, this message translates to:
+  /// **'Он удалится из поездки и из папки приложения. Оригинал в галерее телефона останется.'**
+  String get tripPhotoRemoveDetail;
+
+  /// No description provided for @tripEmptyTitle.
+  ///
+  /// In ru, this message translates to:
+  /// **'Здесь начнётся ваша поездка'**
+  String get tripEmptyTitle;
+
+  /// No description provided for @tripEmptyDetail.
+  ///
+  /// In ru, this message translates to:
+  /// **'Снимайте по дороге и отмечайте места, где побывали. В конце получится карта поездки — одна картинка, которой можно поделиться.'**
+  String get tripEmptyDetail;
+
+  /// No description provided for @tripOpen.
+  ///
+  /// In ru, this message translates to:
+  /// **'Моя поездка'**
+  String get tripOpen;
 }
 
 class _LDelegate extends LocalizationsDelegate<L> {

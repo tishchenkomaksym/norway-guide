@@ -960,4 +960,62 @@ class LNo extends L {
 
   @override
   String get sortByName => 'Etter navn';
+
+  @override
+  String get tripTitle => 'Min tur';
+
+  @override
+  String get tripCardTitle => 'Min tur\ngjennom Norge';
+
+  @override
+  String get tripAddPhoto => 'Legg til bilde';
+
+  @override
+  String get tripTakePhoto => 'Ta et bilde';
+
+  @override
+  String get tripFromGallery => 'Velg fra galleriet';
+
+  @override
+  String get tripShare => 'Del som bilde';
+
+  @override
+  String get tripShareFailed => 'Kunne ikke lage bildet';
+
+  @override
+  String get tripPhotoFailed => 'Kunne ikke legge til bildet';
+
+  @override
+  String get tripPlacesVisited => 'steder besøkt';
+
+  @override
+  String get tripPhotosTaken => 'bilder tatt';
+
+  @override
+  String tripPhotos(int n) {
+    String _temp0 = intl.Intl.pluralLogic(
+      n,
+      locale: localeName,
+      other: '$n bilder',
+      one: '1 bilde',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get tripPhotoRemove => 'Fjerne dette bildet?';
+
+  @override
+  String get tripPhotoRemoveDetail =>
+      'Det slettes fra turen og fra appens mappe. Originalen i galleriet blir liggende.';
+
+  @override
+  String get tripEmptyTitle => 'Turen din starter her';
+
+  @override
+  String get tripEmptyDetail =>
+      'Ta bilder underveis og merk stedene du besøker. Til slutt får du et kart over turen — ett bilde du kan dele.';
+
+  @override
+  String get tripOpen => 'Min tur';
 }

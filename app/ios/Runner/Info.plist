@@ -78,6 +78,19 @@
 	     Фоновую геолокацию (NSLocationAlwaysUsageDescription) не просим:
 	     приложение работает, только когда открыто, а лишнее разрешение
 	     пугает людей и требует отдельного обоснования при ревью. -->
+	<!-- Съёмка для «моей поездки».
+	     Оба описания видит человек в системном диалоге, и они обязаны
+	     объяснять пользу, а не просить доступ: Apple отклоняет
+	     формулировки вида «приложению нужна камера».
+
+	     Снимки не покидают телефон — это сказано прямо, потому что
+	     именно об этом человек и думает, когда приложение просит
+	     доступ к фотографиям. -->
+	<key>NSCameraUsageDescription</key>
+	<string>Lets you take photos for your trip map. Photos stay on your phone.</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>Lets you add your own photos to your trip map. Photos stay on your phone.</string>
+
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>Shows places around you and the distance to them. Works offline — your location never leaves the phone.</string>
 

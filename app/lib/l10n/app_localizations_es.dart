@@ -965,4 +965,62 @@ class LEs extends L {
 
   @override
   String get sortByName => 'Por nombre';
+
+  @override
+  String get tripTitle => 'Mi viaje';
+
+  @override
+  String get tripCardTitle => 'Mi viaje\npor Noruega';
+
+  @override
+  String get tripAddPhoto => 'Añadir foto';
+
+  @override
+  String get tripTakePhoto => 'Hacer una foto';
+
+  @override
+  String get tripFromGallery => 'Elegir de la galería';
+
+  @override
+  String get tripShare => 'Compartir como imagen';
+
+  @override
+  String get tripShareFailed => 'No se pudo crear la imagen';
+
+  @override
+  String get tripPhotoFailed => 'No se pudo añadir la foto';
+
+  @override
+  String get tripPlacesVisited => 'lugares visitados';
+
+  @override
+  String get tripPhotosTaken => 'fotos hechas';
+
+  @override
+  String tripPhotos(int n) {
+    String _temp0 = intl.Intl.pluralLogic(
+      n,
+      locale: localeName,
+      other: '$n fotos',
+      one: '1 foto',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get tripPhotoRemove => '¿Quitar esta foto?';
+
+  @override
+  String get tripPhotoRemoveDetail =>
+      'Se borrará del viaje y de la carpeta de la aplicación. El original de tu galería se mantiene.';
+
+  @override
+  String get tripEmptyTitle => 'Tu viaje empieza aquí';
+
+  @override
+  String get tripEmptyDetail =>
+      'Haz fotos por el camino y marca los lugares que visites. Al final tendrás un mapa de tu viaje: una imagen para compartir.';
+
+  @override
+  String get tripOpen => 'Mi viaje';
 }

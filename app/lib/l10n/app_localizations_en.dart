@@ -960,4 +960,62 @@ class LEn extends L {
 
   @override
   String get sortByName => 'By name';
+
+  @override
+  String get tripTitle => 'My trip';
+
+  @override
+  String get tripCardTitle => 'My trip\nto Norway';
+
+  @override
+  String get tripAddPhoto => 'Add photo';
+
+  @override
+  String get tripTakePhoto => 'Take a photo';
+
+  @override
+  String get tripFromGallery => 'Choose from gallery';
+
+  @override
+  String get tripShare => 'Share as picture';
+
+  @override
+  String get tripShareFailed => 'Could not create the picture';
+
+  @override
+  String get tripPhotoFailed => 'Could not add the photo';
+
+  @override
+  String get tripPlacesVisited => 'places visited';
+
+  @override
+  String get tripPhotosTaken => 'photos taken';
+
+  @override
+  String tripPhotos(int n) {
+    String _temp0 = intl.Intl.pluralLogic(
+      n,
+      locale: localeName,
+      other: '$n photos',
+      one: '1 photo',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get tripPhotoRemove => 'Remove this photo?';
+
+  @override
+  String get tripPhotoRemoveDetail =>
+      'It will be deleted from the trip and from the app folder. The original in your gallery stays.';
+
+  @override
+  String get tripEmptyTitle => 'Your trip starts here';
+
+  @override
+  String get tripEmptyDetail =>
+      'Take photos along the way and mark places you visited. At the end you get a map of your trip — one picture you can share.';
+
+  @override
+  String get tripOpen => 'My trip';
 }

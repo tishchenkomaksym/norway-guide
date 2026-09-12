@@ -3,3 +3,6 @@
    а не просит доступ: Apple отклоняет формулировки вида
    «приложению нужен доступ к геопозиции». */
 "NSLocationWhenInUseUsageDescription" = "显示您附近的地点及距离。完全离线运行，您的位置信息不会离开手机。";
+
+"NSCameraUsageDescription" = "用于为您的旅程地图拍照。照片只保存在手机上。";
+"NSPhotoLibraryUsageDescription" = "用于将您的照片添加到旅程地图。照片只保存在手机上。";

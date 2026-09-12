@@ -363,5 +363,21 @@
   "sortTooltip": "Orden",
   "sortByRating": "Más destacados primero",
   "sortByDistance": "Más cercanos primero",
-  "sortByName": "Por nombre"
+  "sortByName": "Por nombre",
+  "tripTitle": "Mi viaje",
+  "tripCardTitle": "Mi viaje\npor Noruega",
+  "tripAddPhoto": "Añadir foto",
+  "tripTakePhoto": "Hacer una foto",
+  "tripFromGallery": "Elegir de la galería",
+  "tripShare": "Compartir como imagen",
+  "tripShareFailed": "No se pudo crear la imagen",
+  "tripPhotoFailed": "No se pudo añadir la foto",
+  "tripPlacesVisited": "lugares visitados",
+  "tripPhotosTaken": "fotos hechas",
+  "tripPhotos": "{n, plural, =1{1 foto} other{{n} fotos}}",
+  "tripPhotoRemove": "¿Quitar esta foto?",
+  "tripPhotoRemoveDetail": "Se borrará del viaje y de la carpeta de la aplicación. El original de tu galería se mantiene.",
+  "tripEmptyTitle": "Tu viaje empieza aquí",
+  "tripEmptyDetail": "Haz fotos por el camino y marca los lugares que visites. Al final tendrás un mapa de tu viaje: una imagen para compartir.",
+  "tripOpen": "Mi viaje"
 }

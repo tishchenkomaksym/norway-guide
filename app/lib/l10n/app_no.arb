@@ -363,5 +363,21 @@
   "sortTooltip": "Sortering",
   "sortByRating": "Mest kjente først",
   "sortByDistance": "Nærmeste først",
-  "sortByName": "Etter navn"
+  "sortByName": "Etter navn",
+  "tripTitle": "Min tur",
+  "tripCardTitle": "Min tur\ngjennom Norge",
+  "tripAddPhoto": "Legg til bilde",
+  "tripTakePhoto": "Ta et bilde",
+  "tripFromGallery": "Velg fra galleriet",
+  "tripShare": "Del som bilde",
+  "tripShareFailed": "Kunne ikke lage bildet",
+  "tripPhotoFailed": "Kunne ikke legge til bildet",
+  "tripPlacesVisited": "steder besøkt",
+  "tripPhotosTaken": "bilder tatt",
+  "tripPhotos": "{n, plural, =1{1 bilde} other{{n} bilder}}",
+  "tripPhotoRemove": "Fjerne dette bildet?",
+  "tripPhotoRemoveDetail": "Det slettes fra turen og fra appens mappe. Originalen i galleriet blir liggende.",
+  "tripEmptyTitle": "Turen din starter her",
+  "tripEmptyDetail": "Ta bilder underveis og merk stedene du besøker. Til slutt får du et kart over turen — ett bilde du kan dele.",
+  "tripOpen": "Min tur"
 }

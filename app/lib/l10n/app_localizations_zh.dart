@@ -908,4 +908,59 @@ class LZh extends L {
 
   @override
   String get sortByName => '按名称';
+
+  @override
+  String get tripTitle => '我的旅程';
+
+  @override
+  String get tripCardTitle => '我的\n挪威之旅';
+
+  @override
+  String get tripAddPhoto => '添加照片';
+
+  @override
+  String get tripTakePhoto => '拍照';
+
+  @override
+  String get tripFromGallery => '从相册选择';
+
+  @override
+  String get tripShare => '分享为图片';
+
+  @override
+  String get tripShareFailed => '无法生成图片';
+
+  @override
+  String get tripPhotoFailed => '无法添加照片';
+
+  @override
+  String get tripPlacesVisited => '个地点到访';
+
+  @override
+  String get tripPhotosTaken => '张照片';
+
+  @override
+  String tripPhotos(int n) {
+    String _temp0 = intl.Intl.pluralLogic(
+      n,
+      locale: localeName,
+      other: '$n 张照片',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get tripPhotoRemove => '移除这张照片？';
+
+  @override
+  String get tripPhotoRemoveDetail => '将从旅程和应用文件夹中删除，手机相册中的原图保留。';
+
+  @override
+  String get tripEmptyTitle => '您的旅程从这里开始';
+
+  @override
+  String get tripEmptyDetail => '一路拍照，并标记到访过的地点。最后会生成一张旅程地图——一张可以分享的图片。';
+
+  @override
+  String get tripOpen => '我的旅程';
 }

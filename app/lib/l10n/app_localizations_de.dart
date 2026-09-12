@@ -966,4 +966,62 @@ class LDe extends L {
 
   @override
   String get sortByName => 'Nach Name';
+
+  @override
+  String get tripTitle => 'Meine Reise';
+
+  @override
+  String get tripCardTitle => 'Meine Reise\ndurch Norwegen';
+
+  @override
+  String get tripAddPhoto => 'Foto hinzufügen';
+
+  @override
+  String get tripTakePhoto => 'Foto aufnehmen';
+
+  @override
+  String get tripFromGallery => 'Aus der Galerie wählen';
+
+  @override
+  String get tripShare => 'Als Bild teilen';
+
+  @override
+  String get tripShareFailed => 'Bild konnte nicht erstellt werden';
+
+  @override
+  String get tripPhotoFailed => 'Foto konnte nicht hinzugefügt werden';
+
+  @override
+  String get tripPlacesVisited => 'Orte besucht';
+
+  @override
+  String get tripPhotosTaken => 'Fotos gemacht';
+
+  @override
+  String tripPhotos(int n) {
+    String _temp0 = intl.Intl.pluralLogic(
+      n,
+      locale: localeName,
+      other: '$n Fotos',
+      one: '1 Foto',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get tripPhotoRemove => 'Dieses Foto entfernen?';
+
+  @override
+  String get tripPhotoRemoveDetail =>
+      'Es wird aus der Reise und aus dem App-Ordner gelöscht. Das Original in Ihrer Galerie bleibt.';
+
+  @override
+  String get tripEmptyTitle => 'Hier beginnt Ihre Reise';
+
+  @override
+  String get tripEmptyDetail =>
+      'Fotografieren Sie unterwegs und markieren Sie besuchte Orte. Am Ende erhalten Sie eine Karte Ihrer Reise — ein Bild zum Teilen.';
+
+  @override
+  String get tripOpen => 'Meine Reise';
 }
