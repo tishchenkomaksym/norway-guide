@@ -1,3 +1,6 @@
+import 'dart:convert';
+import 'dart:typed_data';
+
 import 'package:drift/drift.dart' show Value;
 import 'package:drift/native.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -61,7 +64,11 @@ void main() {
             lang: 'en',
             name: const Value('Preikestolen'),
             summary: const Value('A cliff above Lysefjorden.'),
-            description: const Value('A cliff above Lysefjorden.'),
+            // Описания хранятся сжатыми; несжатые байты тоже читаются —
+            // на это в decompressText есть запасной путь.
+            description: Value(
+              Uint8List.fromList(utf8.encode('A cliff above Lysefjorden.')),
+            ),
             source: const Value('wikipedia'),
           ),
         );

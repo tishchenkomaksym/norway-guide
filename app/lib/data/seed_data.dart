@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:drift/drift.dart';
 
 import 'database.dart';
@@ -412,7 +414,10 @@ List<TranslationsCompanion> _tr(
       lang: lang,
       name: Value(name),
       summary: Value(summary),
-      description: Value(summary),
+      // Тестовые данные кладём несжатыми: decompressText умеет
+        // прочитать и такие, а сжимать три строки ради единообразия
+        // значит усложнять то, что читают только при разработке.
+        description: Value(Uint8List.fromList(utf8.encode(summary))),
       source: const Value('manual'),
       quality: const Value(100),
     ),

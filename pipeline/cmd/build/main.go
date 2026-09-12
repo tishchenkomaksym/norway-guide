@@ -14,6 +14,8 @@ package main
 
 import (
 	"bufio"
+	"bytes"
+	"compress/zlib"
 	"database/sql"
 	"encoding/json"
 	"flag"
@@ -397,7 +399,7 @@ func fill(
 	for _, t := range translations {
 		if _, err := trStmt.Exec(
 			t.EntityType, t.EntityID, t.Lang, nullable(t.Name),
-			nullable(t.Summary), nullable(t.Description), nullable(t.Source),
+			nullable(t.Summary), compress(t.Description), nullable(t.Source),
 			t.Quality, nullable(t.SourceURL), nullableInt(t.RevID),
 		); err != nil {
 			return nil, fmt.Errorf("текст %s/%s: %w", t.EntityID, t.Lang, err)
@@ -695,6 +697,37 @@ func readJSONL[T any](path string) ([]T, error) {
 		out = append(out, item)
 	}
 	return out, sc.Err()
+}
+
+// compress ужимает полный текст перед записью в базу.
+//
+// Описания — больше половины содержимого: 16,5 МБ на 6 514 текстов.
+// Сжатие уменьшает их вдвое с небольшим и срезает с приложения девять
+// мегабайт. Уровень максимальный: сжимаем один раз при сборке, а читают
+// эти данные миллионы раз — экономить тут время сборки бессмысленно.
+//
+// Пустой текст остаётся NULL, а не превращается в пустой blob: иначе
+// приложение не отличит «описания нет» от «описание пустое», и там, где
+// должно стоять честное «текста пока нет», появится пустая карточка.
+func compress(text string) any {
+	if text == "" {
+		return nil
+	}
+	var buf bytes.Buffer
+	w, err := zlib.NewWriterLevel(&buf, zlib.BestCompression)
+	if err != nil {
+		// Не смогли сжать — кладём как есть: потеря места лучше потери
+		// текста. Приложение разберётся, распаковав или прочитав напрямую.
+		return []byte(text)
+	}
+	if _, err := w.Write([]byte(text)); err != nil {
+		w.Close()
+		return []byte(text)
+	}
+	if err := w.Close(); err != nil {
+		return []byte(text)
+	}
+	return buf.Bytes()
 }
 
 func nullable(s string) any {

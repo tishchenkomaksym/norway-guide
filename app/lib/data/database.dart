@@ -1,10 +1,37 @@
+import 'dart:convert';
 import 'dart:math' as math;
 
+// ZLibDecoder берём из archive, а не из dart:io: dart:io недоступен
+// в браузере, а разработка ведётся на web.
+import 'package:archive/archive.dart';
 import 'package:drift/drift.dart';
 
 import 'tables.dart';
 
 part 'database.g.dart';
+
+/// Разворачивает сжатый текст описания.
+///
+/// Описания лежат в базе сжатыми (deflate): они составляли больше половины
+/// её объёма — 16,5 МБ на 6 514 текстов, — и сжатие срезало с приложения
+/// девять мегабайт.
+///
+/// Если данные не сжаты, возвращаем их как есть. Так бывает с текстами,
+/// которые пайплайн не смог сжать и записал напрямую, и со старыми базами,
+/// собранными до перехода на BLOB. Падать из-за этого нельзя: человек
+/// останется без описания места на ровном месте.
+String? decompressText(Uint8List? data) {
+  if (data == null || data.isEmpty) return null;
+  try {
+    return utf8.decode(ZLibDecoder().decodeBytes(data));
+  } catch (_) {
+    try {
+      return utf8.decode(data);
+    } catch (_) {
+      return null;
+    }
+  }
+}
 
 /// Место вместе с текстом на нужном языке и расстоянием до пользователя.
 ///
@@ -199,7 +226,8 @@ class AppDatabase extends _$AppDatabase {
   ///
   /// Версия 2 (2026-09-10): топ самых посещаемых мест — topRank, visitors,
   /// visitorsYear, topSource, unesco.
-  static const contentSchemaVersion = 2;
+  /// Версия 3 (2026-09-12): description хранится сжатым (deflate).
+  static const contentSchemaVersion = 3;
 
   @override
   int get schemaVersion => contentSchemaVersion;
@@ -344,16 +372,26 @@ class AppDatabase extends _$AppDatabase {
   Future<PlaceWithText?> placeById(String id, String lang) async {
     // Здесь берём полный текст, а не summary: это карточка, где человек
     // хочет прочитать про место, а не пробежать список.
+    //
+    // Описания хранятся сжатыми, поэтому цепочка подстановки языков
+    // §8.4 разбирается не в SQL, а здесь: COALESCE не умеет смешивать
+    // сжатый BLOB и обычный текст, а распаковать всё подряд, чтобы
+    // выбрать одно, значило бы делать лишнюю работу трижды.
     final rows = await customSelect(
       '''
       SELECT p.*,
-             COALESCE(t_user.name, t_en.name, p.name_no)                 AS res_name,
-             COALESCE(t_user.description, t_en.description,
-                      t_no.description, t_user.summary, t_en.summary)    AS res_summary,
-             CASE WHEN t_user.description IS NULL THEN 1 ELSE 0 END      AS is_fallback,
-             ph.path_full                                                AS photo_path,
-             ph.author                                                   AS photo_author,
-             ph.license                                                  AS photo_license
+             COALESCE(t_user.name, t_en.name, p.name_no)  AS res_name,
+             t_user.description                           AS desc_user,
+             t_en.description                             AS desc_en,
+             t_no.description                             AS desc_no,
+             COALESCE(t_user.summary, t_en.summary)       AS res_short,
+             CASE WHEN t_user.description IS NULL THEN 1 ELSE 0 END AS is_fallback,
+             ph.path_full                                 AS photo_path,
+             ph.author                                    AS photo_author,
+             ph.license                                   AS photo_license,
+             (SELECT COUNT(DISTINCT lang) FROM translations tl
+               WHERE tl.entity_type = 'place' AND tl.entity_id = p.id)
+                                                          AS lang_count
       FROM places p
       $_placeJoins
       WHERE p.id = ?
@@ -363,7 +401,37 @@ class AppDatabase extends _$AppDatabase {
     ).get();
 
     if (rows.isEmpty) return null;
-    return _mapPlace(rows.first);
+    final row = rows.first;
+
+    // Порядок тот же, что был в COALESCE: язык пользователя, английский,
+    // норвежский, и только потом краткий текст.
+    final text = _firstText([
+          row.readNullable<Uint8List>('desc_user'),
+          row.readNullable<Uint8List>('desc_en'),
+          row.readNullable<Uint8List>('desc_no'),
+        ]) ??
+        row.readNullable<String>('res_short');
+
+    return PlaceWithText(
+      place: places.map(row.data),
+      name: row.read<String>('res_name'),
+      summary: text,
+      isFallback: row.read<int>('is_fallback') == 1,
+      photoPath: row.readNullable<String>('photo_path'),
+      photoAuthor: row.readNullable<String>('photo_author'),
+      photoLicense: row.readNullable<String>('photo_license'),
+      langCount: row.read<int>('lang_count'),
+    );
+  }
+
+  /// Первый непустой текст из списка сжатых описаний.
+  static String? _firstText(List<Uint8List?> blobs) {
+    for (final blob in blobs) {
+      if (blob == null || blob.isEmpty) continue;
+      final text = decompressText(blob);
+      if (text != null && text.isNotEmpty) return text;
+    }
+    return null;
   }
 
   /// Полнотекстовый поиск по местам.
