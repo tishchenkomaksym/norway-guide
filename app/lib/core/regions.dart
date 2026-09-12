@@ -96,6 +96,18 @@ const downloadRegions = <DownloadRegion>[
     maxLon: 10.0,
   ),
   DownloadRegion(
+    // Осло выделен из Восточной Норвегии: на столицу приходилось две
+    // трети снимков региона, и человек, приехавший на выходные в Осло,
+    // не должен качать заодно Йотунхеймен. Стоит перед east — вложенные
+    // прямоугольники разбираются по порядку.
+    id: 'oslo',
+    nameEn: 'Oslo and around',
+    minLat: 59.5,
+    maxLat: 60.3,
+    minLon: 10.0,
+    maxLon: 11.3,
+  ),
+  DownloadRegion(
     id: 'east',
     nameEn: 'Eastern Norway',
     minLat: 58.5,

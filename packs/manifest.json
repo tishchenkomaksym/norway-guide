@@ -1,0 +1,116 @@
+{
+  "version": 1,
+  "built_at": "2026-09-12",
+  "packs": [
+    {
+      "region_id": "east",
+      "name_no": "Østlandet",
+      "name_en": "Eastern Norway",
+      "pack_version": 1,
+      "file": "https://github.com/user-attachments/files/32140681/east.zip",
+      "size_bytes": 18235779,
+      "sha256": "c40df5c8734179b30a39352729789bfbb6aa51799bd56bccc5d5199238c4b093",
+      "photos": 466,
+      "places": 466
+    },
+    {
+      "region_id": "fjords",
+      "name_no": "Fjord-Norge",
+      "name_en": "Fjord Norway",
+      "pack_version": 1,
+      "file": "https://github.com/user-attachments/files/32140688/fjords.zip",
+      "size_bytes": 21619400,
+      "sha256": "ef6395f5f0f83e5fec4892ef390e79fb9fe4c586d3cc85b2fa4f6357bb685a0a",
+      "photos": 564,
+      "places": 564
+    },
+    {
+      "region_id": "lofoten",
+      "name_no": "Lofoten og Nordland",
+      "name_en": "Lofoten and Nordland",
+      "pack_version": 1,
+      "file": "https://github.com/user-attachments/files/32140697/lofoten.zip",
+      "size_bytes": 5770573,
+      "sha256": "51b3be8febe77bb5279affed9000dbb11c1c98867191fc81bb907815479fcd33",
+      "photos": 165,
+      "places": 165
+    },
+    {
+      "region_id": "north",
+      "name_no": "Nord-Norge",
+      "name_en": "Northern Norway",
+      "pack_version": 1,
+      "file": "https://github.com/user-attachments/files/32140700/north.zip",
+      "size_bytes": 5786033,
+      "sha256": "6c84eaa77548d158ab6d6a0fb68a1a8913602300da1cdf8b2a6e74779254a2ab",
+      "photos": 171,
+      "places": 171
+    },
+    {
+      "region_id": "oslo",
+      "name_no": "Oslo og omegn",
+      "name_en": "Oslo and around",
+      "pack_version": 1,
+      "file": "https://github.com/user-attachments/files/32140701/oslo.zip",
+      "size_bytes": 13806554,
+      "sha256": "cd0a368b947e0dff23825c08236347abc4665d553cc9ddd6f482a6966e43c954",
+      "photos": 352,
+      "places": 352
+    },
+    {
+      "region_id": "other",
+      "name_no": "Resten av Norge",
+      "name_en": "Rest of Norway",
+      "pack_version": 1,
+      "file": "https://github.com/user-attachments/files/32140705/other.zip",
+      "size_bytes": 154297,
+      "sha256": "dea2ca8bd66f7293ac8f06a064f0493346beaacf9652ab9aa43a84bc66bdce71",
+      "photos": 6,
+      "places": 6
+    },
+    {
+      "region_id": "rogaland",
+      "name_no": "Rogaland",
+      "name_en": "Rogaland",
+      "pack_version": 1,
+      "file": "https://github.com/user-attachments/files/32140706/rogaland.zip",
+      "size_bytes": 5048509,
+      "sha256": "c1439855b8dd21b6c7da0b7cd2d430b357cf685bc0a6a7acfed52da8ec422366",
+      "photos": 140,
+      "places": 140
+    },
+    {
+      "region_id": "south",
+      "name_no": "Sørlandet",
+      "name_en": "Southern Norway",
+      "pack_version": 1,
+      "file": "https://github.com/user-attachments/files/32140710/south.zip",
+      "size_bytes": 5532585,
+      "sha256": "f857dcadeb36bdb6d7c80e92b638dab5933d0550bc90cfe0cbf0753ceffd4ac6",
+      "photos": 147,
+      "places": 147
+    },
+    {
+      "region_id": "svalbard",
+      "name_no": "Svalbard",
+      "name_en": "Svalbard",
+      "pack_version": 1,
+      "file": "https://github.com/user-attachments/files/32140715/svalbard.zip",
+      "size_bytes": 1613497,
+      "sha256": "5ff6c65e65afafeec84f0d88a65f30c2f3606adf76d0cc9d75686cc7d28453bc",
+      "photos": 60,
+      "places": 60
+    },
+    {
+      "region_id": "trondelag",
+      "name_no": "Trøndelag",
+      "name_en": "Trøndelag",
+      "pack_version": 1,
+      "file": "https://github.com/user-attachments/files/32140719/trondelag.zip",
+      "size_bytes": 11714062,
+      "sha256": "41894f9efa65179d0566d7342e0ef2c1b183a736334590dbd900c644971c020a",
+      "photos": 312,
+      "places": 312
+    }
+  ]
+}

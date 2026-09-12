@@ -128,13 +128,38 @@ class PackStatus {
 
 /// Откуда качаются пакеты.
 ///
-/// По решению из decisions.md раздача — Cloudflare R2: нулевая плата за
-/// исходящий трафик, тогда как у S3 она стала бы основной статьёй расходов.
-/// Пока адрес задаётся здесь; когда появится настоящий бакет, он переедет
-/// в конфигурацию сборки.
+/// Пока это GitHub Releases: репозиторий публичный, ссылки прямые,
+/// раздача идёт через тот же CDN, что и всё остальное на GitHub, и
+/// платить не нужно вовсе. Для старта этого достаточно с запасом —
+/// пакеты весят 85 МБ, а ограничений по трафику для публичных релизов
+/// нет.
+///
+/// В документации проекта записан Cloudflare R2, и это по-прежнему
+/// правильный ответ для нагрузки: у R2 нулевая плата за исходящий
+/// трафик, тогда как у S3 она стала бы основной статьёй расходов при
+/// росте. Переезд туда — это смена одной строки при сборке, поэтому
+/// начинать с бесплатного GitHub разумнее, чем заводить бакет ради
+/// проверки.
+///
+/// Адрес можно переопределить при сборке:
+/// `flutter build apk --dart-define=PACKS_URL=https://...`
 const packBaseUrl = String.fromEnvironment(
   'PACKS_URL',
-  defaultValue: 'https://packs.nordguide.example/v1',
+  defaultValue:
+      'https://github.com/tishchenkomaksym/norway-guide'
+      '/releases/download/packs-v1',
+);
+
+/// Где лежит манифест.
+///
+/// Отдельно от [packBaseUrl], потому что манифест и пакеты не обязаны
+/// лежать рядом: сейчас они выложены вложениями к описанию релиза
+/// и получили несоседние адреса. Приложению это безразлично — оно
+/// читает манифест, а дальше идёт по адресам, которые в нём записаны.
+const manifestUrl = String.fromEnvironment(
+  'MANIFEST_URL',
+  defaultValue: 'https://raw.githubusercontent.com/tishchenkomaksym'
+      '/norway-guide/main/packs/manifest.json',
 );
 
 /// Каталог, куда распаковываются снимки.
@@ -190,7 +215,14 @@ Future<void> downloadPack(
   final own = client == null;
   final http.Client c = client ?? http.Client();
   try {
-    final url = Uri.parse('$packBaseUrl/${info.file}');
+    // Адрес файла может быть как именем («east.zip»), так и полной
+    // ссылкой. Второе нужно, когда раздача лежит не одной папкой:
+    // например, файлы выложены вложениями с разными адресами. Так же
+    // это позволит перевезти раздачу на другой хост, поменяв только
+    // манифест, без пересборки приложения.
+    final url = info.file.startsWith('http')
+        ? Uri.parse(info.file)
+        : Uri.parse('$packBaseUrl/${info.file}');
     final request = http.Request('GET', url);
     final response = await c.send(request);
 
@@ -295,7 +327,7 @@ List<ArchiveFile> _decodeZip(Uint8List bytes) =>
 final packManifestProvider = FutureProvider<PackManifest?>((ref) async {
   try {
     final response = await http
-        .get(Uri.parse('$packBaseUrl/manifest.json'))
+        .get(Uri.parse(manifestUrl))
         .timeout(const Duration(seconds: 12));
     if (response.statusCode != 200) return null;
     return PackManifest.fromJson(
