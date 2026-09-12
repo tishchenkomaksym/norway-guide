@@ -150,7 +150,7 @@ abstract class L {
   /// No description provided for @favoritesSaved.
   ///
   /// In ru, this message translates to:
-  /// **'{count, plural, one{{count} место сохранено} few{{count} места сохранено} other{{count} мест сохранено}}'**
+  /// **'{count, plural, one{{count} место сохранено} few{{count} места сохранено} many{{count} мест сохранено} other{{count} мест сохранено}}'**
   String favoritesSaved(int count);
 
   /// No description provided for @sourcesTitle.
@@ -648,7 +648,7 @@ abstract class L {
   /// No description provided for @profileDone.
   ///
   /// In ru, this message translates to:
-  /// **'{count, plural, one{Готово — подходящие места теперь выше в списке} other{Готово — учли {count} интереса в порядке выдачи}}'**
+  /// **'{count, plural, one{Готово — подходящие места теперь выше в списке} few{Готово — учли {count} интереса в порядке выдачи} many{Готово — учли {count} интересов в порядке выдачи} other{Готово — учли {count} интереса в порядке выдачи}}'**
   String profileDone(int count);
 
   /// No description provided for @catMuseums.

@@ -36,6 +36,7 @@ class LRu extends L {
       count,
       locale: localeName,
       other: '$count мест сохранено',
+      many: '$count мест сохранено',
       few: '$count места сохранено',
       one: '$count место сохранено',
     );
@@ -318,6 +319,8 @@ class LRu extends L {
       count,
       locale: localeName,
       other: 'Готово — учли $count интереса в порядке выдачи',
+      many: 'Готово — учли $count интересов в порядке выдачи',
+      few: 'Готово — учли $count интереса в порядке выдачи',
       one: 'Готово — подходящие места теперь выше в списке',
     );
     return '$_temp0';

@@ -7,7 +7,7 @@
   "browseTitle": "Куда поехать",
   "browseSubtitle": "Города и достопримечательности страны",
   "favoritesTitle": "Моя поездка",
-  "favoritesSaved": "{count, plural, one{{count} место сохранено} few{{count} места сохранено} other{{count} мест сохранено}}",
+  "favoritesSaved": "{count, plural, one{{count} место сохранено} few{{count} места сохранено} many{{count} мест сохранено} other{{count} мест сохранено}}",
   "@favoritesSaved": {
     "placeholders": {
       "count": {
@@ -159,7 +159,7 @@
   "profileBrowsing": "Просто смотрю",
   "profileSkip": "Пропустить",
   "profileNext": "Дальше",
-  "profileDone": "{count, plural, one{Готово — подходящие места теперь выше в списке} other{Готово — учли {count} интереса в порядке выдачи}}",
+  "profileDone": "{count, plural, one{Готово — подходящие места теперь выше в списке} few{Готово — учли {count} интереса в порядке выдачи} many{Готово — учли {count} интересов в порядке выдачи} other{Готово — учли {count} интереса в порядке выдачи}}",
   "@profileDone": {
     "placeholders": {
       "count": {
